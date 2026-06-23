@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "WATERMARK=NO | SUBJECT=red car interior dashboard",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226330,
+  "id": "202606232252071563f6d32e8247e7",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606232252071563f6d32e8247e7",
+  "usage": {
+    "completion_tokens": 15,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1952,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1967
+  }
+}

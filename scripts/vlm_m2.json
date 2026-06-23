@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "YES, 'shutterstock' watermark",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226099,
+  "id": "20260623224817c2454f800378437f",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260623224817c2454f800378437f",
+  "usage": {
+    "completion_tokens": 10,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1683,
+    "prompt_tokens_details": {
+      "cached_tokens": 7
+    },
+    "total_tokens": 1693
+  }
+}

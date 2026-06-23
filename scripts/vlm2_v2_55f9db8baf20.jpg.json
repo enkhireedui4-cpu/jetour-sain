@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) Black luxury SUV with modern design",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226436,
+  "id": "2026062322534426f53988918f41b4",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062322534426f53988918f41b4",
+  "usage": {
+    "completion_tokens": 15,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 6069,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 6084
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) Gray Cadillac SUV parked outdoors",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226441,
+  "id": "202606232253566a73e4e026ba495f",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606232253566a73e4e026ba495f",
+  "usage": {
+    "completion_tokens": 14,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 6069,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 6083
+  }
+}

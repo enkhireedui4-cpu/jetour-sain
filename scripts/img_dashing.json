@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "Jetour Dashing crossover SUV white"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "Jetour Dashing crossover SUV white",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/6f9f306c60f8.jpg",
+      "caption": "",
+      "source": "YouTube",
+      "original_width": "1280px",
+      "original_height": "720px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/bbde81a8e111.png",
+      "caption": "",
+      "source": "Jetour",
+      "original_width": "1720px",
+      "original_height": "967px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/004b0f3ed25c.jpg",
+      "caption": "",
+      "source": "Wenling Tenglong Automobile Trade Co., Ltd.",
+      "original_width": "1060px",
+      "original_height": "1060px"
+    }
+  ]
+}

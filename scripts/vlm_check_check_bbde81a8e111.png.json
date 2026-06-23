@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "WATERMARK=NO | SUBJECT=white SUV side view",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226327,
+  "id": "20260623225204a76dea91c1b94fd9",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260623225204a76dea91c1b94fd9",
+  "usage": {
+    "completion_tokens": 15,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 2187,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 2202
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "WATERMARK=NO | SUBJECT=grey SUV on forest dirt road",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226324,
+  "id": "202606232251516f9db2aaff3443d4",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606232251516f9db2aaff3443d4",
+  "usage": {
+    "completion_tokens": 17,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 2892,
+    "prompt_tokens_details": {
+      "cached_tokens": 27
+    },
+    "total_tokens": 2909
+  }
+}

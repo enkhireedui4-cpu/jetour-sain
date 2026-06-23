@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "The screenshot shows a webpage for **JETOUR Mongolia**, specifically a test drive booking page (labeled \"05 · ТЕСТ ДРАЙВ БУРТГЭЛ\" in the header).  \n\n\n### Right Side of the Page (Detailed Description):  \nThe right side features a dark blue, rounded rectangular card with a gradient background (dark blue to lighter blue). Inside the card:  \n- A circular icon with a white checkmark (on a red-to-blue gradient background) is centered near the top.  \n- Below the icon, bold text reads: *\"Буртгэл амжилттай!\"* (which translates to \"Test drive successful!\" in Mongolian).  \n- A paragraph of smaller text follows: *\"Батгад, таны өргөдөл хүлээн авлаа. Манай хамт олон тест дайран өдрийн өмнө холбогдож батаргаахуулна. Таны JETOUR T2 таньг хүлээж байна.\"* (This translates to: \"Note, your request has been received. Our team will contact you before the test drive. We await your JETOUR T2.\").  \n- At the bottom of the card, a button with the text *\"Шинээр бүртгүүлэх\"* (meaning \"Register again\") is visible.  \n\n\n### Success Message:  \nYes, a success message is clearly visible. The text *\"Буртгэл амжилттай!\"* (Test drive successful!) confirms that the test drive booking was successful.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226613,
+  "id": "2026062322564686b698ccd6434eb5",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062322564686b698ccd6434eb5",
+  "usage": {
+    "completion_tokens": 361,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1667,
+    "prompt_tokens_details": {
+      "cached_tokens": 5
+    },
+    "total_tokens": 2028
+  }
+}

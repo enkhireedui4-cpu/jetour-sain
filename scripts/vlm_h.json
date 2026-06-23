@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "YES, shutterstock",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226101,
+  "id": "202606232248199aeb0f5357ce4ef7",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606232248199aeb0f5357ce4ef7",
+  "usage": {
+    "completion_tokens": 7,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1683,
+    "prompt_tokens_details": {
+      "cached_tokens": 7
+    },
+    "total_tokens": 1690
+  }
+}

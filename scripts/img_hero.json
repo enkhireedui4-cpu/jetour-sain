@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "luxury SUV cinematic dark studio shot side view"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "luxury SUV cinematic dark studio shot side view",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/b96e4cafad8b.jpg",
+      "caption": "",
+      "source": "Genesis",
+      "original_width": "750px",
+      "original_height": "1624px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/4186c2393af6.jpg",
+      "caption": "",
+      "source": "Shutterstock",
+      "original_width": "1500px",
+      "original_height": "1100px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/16ef24ca946e.jpg",
+      "caption": "",
+      "source": "Rick Hendrick Chevrolet Naples",
+      "original_width": "5328px",
+      "original_height": "4000px"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "The screenshot shows a **JETOUR Mongolia** webpage (likely for a test drive booking) with a form on the right side. The form includes fields for name (\"НЭР\"), contact number (\"УТАСЫН ДУТААР\"), car model selection (\"СОНРХСОН ЗАГВАР\"), date (\"ОГНОО\"), and time (\"ЦАГ\"), plus a red \"Бүртгүүлэх\" (Register/Submit) button.  \n\n### Is the form submission successful?  \nNo—there is **no visible confirmation (e.g., success message, thank-you note, or redirect)** indicating a successful submission. The page still displays the form (with pre-filled/entered data) and the original content (test drive details, contact info, etc.), so it appears the form is either in the process of being submitted or has not yet been submitted successfully.  \n\n\n### What’s visible:  \n- **Header**: JETOUR Mongolia logo, navigation menu (e.g., \"Брэнд\", \"Загварууд\"), phone number (\"8910 2070\"), and a red \"Тест драйв\" button.  \n- **Left section**: Test drive details (title \"Өөрийн Биеэр МЭДРЭЭРЭЙ\", description, and bullet points about the test drive experience).  \n- **Right section**: A dark-themed form with labeled fields (name, phone, car model dropdown, date picker, time dropdown) and the red submit button.  \n- **Footer**: Contact info for the test drive location.  \n- **Bottom right**: A red notification box (\"Мэдээлэл дутуу байна\" – \"Information is incomplete\") suggesting form validation or missing required fields.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782226575,
+  "id": "20260623225607dc852423e1f44acd",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260623225607dc852423e1f44acd",
+  "usage": {
+    "completion_tokens": 378,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1661,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 2039
+  }
+}

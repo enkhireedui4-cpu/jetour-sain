@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "car interior dashboard modern cockpit"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "car interior dashboard modern cockpit",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/b0577d898baa.jpg",
+      "caption": "",
+      "source": "Alamy",
+      "original_width": "1300px",
+      "original_height": "820px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/befed0ef1f3b.jpg",
+      "caption": "",
+      "source": "Dreamstime.com",
+      "original_width": "1600px",
+      "original_height": "1004px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/0c47ef95a4dc.jpg",
+      "caption": "",
+      "source": "duPont REGISTRY News",
+      "original_width": "2048px",
+      "original_height": "1151px"
+    }
+  ]
+}

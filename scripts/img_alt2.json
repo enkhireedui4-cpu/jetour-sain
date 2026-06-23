@@ -1,0 +1,39 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "silver grey SUV car exterior side profile"
+✅ Got 4 images
+{
+  "success": true,
+  "query": "silver grey SUV car exterior side profile",
+  "count": 4,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/703245d65fe9.jpg",
+      "caption": "",
+      "source": "Luther Automotive",
+      "original_width": "1600px",
+      "original_height": "1200px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/3425101074da.jpg",
+      "caption": "",
+      "source": "Alamy",
+      "original_width": "1300px",
+      "original_height": "826px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/0a5f3e1f353f.jpg",
+      "caption": "",
+      "source": "How-To Geek",
+      "original_width": "1600px",
+      "original_height": "900px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/afd3ef95c28e.jpg",
+      "caption": "",
+      "source": "MotorBiscuit",
+      "original_width": "1800px",
+      "original_height": "1201px"
+    }
+  ]
+}
