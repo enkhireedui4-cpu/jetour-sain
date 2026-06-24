@@ -2,12 +2,13 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Phone, ArrowRight, Sparkles } from "lucide-react";
+import { ChevronDown, ArrowRight, Phone } from "lucide-react";
 import { HERO_SLIDES, CONTACT } from "@/lib/jetour-data";
 
 export function Hero() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   const next = useCallback(() => {
     setActive((p) => (p + 1) % HERO_SLIDES.length);
@@ -19,28 +20,38 @@ export function Hero() {
 
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(next, 5500);
+    const t = setInterval(next, 6000);
     return () => clearInterval(t);
   }, [next, paused, active]);
 
+  // Parallax effect
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const slide = HERO_SLIDES[active];
-  const isRed = slide.accent === "red";
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden bg-white"
+      id="home"
+      className="relative h-screen min-h-[680px] overflow-hidden bg-[#0A1F44]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* === Full-screen rotating background carousel === */}
-      <div className="absolute inset-0">
+      {/* === Parallax background carousel === */}
+      <div
+        className="absolute inset-0"
+        style={{ transform: `translateY(${scrollY * 0.4}px) scale(${1 + scrollY * 0.0003})` }}
+      >
         <AnimatePresence mode="sync">
           <motion.div
             key={active}
-            initial={{ opacity: 0, scale: 1.06 }}
+            initial={{ opacity: 0, scale: 1.08 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1 }}
-            transition={{ duration: 1.4, ease: "easeInOut" }}
+            transition={{ duration: 1.6, ease: "easeInOut" }}
             className="absolute inset-0"
           >
             <img
@@ -52,37 +63,23 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Light gradient overlays — keeps the car visible but text readable on top */}
+        {/* Dark gradient overlay for readability */}
+        <div className="absolute inset-0 hero-overlay pointer-events-none" />
+
+        {/* Electric blue accent glow */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(90deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.82) 22%, rgba(255,255,255,0.25) 55%, rgba(255,255,255,0.5) 100%), linear-gradient(180deg, rgba(255,255,255,0.6) 0%, transparent 30%, rgba(255,255,255,0.92) 100%)",
+              "radial-gradient(50% 60% at 90% 30%, rgba(0,174,239,0.18), transparent 70%)",
           }}
         />
-
-        {/* Soft accent glow (changes color per slide) */}
-        <motion.div
-          key={`glow-${active}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: isRed
-              ? "radial-gradient(60% 80% at 12% 50%, rgba(226,35,26,0.18), transparent 70%)"
-              : "radial-gradient(60% 80% at 12% 50%, rgba(43,111,224,0.18), transparent 70%)",
-          }}
-        />
-
-        {/* Subtle grid texture */}
-        <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
       </div>
 
       {/* === Foreground content === */}
-      <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Top spacer for navbar */}
-        <div className="pt-24" />
+      <div className="relative z-10 h-full flex flex-col">
+        {/* Spacer for navbar */}
+        <div className="pt-32 md:pt-36" />
 
         {/* Center content */}
         <div className="flex-1 flex items-center">
@@ -90,78 +87,71 @@ export function Hero() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="max-w-2xl"
+                exit={{ opacity: 0, y: -40 }}
+                transition={{ duration: 0.9, ease: "easeOut" }}
+                className="max-w-3xl"
               >
                 {/* Eyebrow */}
-                <div className="flex items-center gap-3 mb-5">
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      isRed ? "bg-[#E2231A]" : "bg-[#2B6FE0]"
-                    } shadow-[0_0_0_5px_rgba(0,0,0,0.05)]`}
-                  />
-                  <span
-                    className={`eyebrow ${
-                      isRed ? "text-[#E2231A]" : "text-[#2B6FE0]"
-                    }`}
-                  >
-                    {slide.tagline}
-                  </span>
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="w-2 h-2 rounded-full bg-[#00AEEF] shadow-[0_0_0_6px_rgba(0,174,239,0.2)]" />
+                  <span className="eyebrow text-[#4DD0F5]">{slide.tagline}</span>
                 </div>
 
-                {/* Title — massive gradient */}
-                <h1 className="font-display font-extrabold italic leading-[0.84] tracking-tight mb-6">
-                  <span
-                    className="block text-[#0B0F1A]"
-                    style={{
-                      fontSize: "clamp(3rem, 9vw, 6.5rem)",
-                    }}
-                  >
-                    {slide.model}
-                  </span>
+                {/* Massive title */}
+                <h1
+                  className="font-display font-extrabold leading-[0.92] tracking-tight mb-6 text-white"
+                  style={{
+                    fontSize: "clamp(3rem, 8.5vw, 6rem)",
+                    textShadow: "0 4px 30px rgba(0,0,0,0.5)",
+                  }}
+                >
+                  {slide.model}
                 </h1>
 
                 {/* Description */}
                 <p
-                  className="text-lg lg:text-xl text-[#5B6477] mb-8 leading-relaxed max-w-xl"
+                  className="text-lg lg:text-2xl text-white/85 mb-9 leading-relaxed max-w-2xl"
+                  style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
                 >
                   {slide.description}
                 </p>
 
                 {/* Price + CTAs */}
-                <div className="flex flex-wrap items-center gap-5 mb-10">
+                <div className="flex flex-wrap items-center gap-6 mb-10">
                   <div>
-                    <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#8A93A6] font-display mb-1">
+                    <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#4DD0F5] font-display mb-1">
                       Үнэ
                     </p>
                     <p
-                      className={`font-display font-extrabold italic text-3xl lg:text-4xl ${
-                        isRed ? "text-[#E2231A]" : "text-[#2B6FE0]"
-                      }`}
+                      className="font-display font-extrabold italic text-3xl lg:text-4xl text-white"
+                      style={{ textShadow: "0 4px 20px rgba(0,0,0,0.6)" }}
                     >
                       {slide.price}
                     </p>
                   </div>
-                  <div className="h-12 w-px bg-[#E5E9F0]" />
-                  <button
-                    onClick={() =>
-                      document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
-                    }
-                    className="btn-jetour px-6 py-3.5 rounded-xl text-base flex items-center gap-2"
-                  >
-                    Дэлгэрэнгүй
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                  <a
-                    href={CONTACT.phone1Href}
-                    className="font-display font-semibold text-[#0B0F1A] border border-[#E5E9F0] bg-white rounded-xl px-5 py-3.5 text-sm flex items-center gap-2.5 hover:border-[#0B0F1A]/30 transition-colors"
-                  >
-                    <Phone className="w-4 h-4 text-[#E2231A]" />
-                    {CONTACT.phone1}
-                  </a>
+                  <div className="h-14 w-px bg-white/20" />
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      onClick={() =>
+                        document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
+                      }
+                      className="btn-electric-jetour px-7 py-3.5 rounded-xl text-base flex items-center gap-2"
+                    >
+                      Загварууд үзэх
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() =>
+                        document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })
+                      }
+                      className="btn-outline-light px-6 py-3.5 rounded-xl text-base flex items-center gap-2"
+                    >
+                      Тест драйв
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -172,37 +162,24 @@ export function Hero() {
         <div className="pb-10">
           <div className="mx-auto w-[min(1280px,94vw)]">
             <div className="flex items-center justify-between gap-6">
-              {/* Slide counter + controls */}
+              {/* Slide counter */}
               <div className="flex items-center gap-4">
-                <span className="font-display font-extrabold italic text-2xl text-[#0B0F1A]">
+                <span className="font-display font-extrabold italic text-3xl text-white">
                   0{active + 1}
                 </span>
-                <span className="font-display text-sm text-[#8A93A6]">/ 0{HERO_SLIDES.length}</span>
-                <div className="flex gap-1.5 ml-3">
-                  <button
-                    onClick={prev}
-                    className="w-9 h-9 rounded-full border border-[#E5E9F0] bg-white grid place-items-center text-[#5B6477] hover:text-[#0B0F1A] hover:border-[#0B0F1A]/30 transition-colors"
-                    aria-label="Өмнөх"
-                  >
-                    <ChevronDown className="w-4 h-4 rotate-90" />
-                  </button>
-                  <button
-                    onClick={next}
-                    className="w-9 h-9 rounded-full border border-[#E5E9F0] bg-white grid place-items-center text-[#5B6477] hover:text-[#0B0F1A] hover:border-[#0B0F1A]/30 transition-colors"
-                    aria-label="Дараагийн"
-                  >
-                    <ChevronDown className="w-4 h-4 -rotate-90" />
-                  </button>
+                <div className="flex flex-col">
+                  <span className="text-xs text-white/60 font-display tracking-widest">/ 0{HERO_SLIDES.length}</span>
+                  <span className="text-[0.55rem] text-white/40 font-display tracking-[0.3em] uppercase">Slide</span>
                 </div>
               </div>
 
               {/* Progress bars */}
               <div className="flex-1 max-w-md flex gap-2">
-                {HERO_SLIDES.map((s, i) => (
+                {HERO_SLIDES.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setActive(i)}
-                    className="group flex-1 relative h-1 rounded-full overflow-hidden bg-[#E5E9F0]"
+                    className="group flex-1 relative h-1 rounded-full overflow-hidden bg-white/20"
                     aria-label={`Slide ${i + 1}`}
                   >
                     {i === active && !paused ? (
@@ -210,29 +187,24 @@ export function Hero() {
                         key={`bar-${active}`}
                         initial={{ width: "0%" }}
                         animate={{ width: "100%" }}
-                        transition={{ duration: 5.5, ease: "linear" }}
-                        className={`absolute inset-y-0 left-0 ${
-                          isRed ? "bg-[#E2231A]" : "bg-[#2B6FE0]"
-                        }`}
+                        transition={{ duration: 6, ease: "linear" }}
+                        className="absolute inset-y-0 left-0 bg-[#00AEEF]"
                       />
                     ) : i === active ? (
-                      <div
-                        className={`absolute inset-y-0 left-0 w-full ${
-                          isRed ? "bg-[#E2231A]" : "bg-[#2B6FE0]"
-                        }`}
-                      />
+                      <div className="absolute inset-y-0 left-0 w-full bg-[#00AEEF]" />
                     ) : null}
                   </button>
                 ))}
               </div>
 
-              {/* Feature mini-chip */}
-              <div className="hidden md:flex items-center gap-2 bg-white border border-[#E5E9F0] rounded-full px-4 py-2">
-                <Sparkles className="w-3.5 h-3.5 text-[#E2231A]" />
-                <span className="text-xs text-[#5B6477] font-display tracking-wider">
-                  Travel+ · Албан ёсны
-                </span>
-              </div>
+              {/* Phone */}
+              <a
+                href={CONTACT.phone1Href}
+                className="hidden md:flex items-center gap-2 glass-dark rounded-full px-4 py-2.5 text-white hover:bg-white/15 transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#4DD0F5]" />
+                <span className="font-display text-sm font-bold tracking-wider">{CONTACT.phone1}</span>
+              </a>
             </div>
           </div>
         </div>
@@ -244,7 +216,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute left-1/2 -translate-x-1/2 bottom-4 z-20 flex flex-col items-center gap-1 text-[#8A93A6] hover:text-[#0B0F1A] transition-colors"
+        className="absolute left-1/2 -translate-x-1/2 bottom-3 z-20 flex flex-col items-center gap-1 text-white/70 hover:text-white transition-colors"
         aria-label="Доош гулгах"
       >
         <span className="text-[0.55rem] tracking-[0.3em] uppercase font-display">Илүү</span>

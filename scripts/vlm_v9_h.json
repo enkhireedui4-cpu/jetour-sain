@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Dark hero background theme.  \n- Electric blue + white color scheme.  \n- Text is readable (white on dark background).  \n- CTA buttons visible (electric blue solid + outlined light).  \n- Top bar visible with phone, address, social icons.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782287413,
+  "id": "20260624155005377e564879954cf2",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624155005377e564879954cf2",
+  "usage": {
+    "completion_tokens": 56,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1718,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1774
+  }
+}

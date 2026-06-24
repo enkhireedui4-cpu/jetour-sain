@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, car cards are stacked vertically.  \n- Yes, car images are visible (e.g., JETOUR X70 Plus image).  \n- No major layout issues; elements are properly aligned and readable.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782287563,
+  "id": "20260624155240ad7e3a7082c64576",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624155240ad7e3a7082c64576",
+  "usage": {
+    "completion_tokens": 46,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 471,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 517
+  }
+}

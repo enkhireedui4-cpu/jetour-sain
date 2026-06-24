@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Inter } from "next/font/google";
+import { Montserrat, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -18,18 +18,26 @@ const inter = Inter({
   display: "swap",
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "JETOUR Mongolia — Албан ёсны дистрибьютер SAIN MOTORS",
   description:
-    "JETOUR Mongolia — албан ёсны дистрибьютер Сайн Моторс. T2, Dashing, X70 Plus, G700 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 8910 2070",
+    "JETOUR Mongolia — албан ёсны дистрибьютер Сайн Моторс. X70 Plus, X1, X50, T1, G700 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 7277-8855, 8910-0274",
   keywords: [
     "JETOUR Mongolia",
     "Jetour Монгол",
     "Сайн Моторс",
     "Sain Motors",
-    "Jetour T2",
-    "Jetour Dashing",
-    "Jetour X70",
+    "Jetour X70 Plus",
+    "Jetour X1",
+    "Jetour X50",
+    "Jetour T1",
     "SUV Монгол",
     "автомашин Улаанбаатар",
   ],
@@ -37,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "JETOUR Mongolia — Албан ёсны дистрибьютер SAIN MOTORS",
     description:
-      "JETOUR легендар SUV загварууд — Монголд албан ёсоор. Тест драйв, борлуулалт, үйлчилгээ.",
+      "JETOUR Travel+ загварууд — Монголд албан ёсоор. Тест драйв, борлуулалт, үйлчилгээ.",
     siteName: "JETOUR Mongolia",
     type: "website",
     locale: "mn_MN",
@@ -52,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="mn" suppressHydrationWarning>
       <body
-        className={`${montserrat.variable} ${inter.variable} antialiased bg-ink text-paper font-sans`}
+        className={`${montserrat.variable} ${inter.variable} ${poppins.variable} antialiased bg-white text-[#0A1F44]`}
       >
         {children}
         <Toaster />

@@ -12,15 +12,87 @@ export const CONTACT = {
   email: "info@sainmotors.mn",
   address: "Чингэлтэй дүүрэг, 5-р хороо, Хуучнаар ХИД-1, C1 ТВ-ийн байр, Holiday Inn зочид буудлын урд",
   addressShort: "Чингэлтэй, Holiday Inn",
-  hours: "Даваа – Ням: 09:00 – 20:00",
+  hoursWeekday: "Даваа – Баасан: 09:00 – 20:00",
+  hoursSaturday: "Бямба: 10:00 – 18:00",
+  hoursSunday: "Ням: 11:00 – 16:00",
   facebook: "https://www.facebook.com/Sainmotors.mn",
   instagram: "https://www.instagram.com/",
+  youtube: "https://www.youtube.com/",
   googleMap: "https://rb.gy/xji02i",
   brand: "SAIN MOTORS",
   brandFullName: "Сайн Моторс ХХК",
   brandRole: "Албан ёсны дистрибьютер",
   brandSince: "2023",
 };
+
+export const WHY_CHOOSE_JETOUR = [
+  {
+    icon: "shield",
+    title: "4 жилийн баталгаа",
+    description:
+      "Үндсэн баталгаа 4 жил / 150,000 км. Хөдөлгүүрийн баталгаа бүрэн багтсан. Оригинал сэлбэг, мэргэжлийн засвар үйлчилгээ.",
+  },
+  {
+    icon: "cpu",
+    title: "Ухаалаг технологи",
+    description:
+      "L2.5 ADAS жолоодлогын туслалцаа, 20.5\" хос дижитал дэлгэц, 360° камер, Apple CarPlay / Android Auto.",
+  },
+  {
+    icon: "compass",
+    title: "Аяллын хүчин чадал",
+    description:
+      "Travel+ философиор бүтээгдсэн. 4WD, 700мм усанд орох, 220мм газрын тусгаар — Монголын нутагт төгс.",
+  },
+  {
+    icon: "heart",
+    title: "Гэр бүлийн тав тух",
+    description:
+      "7 суудалт уудам салон, панорамик тэнгэрлэг дээвэр, жолооны хүрд халаах, өвлийн бүх горим багтсан.",
+  },
+];
+
+export const NEWS = [
+  {
+    id: "1",
+    type: "Шинэ загвар",
+    date: "2024.11.15",
+    title: "JETOUR T2 PHEV — Тун удахгүй Монголд",
+    excerpt:
+      "Сайн Моторс ХХК Jetour брэндийн шинээр худалдаанд гарах T2 PHEV загварыг танилцуулж байна. 1000+ км аяллын зай, 700мм усанд орох чадвар.",
+    image: "/jetour-cars/724894424_1972867063376374_6712646349117792876_n.jfif",
+    tag: "Шинэ",
+    accent: "electric" as const,
+  },
+  {
+    id: "2",
+    type: "Брэндийн мэдээ",
+    date: "2024.10.20",
+    title: "Paula Scher-ийн мастер загвар JETOUR G700",
+    excerpt:
+      "Дэлхийн нэрт дизайнер Paula Scher JETOUR G700 төслийн Дизайны Зөвлөхөөр нэгдэв. \"Энэ бол миний ажиллаж буй анхны автомашин.\"",
+    image: "/jetour-cars/712583730_921064490993111_3963637079716035790_n.jpg",
+    tag: "Брэнд",
+    accent: "deep" as const,
+  },
+  {
+    id: "3",
+    type: "Үйлчилгээ",
+    date: "2024.10.05",
+    title: "4S стандарт үйлчилгээний төв — нээгдлээ",
+    excerpt:
+      "Сайн Моторс 4S стандартын үйлчилгээний төвөөр ажиллаж эхэллээ. Оригинал сэлбэг, мэргэжлийн засвар, баталгаат үйлчилгээ — нэг дор.",
+    image: "/jetour-cars/714204588_921061650993395_1098145828660312850_n.jpg",
+    tag: "Үйлчилгээ",
+    accent: "electric" as const,
+  },
+];
+
+export const SHOWROOM_HOURS = [
+  { day: "Даваа – Баасан", hours: "09:00 – 20:00" },
+  { day: "Бямба гараг", hours: "10:00 – 18:00" },
+  { day: "Ням гараг", hours: "11:00 – 16:00" },
+];
 
 export type ModelSpec = {
   engine: string;
@@ -584,10 +656,10 @@ export const TIMELINE = [
 ];
 
 export const NAV_LINKS = [
+  { href: "#home", label: "Нүүр" },
   { href: "#brand", label: "Брэнд" },
   { href: "#models", label: "Загварууд" },
-  { href: "#technology", label: "Технологи" },
-  { href: "#financing", label: "Зээл" },
-  { href: "#network", label: "Түгээлт" },
+  { href: "#why", label: "Онцлог" },
+  { href: "#news", label: "Мэдээ" },
   { href: "#contact", label: "Холбоо" },
 ];
