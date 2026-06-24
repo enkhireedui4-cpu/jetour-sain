@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Jetour X1 (make: Jetour, model: X1).  \n2) Exterior shot.  \n3) Bright red, angled to show front/side; black roof, sleek LED headlights, bold grille, alloy wheels, and a waterfront backdrop.  \n4) Yes, it’s a professional marketing photo (branded with “SAIN MOTORS”/“JETOUR” and promotional text).",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280994,
+  "id": "20260624140258eb4a4c88e46a4a69",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624140258eb4a4c88e46a4a69",
+  "usage": {
+    "completion_tokens": 88,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 5395,
+    "prompt_tokens_details": {
+      "cached_tokens": 59
+    },
+    "total_tokens": 5483
+  }
+}

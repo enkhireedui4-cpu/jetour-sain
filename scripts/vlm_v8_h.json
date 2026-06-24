@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, a real Jetour X70 Plus car is visible.  \n- Background color is a light, muted grayish tone.  \n- No watermarks or broken images detected.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782281246,
+  "id": "20260624140723751c888fea634a53",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624140723751c888fea634a53",
+  "usage": {
+    "completion_tokens": 40,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1684,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1724
+  }
+}

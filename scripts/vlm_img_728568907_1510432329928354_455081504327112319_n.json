@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) The car is a Proton X70 Plus.  \n2) Exterior (front - facing view).  \n3) Silver, front - angled shot; key features include a bold grille, sleek headlights, and a modern urban backdrop with tall buildings.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782281027,
+  "id": "20260624140341d0e8992c47964435",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624140341d0e8992c47964435",
+  "usage": {
+    "completion_tokens": 54,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 5377,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 5431
+  }
+}

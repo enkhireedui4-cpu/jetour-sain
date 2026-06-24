@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) The car is a JETOUR X70 PLUS.  \n2) It’s an exterior shot.  \n3) Silver, aerial angle, key features: diamond grille, sunroof, alloy wheels, and desert backdrop.  \n4) Yes, it’s a professional marketing photo.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280922,
+  "id": "20260624140158996251513faa4011",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624140158996251513faa4011",
+  "usage": {
+    "completion_tokens": 61,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4035,
+    "prompt_tokens_details": {
+      "cached_tokens": 5
+    },
+    "total_tokens": 4096
+  }
+}

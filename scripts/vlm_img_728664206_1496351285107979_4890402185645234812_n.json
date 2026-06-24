@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Jetour X70 Plus  \n2) Exterior (front view)  \n3) Dark-colored, front-angle shot; prominent grille, LED headlights, urban backdrop with tall buildings.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782281042,
+  "id": "2026062414035852434dba48b94030",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062414035852434dba48b94030",
+  "usage": {
+    "completion_tokens": 40,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 5377,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 5417
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) The car is a black Honda CR-V.  \n2) It’s an exterior shot, focusing on the rear with the trunk open.  \n3) Dark gray (near-black) color, rear three - quarter angle; visible features include the open trunk, rear lights, and a hanging lantern inside.  \n4) Yes, it’s a professional marketing photo, styled for lifestyle/camping promotion.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280977,
+  "id": "20260624140250c2ed7e38d5ac4fb2",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624140250c2ed7e38d5ac4fb2",
+  "usage": {
+    "completion_tokens": 84,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4035,
+    "prompt_tokens_details": {
+      "cached_tokens": 5
+    },
+    "total_tokens": 4119
+  }
+}

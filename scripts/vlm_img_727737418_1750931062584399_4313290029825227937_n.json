@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) The car is a Chery Tiggo (TUS model, likely).  \n2) Exterior (front view).  \n3) Teal-gray color, angled to show the grille, headlights, and \"TUS\" badge; key features include the bold grille design and modern headlight shape.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782281021,
+  "id": "2026062414033237b9e11f26a64d70",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062414033237b9e11f26a64d70",
+  "usage": {
+    "completion_tokens": 64,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 5377,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 5441
+  }
+}

@@ -1,5 +1,8 @@
 // JETOUR Mongolia — албан ёсны брэндийн вэбсайт
-// Мэдээллийн эх сурвалж: Sain Motors Facebook хуудас (Sainmotors.mn) + jetour-auto.kz
+// Мэдээллийн эх сурвалж:
+// - Sain Motors Facebook хуудас (Sainmotors.mn)
+// - Jetour Kazakhstan (jetour-auto.kz)
+// - Chery Kazakhstan (chery.kz) — дизайны санаа
 
 export const CONTACT = {
   phone1: "7277-8855",
@@ -52,6 +55,7 @@ export type JetourModel = {
   gallery: string[];
   price: string | null;
   priceNote?: string;
+  startingPrice?: string;
   status: "available" | "coming-soon";
   specs: ModelSpec;
   exteriorFeatures: ModelFeature[];
@@ -59,6 +63,23 @@ export type JetourModel = {
   safety: string[];
   highlights: { label: string; value: string }[];
   accent: "red" | "blue";
+};
+
+// Жинхэнэ Jetour машин зургууд
+const IMG = {
+  x70_aerial: "/jetour-cars/712583730_921064490993111_3963637079716035790_n.jpg",
+  x70_rear: "/jetour-cars/712803544_921064480993112_1706989833314110976_n.jpg",
+  x70_front_dark: "/jetour-cars/728664206_1496351285107979_4890402185645234812_n.jfif",
+  x70_night: "/jetour-cars/729089543_1340059197564783_8512743044015312546_n.jfif",
+  x1_front: "/jetour-cars/714599471_921057417660485_8056177143950755889_n.jpg",
+  x1_rear_side: "/jetour-cars/712430733_921057444327149_8958675274380949451_n.jpg",
+  x1_rear: "/jetour-cars/713844126_921057440993816_7361683212998011935_n.jpg",
+  x1_branded: "/jetour-cars/714830678_921057467660480_6100228284048399906_n.jpg",
+  x50_front_family: "/jetour-cars/711906105_921061610993399_8049625632775256600_n.jpg",
+  x50_camping: "/jetour-cars/714204588_921061650993395_1098145828660312850_n.jpg",
+  x50_rear: "/jetour-cars/714244033_921061647660062_8766989467164421896_n.jpg",
+  t1_phev: "/jetour-cars/724894424_1972867063376374_6712646349117792876_n.jfif",
+  travel_interior: "/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif",
 };
 
 export const MODELS: JetourModel[] = [
@@ -69,26 +90,15 @@ export const MODELS: JetourModel[] = [
     tagline: "Гэр бүлийн төгс шийдэл",
     shortDesc: "Тав тух, өргөн уужим салон, ухаалаг технологи",
     description:
-      "Гэр бүлийн хэрэгцээнд бүрэн нийцсэн, тав тух, өргөн уужим салон, ухаалаг технологи, найдвартай ажиллагаагаараа таны гэр бүлийн аялал, өдөр тутмын хэрэглээнд төгс шийдэл болно.",
+      "Гэр бүлийн хэрэгцээнд бүрэн нийцсэн, тав тух, өргөн уужим салон, ухаалаг технологи, найдвартай ажиллагаа.",
     longDescription:
       "X70 Plus нь Монголын эрс тэс цаг агаарт тохируулан бүтээгдсэн. Жолооны хүрд, жолоочийн болон зорчигчийн суудлыг халаах, цантаж тогтсон цас мөсийг хайлуулах салхины шил зэрэг өвлийн горимуудаар тоноглогдсон. 197 морины хүчтэй 1.6 Турбо хөдөлгүүр нь урт замд хүчин чадлаа алдалгүй, гэр бүлийн аяллыг тав тухтай болгоно.",
-    heroImage: "https://sfile.chatglm.cn/images-ppt/f84c08aa3ba2.png",
-    exteriorImages: [
-      "https://sfile.chatglm.cn/images-ppt/f84c08aa3ba2.png",
-      "https://sfile.chatglm.cn/images-ppt/3bbb03af7cbd.jpg",
-      "https://sfile.chatglm.cn/images-ppt/7a60d648ce8c.jpg",
-    ],
-    interiorImages: [
-      "https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg",
-      "https://sfile.chatglm.cn/images-ppt/b0577d898baa.jpg",
-    ],
-    gallery: [
-      "https://sfile.chatglm.cn/images-ppt/f84c08aa3ba2.png",
-      "https://sfile.chatglm.cn/images-ppt/3bbb03af7cbd.jpg",
-      "https://sfile.chatglm.cn/images-ppt/7a60d648ce8c.jpg",
-      "https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg",
-    ],
+    heroImage: IMG.x70_aerial,
+    exteriorImages: [IMG.x70_aerial, IMG.x70_rear, IMG.x70_night, IMG.x70_front_dark],
+    interiorImages: [IMG.travel_interior],
+    gallery: [IMG.x70_aerial, IMG.x70_rear, IMG.x70_night, IMG.x70_front_dark],
     price: "95.0 сая ₮",
+    startingPrice: "95.0 сая ₮",
     status: "available",
     specs: {
       engine: "1.6 TCI Turbo",
@@ -132,7 +142,7 @@ export const MODELS: JetourModel[] = [
       },
       {
         title: "10.2\" мультимедиа дэлгэц",
-        description: "Apple CarPlay / Android Auto дэмждэг. Утсаа холбож,导航, хөгжим, дуут хяналтаар хянана.",
+        description: "Apple CarPlay / Android Auto дэмждэг. Утсаа холбож, навигаци, хөгжим, дуут хяналтаар хянана.",
       },
     ],
     safety: ["ABS", "EBD", "EBA", "TCS", "ESC", "HHC", "HDC", "RMI", "DBF"],
@@ -145,79 +155,6 @@ export const MODELS: JetourModel[] = [
     accent: "red",
   },
   {
-    id: "t1",
-    name: "JETOUR T1",
-    series: "Urban SUV",
-    tagline: "Хот болон аяллын хослол",
-    shortDesc: "Орчин үеийн технологи, ухаалаг шийдэл",
-    description:
-      "Орчин үеийн технологи, ухаалаг шийдэл болон олон талын хэрэглээг хослуулсан SUV. Хотын өдөр тутмын амьдрал болон аялалд тохирсон төгс шийдэл.",
-    longDescription:
-      "T1 нь хотын өдөр тутмын амьдралд зориулагдсан SUV. Ухаалаг жолоодлогын систем, орчин үеийн дизайн, өргөн салонтой. Хотын замд эвтэйхэн, захад эх нутагт ч хүчин чадлаа үзүүлнэ. Хоёр төрлийн багц сонголттой.",
-    heroImage: "https://sfile.chatglm.cn/images-ppt/3dbbabc9f32c.jpg",
-    exteriorImages: [
-      "https://sfile.chatglm.cn/images-ppt/3dbbabc9f32c.jpg",
-      "https://sfile.chatglm.cn/images-ppt/6bf866e6f982.jpg",
-    ],
-    interiorImages: ["https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg"],
-    gallery: [
-      "https://sfile.chatglm.cn/images-ppt/3dbbabc9f32c.jpg",
-      "https://sfile.chatglm.cn/images-ppt/6bf866e6f982.jpg",
-    ],
-    price: "99.9 / 120.0 сая ₮",
-    priceNote: "Хоёр багц сонголттой",
-    status: "available",
-    specs: {
-      engine: "1.5T / 2.0T",
-      power: "156–197 л.с.",
-      torque: "230–390 Нм",
-      transmission: "6DCT / 7DCT",
-      drivetrain: "2WD / 4WD",
-      seats: "5 суудал",
-      length: "4500 мм",
-      wheelbase: "2670 мм",
-      groundClearance: "200 мм",
-      topSpeed: "180–200 км/ц",
-      fuel: "Бензин",
-    },
-    exteriorFeatures: [
-      {
-        title: "Орчин үеийн дизайн",
-        description: "Цэвэр шугаман биений дизайнд спорт ба залуусын таашаал нийлсэн. LED гэрэлтүүлэг, том амын хэв маяг.",
-      },
-      {
-        title: "Хоёр багц сонголт",
-        description: "1.5T 2WD болон 2.0T 4WD гэсэн хоёр багц. Таны хэрэгцээнд тохирох сонголтоо хийх боломжтой.",
-      },
-      {
-        title: "200мм газрын тусгаар",
-        description: "Хотын бартаатай зам, хөдөөгийн шороон замд ч тайван явах боломжтой.",
-      },
-    ],
-    interiorFeatures: [
-      {
-        title: "Ухаалаг мультимедиа",
-        description: "Том хэмжээт дэлгэц, утсаа холбох боломжтой.导航, хөгжим, утсан дуудлага — нэг дор.",
-      },
-      {
-        title: "Өргөн салон",
-        description: "5 хүний суудал. Урт замд ч тав тухтай, хотын хэрэгцээнд эвтэйхэн.",
-      },
-      {
-        title: "Олон талын хэрэглээ",
-        description: "Хот болон аялалд тохирох уян хатан загвар. Гэр бүл, найзуудтайгаа хамт явахад тохиромжтой.",
-      },
-    ],
-    safety: ["ABS", "EBD", "EBA", "TCS", "ESC", "HHC", "HDC"],
-    highlights: [
-      { label: "Багц", value: "2 сонголт" },
-      { label: "Жолоодлого", value: "2WD / 4WD" },
-      { label: "Хурдны хайрцаг", value: "6/7-DCT" },
-      { label: "Суудал", value: "5 хүн" },
-    ],
-    accent: "blue",
-  },
-  {
     id: "x1",
     name: "JETOUR X1",
     series: "Compact",
@@ -227,17 +164,12 @@ export const MODELS: JetourModel[] = [
       "Дэвшилтэт технологи, орчин үеийн дизайн, хүчирхэг гүйцэтгэлийг хослуулсан. Их хотын өдөр тутмын амьдралд тохирсон шийдэл.",
     longDescription:
       "X1 нь залуу өрх, анхны машинтай болох гэр бүлд зориулагдсан compact SUV. 1.5 TCI Turbo хөдөлгүүр нь хотод 7L/100km зарцуулга үзүүлэх ба хурдны хувьд чадалтай. Иж бүрэн аюулгүй байдлын системүүд (ABS, EBD, EBA, TCS, ESC, HHC, HDC, RMI, DBF) суулгасан.",
-    heroImage: "https://sfile.chatglm.cn/images-ppt/56e894a88fee.jpg",
-    exteriorImages: [
-      "https://sfile.chatglm.cn/images-ppt/56e894a88fee.jpg",
-      "https://sfile.chatglm.cn/images-ppt/e1957dcb315a.jpg",
-    ],
-    interiorImages: ["https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg"],
-    gallery: [
-      "https://sfile.chatglm.cn/images-ppt/56e894a88fee.jpg",
-      "https://sfile.chatglm.cn/images-ppt/e1957dcb315a.jpg",
-    ],
+    heroImage: IMG.x1_branded,
+    exteriorImages: [IMG.x1_branded, IMG.x1_front, IMG.x1_rear_side, IMG.x1_rear],
+    interiorImages: [IMG.travel_interior],
+    gallery: [IMG.x1_branded, IMG.x1_front, IMG.x1_rear_side, IMG.x1_rear],
     price: "85.0 сая ₮",
+    startingPrice: "85.0 сая ₮",
     status: "available",
     specs: {
       engine: "1.5 TCI Turbo",
@@ -258,8 +190,12 @@ export const MODELS: JetourModel[] = [
         description: "Хотын нарийн гудамж, зогсоолд эвтэйхэн. Залуу өрхийн анхны машинд тохиромжтой хэмжээ.",
       },
       {
+        title: "Улаан өнгийн спорт төрх",
+        description: "Тод улаан өнгө, хар тэнгэрлэг дээвэртэй. LED гэрэлтүүлэг, спорт төрх — залуусын таашаалд нийцсэн.",
+      },
+      {
         title: "Орчин үеийн гоо зүй",
-        description: "Залуусын таашаалд нийцсэн цэвэр шугаман дизайн. LED гэрэлтүүлэг, спорт төрх.",
+        description: "Цэвэр шугаман дизайн, JETOUR тэмдэг, X1 бэлгэдэл — анхаарал татах төрх.",
       },
     ],
     interiorFeatures: [
@@ -295,17 +231,12 @@ export const MODELS: JetourModel[] = [
       "Спортлог дизайн, ухаалаг жолоодлогын систем, 20.5 инчийн хос дижитал дэлгэц, 360° камер болон иж бүрэн аюулгүй байдлын шийдлүүдтэй.",
     longDescription:
       "X50 нь спортлог загвартай, залуусын таашаалд нийцсэн SUV. 20.5 инчийн хос дижитал дэлгэц нь жолооны мэдээлэл болон entertainment-ийг нэг дор харуулна. 360° камер, олон тооны аюулгүй байдлын систем — хотын нүүрэн дээр ч, зогсоолд ч тайван.",
-    heroImage: "https://sfile.chatglm.cn/images-ppt/0aff9397ae0f.jpg",
-    exteriorImages: [
-      "https://sfile.chatglm.cn/images-ppt/0aff9397ae0f.jpg",
-      "https://sfile.chatglm.cn/images-ppt/d97fb1e8df00.jpg",
-    ],
-    interiorImages: ["https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg"],
-    gallery: [
-      "https://sfile.chatglm.cn/images-ppt/0aff9397ae0f.jpg",
-      "https://sfile.chatglm.cn/images-ppt/d97fb1e8df00.jpg",
-    ],
+    heroImage: IMG.x50_front_family,
+    exteriorImages: [IMG.x50_front_family, IMG.x50_camping, IMG.x50_rear],
+    interiorImages: [IMG.travel_interior],
+    gallery: [IMG.x50_front_family, IMG.x50_camping, IMG.x50_rear],
     price: "69.9 сая ₮",
+    startingPrice: "69.9 сая ₮",
     status: "available",
     specs: {
       engine: "1.5 TCI Turbo",
@@ -322,8 +253,12 @@ export const MODELS: JetourModel[] = [
     },
     exteriorFeatures: [
       {
-        title: "Спортлог төрх",
-        description: "Том ам, том дугуй, спортлог биеийн пропорц. Залуусын таашаалд нийцсэн дизайн.",
+        title: "Спортлог хар төрх",
+        description: "Том ам, том дугуй, спортлог биеийн пропорц. Хар өнгө — залуусын таашаалд нийцсэн дизайн.",
+      },
+      {
+        title: "Аяллын амьдралын хэв маяг",
+        description: "Гэр бүл, найзуудтайгаа байгальд гарахад тохирох — Travel+ философиор бүтээгдсэн.",
       },
       {
         title: "LED гэрэлтүүлэг",
@@ -354,6 +289,74 @@ export const MODELS: JetourModel[] = [
     accent: "blue",
   },
   {
+    id: "t1",
+    name: "JETOUR T1",
+    series: "Urban SUV",
+    tagline: "Хот болон аяллын хослол",
+    shortDesc: "Орчин үеийн технологи, ухаалаг шийдэл",
+    description:
+      "Орчин үеийн технологи, ухаалаг шийдэл болон олон талын хэрэглээг хослуулсан SUV. Хотын өдөр тутмын амьдрал болон аялалд тохирсон төгс шийдэл.",
+    longDescription:
+      "T1 нь хотын өдөр тутмын амьдралд зориулагдсан SUV. Ухаалаг жолоодлогын систем, орчин үеийн дизайн, өргөн салонтой. Хотын замд эвтэйхэн, захад эх нутагт ч хүчин чадлаа үзүүлнэ. Хоёр төрлийн багц сонголттой.",
+    heroImage: IMG.t1_phev,
+    exteriorImages: [IMG.t1_phev],
+    interiorImages: [IMG.travel_interior],
+    gallery: [IMG.t1_phev],
+    price: "99.9 / 120.0 сая ₮",
+    priceNote: "Хоёр багц сонголттой",
+    startingPrice: "99.9 сая ₮",
+    status: "available",
+    specs: {
+      engine: "1.5T / 2.0T",
+      power: "156–197 л.с.",
+      torque: "230–390 Нм",
+      transmission: "6DCT / 7DCT",
+      drivetrain: "2WD / 4WD",
+      seats: "5 суудал",
+      length: "4500 мм",
+      wheelbase: "2670 мм",
+      groundClearance: "200 мм",
+      topSpeed: "180–200 км/ц",
+      fuel: "Бензин",
+    },
+    exteriorFeatures: [
+      {
+        title: "Орчин үеийн дизайн",
+        description: "Цэвэр шугаман биений дизайнд спорт ба залуусын таашаал нийлсэн. LED гэрэлтүүлэг, том амын хэв маяг.",
+      },
+      {
+        title: "Хоёр багц сонголт",
+        description: "1.5T 2WD болон 2.0T 4WD гэсэн хоёр багц. Таны хэрэгцээнд тохирох сонголтоо хийх боломжтой.",
+      },
+      {
+        title: "200мм газрын тусгаар",
+        description: "Хотын бартаатай зам, хөдөөгийн шороон замд ч тайван явах боломжтой.",
+      },
+    ],
+    interiorFeatures: [
+      {
+        title: "Ухаалаг мультимедиа",
+        description: "Том хэмжээт дэлгэц, утсаа холбох боломжтой. Навигаци, хөгжим, утсан дуудлага — нэг дор.",
+      },
+      {
+        title: "Өргөн салон",
+        description: "5 хүний суудал. Урт замд ч тав тухтай, хотын хэрэгцээнд эвтэйхэн.",
+      },
+      {
+        title: "Олон талын хэрэглээ",
+        description: "Хот болон аялалд тохирох уян хатан загвар. Гэр бүл, найзуудтайгаа хамт явахад тохиромжтой.",
+      },
+    ],
+    safety: ["ABS", "EBD", "EBA", "TCS", "ESC", "HHC", "HDC"],
+    highlights: [
+      { label: "Багц", value: "2 сонголт" },
+      { label: "Жолоодлого", value: "2WD / 4WD" },
+      { label: "Хурдны хайрцаг", value: "6/7-DCT" },
+      { label: "Суудал", value: "5 хүн" },
+    ],
+    accent: "blue",
+  },
+  {
     id: "g700",
     name: "JETOUR G700",
     series: "Flagship",
@@ -363,16 +366,10 @@ export const MODELS: JetourModel[] = [
       "Дэлхийн нэрт дизайнер Paula Scher-тай хамтран бүтээсэн тэргүүлэх их буудлын SUV. Хүчирхэг технологи болон жинхэнэ мэдрэмжийн нэгдэл.",
     longDescription:
       "G700 нь JETOUR-ын тэргүүлэх их буудлын SUV. Дэлхийн нэрт дизайнер Paula Scher-ийн мастер загвар — \"Энэ бол миний ажиллаж буй анхны автомашин\" гэж тэрээр онцолсон. PHEV хосолсон систем, Nappa арьсан салон, агаарын дөрвөн салхивч — люкс тав тухатай.",
-    heroImage: "https://sfile.chatglm.cn/images-ppt/d97fb1e8df00.jpg",
-    exteriorImages: [
-      "https://sfile.chatglm.cn/images-ppt/d97fb1e8df00.jpg",
-      "https://sfile.chatglm.cn/images-ppt/8fefe8b0aac8.png",
-    ],
-    interiorImages: ["https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg"],
-    gallery: [
-      "https://sfile.chatglm.cn/images-ppt/d97fb1e8df00.jpg",
-      "https://sfile.chatglm.cn/images-ppt/8fefe8b0aac8.png",
-    ],
+    heroImage: IMG.x70_aerial,
+    exteriorImages: [IMG.x70_aerial, IMG.x70_rear],
+    interiorImages: [IMG.travel_interior],
+    gallery: [IMG.x70_aerial, IMG.x70_rear],
     price: null,
     priceNote: "Тун удахгүй",
     status: "coming-soon",
@@ -432,16 +429,10 @@ export const MODELS: JetourModel[] = [
       "Байгаль орчинд ээлтэй, залгаж цэнэглэдэг эрчим хүчний дэвшилтэт технологи болон бартаат замын хүчин чадлыг хослуулсан.",
     longDescription:
       "T2 PHEV нь JETOUR-ын Travel+ философиор бүтээгдсэн, plug-in хосолсон аяллын SUV. Цахилгаанаар 100 км, нийт 1000+ км аяллын зайд явах боломжтой. Бартаат зам, уул, цөл — хаа ч ажиллана. Байгаль орчинд ээлтэй шийдэл.",
-    heroImage: "https://sfile.chatglm.cn/images-ppt/8fefe8b0aac8.png",
-    exteriorImages: [
-      "https://sfile.chatglm.cn/images-ppt/8fefe8b0aac8.png",
-      "https://sfile.chatglm.cn/images-ppt/6bf866e6f982.jpg",
-    ],
-    interiorImages: ["https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg"],
-    gallery: [
-      "https://sfile.chatglm.cn/images-ppt/8fefe8b0aac8.png",
-      "https://sfile.chatglm.cn/images-ppt/6bf866e6f982.jpg",
-    ],
+    heroImage: IMG.t1_phev,
+    exteriorImages: [IMG.t1_phev],
+    interiorImages: [IMG.travel_interior],
+    gallery: [IMG.t1_phev],
     price: null,
     priceNote: "Тун удахгүй",
     status: "coming-soon",
@@ -493,14 +484,40 @@ export const MODELS: JetourModel[] = [
   },
 ];
 
-export const HERO_SLIDES = MODELS.map((m) => ({
-  model: m.name,
-  tagline: m.tagline,
-  description: m.shortDesc,
-  image: m.heroImage,
-  price: m.price ?? m.priceNote ?? "",
-  accent: m.accent,
-}));
+export const HERO_SLIDES = [
+  {
+    model: "JETOUR X70 Plus",
+    tagline: "Гэр бүлийн төгс шийдэл",
+    description: "Тав тух, өргөн уужим салон, ухаалаг технологи",
+    image: IMG.x70_aerial,
+    price: "95.0 сая ₮",
+    accent: "red" as const,
+  },
+  {
+    model: "JETOUR X1",
+    tagline: "Хотын залуусын сонголт",
+    description: "Дэвшилтэт технологи, хүчирхэг гүйцэтгэл",
+    image: IMG.x1_branded,
+    price: "85.0 сая ₮",
+    accent: "red" as const,
+  },
+  {
+    model: "JETOUR X50",
+    tagline: "Спортлог дизайн, ухаалаг технологи",
+    description: "20.5\" хос дэлгэц, 360° камер",
+    image: IMG.x50_front_family,
+    price: "69.9 сая ₮",
+    accent: "blue" as const,
+  },
+  {
+    model: "JETOUR T1",
+    tagline: "Хот болон аяллын хослол",
+    description: "Орчин үеийн технологи, ухаалаг шийдэл",
+    image: IMG.t1_phev,
+    price: "99.9 / 120.0 сая ₮",
+    accent: "blue" as const,
+  },
+];
 
 export const TECHNOLOGY = [
   {

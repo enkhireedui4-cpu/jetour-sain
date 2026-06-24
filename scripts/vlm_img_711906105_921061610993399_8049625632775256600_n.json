@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Jetour X50 SUV.  \n2) Exterior shot.  \n3) Black, front-angle view; prominent vertical grille, \"JETOUR\" and \"X50\" badging, sleek headlights.  \n4) Yes, professional marketing photo (staged family scene, polished lighting/composition).",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280899,
+  "id": "20260624140132deb3e877e3b24813",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624140132deb3e877e3b24813",
+  "usage": {
+    "completion_tokens": 65,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 4035,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 4100
+  }
+}

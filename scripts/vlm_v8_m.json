@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, a real Jetour car (X70 Plus) is visible.  \n- Yes, tabs (Экстерьер/Интерьер/Техник уzuулэлт) are visible.  \n- Yes, navigation arrows are on both sides of the image.  \n- No major issues apparent from the screenshot.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782281250,
+  "id": "202606241407260ea7581cb4cd4f27",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241407260ea7581cb4cd4f27",
+  "usage": {
+    "completion_tokens": 69,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1705,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1774
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Likely a luxury sedan (e.g., Rolls - Royce, hinted by wheel design). 2) Exterior, close - up on the wheel. 3) Metallic gray, low - angle shot, key feature: large, stylish alloy wheel with motion blur suggesting speed.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782281063,
+  "id": "202606241404168f9a3e4abdba4111",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241404168f9a3e4abdba4111",
+  "usage": {
+    "completion_tokens": 60,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 5377,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 5437
+  }
+}
