@@ -281,15 +281,16 @@
 }
 
 /* Light theme text helpers */
-.light-theme .text-paper { color: var(--color-light-text); }
-.light-theme .text-chrome { color: var(--color-light-text-muted); }
-.light-theme .text-muted-ink { color: #8A93A6; }
-.light-theme .text-jetour-red-soft { color: #E2231A; }
-.light-theme .text-jetour-blue-soft { color: #2B6FE0; }
-.light-theme .border-line { border-color: #E5E9F0; }
-.light-theme .bg-ink\/60 { background-color: rgba(255, 255, 255, 0.6); }
-.light-theme .bg-ink\/80 { background-color: rgba(255, 255, 255, 0.85); }
-.light-theme .bg-ink-2\/40 { background-color: rgba(244, 246, 250, 0.5); }
+.light-theme .text-paper { color: var(--color-light-text) !important; }
+.light-theme .text-chrome { color: var(--color-light-text-muted) !important; }
+.light-theme .text-muted-ink { color: #8A93A6 !important; }
+.light-theme .text-jetour-red-soft { color: #E2231A !important; }
+.light-theme .text-jetour-blue-soft { color: #2B6FE0 !important; }
+.light-theme .border-line { border-color: #E5E9F0 !important; }
+.light-theme .bg-ink\/60 { background-color: rgba(244, 246, 250, 0.7) !important; }
+.light-theme .bg-ink\/80 { background-color: rgba(255, 255, 255, 0.9) !important; }
+.light-theme .bg-ink-2\/40 { background-color: rgba(244, 246, 250, 0.6) !important; }
+.light-theme .bg-panel { background-color: #FFFFFF !important; }
 
 /* JETOUR Red CTA button — works on light bg too */
 .light-theme .btn-jetour {
@@ -298,7 +299,7 @@
   font-weight: 800;
   letter-spacing: 0.03em;
   background: linear-gradient(95deg, #E2231A, #B0151C);
-  color: #fff;
+  color: #fff !important;
   box-shadow: 0 16px 40px -14px rgba(226, 35, 26, 0.45);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -308,10 +309,34 @@
   box-shadow: 0 20px 50px -14px rgba(226, 35, 26, 0.6);
 }
 
+/* Light bg helper */
+.light-theme .bg-cinematic {
+  background:
+    radial-gradient(120% 80% at 8% 18%, rgba(226, 35, 26, 0.08), transparent 46%),
+    radial-gradient(120% 90% at 96% 30%, rgba(43, 111, 224, 0.08), transparent 50%),
+    linear-gradient(180deg, #FFFFFF 0%, #F4F6FA 100%);
+}
+
 /* Cinematic dark hero still works (sits within the page) */
 .model-hero-cinema {
   background:
     radial-gradient(120% 80% at 8% 18%, rgba(226, 35, 26, 0.45), transparent 46%),
     radial-gradient(120% 90% at 96% 30%, rgba(43, 111, 224, 0.45), transparent 50%),
     linear-gradient(180deg, #0A0F1E 0%, #070A14 70%);
+}
+
+/* Navbar over light bg */
+.navbar-light {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #E5E9F0;
+}
+
+.navbar-light .text-paper { color: #0B0F1A !important; }
+.navbar-light .text-chrome { color: #5B6477 !important; }
+.navbar-light .text-muted-ink { color: #8A93A6 !important; }
+.navbar-light .border-line { border-color: #E5E9F0 !important; }
+.navbar-light .glass {
+  background: rgba(244, 246, 250, 0.8) !important;
+  border: 1px solid #E5E9F0;
 }

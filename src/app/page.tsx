@@ -13,7 +13,7 @@ import { Contact, Footer } from "@/components/jetour/contact";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-ink text-paper">
+    <div className="light-theme min-h-screen flex flex-col bg-[#F4F6FA] text-[#0B0F1A]">
       <Navbar />
       <main className="flex-1">
         <Hero />

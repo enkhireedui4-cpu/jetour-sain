@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "The screenshot displays a mobile interface for **JETOUR MONGOLIA**, featuring a vertical layout with distinct sections:  \n\n### 1. Header & Navigation  \n- At the top, the brand name *“JETOUR MONGOLIA”* is visible, with a close button (×) in the top-right corner.  \n- Below the header, a list of menu items (likely car models or categories) appears in Mongolian: *“Брэнд” (Brand), “Загварууд” (Models), “Технологи” (Technology), “Зээл” (Loan), “Түгээлт” (Sales), “Холбоо” (Contact)*.  \n\n\n### 2. Contact & Action Button  \n- A white button with a phone icon and number *“7277-8855”* (contact info) is centered.  \n- Below it, a large red button labeled *“Холбогдох”* (Contact/Connect) spans the width.  \n\n\n### 3. Car Model Section  \n- The main focus is the **JETOUR X70 Plus** model, with:  \n  - Model name in bold: *“JETOUR X70 Plus”*.  \n  - Price: *“95.0 сая ₮”* (95.0 million tugrik, with a “T” currency symbol).  \n  - A green badge: *“Балан”* (likely “Available” or “Balance”).  \n  - Three tabs below: *“Экстерьер” (Exterior, underlined, indicating active tab), “Интерьер” (Interior), “Техник ууцлалт” (Technical Specifications)*.  \n\n\n### 4. Car Image & Navigation  \n- At the bottom, a large image of the **JETOUR X70 PLUS** is shown, with:  \n  - A small “N” icon (possibly a “New” badge) on the left.  \n  - A pagination indicator: *“02 / 03”* (showing this is the 2nd of 3 images).  \n  - **Navigation arrows**: A left arrow (←) on the far left of the image and a right arrow (→) on the far right of the image (for scrolling between car images).  \n\n\n### Layout Summary  \nThe interface is vertically structured, with menu items at the top, contact info/action button in the middle, and the car model details (name, price, tabs) above the image gallery. The car image section includes left/right navigation arrows for browsing multiple images of the vehicle.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280220,
+  "id": "2026062413495344d980e0b1d04c9e",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062413495344d980e0b1d04c9e",
+  "usage": {
+    "completion_tokens": 549,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 460,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1009
+  }
+}

@@ -7,7 +7,7 @@ import { SainMotorsMark } from "./logo";
 
 export function Distributor() {
   return (
-    <section id="distributor" className="relative py-24 lg:py-32 bg-ink-2/40 border-y border-line">
+    <section id="distributor" className="relative py-24 lg:py-32 bg-white border-y border-[#E5E9F0]">
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       <div className="relative mx-auto w-[min(1180px,92vw)]">
         <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center">

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Design quality is high, with a sleek, modern layout typical of professional car brand sites.  \n- Light/clean theme is evident, using ample white space and minimalist elements.  \n- No visible watermarks, broken images, or text issues; all visuals and text appear intact.  \n- Branding (JETOUR logo, model names) is clear and consistent throughout.  \n- Color contrast (e.g., red accents, dark text on light backgrounds) enhances readability.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280153,
+  "id": "20260624134904ce53bacd95a040d3",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624134904ce53bacd95a040d3",
+  "usage": {
+    "completion_tokens": 99,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 6073,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 6172
+  }
+}

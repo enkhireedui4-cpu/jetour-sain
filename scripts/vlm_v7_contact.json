@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Background: Light (white/gray tones).  \n- Text readable: Yes, but form fields (e.g., “Нэр *”) have placeholder text that may be less distinct; no major readability issues otherwise.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280124,
+  "id": "20260624134837deea0469c7604583",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624134837deea0469c7604583",
+  "usage": {
+    "completion_tokens": 47,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1678,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1725
+  }
+}

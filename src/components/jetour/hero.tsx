@@ -28,7 +28,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden bg-ink"
+      className="relative min-h-screen overflow-hidden bg-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -37,7 +37,7 @@ export function Hero() {
         <AnimatePresence mode="sync">
           <motion.div
             key={active}
-            initial={{ opacity: 0, scale: 1.08 }}
+            initial={{ opacity: 0, scale: 1.06 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1 }}
             transition={{ duration: 1.4, ease: "easeInOut" }}
@@ -52,16 +52,16 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Cinematic gradient overlays */}
+        {/* Light gradient overlays — keeps the car visible but text readable on top */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(90deg, rgba(7,10,20,0.92) 0%, rgba(7,10,20,0.7) 25%, rgba(7,10,20,0.25) 55%, rgba(7,10,20,0.4) 100%), linear-gradient(180deg, rgba(7,10,20,0.55) 0%, transparent 30%, rgba(7,10,20,0.85) 100%)",
+              "linear-gradient(90deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.82) 22%, rgba(255,255,255,0.25) 55%, rgba(255,255,255,0.5) 100%), linear-gradient(180deg, rgba(255,255,255,0.6) 0%, transparent 30%, rgba(255,255,255,0.92) 100%)",
           }}
         />
 
-        {/* Side accent glow (changes color per slide) */}
+        {/* Soft accent glow (changes color per slide) */}
         <motion.div
           key={`glow-${active}`}
           initial={{ opacity: 0 }}
@@ -70,13 +70,13 @@ export function Hero() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background: isRed
-              ? "radial-gradient(60% 80% at 12% 50%, rgba(226,35,26,0.35), transparent 70%)"
-              : "radial-gradient(60% 80% at 12% 50%, rgba(43,111,224,0.35), transparent 70%)",
+              ? "radial-gradient(60% 80% at 12% 50%, rgba(226,35,26,0.18), transparent 70%)"
+              : "radial-gradient(60% 80% at 12% 50%, rgba(43,111,224,0.18), transparent 70%)",
           }}
         />
 
         {/* Subtle grid texture */}
-        <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+        <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
       </div>
 
       {/* === Foreground content === */}
@@ -86,7 +86,7 @@ export function Hero() {
 
         {/* Center content */}
         <div className="flex-1 flex items-center">
-          <div className="mx-auto w-[min(1180px,92vw)] w-full">
+          <div className="mx-auto w-[min(1280px,94vw)] w-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
@@ -100,12 +100,12 @@ export function Hero() {
                 <div className="flex items-center gap-3 mb-5">
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      isRed ? "bg-jetour-red" : "bg-jetour-blue"
-                    } shadow-[0_0_0_5px_rgba(255,255,255,0.08)]`}
+                      isRed ? "bg-[#E2231A]" : "bg-[#2B6FE0]"
+                    } shadow-[0_0_0_5px_rgba(0,0,0,0.05)]`}
                   />
                   <span
                     className={`eyebrow ${
-                      isRed ? "text-jetour-red-soft" : "text-jetour-blue-soft"
+                      isRed ? "text-[#E2231A]" : "text-[#2B6FE0]"
                     }`}
                   >
                     {slide.tagline}
@@ -115,10 +115,9 @@ export function Hero() {
                 {/* Title — massive gradient */}
                 <h1 className="font-display font-extrabold italic leading-[0.84] tracking-tight mb-6">
                   <span
-                    className="block text-paper"
+                    className="block text-[#0B0F1A]"
                     style={{
                       fontSize: "clamp(3rem, 9vw, 6.5rem)",
-                      filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))",
                     }}
                   >
                     {slide.model}
@@ -127,8 +126,7 @@ export function Hero() {
 
                 {/* Description */}
                 <p
-                  className="text-lg lg:text-xl text-chrome mb-8 leading-relaxed max-w-xl"
-                  style={{ textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}
+                  className="text-lg lg:text-xl text-[#5B6477] mb-8 leading-relaxed max-w-xl"
                 >
                   {slide.description}
                 </p>
@@ -136,19 +134,18 @@ export function Hero() {
                 {/* Price + CTAs */}
                 <div className="flex flex-wrap items-center gap-5 mb-10">
                   <div>
-                    <p className="text-[0.6rem] tracking-[0.22em] uppercase text-muted-ink font-display mb-1">
+                    <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#8A93A6] font-display mb-1">
                       Үнэ
                     </p>
                     <p
                       className={`font-display font-extrabold italic text-3xl lg:text-4xl ${
-                        isRed ? "text-jetour-red-soft" : "text-jetour-blue-soft"
+                        isRed ? "text-[#E2231A]" : "text-[#2B6FE0]"
                       }`}
-                      style={{ textShadow: "0 4px 20px rgba(0,0,0,0.6)" }}
                     >
                       {slide.price}
                     </p>
                   </div>
-                  <div className="h-12 w-px bg-line" />
+                  <div className="h-12 w-px bg-[#E5E9F0]" />
                   <button
                     onClick={() =>
                       document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
@@ -160,9 +157,9 @@ export function Hero() {
                   </button>
                   <a
                     href={CONTACT.phone1Href}
-                    className="font-display font-semibold text-paper border border-line glass rounded-xl px-5 py-3.5 text-sm flex items-center gap-2.5 hover:border-paper/30 transition-colors"
+                    className="font-display font-semibold text-[#0B0F1A] border border-[#E5E9F0] bg-white rounded-xl px-5 py-3.5 text-sm flex items-center gap-2.5 hover:border-[#0B0F1A]/30 transition-colors"
                   >
-                    <Phone className="w-4 h-4 text-jetour-red" />
+                    <Phone className="w-4 h-4 text-[#E2231A]" />
                     {CONTACT.phone1}
                   </a>
                 </div>
@@ -173,25 +170,25 @@ export function Hero() {
 
         {/* === Slide navigation bottom bar === */}
         <div className="pb-10">
-          <div className="mx-auto w-[min(1180px,92vw)]">
+          <div className="mx-auto w-[min(1280px,94vw)]">
             <div className="flex items-center justify-between gap-6">
               {/* Slide counter + controls */}
               <div className="flex items-center gap-4">
-                <span className="font-display font-extrabold italic text-2xl text-paper">
+                <span className="font-display font-extrabold italic text-2xl text-[#0B0F1A]">
                   0{active + 1}
                 </span>
-                <span className="font-display text-sm text-muted-ink">/ 0{HERO_SLIDES.length}</span>
+                <span className="font-display text-sm text-[#8A93A6]">/ 0{HERO_SLIDES.length}</span>
                 <div className="flex gap-1.5 ml-3">
                   <button
                     onClick={prev}
-                    className="w-9 h-9 rounded-full border border-line glass grid place-items-center text-chrome hover:text-paper hover:border-paper/30 transition-colors"
+                    className="w-9 h-9 rounded-full border border-[#E5E9F0] bg-white grid place-items-center text-[#5B6477] hover:text-[#0B0F1A] hover:border-[#0B0F1A]/30 transition-colors"
                     aria-label="Өмнөх"
                   >
                     <ChevronDown className="w-4 h-4 rotate-90" />
                   </button>
                   <button
                     onClick={next}
-                    className="w-9 h-9 rounded-full border border-line glass grid place-items-center text-chrome hover:text-paper hover:border-paper/30 transition-colors"
+                    className="w-9 h-9 rounded-full border border-[#E5E9F0] bg-white grid place-items-center text-[#5B6477] hover:text-[#0B0F1A] hover:border-[#0B0F1A]/30 transition-colors"
                     aria-label="Дараагийн"
                   >
                     <ChevronDown className="w-4 h-4 -rotate-90" />
@@ -205,7 +202,7 @@ export function Hero() {
                   <button
                     key={i}
                     onClick={() => setActive(i)}
-                    className="group flex-1 relative h-1 rounded-full overflow-hidden bg-line"
+                    className="group flex-1 relative h-1 rounded-full overflow-hidden bg-[#E5E9F0]"
                     aria-label={`Slide ${i + 1}`}
                   >
                     {i === active && !paused ? (
@@ -215,13 +212,13 @@ export function Hero() {
                         animate={{ width: "100%" }}
                         transition={{ duration: 5.5, ease: "linear" }}
                         className={`absolute inset-y-0 left-0 ${
-                          isRed ? "bg-jetour-red" : "bg-jetour-blue"
+                          isRed ? "bg-[#E2231A]" : "bg-[#2B6FE0]"
                         }`}
                       />
                     ) : i === active ? (
                       <div
                         className={`absolute inset-y-0 left-0 w-full ${
-                          isRed ? "bg-jetour-red" : "bg-jetour-blue"
+                          isRed ? "bg-[#E2231A]" : "bg-[#2B6FE0]"
                         }`}
                       />
                     ) : null}
@@ -230,9 +227,9 @@ export function Hero() {
               </div>
 
               {/* Feature mini-chip */}
-              <div className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2">
-                <Sparkles className="w-3.5 h-3.5 text-jetour-red-soft" />
-                <span className="text-xs text-chrome font-display tracking-wider">
+              <div className="hidden md:flex items-center gap-2 bg-white border border-[#E5E9F0] rounded-full px-4 py-2">
+                <Sparkles className="w-3.5 h-3.5 text-[#E2231A]" />
+                <span className="text-xs text-[#5B6477] font-display tracking-wider">
                   Travel+ · Албан ёсны
                 </span>
               </div>
@@ -247,7 +244,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute left-1/2 -translate-x-1/2 bottom-4 z-20 flex flex-col items-center gap-1 text-chrome/70 hover:text-paper transition-colors"
+        className="absolute left-1/2 -translate-x-1/2 bottom-4 z-20 flex flex-col items-center gap-1 text-[#8A93A6] hover:text-[#0B0F1A] transition-colors"
         aria-label="Доош гулгах"
       >
         <span className="text-[0.55rem] tracking-[0.3em] uppercase font-display">Илүү</span>

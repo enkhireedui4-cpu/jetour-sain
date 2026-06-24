@@ -61,7 +61,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 lg:py-32 border-t border-line bg-ink-2/40">
+    <section id="contact" className="relative py-24 lg:py-32 border-t border-[#E5E9F0] bg-[#F4F6FA]">
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       <div className="relative mx-auto w-[min(1180px,92vw)]">
         <div className="text-center mb-12">
@@ -339,23 +339,23 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-line bg-ink-2/60">
-      <div className="mx-auto w-[min(1180px,92vw)] py-12">
+    <footer className="relative border-t border-[#E5E9F0] bg-white">
+      <div className="mx-auto w-[min(1280px,94vw)] py-12">
         <div className="grid md:grid-cols-[1.5fr_1fr_1fr] gap-8 mb-10">
           <div>
             <JetourLogoSmall />
-            <p className="text-chrome text-xs leading-relaxed mt-4 max-w-xs">
+            <p className="text-xs leading-relaxed mt-4 max-w-xs" style={{ color: "#5B6477" }}>
               JETOUR Mongolia — албан ёсны дистрибьютер {CONTACT.brandFullName}. Travel+ философиор
               Монголын уудам нутагт тохирох SUV загварууд.
             </p>
           </div>
 
           <div>
-            <p className="eyebrow mb-4">Цэс</p>
+            <p className="eyebrow mb-4" style={{ color: "#5B6477" }}>Цэс</p>
             <ul className="space-y-2 text-sm">
               {NAV_LINKS_FOOTER.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="text-chrome hover:text-paper transition-colors">
+                  <a href={l.href} className="hover:text-[#0B0F1A] transition-colors" style={{ color: "#5B6477" }}>
                     {l.label}
                   </a>
                 </li>
@@ -364,26 +364,28 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="eyebrow mb-4">Дистрибьютер</p>
+            <p className="eyebrow mb-4" style={{ color: "#5B6477" }}>Дистрибьютер</p>
             <SainMotorsMark className="text-lg" />
-            <p className="text-chrome text-xs mt-3 leading-relaxed">{CONTACT.address}</p>
+            <p className="text-xs mt-3 leading-relaxed" style={{ color: "#5B6477" }}>{CONTACT.address}</p>
             <a
               href={CONTACT.phone1Href}
-              className="font-display font-bold text-paper hover:text-jetour-red-soft transition-colors block mt-2"
+              className="font-display font-bold hover:text-[#E2231A] transition-colors block mt-2"
+              style={{ color: "#0B0F1A" }}
             >
               {CONTACT.phone1}
             </a>
             <a
               href={CONTACT.phone2Href}
-              className="font-display font-bold text-paper hover:text-jetour-red-soft transition-colors block"
+              className="font-display font-bold hover:text-[#E2231A] transition-colors block"
+              style={{ color: "#0B0F1A" }}
             >
               {CONTACT.phone2}
             </a>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-ink">
+        <div className="pt-6 border-t border-[#E5E9F0] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs" style={{ color: "#8A93A6" }}>
             © {new Date().getFullYear()} JETOUR Mongolia · {CONTACT.brandFullName}. Бүх эрх хуулиар
             хамгаалагдсан.
           </p>
@@ -405,8 +407,8 @@ function JetourLogoSmall() {
   return (
     <div className="inline-flex flex-col leading-none">
       <span
-        className="font-display font-extrabold italic tracking-tight text-2xl text-paper"
-        style={{ letterSpacing: "-0.02em" }}
+        className="font-display font-extrabold italic tracking-tight text-2xl"
+        style={{ letterSpacing: "-0.02em", color: "#0B0F1A" }}
       >
         JETOUR
       </span>

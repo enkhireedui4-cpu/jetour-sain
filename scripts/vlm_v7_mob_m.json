@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- No, the carousel with side arrows is not visible.  \n- Yes, tabs (\"Экстерьер\", \"Интерьер\", \"Техник ууцлэлт\") are visible.  \n- No issues detected in the visible elements.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280180,
+  "id": "20260624134938a7897d0a36484a76",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624134938a7897d0a36484a76",
+  "usage": {
+    "completion_tokens": 54,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 471,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 525
+  }
+}

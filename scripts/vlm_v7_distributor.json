@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Background: Light (white/neutral tones). Text readable: Yes, clear contrast between text and background.  \n- No major issues; layout is clean, text is legible, and key info (contact, services) is accessible.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782280117,
+  "id": "2026062413483234414f8ae37d4546",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062413483234414f8ae37d4546",
+  "usage": {
+    "completion_tokens": 51,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1678,
+    "prompt_tokens_details": {
+      "cached_tokens": 39
+    },
+    "total_tokens": 1729
+  }
+}
