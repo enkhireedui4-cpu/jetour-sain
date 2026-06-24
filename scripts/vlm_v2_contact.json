@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Build error message (\"Export Tachometer doesn't exist in target module\") indicating a code issue.  \n- Red \"1 Issue\" badge in bottom-left corner, suggesting an unresolved problem.  \n- No visible car website content (likely a development error page, not the intended site).  \n- Code snippet showing import/export error in `/src/components/jetour/models.tsx`.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272390,
+  "id": "202606241139481c31866dbf5c4421",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241139481c31866dbf5c4421",
+  "usage": {
+    "completion_tokens": 80,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1678,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1758
+  }
+}

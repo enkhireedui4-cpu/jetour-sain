@@ -18,13 +18,13 @@ export function Contact() {
       <div className="relative mx-auto w-[min(1180px,92vw)]">
         <div className="text-center mb-12">
           <p className="eyebrow mb-3">
-            <span className="text-jetour-red">06</span> · Холбоо барих
+            <span className="text-jetour-red">05</span> · Холбоо барих
           </p>
           <h2 className="font-display font-extrabold italic leading-[0.95] text-paper text-4xl lg:text-6xl mb-3">
             Тантай <span className="text-gradient-fire">холбогдоё</span>
           </h2>
           <p className="text-chrome max-w-xl mx-auto text-sm lg:text-base leading-relaxed">
-            Загвар, үнэ, зээл, тест драйв — бүх төрлийн асуултад манай мэргэжилтнүүд хариулна.
+            Загвар, үнэ, зээл, үйлчилгээ — бүх төрлийн асуултад манай мэргэжилтнүүд хариулна.
           </p>
         </div>
 
@@ -185,7 +185,7 @@ export function Footer() {
           <div>
             <JetourLogo size="md" />
             <p className="text-chrome text-xs leading-relaxed mt-4 max-w-xs">
-              JETOUR Mongolia — албан ёсны дистрибьютер Сайн Моторс. Travel+ философиор Монголын
+              JETOUR Mongolia — албан ёсны дистрибьютер {CONTACT.brand}. Travel+ философиор Монголын
               уудам нутагт тохирох SUV загварууд.
             </p>
           </div>
@@ -198,7 +198,7 @@ export function Footer() {
                 { href: "#brand", label: "Брэнд" },
                 { href: "#models", label: "Загварууд" },
                 { href: "#technology", label: "Технологи" },
-                { href: "#test-drive", label: "Тест драйв" },
+                { href: "#network", label: "Түгээлт" },
                 { href: "#contact", label: "Холбоо" },
               ].map((l) => (
                 <li key={l.href}>

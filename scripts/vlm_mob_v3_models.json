@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Text overflow in the main paragraph (first line: \"халуун, ууслын араар татсан шороон зам\" exceeds container width).  \n- No visible watermarks or broken layout; other elements (stats, \"Travel+ Философи\" section) render correctly.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272704,
+  "id": "2026062411450260272ab328874b77",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062411450260272ab328874b77",
+  "usage": {
+    "completion_tokens": 67,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 457,
+    "prompt_tokens_details": {
+      "cached_tokens": 30
+    },
+    "total_tokens": 524
+  }
+}

@@ -1,0 +1,39 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "Jetour T2 SUV profile side view offroad"
+✅ Got 4 images
+{
+  "success": true,
+  "query": "Jetour T2 SUV profile side view offroad",
+  "count": 4,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/af1bbcee7eb1.jpg",
+      "caption": "",
+      "source": "Alibaba.com",
+      "original_width": "1400px",
+      "original_height": "1050px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/6bf866e6f982.jpg",
+      "caption": "",
+      "source": "Beniao Car Sales",
+      "original_width": "1600px",
+      "original_height": "900px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/56e894a88fee.jpg",
+      "caption": "",
+      "source": "Jinyu Autos",
+      "original_width": "1000px",
+      "original_height": "1000px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/3dbbabc9f32c.jpg",
+      "caption": "",
+      "source": "YouTube",
+      "original_width": "1280px",
+      "original_height": "720px"
+    }
+  ]
+}

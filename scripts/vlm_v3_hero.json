@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "OK - The JETOUR Mongolia car website has a clean layout with no visible watermarks, broken images, layout problems, text overflow, or missing content.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272476,
+  "id": "20260624114113df4beb504d4f45a8",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624114113df4beb504d4f45a8",
+  "usage": {
+    "completion_tokens": 35,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1726
+  }
+}

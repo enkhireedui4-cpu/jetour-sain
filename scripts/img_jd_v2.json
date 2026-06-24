@@ -1,0 +1,39 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "Jetour Dashing crossover front headlight"
+✅ Got 4 images
+{
+  "success": true,
+  "query": "Jetour Dashing crossover front headlight",
+  "count": 4,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/1d053fabfd7a.jpg",
+      "caption": "",
+      "source": "Unifour Qatar",
+      "original_width": "1024px",
+      "original_height": "1024px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/0aff9397ae0f.jpg",
+      "caption": "",
+      "source": "Autopediame",
+      "original_width": "1280px",
+      "original_height": "720px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/e1957dcb315a.jpg",
+      "caption": "",
+      "source": "Borderless Car",
+      "original_width": "1000px",
+      "original_height": "1000px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/675b64fc9fb6.png",
+      "caption": "",
+      "source": "Jetour",
+      "original_width": "1205px",
+      "original_height": "748px"
+    }
+  ]
+}

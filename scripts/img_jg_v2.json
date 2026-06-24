@@ -1,0 +1,39 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "Jetour G700 flagship luxury SUV"
+✅ Got 4 images
+{
+  "success": true,
+  "query": "Jetour G700 flagship luxury SUV",
+  "count": 4,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/d97fb1e8df00.jpg",
+      "caption": "",
+      "source": "YouTube",
+      "original_width": "1280px",
+      "original_height": "720px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/aa84f12f8c8a.jpeg",
+      "caption": "",
+      "source": "SmartBuy - Alibaba.com",
+      "original_width": "3024px",
+      "original_height": "4032px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/1f108d91f71c.jpg",
+      "caption": "",
+      "source": "YouTube",
+      "original_width": "1280px",
+      "original_height": "720px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/8fefe8b0aac8.png",
+      "caption": "",
+      "source": "Jetour",
+      "original_width": "1920px",
+      "original_height": "1080px"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Build error message (\"Export Tachometer doesn't exist...\") indicating a broken component import.  \n- Code snippet with syntax highlighting (red underline on \"Tachometer\") showing the problematic import.  \n- \"1 Issue\" badge in bottom-left corner, confirming an error state.  \n- No visible car website content (only a development error page).",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272371,
+  "id": "202606241139285a11644372cc40d6",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241139285a11644372cc40d6",
+  "usage": {
+    "completion_tokens": 75,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1678,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1753
+  }
+}

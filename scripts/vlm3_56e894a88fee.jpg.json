@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) YES 3) White SUV with gold wheels",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782271868,
+  "id": "20260624113107e785c09b3aeb4754",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624113107e785c09b3aeb4754",
+  "usage": {
+    "completion_tokens": 18,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1346,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 1364
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Build error message visible (not a typical car website content)  \n- Missing car-related visuals/content (e.g., images, listings)  \n- No car website UI elements (navigation, search, vehicle cards)  \n- \"Next.js 16.1.3 (stale) Turbopack\" dev tool text present",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272385,
+  "id": "20260624113938b9c6463ba0924cb4",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624113938b9c6463ba0924cb4",
+  "usage": {
+    "completion_tokens": 70,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1678,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1748
+  }
+}

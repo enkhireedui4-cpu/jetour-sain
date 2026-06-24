@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Watermark (\"alamy\") visible on the car interior image.  \n- Text overflow in the \"Холбоо барих\" contact box (phone number and address text appears truncated).  \n- No other critical issues (layout, broken images, or missing content detected).",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272519,
+  "id": "202606241141565f3b81696f214e28",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241141565f3b81696f214e28",
+  "usage": {
+    "completion_tokens": 59,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1750
+  }
+}

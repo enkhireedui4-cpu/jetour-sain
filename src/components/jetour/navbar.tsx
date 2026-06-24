@@ -64,10 +64,10 @@ export function Navbar() {
             </span>
           </a>
           <button
-            onClick={() => handleNav("#test-drive")}
+            onClick={() => handleNav("#contact")}
             className="btn-jetour hidden sm:inline-block px-5 py-2.5 rounded-full text-sm"
           >
-            Тест драйв
+            Холбогдох
           </button>
 
           {/* Mobile toggle */}
@@ -102,10 +102,10 @@ export function Navbar() {
               <span className="font-display font-bold">{CONTACT.phone}</span>
             </a>
             <button
-              onClick={() => handleNav("#test-drive")}
+              onClick={() => handleNav("#contact")}
               className="btn-jetour mt-2 py-3 rounded-full text-center"
             >
-              Тест драйв бүртгүүлэх
+              Холбогдох
             </button>
           </nav>
         </div>

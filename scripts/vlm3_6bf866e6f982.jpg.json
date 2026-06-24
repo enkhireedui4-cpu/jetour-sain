@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) YES 3) Gray SUV in mountainous landscape",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782271873,
+  "id": "20260624113111535b6977b25143f9",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624113111535b6977b25143f9",
+  "usage": {
+    "completion_tokens": 19,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1874,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1893
+  }
+}

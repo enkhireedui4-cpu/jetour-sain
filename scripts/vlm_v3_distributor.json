@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "OK - The JETOUR Mongolia website displays a clean timeline layout with no visible watermarks, broken images, layout issues, text overflow, or missing content.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272516,
+  "id": "20260624114155ad2db0d876964e28",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624114155ad2db0d876964e28",
+  "usage": {
+    "completion_tokens": 35,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1726
+  }
+}

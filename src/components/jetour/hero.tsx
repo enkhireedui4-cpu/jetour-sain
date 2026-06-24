@@ -1,16 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronDown, Gauge, MapPin, Calendar } from "lucide-react";
+import { ChevronDown, Gauge, MapPin, Sparkles } from "lucide-react";
 import { CONTACT } from "@/lib/jetour-data";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-cinematic pt-28 pb-16">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-cinematic pt-24 pb-16">
       {/* Background grid */}
       <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" />
 
-      {/* Horizon glow */}
+      {/* Cinematic horizon glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -19,157 +19,141 @@ export function Hero() {
         }}
       />
 
-      <div className="relative mx-auto w-[min(1180px,92vw)] grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
-        {/* Left column — copy */}
-        <div className="flex flex-col">
+      {/* Floating particle dots */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 18 }).map((_, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0, 0.6, 0],
+              y: [0, -20, 0],
+              x: [0, (i % 2 === 0 ? 1 : -1) * 12, 0],
+            }}
+            transition={{
+              duration: 6 + (i % 4),
+              repeat: Infinity,
+              delay: i * 0.4,
+              ease: "easeInOut",
+            }}
+            className="absolute w-1 h-1 rounded-full"
+            style={{
+              left: `${(i * 5.5 + 8) % 100}%`,
+              top: `${(i * 7.3 + 12) % 100}%`,
+              background: i % 3 === 0 ? "#E2231A" : i % 3 === 1 ? "#2B6FE0" : "#C8CEDA",
+              boxShadow: `0 0 8px ${i % 2 === 0 ? "#E2231A" : "#2B6FE0"}`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative mx-auto w-[min(1180px,92vw)] w-full">
+        <div className="flex flex-col items-center text-center">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="flex items-center gap-3 mb-6"
+            className="flex items-center gap-3 mb-7"
           >
             <span className="w-2 h-2 rounded-full bg-jetour-red shadow-[0_0_0_5px_rgba(226,35,26,0.18)]" />
-            <span className="eyebrow">Travel+ · Албан ёсны төлөөлөгч</span>
+            <span className="eyebrow">
+              Travel+ · Албан ёсны төлөөлөгч · {CONTACT.brand}
+            </span>
+            <span className="w-2 h-2 rounded-full bg-jetour-blue shadow-[0_0_0_5px_rgba(43,111,224,0.18)]" />
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-            className="font-display font-extrabold italic leading-[0.86] tracking-tight mb-6"
+            transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
+            className="font-display font-extrabold italic leading-[0.84] tracking-tight mb-8"
           >
             <span
               className="block text-gradient-fire"
               style={{
-                fontSize: "clamp(3rem, 10vw, 7rem)",
-                filter: "drop-shadow(0 6px 30px rgba(43,111,224,0.25))",
+                fontSize: "clamp(3.6rem, 13vw, 9.5rem)",
+                filter: "drop-shadow(0 10px 40px rgba(43,111,224,0.3))",
               }}
             >
               JETOUR
             </span>
             <span
-              className="flex items-baseline gap-3 text-paper"
-              style={{ fontSize: "clamp(2rem, 6vw, 4rem)" }}
+              className="block text-paper mt-1"
+              style={{ fontSize: "clamp(1.4rem, 4.5vw, 3rem)" }}
             >
               MONGOLIA
-              <span className="font-display not-italic font-bold text-jetour-red text-[0.4em] border-2 border-jetour-red rounded px-2 py-0.5 shadow-[0_0_24px_-6px_rgba(226,35,26,0.8)]">
-                Travel+
-              </span>
             </span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.25 }}
-            className="max-w-[42ch] text-lg text-chrome mb-7 leading-relaxed"
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="max-w-[46ch] text-base lg:text-lg text-chrome mb-9 leading-relaxed"
           >
-            <b className="text-paper font-bold">Аялал гэдэг нь зорилго биш — амьдралын хэв маяг.</b>{" "}
-            JETOUR-ын SUV загварууд Монголд албан ёсоор.{" "}
-            <span className="text-paper">Сайн Моторс</span> таны аяллын итгэлтэй хамтрагч.
+            <b className="text-paper">Аялал гэдэг нь зорилго биш — амьдралын хэв маяг.</b>{" "}
+            JETOUR-ын Travel+ загварууд Монголын уудам нутагт албан ёсоор. {CONTACT.brand} — таны итгэлтэй хамтрагч.
           </motion.p>
 
-          {/* Meta chips */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-wrap gap-3 mb-9"
+            transition={{ duration: 0.8, delay: 0.42 }}
+            className="flex flex-wrap items-center justify-center gap-3 mb-10"
           >
-            <Chip icon={<Gauge className="w-4 h-4" />} label="Хөдөлгүүр" value="254 hp" />
-            <Chip icon={<MapPin className="w-4 h-4" />} label="Байршил" value={CONTACT.addressShort} />
-            <Chip icon={<Calendar className="w-4 h-4" />} label="Дистрибьютер" value="SAIN MOTORS" />
+            <Chip icon={<Gauge className="w-4 h-4" />} label="Хүчин чадал" value="555 hp" />
+            <Chip icon={<Sparkles className="w-4 h-4" />} label="Аяллын зай" value="1000+ км" />
+            <Chip icon={<MapPin className="w-4 h-4" />} label="Showroom" value={CONTACT.addressShort} />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.55 }}
-            className="flex flex-wrap gap-4 items-center"
+            className="flex flex-wrap items-center justify-center gap-4"
           >
             <button
-              onClick={() =>
-                document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="btn-jetour px-7 py-4 rounded-xl text-base"
-            >
-              Тест драйв авах →
-            </button>
-            <button
-              onClick={() =>
-                document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="font-display font-semibold text-paper border border-line rounded-xl px-6 py-4 hover:bg-panel/60 transition-colors text-sm"
+              onClick={() => document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })}
+              className="btn-jetour px-8 py-4 rounded-xl text-base flex items-center gap-2"
             >
               Загварууд үзэх
+              <ChevronDown className="w-4 h-4" />
             </button>
+            <a
+              href={CONTACT.phoneHref}
+              className="font-display font-semibold text-paper border border-line rounded-xl px-6 py-4 hover:bg-panel/60 transition-colors text-sm flex items-center gap-2.5"
+            >
+              <span className="w-2 h-2 rounded-full bg-jetour-red animate-pulse" />
+              {CONTACT.phone}
+            </a>
           </motion.div>
         </div>
-
-        {/* Right column — car image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-          className="relative hidden lg:block"
-        >
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden glass">
-            <img
-              src="https://sfile.chatglm.cn/images-ppt/55f9db8baf20.jpg"
-              alt="JETOUR G700 — Flagship SUV"
-              className="w-full h-full object-cover"
-              loading="eager"
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 40%, rgba(7,10,20,0.7) 100%), radial-gradient(80% 60% at 50% 100%, rgba(226,35,26,0.18), transparent 70%)",
-              }}
-            />
-            <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
-              <div>
-                <p className="eyebrow text-jetour-red-soft mb-1.5">Flagship</p>
-                <p className="font-display font-extrabold italic text-2xl text-paper">
-                  JETOUR G700
-                </p>
-              </div>
-              <span className="text-xs font-mono text-chrome glass px-3 py-1.5 rounded-full">
-                PHEV · 4WD
-              </span>
-            </div>
-          </div>
-
-          {/* Floating spec card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="absolute -bottom-6 -left-6 glass rounded-xl p-4 max-w-[180px] hidden xl:block"
-          >
-            <p className="eyebrow text-jetour-blue-soft mb-1">Travel+ зайд</p>
-            <p className="font-display font-extrabold italic text-3xl text-gradient-fire">
-              1000+
-            </p>
-            <p className="text-xs text-chrome mt-0.5">км нийт аяллын зай</p>
-          </motion.div>
-        </motion.div>
       </div>
 
-      {/* Scroll cue */}
+      {/* Bottom hero feature strip */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-chrome/60"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.8 }}
+        className="absolute bottom-0 left-0 right-0 border-t border-line bg-ink/80 backdrop-blur-md"
       >
-        <span className="text-[0.6rem] tracking-[0.3em] uppercase font-display">Доош гулгах</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ChevronDown className="w-4 h-4" />
-        </motion.div>
+        <div className="mx-auto w-[min(1180px,92vw)] py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { v: "60+", l: "Оронд борлуулсан" },
+            { v: "1М+", l: "Дэлхийн борлуулалт" },
+            { v: "4 загвар", l: "Монголд албан ёсоор" },
+            { v: "4S", l: "Үйлчилгээний стандарт" },
+          ].map((s, i) => (
+            <div key={i} className="text-center md:text-left">
+              <p className="font-display font-extrabold italic text-2xl lg:text-3xl text-gradient-fire">
+                {s.v}
+              </p>
+              <p className="text-[0.65rem] tracking-[0.18em] uppercase text-muted-ink font-display mt-0.5">
+                {s.l}
+              </p>
+            </div>
+          ))}
+        </div>
       </motion.div>
     </section>
   );
@@ -189,7 +173,7 @@ function Chip({
       <span className="w-8 h-8 grid place-items-center rounded-lg bg-gradient-to-br from-jetour-red/25 to-jetour-blue/25 text-paper">
         {icon}
       </span>
-      <div>
+      <div className="text-left">
         <p className="text-[0.6rem] text-muted-ink tracking-[0.18em] uppercase font-display">
           {label}
         </p>

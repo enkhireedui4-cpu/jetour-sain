@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) YES 3) Green X70 Plus SUV on mountain road",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782271913,
+  "id": "2026062411315012f1a74eb0d94ae7",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062411315012f1a74eb0d94ae7",
+  "usage": {
+    "completion_tokens": 21,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 3200,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 3221
+  }
+}

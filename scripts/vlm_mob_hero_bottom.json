@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "In the bottom 200 pixels of the screenshot, the text \"4 загвар\" is visible and properly displayed (not cut off). It appears in a stylized font (with \"4\" in a distinct color and \"загвар\" in a different style) alongside other text elements like \"1M+\", \"4S\", and additional descriptive text below each statistic. The bottom strip (statistics bar) shows clear, uncut text for \"4 загвар\" and other related content.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782272743,
+  "id": "20260624114540e2f28436fdaa4acc",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624114540e2f28436fdaa4acc",
+  "usage": {
+    "completion_tokens": 100,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 473,
+    "prompt_tokens_details": {
+      "cached_tokens": 7
+    },
+    "total_tokens": 573
+  }
+}

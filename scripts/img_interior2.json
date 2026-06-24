@@ -1,0 +1,39 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "car showroom interior dashboard modern cockpit no watermark"
+✅ Got 4 images
+{
+  "success": true,
+  "query": "car showroom interior dashboard modern cockpit no watermark",
+  "count": 4,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/88a742dd7c3e.jpg",
+      "caption": "",
+      "source": "Carwow",
+      "original_width": "1600px",
+      "original_height": "833px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/cf184a6bb0ab.jpg",
+      "caption": "",
+      "source": "Carwow",
+      "original_width": "1920px",
+      "original_height": "1080px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/a9f99f67f316.jpg",
+      "caption": "",
+      "source": "Alamy",
+      "original_width": "1300px",
+      "original_height": "957px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg",
+      "caption": "",
+      "source": "Carscoops",
+      "original_width": "2500px",
+      "original_height": "1406px"
+    }
+  ]
+}

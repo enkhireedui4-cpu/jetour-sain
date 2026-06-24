@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) YES 3) Jetour X70 Plus car",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782271859,
+  "id": "202606241130550ef03172a48b4e5f",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241130550ef03172a48b4e5f",
+  "usage": {
+    "completion_tokens": 19,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1246,
+    "prompt_tokens_details": {
+      "cached_tokens": 5
+    },
+    "total_tokens": 1265
+  }
+}

@@ -76,7 +76,7 @@ export function Distributor() {
           >
             <div className="relative aspect-[4/5] sm:aspect-[5/4] rounded-2xl overflow-hidden glass">
               <img
-                src="https://sfile.chatglm.cn/images-ppt/b0577d898baa.jpg"
+                src="https://sfile.chatglm.cn/images-ppt/8882f820761a.jpg"
                 alt="SAIN MOTORS showroom — JETOR cabin view"
                 className="w-full h-full object-cover"
                 loading="lazy"

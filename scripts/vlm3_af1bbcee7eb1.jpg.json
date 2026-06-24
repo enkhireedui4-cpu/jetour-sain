@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) YES 3) Modified SUV by brick wall",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782271904,
+  "id": "202606241131395f8d558deef54cd4",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241131395f8d558deef54cd4",
+  "usage": {
+    "completion_tokens": 18,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1950,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 1968
+  }
+}
