@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "YES, \"Баярлаа!\" (meaning \"Congratulations!\" in Mongolian) with the message \"Манай бүртгүүлэгтэй бөгөөд танд ундаацгай холбогдох болно.\" (You are registered and will be contacted soon.)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782290367,
+  "id": "20260624163916a555786851944638",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624163916a555786851944638",
+  "usage": {
+    "completion_tokens": 79,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1663,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 1742
+  }
+}

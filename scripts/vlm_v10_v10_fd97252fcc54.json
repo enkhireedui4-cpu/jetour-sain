@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) Gray SUV parked outside building",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782289128,
+  "id": "20260624161843db04f54a66a647b8",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624161843db04f54a66a647b8",
+  "usage": {
+    "completion_tokens": 14,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1932,
+    "prompt_tokens_details": {
+      "cached_tokens": 25
+    },
+    "total_tokens": 1946
+  }
+}

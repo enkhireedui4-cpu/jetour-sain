@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "Mongolian landscape road trip family adventure"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "Mongolian landscape road trip family adventure",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/8a3bf450cc83.jpg",
+      "caption": "",
+      "source": "National Geographic",
+      "original_width": "3072px",
+      "original_height": "1964px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/203031f48c7b.jpg",
+      "caption": "",
+      "source": "Equus Journeys",
+      "original_width": "1800px",
+      "original_height": "1200px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/3c63e91fa7a7.jpg",
+      "caption": "",
+      "source": "Klook",
+      "original_width": "1295px",
+      "original_height": "862px"
+    }
+  ]
+}

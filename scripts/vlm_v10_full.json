@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Sections (top to bottom): Header (logo, nav, contact), Hero (car image + headline), Empty white space, Landscape image (horses), Dark blue blocks, \"JETOUR-ийн аялал\" section, More empty space, Dark blue blocks, \"Бидэнтэй холбогдоё\" section, Footer.  \n- Premium? Yes (clean design, high-quality imagery, structured layout).  \n- Issues: Excessive empty space, inconsistent section spacing, unclear content hierarchy.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782290682,
+  "id": "20260624164413b49e3a43f6de4487",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624164413b49e3a43f6de4487",
+  "usage": {
+    "completion_tokens": 109,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 6070,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 6179
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Section theme: Car test drive booking (JETOUR Mongolia).  \n2) Layout clean, but potential issue: Form fields (e.g., date picker) may need clearer labeling for user clarity.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782290282,
+  "id": "202606241637584bdf1672298c4222",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241637584bdf1672298c4222",
+  "usage": {
+    "completion_tokens": 45,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1677,
+    "prompt_tokens_details": {
+      "cached_tokens": 38
+    },
+    "total_tokens": 1722
+  }
+}

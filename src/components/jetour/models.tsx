@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Gauge, Users, Cog, Wind, ChevronRight } from "lucide-react";
-import { MODELS, CONTACT } from "@/lib/jetour-data";
+import { ALL_MODELS_FOR_GRID, CONTACT } from "@/lib/jetour-data";
 
 export function Models() {
   return (
@@ -56,7 +56,7 @@ export function Models() {
 
         {/* Premium grid of cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {MODELS.map((m, i) => (
+          {ALL_MODELS_FOR_GRID.map((m, i) => (
             <ModelCard key={m.id} model={m} index={i} />
           ))}
         </div>
@@ -87,7 +87,7 @@ export function Models() {
   );
 }
 
-function ModelCard({ model, index }: { model: typeof MODELS[number]; index: number }) {
+function ModelCard({ model, index }: { model: typeof ALL_MODELS_FOR_GRID[number]; index: number }) {
   const isAvailable = model.status === "available";
 
   return (

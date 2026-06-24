@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Section theme: JETOUR brand introduction (Mongolian market, Chery Group affiliation, travel philosophy, global presence, tech innovations).  \n2) Layout clean? Yes, but minor issue: right-side contact icons may clutter mobile view; text density could be optimized for readability.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782290240,
+  "id": "202606241637171735692952374289",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241637171735692952374289",
+  "usage": {
+    "completion_tokens": 62,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1677,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1739
+  }
+}

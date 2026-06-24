@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ArrowRight, Phone } from "lucide-react";
 import { HERO_SLIDES, CONTACT } from "@/lib/jetour-data";
+import { LeadForm } from "./lead-form";
 
 export function Hero() {
   const [active, setActive] = useState(0);
@@ -14,17 +15,12 @@ export function Hero() {
     setActive((p) => (p + 1) % HERO_SLIDES.length);
   }, []);
 
-  const prev = useCallback(() => {
-    setActive((p) => (p - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
-  }, []);
-
   useEffect(() => {
     if (paused) return;
     const t = setInterval(next, 6000);
     return () => clearInterval(t);
   }, [next, paused, active]);
 
-  // Parallax effect
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -36,11 +32,11 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative h-screen min-h-[680px] overflow-hidden bg-[#0A1F44]"
+      className="relative min-h-screen overflow-hidden bg-[#0A1F44]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* === Parallax background carousel === */}
+      {/* Parallax background */}
       <div
         className="absolute inset-0"
         style={{ transform: `translateY(${scrollY * 0.4}px) scale(${1 + scrollY * 0.0003})` }}
@@ -62,118 +58,135 @@ export function Hero() {
             />
           </motion.div>
         </AnimatePresence>
-
-        {/* Dark gradient overlay for readability */}
         <div className="absolute inset-0 hero-overlay pointer-events-none" />
-
-        {/* Electric blue accent glow */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background:
-              "radial-gradient(50% 60% at 90% 30%, rgba(0,174,239,0.18), transparent 70%)",
+            background: "radial-gradient(50% 60% at 90% 30%, rgba(0,174,239,0.18), transparent 70%)",
           }}
         />
       </div>
 
-      {/* === Foreground content === */}
-      <div className="relative z-10 h-full flex flex-col">
-        {/* Spacer for navbar */}
+      {/* Foreground */}
+      <div className="relative z-10 min-h-screen flex flex-col">
         <div className="pt-32 md:pt-36" />
 
-        {/* Center content */}
-        <div className="flex-1 flex items-center">
+        <div className="flex-1 flex items-center py-12">
           <div className="mx-auto w-[min(1280px,94vw)] w-full">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -40 }}
-                transition={{ duration: 0.9, ease: "easeOut" }}
-                className="max-w-3xl"
-              >
-                {/* Eyebrow */}
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="w-2 h-2 rounded-full bg-[#00AEEF] shadow-[0_0_0_6px_rgba(0,174,239,0.2)]" />
-                  <span className="eyebrow text-[#4DD0F5]">{slide.tagline}</span>
-                </div>
+            <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 items-center">
+              {/* Left — copy */}
+              <div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -40 }}
+                    transition={{ duration: 0.9, ease: "easeOut" }}
+                  >
+                    <div className="flex items-center gap-3 mb-5">
+                      <span className="w-2 h-2 rounded-full bg-[#00AEEF] shadow-[0_0_0_6px_rgba(0,174,239,0.2)]" />
+                      <span className="eyebrow text-[#4DD0F5]">{slide.tagline}</span>
+                    </div>
 
-                {/* Massive title */}
-                <h1
-                  className="font-display font-extrabold leading-[0.92] tracking-tight mb-6 text-white"
-                  style={{
-                    fontSize: "clamp(3rem, 8.5vw, 6rem)",
-                    textShadow: "0 4px 30px rgba(0,0,0,0.5)",
-                  }}
-                >
-                  {slide.model}
-                </h1>
+                    <h1
+                      className="font-display font-extrabold leading-[0.92] tracking-tight mb-5 text-white"
+                      style={{
+                        fontSize: "clamp(2.5rem, 6vw, 5rem)",
+                        textShadow: "0 4px 30px rgba(0,0,0,0.5)",
+                      }}
+                    >
+                      Таны дараагийн аялал эндээс эхэлнэ
+                    </h1>
 
-                {/* Description */}
-                <p
-                  className="text-lg lg:text-2xl text-white/85 mb-9 leading-relaxed max-w-2xl"
-                  style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
-                >
-                  {slide.description}
-                </p>
-
-                {/* Price + CTAs */}
-                <div className="flex flex-wrap items-center gap-6 mb-10">
-                  <div>
-                    <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#4DD0F5] font-display mb-1">
-                      Үнэ
-                    </p>
                     <p
-                      className="font-display font-extrabold italic text-3xl lg:text-4xl text-white"
-                      style={{ textShadow: "0 4px 20px rgba(0,0,0,0.6)" }}
+                      className="text-lg lg:text-xl text-white/85 mb-6 leading-relaxed max-w-xl"
+                      style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
                     >
-                      {slide.price}
+                      {slide.model} · {slide.description}. Албан ёсны дистрибьютер Сайн Моторс.
                     </p>
-                  </div>
-                  <div className="h-14 w-px bg-white/20" />
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      onClick={() =>
-                        document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
-                      }
-                      className="btn-electric-jetour px-7 py-3.5 rounded-xl text-base flex items-center gap-2"
-                    >
-                      Загварууд үзэх
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() =>
-                        document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })
-                      }
-                      className="btn-outline-light px-6 py-3.5 rounded-xl text-base flex items-center gap-2"
-                    >
-                      Тест драйв
-                      <ChevronDown className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
+
+                    <div className="flex flex-wrap items-center gap-3 mb-6">
+                      <div>
+                        <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#4DD0F5] font-display mb-1">
+                          Үнэ
+                        </p>
+                        <p
+                          className="font-display font-extrabold italic text-3xl text-white"
+                          style={{ textShadow: "0 4px 20px rgba(0,0,0,0.6)" }}
+                        >
+                          {slide.price}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        onClick={() =>
+                          document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
+                        }
+                        className="btn-electric-jetour px-6 py-3.5 rounded-xl text-base flex items-center gap-2"
+                      >
+                        Загварууд үзэх
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <a
+                        href={CONTACT.phone1Href}
+                        className="btn-outline-light px-5 py-3.5 rounded-xl text-base flex items-center gap-2"
+                      >
+                        <Phone className="w-4 h-4" />
+                        {CONTACT.phone1}
+                      </a>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Right — Embedded Lead Form (glassmorphism dark) */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.9, delay: 0.3 }}
+                className="hidden lg:block"
+              >
+                <LeadForm
+                  variant="glass-dark"
+                  title="Мэдээлэл авах"
+                  subtitle="Бичлэг үлдээгээрэй — манай баг холбогдоно"
+                />
               </motion.div>
-            </AnimatePresence>
+            </div>
+
+            {/* Mobile lead form below hero copy */}
+            <div className="lg:hidden mt-8">
+              <LeadForm
+                variant="glass-dark"
+                title="Мэдээлэл авах"
+                subtitle="Бичлэг үлдээгээрэй"
+                compact
+              />
+            </div>
           </div>
         </div>
 
-        {/* === Slide navigation bottom bar === */}
-        <div className="pb-10">
+        {/* Bottom — slide navigation */}
+        <div className="pb-8 hidden md:block">
           <div className="mx-auto w-[min(1280px,94vw)]">
             <div className="flex items-center justify-between gap-6">
-              {/* Slide counter */}
               <div className="flex items-center gap-4">
                 <span className="font-display font-extrabold italic text-3xl text-white">
                   0{active + 1}
                 </span>
                 <div className="flex flex-col">
-                  <span className="text-xs text-white/60 font-display tracking-widest">/ 0{HERO_SLIDES.length}</span>
-                  <span className="text-[0.55rem] text-white/40 font-display tracking-[0.3em] uppercase">Slide</span>
+                  <span className="text-xs text-white/60 font-display tracking-widest">
+                    / 0{HERO_SLIDES.length}
+                  </span>
+                  <span className="text-[0.55rem] text-white/40 font-display tracking-[0.3em] uppercase">
+                    Slide
+                  </span>
                 </div>
               </div>
 
-              {/* Progress bars */}
               <div className="flex-1 max-w-md flex gap-2">
                 {HERO_SLIDES.map((_, i) => (
                   <button
@@ -197,10 +210,9 @@ export function Hero() {
                 ))}
               </div>
 
-              {/* Phone */}
               <a
                 href={CONTACT.phone1Href}
-                className="hidden md:flex items-center gap-2 glass-dark rounded-full px-4 py-2.5 text-white hover:bg-white/15 transition-colors"
+                className="hidden lg:flex items-center gap-2 glass-dark rounded-full px-4 py-2.5 text-white hover:bg-white/15 transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-[#4DD0F5]" />
                 <span className="font-display text-sm font-bold tracking-wider">{CONTACT.phone1}</span>
@@ -216,7 +228,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute left-1/2 -translate-x-1/2 bottom-3 z-20 flex flex-col items-center gap-1 text-white/70 hover:text-white transition-colors"
+        className="absolute left-1/2 -translate-x-1/2 bottom-3 z-20 hidden lg:flex flex-col items-center gap-1 text-white/70 hover:text-white transition-colors"
         aria-label="Доош гулгах"
       >
         <span className="text-[0.55rem] tracking-[0.3em] uppercase font-display">Илүү</span>

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) Black Jetour SUV desert road",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782289114,
+  "id": "202606241618299420ff576f4f4c4c",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241618299420ff576f4f4c4c",
+  "usage": {
+    "completion_tokens": 15,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1979,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1994
+  }
+}

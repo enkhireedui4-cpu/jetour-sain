@@ -660,6 +660,261 @@ export const NAV_LINKS = [
   { href: "#brand", label: "Брэнд" },
   { href: "#models", label: "Загварууд" },
   { href: "#why", label: "Онцлог" },
+  { href: "#technology", label: "Технологи" },
   { href: "#news", label: "Мэдээ" },
   { href: "#contact", label: "Холбоо" },
 ];
+
+// === GLOBAL STATISTICS (dark luxury section with animated counters) ===
+export const GLOBAL_STATS = [
+  { value: 1000000, suffix: "+", label: "Дэлхийн эзэмшигчид", icon: "users" },
+  { value: 100, suffix: "+", label: "Оронд борлуулсан", icon: "globe" },
+  { value: 4, suffix: "S", label: "Үйлдвэрлэлийн төв", icon: "factory" },
+  { value: 25, suffix: "+", label: "Олон улсын шагнал", icon: "award" },
+];
+
+// === TRAVEL+ LIFESTYLE FEATURES ===
+export const TRAVEL_FEATURES = [
+  {
+    icon: "heart",
+    title: "Гэр бүлийн тав тух",
+    description:
+      "7 суудалт уудам салон, панорамик тэнгэрлэг дээвэр, жолооны хүрд халаах. Урт замд гэр бүлд тав тухтай.",
+  },
+  {
+    icon: "compass",
+    title: "Аялалд бэлэн",
+    description:
+      "4WD, 700мм усанд орох, 220мм газрын тусгаар. Уул, цөл, намаг — Монголын хаа ч аяллын баатар.",
+  },
+  {
+    icon: "cpu",
+    title: "Ухаалаг технологи",
+    description:
+      "L2.5 ADAS, 360° камер, 20.5\" хос дижитал дэлгэц. Хотын болон аяллын замд төгс хослол.",
+  },
+];
+
+// === 6 ADVANTAGES ===
+export const ADVANTAGES = [
+  {
+    icon: "shield",
+    title: "Албан ёсны баталгаа",
+    description: "4 жил / 150,000 км үндсэн баталгаа. Хөдөлгүүрийн баталгаа бүрэн багтсан.",
+  },
+  {
+    icon: "package",
+    title: "Оригинал сэлбэг",
+    description: "JETOUR оригинал сэлбэгийн бүрэн нөөц. Хуурамч сэлбэг байхгүй.",
+  },
+  {
+    icon: "cpu",
+    title: "Ухаалаг технологи",
+    description: "L2.5 ADAS, 360° камер, Apple CarPlay / Android Auto дэмждэг.",
+  },
+  {
+    icon: "shield-check",
+    title: "Дэвшилтэт аюулгүй байдал",
+    description: "ABS, EBD, ESC, HHC, HDC — 9+ аюулгүй байдлын систем.",
+  },
+  {
+    icon: "compass",
+    title: "Аяллын хүчин чадал",
+    description: "Travel+ философиор бүтээгдсэн. 4WD, 700мм усанд орох.",
+  },
+  {
+    icon: "wrench",
+    title: "Мэргэжлийн үйлчилгээ",
+    description: "4S стандарт үйлчилгээний төв. Мэргэжлийн механикчид.",
+  },
+];
+
+// === TECHNOLOGY (dark premium section) ===
+export const TECHNOLOGY_FEATURES = [
+  {
+    icon: "camera",
+    title: "360° Камер",
+    description: "Машины эргэн тойронд бүх талын хяналт. Зогсоол, нарийн нөхцөлд тайван маневр.",
+  },
+  {
+    icon: "gauge",
+    title: "Adaptive Cruise Control",
+    description: "Урт замд өмнөх машинтай зай хадгалж автомат хурд тохируулна. Жолоочийн ядаргааг буулгана.",
+  },
+  {
+    icon: "zap",
+    title: "Беспроводной цэнэглэгч",
+    description: "Утсаа тавьж цэнэглэх — утасгүй, кабельгүй. Smartphone-ын тав тухат хэрэглээ.",
+  },
+  {
+    icon: "music",
+    title: "Apple CarPlay",
+    description: "iPhone-оо холбож,导航, хөгжим, дуут хяналт — нэг дор. Бүх төрлийн апп дэмждэг.",
+  },
+  {
+    icon: "smartphone",
+    title: "Android Auto",
+    description: "Android утсаа холбож, Google Maps, Spotify, утас — нэг дор. Төгс холболт.",
+  },
+  {
+    icon: "display",
+    title: "Digital Cockpit",
+    description: "20.5\" хос дижитал дэлгэц. Жолооны мэдээлэл ба мультимедиа нэг дор.",
+  },
+];
+
+// === ADDITIONAL MODELS (T2, Dashing, X90 Plus) ===
+export const ADDITIONAL_MODELS = [
+  {
+    id: "t2",
+    name: "JETOUR T2",
+    series: "Adventure",
+    tagline: "Travel+ аяллын баатар",
+    shortDesc: "700мм усанд орох, 4WD, Travel+ философи",
+    description:
+      "Travel+ философиор бүтээгдсэн аяллын SUV. Уул, цөл, намаг — хаа ч ажиллана.",
+    longDescription:
+      "T2 нь JETOUR-ын Travel+ философиор бүтээгдсэн аяллын SUV. 220мм газрын тусгаар, 700мм усанд орох чадвар, 6 горимын 4WD — Монголын нутагт төгс. Бартаат замд төрсөн баатар.",
+    heroImage: "/jetour-cars/0de60c67e26e.png",
+    exteriorImages: ["/jetour-cars/0de60c67e26e.png", "/jetour-cars/a1bafcdc2043.jpg"],
+    interiorImages: ["/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif"],
+    gallery: ["/jetour-cars/0de60c67e26e.png", "/jetour-cars/a1bafcdc2043.jpg"],
+    price: "Тун удахгүй",
+    priceNote: "Plug-in Hybrid",
+    startingPrice: null,
+    status: "coming-soon" as const,
+    specs: {
+      engine: "1.5T PHEV",
+      power: "340 л.с.",
+      torque: "600 Нм",
+      transmission: "3-DHT",
+      drivetrain: "4WD",
+      seats: "5 суудал",
+      length: "4495 мм",
+      wheelbase: "2672 мм",
+      groundClearance: "220 мм",
+      topSpeed: "190 км/ц",
+      fuel: "PHEV",
+    },
+    exteriorFeatures: [
+      { title: "Travel+ баатар загвар", description: "Бэхлэлт бүтэц, бартаат замд тохирох дизайн." },
+      { title: "700мм усанд орох", description: "Гүн усан даваа, гол горхи туулах." },
+    ],
+    interiorFeatures: [
+      { title: "PHEV систем", description: "1000+ км нийт аяллын зай." },
+      { title: "6 жолоодлогын горим", description: "Snow, Mud, Sand зэрэг 6 горим." },
+    ],
+    safety: ["L2.5 ADAS", "6 горим", "700мм ус"],
+    highlights: [
+      { label: "Цахилгаан зай", value: "100 км" },
+      { label: "Нийт зай", value: "1000+ км" },
+      { label: "Усанд орох", value: "700 мм" },
+      { label: "Жолоодлого", value: "4WD" },
+    ],
+    accent: "blue" as const,
+  },
+  {
+    id: "dashing",
+    name: "JETOUR Dashing",
+    series: "Crossover",
+    tagline: "Технологи кросоверын ирээдүй",
+    shortDesc: "15.6\" дэлгэц, Sony 8-speaker, L2.5 ADAS",
+    description:
+      "Залуусын хүсэн хүлээсэн дизайны шинэ хэл. Цахим仪表ийн орчин, дэвшилттэй аюулгүй байдлын систем.",
+    longDescription:
+      "Dashing нь залуу үеийнхэнд зориулсан технологиор дүүрэн кросоверын тодорхойлолт. Sony 8 чиглэлтэй аудо, холбооны систем, тоормосны туслалцаа, эгнээнд барих — хотын амьдралд тохирох төгс шийдэл.",
+    heroImage: "/jetour-cars/bbde81a8e111.png",
+    exteriorImages: ["/jetour-cars/bbde81a8e111.png", "/jetour-cars/428fe4f38e38.jpg"],
+    interiorImages: ["/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif"],
+    gallery: ["/jetour-cars/bbde81a8e111.png", "/jetour-cars/428fe4f38e38.jpg"],
+    price: "Тун удахгүй",
+    priceNote: "Шинэ загвар",
+    startingPrice: null,
+    status: "coming-soon" as const,
+    specs: {
+      engine: "1.6L Turbo",
+      power: "197 л.с.",
+      torque: "290 Нм",
+      transmission: "7-DCT",
+      drivetrain: "FWD",
+      seats: "5 суудал",
+      length: "4590 мм",
+      wheelbase: "2720 мм",
+      groundClearance: "200 мм",
+      topSpeed: "195 км/ц",
+      fuel: "Бензин",
+    },
+    exteriorFeatures: [
+      { title: "Орчин үеийн дизайн", description: "Залуусын таашаалд нийцсэн кросоверын шинэ хэл." },
+      { title: "15.6\" дэлгэц", description: "Том хэмжээт цахим хяналтын дэлгэц." },
+    ],
+    interiorFeatures: [
+      { title: "Sony 8-speaker", description: "Өндөр чанартай аудио систем." },
+      { title: "L2.5 ADAS", description: "Ухаалаг жолоодлогын туслалцаа." },
+    ],
+    safety: ["L2.5 ADAS", "ABS", "ESC", "360° камер"],
+    highlights: [
+      { label: "Дэлгэц", value: "15.6\"" },
+      { label: "Аудио", value: "Sony 8" },
+      { label: "ADAS", value: "L2.5" },
+      { label: "Хотод зарцуулга", value: "7.5L/100km" },
+    ],
+    accent: "blue" as const,
+  },
+  {
+    id: "x90-plus",
+    name: "JETOUR X90 Plus",
+    series: "Premium",
+    tagline: "Том гэр бүлийн люкс SUV",
+    shortDesc: "7 суудал, 2.0T, 6 AT, том салон",
+    description:
+      "Том гэр бүл, урт аялалд зориулагдсан люкс SUV. 7 суудалт уудам салон, 2.0T хөдөлгүүр.",
+    longDescription:
+      "X90 Plus нь JETOUR-ын том гэр бүлд зориулсан люкс SUV. 2.0T хөдөлгүүр нь 254 морины хүчтэй, 6 автомат хурдны хайрцагтай. Панорамик тэнгэрлэг дээвэр, Nappa арьсан салон — урт аялалд тав тухтай.",
+    heroImage: "/jetour-cars/fd97252fcc54.jpg",
+    exteriorImages: ["/jetour-cars/fd97252fcc54.jpg"],
+    interiorImages: ["/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif"],
+    gallery: ["/jetour-cars/fd97252fcc54.jpg"],
+    price: "Тун удахгүй",
+    priceNote: "Том гэр бүлийн SUV",
+    startingPrice: null,
+    status: "coming-soon" as const,
+    specs: {
+      engine: "2.0L Turbo",
+      power: "254 л.с.",
+      torque: "390 Нм",
+      transmission: "6-AT",
+      drivetrain: "FWD",
+      seats: "7 суудал",
+      length: "4858 мм",
+      wheelbase: "2850 мм",
+      groundClearance: "210 мм",
+      topSpeed: "200 км/ц",
+      fuel: "Бензин",
+    },
+    exteriorFeatures: [
+      { title: "Люкс хэмжээ", description: "4858мм урт бие, 2850мм тэнхлэгийн зай." },
+      { title: "Панорамик дээвэр", description: "Бүхэл гэр бүлд өргөн дэлгэц нээлттэй." },
+    ],
+    interiorFeatures: [
+      { title: "Nappa арьсан салон", description: "Дээд зэрэглэлийн Nappa арьс." },
+      { title: "7 суудал", description: "Гурван мөрөнд суудалтай, уудам." },
+    ],
+    safety: ["L2.5 ADAS", "5 одтой NCAP", "360° камер"],
+    highlights: [
+      { label: "Хөдөлгүүр", value: "2.0T" },
+      { label: "Хүчин чадал", value: "254 л.с." },
+      { label: "Суудал", value: "7 хүн" },
+      { label: "Хэмжээ", value: "4858мм" },
+    ],
+    accent: "red" as const,
+  },
+];
+
+// Combine all models for the grid
+export const ALL_MODELS_FOR_GRID = [...MODELS, ...ADDITIONAL_MODELS];
+
+export const LIFESTYLE_IMAGES = {
+  hero: "/jetour-cars/8a3bf450cc83.jpg",
+  wide1: "/jetour-cars/203031f48c7b.jpg",
+};

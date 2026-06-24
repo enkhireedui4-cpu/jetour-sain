@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, a lead capture form with name/phone fields is visible.  \n- Headline: \"Өнөөдөр JETOUR-оо сонгоорой\"",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782290634,
+  "id": "20260624164337221bf09988664967",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624164337221bf09988664967",
+  "usage": {
+    "completion_tokens": 46,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1675,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1721
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Lead form (with fields like \"Нэр\" and \"Нарз уруунын уу\") is visible in mobile layout.  \n- Text (Mongolian) is readable against the background.  \n- No major issues; form and text are clear, though \"Мэдээлэл авах\" (Get info) section could be slightly more prominent.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782290398,
+  "id": "202606241639543db16cce455445e0",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241639543db16cce455445e0",
+  "usage": {
+    "completion_tokens": 83,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 472,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 555
+  }
+}

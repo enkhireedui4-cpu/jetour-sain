@@ -1,87 +1,75 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Cpu, Compass, Heart } from "lucide-react";
-import { WHY_CHOOSE_JETOUR } from "@/lib/jetour-data";
+import {
+  ShieldCheck,
+  Package,
+  Cpu,
+  Shield,
+  Compass,
+  Wrench,
+} from "lucide-react";
+import { ADVANTAGES } from "@/lib/jetour-data";
 
 const ICONS: Record<string, React.ReactNode> = {
-  shield: <ShieldCheck className="w-7 h-7" />,
-  cpu: <Cpu className="w-7 h-7" />,
-  compass: <Compass className="w-7 h-7" />,
-  heart: <Heart className="w-7 h-7" />,
+  shield: <ShieldCheck className="w-6 h-6" />,
+  package: <Package className="w-6 h-6" />,
+  cpu: <Cpu className="w-6 h-6" />,
+  "shield-check": <Shield className="w-6 h-6" />,
+  compass: <Compass className="w-6 h-6" />,
+  wrench: <Wrench className="w-6 h-6" />,
 };
 
 export function WhyChoose() {
   return (
-    <section
-      id="why"
-      className="relative py-24 lg:py-32 bg-[#0A1F44] overflow-hidden"
-    >
-      {/* Background grid + glow */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-30"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(50% 60% at 80% 20%, rgba(0,174,239,0.18), transparent 70%), radial-gradient(40% 50% at 10% 80%, rgba(0,174,239,0.1), transparent 70%)",
-        }}
-      />
-
+    <section id="why" className="relative py-24 lg:py-32 bg-[#F7F9FC] overflow-hidden">
+      <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div className="relative mx-auto w-[min(1280px,94vw)]">
-        <div className="text-center mb-16">
+        <div className="text-center mb-14">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="eyebrow text-[#4DD0F5] mb-3"
+            className="eyebrow eyebrow-electric mb-3"
           >
-            03 · Яагаад Jetour вэ?
+            Яагаад JETOUR вэ?
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="font-display font-extrabold leading-[0.95] text-white text-4xl lg:text-7xl mb-4"
+            className="font-display font-extrabold italic leading-[0.95] text-[#0A1F44] text-4xl lg:text-7xl mb-4"
           >
-            Premium <span className="text-gradient-electric italic">амьдралын хэв маяг</span>
+            6 шалтгаан — <span className="text-gradient-premium">JETOUR сонгох</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="max-w-2xl mx-auto text-white/70 text-base leading-relaxed"
+            className="max-w-2xl mx-auto text-[#6B7280] text-base leading-relaxed"
           >
-            Jetour нь зөвхөн автомашин бус — Travel+ философиор бүтээгдсэн амьдралын хэв маяг.
-            4 жилийн баталгаа, ухаалаг технологи, аяллын хүчин чадал, гэр бүлийн тав тух.
+            Баталгаа, технологийн инновац, аяллын хүчин чадал, мэргэжлийн үйлчилгээ — бүгд нэг дор.
           </motion.p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {WHY_CHOOSE_JETOUR.map((f, i) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {ADVANTAGES.map((f, i) => (
             <motion.div
               key={f.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.12 }}
+              transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
               whileHover={{ y: -8 }}
-              className="group relative overflow-hidden rounded-2xl p-7 bg-white/[0.04] border border-white/10 hover:border-[#00AEEF]/50 transition-colors"
+              className="group relative overflow-hidden bg-white rounded-2xl p-7 border border-[#E2E7EF] card-lift"
             >
-              {/* Hover glow */}
               <div
                 className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                 style={{
-                  background: "radial-gradient(circle, rgba(0,174,239,0.2), transparent 70%)",
+                  background: "radial-gradient(circle, rgba(0,174,239,0.12), transparent 70%)",
                 }}
               />
 
@@ -89,17 +77,16 @@ export function WhyChoose() {
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  className="w-16 h-16 grid place-items-center rounded-2xl mb-5 border border-[#00AEEF]/30 bg-gradient-to-br from-[#00AEEF]/20 to-[#00AEEF]/5 text-[#4DD0F5]"
+                  className="w-14 h-14 grid place-items-center rounded-2xl mb-5 bg-gradient-to-br from-[#0A1F44] to-[#142A5C] text-[#4DD0F5]"
                 >
                   {ICONS[f.icon]}
                 </motion.div>
-
-                <h3 className="font-display font-extrabold italic text-xl text-white mb-3 leading-tight">
+                <h3 className="font-display font-extrabold italic text-lg lg:text-xl text-[#0A1F44] mb-2.5">
                   {f.title}
                 </h3>
-                <p className="text-white/70 text-sm leading-relaxed">{f.description}</p>
+                <p className="text-[#6B7280] text-sm leading-relaxed">{f.description}</p>
 
-                <span className="absolute top-7 right-7 font-display font-extrabold italic text-5xl text-white/5 leading-none">
+                <span className="absolute top-6 right-6 font-display font-extrabold italic text-4xl text-[#E2E7EF] leading-none">
                   0{i + 1}
                 </span>
               </div>

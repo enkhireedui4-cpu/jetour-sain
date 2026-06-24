@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) NO 2) Jetour T2 SUV crossing river",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782289090,
+  "id": "202606241618078084a24844314d3b",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241618078084a24844314d3b",
+  "usage": {
+    "completion_tokens": 16,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 2723,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 2739
+  }
+}

@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "Jetour X90 Plus 7 seater SUV"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "Jetour X90 Plus 7 seater SUV",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/fd97252fcc54.jpg",
+      "caption": "",
+      "source": "KINGBODE AUTO",
+      "original_width": "1400px",
+      "original_height": "1050px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/d76b84318aea.jpg",
+      "caption": "",
+      "source": "KINGBODE AUTO",
+      "original_width": "1400px",
+      "original_height": "1050px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/d43a0282a000.jpg",
+      "caption": "",
+      "source": "DDong Automobile",
+      "original_width": "963px",
+      "original_height": "2560px"
+    }
+  ]
+}
