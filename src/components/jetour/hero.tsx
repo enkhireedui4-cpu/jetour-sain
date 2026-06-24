@@ -1,184 +1,263 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ChevronDown, Gauge, MapPin, Sparkles } from "lucide-react";
-import { CONTACT } from "@/lib/jetour-data";
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, Phone, ArrowRight, Sparkles } from "lucide-react";
+import { HERO_SLIDES, CONTACT } from "@/lib/jetour-data";
 
 export function Hero() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const next = useCallback(() => {
+    setActive((p) => (p + 1) % HERO_SLIDES.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setActive((p) => (p - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  }, []);
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(next, 5500);
+    return () => clearInterval(t);
+  }, [next, paused, active]);
+
+  const slide = HERO_SLIDES[active];
+  const isRed = slide.accent === "red";
+
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-cinematic pt-24 pb-16">
-      {/* Background grid */}
-      <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" />
+    <section
+      className="relative min-h-screen overflow-hidden bg-ink"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* === Full-screen rotating background carousel === */}
+      <div className="absolute inset-0">
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1 }}
+            transition={{ duration: 1.4, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <img
+              src={slide.image}
+              alt={slide.model}
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
+          </motion.div>
+        </AnimatePresence>
 
-      {/* Cinematic horizon glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(60% 30% at 50% 58%, rgba(120,150,210,0.18), transparent 70%), linear-gradient(180deg, transparent 55%, rgba(7,10,20,0.85) 100%)",
-        }}
-      />
+        {/* Cinematic gradient overlays */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(7,10,20,0.92) 0%, rgba(7,10,20,0.7) 25%, rgba(7,10,20,0.25) 55%, rgba(7,10,20,0.4) 100%), linear-gradient(180deg, rgba(7,10,20,0.55) 0%, transparent 30%, rgba(7,10,20,0.85) 100%)",
+          }}
+        />
 
-      {/* Floating particle dots */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 18 }).map((_, i) => (
-          <motion.span
-            key={i}
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: [0, 0.6, 0],
-              y: [0, -20, 0],
-              x: [0, (i % 2 === 0 ? 1 : -1) * 12, 0],
-            }}
-            transition={{
-              duration: 6 + (i % 4),
-              repeat: Infinity,
-              delay: i * 0.4,
-              ease: "easeInOut",
-            }}
-            className="absolute w-1 h-1 rounded-full"
-            style={{
-              left: `${(i * 5.5 + 8) % 100}%`,
-              top: `${(i * 7.3 + 12) % 100}%`,
-              background: i % 3 === 0 ? "#E2231A" : i % 3 === 1 ? "#2B6FE0" : "#C8CEDA",
-              boxShadow: `0 0 8px ${i % 2 === 0 ? "#E2231A" : "#2B6FE0"}`,
-            }}
-          />
-        ))}
+        {/* Side accent glow (changes color per slide) */}
+        <motion.div
+          key={`glow-${active}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: isRed
+              ? "radial-gradient(60% 80% at 12% 50%, rgba(226,35,26,0.35), transparent 70%)"
+              : "radial-gradient(60% 80% at 12% 50%, rgba(43,111,224,0.35), transparent 70%)",
+          }}
+        />
+
+        {/* Subtle grid texture */}
+        <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       </div>
 
-      <div className="relative mx-auto w-[min(1180px,92vw)] w-full">
-        <div className="flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="flex items-center gap-3 mb-7"
-          >
-            <span className="w-2 h-2 rounded-full bg-jetour-red shadow-[0_0_0_5px_rgba(226,35,26,0.18)]" />
-            <span className="eyebrow">
-              Travel+ · Албан ёсны төлөөлөгч · {CONTACT.brand}
-            </span>
-            <span className="w-2 h-2 rounded-full bg-jetour-blue shadow-[0_0_0_5px_rgba(43,111,224,0.18)]" />
-          </motion.div>
+      {/* === Foreground content === */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Top spacer for navbar */}
+        <div className="pt-24" />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
-            className="font-display font-extrabold italic leading-[0.84] tracking-tight mb-8"
-          >
-            <span
-              className="block text-gradient-fire"
-              style={{
-                fontSize: "clamp(3.6rem, 13vw, 9.5rem)",
-                filter: "drop-shadow(0 10px 40px rgba(43,111,224,0.3))",
-              }}
-            >
-              JETOUR
-            </span>
-            <span
-              className="block text-paper mt-1"
-              style={{ fontSize: "clamp(1.4rem, 4.5vw, 3rem)" }}
-            >
-              MONGOLIA
-            </span>
-          </motion.h1>
+        {/* Center content */}
+        <div className="flex-1 flex items-center">
+          <div className="mx-auto w-[min(1180px,92vw)] w-full">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="max-w-2xl"
+              >
+                {/* Eyebrow */}
+                <div className="flex items-center gap-3 mb-5">
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      isRed ? "bg-jetour-red" : "bg-jetour-blue"
+                    } shadow-[0_0_0_5px_rgba(255,255,255,0.08)]`}
+                  />
+                  <span
+                    className={`eyebrow ${
+                      isRed ? "text-jetour-red-soft" : "text-jetour-blue-soft"
+                    }`}
+                  >
+                    {slide.tagline}
+                  </span>
+                </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="max-w-[46ch] text-base lg:text-lg text-chrome mb-9 leading-relaxed"
-          >
-            <b className="text-paper">Аялал гэдэг нь зорилго биш — амьдралын хэв маяг.</b>{" "}
-            JETOUR-ын Travel+ загварууд Монголын уудам нутагт албан ёсоор. {CONTACT.brand} — таны итгэлтэй хамтрагч.
-          </motion.p>
+                {/* Title — massive gradient */}
+                <h1 className="font-display font-extrabold italic leading-[0.84] tracking-tight mb-6">
+                  <span
+                    className="block text-paper"
+                    style={{
+                      fontSize: "clamp(3rem, 9vw, 6.5rem)",
+                      filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))",
+                    }}
+                  >
+                    {slide.model}
+                  </span>
+                </h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.42 }}
-            className="flex flex-wrap items-center justify-center gap-3 mb-10"
-          >
-            <Chip icon={<Gauge className="w-4 h-4" />} label="Хүчин чадал" value="555 hp" />
-            <Chip icon={<Sparkles className="w-4 h-4" />} label="Аяллын зай" value="1000+ км" />
-            <Chip icon={<MapPin className="w-4 h-4" />} label="Showroom" value={CONTACT.addressShort} />
-          </motion.div>
+                {/* Description */}
+                <p
+                  className="text-lg lg:text-xl text-chrome mb-8 leading-relaxed max-w-xl"
+                  style={{ textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}
+                >
+                  {slide.description}
+                </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.55 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <button
-              onClick={() => document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })}
-              className="btn-jetour px-8 py-4 rounded-xl text-base flex items-center gap-2"
-            >
-              Загварууд үзэх
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <a
-              href={CONTACT.phoneHref}
-              className="font-display font-semibold text-paper border border-line rounded-xl px-6 py-4 hover:bg-panel/60 transition-colors text-sm flex items-center gap-2.5"
-            >
-              <span className="w-2 h-2 rounded-full bg-jetour-red animate-pulse" />
-              {CONTACT.phone}
-            </a>
-          </motion.div>
+                {/* Price + CTAs */}
+                <div className="flex flex-wrap items-center gap-5 mb-10">
+                  <div>
+                    <p className="text-[0.6rem] tracking-[0.22em] uppercase text-muted-ink font-display mb-1">
+                      Үнэ
+                    </p>
+                    <p
+                      className={`font-display font-extrabold italic text-3xl lg:text-4xl ${
+                        isRed ? "text-jetour-red-soft" : "text-jetour-blue-soft"
+                      }`}
+                      style={{ textShadow: "0 4px 20px rgba(0,0,0,0.6)" }}
+                    >
+                      {slide.price}
+                    </p>
+                  </div>
+                  <div className="h-12 w-px bg-line" />
+                  <button
+                    onClick={() =>
+                      document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
+                    }
+                    className="btn-jetour px-6 py-3.5 rounded-xl text-base flex items-center gap-2"
+                  >
+                    Дэлгэрэнгүй
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <a
+                    href={CONTACT.phone1Href}
+                    className="font-display font-semibold text-paper border border-line glass rounded-xl px-5 py-3.5 text-sm flex items-center gap-2.5 hover:border-paper/30 transition-colors"
+                  >
+                    <Phone className="w-4 h-4 text-jetour-red" />
+                    {CONTACT.phone1}
+                  </a>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
 
-      {/* Bottom hero feature strip */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.8 }}
-        className="absolute bottom-0 left-0 right-0 border-t border-line bg-ink/80 backdrop-blur-md"
-      >
-        <div className="mx-auto w-[min(1180px,92vw)] py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { v: "60+", l: "Оронд борлуулсан" },
-            { v: "1М+", l: "Дэлхийн борлуулалт" },
-            { v: "4 загвар", l: "Монголд албан ёсоор" },
-            { v: "4S", l: "Үйлчилгээний стандарт" },
-          ].map((s, i) => (
-            <div key={i} className="text-center md:text-left">
-              <p className="font-display font-extrabold italic text-2xl lg:text-3xl text-gradient-fire">
-                {s.v}
-              </p>
-              <p className="text-[0.65rem] tracking-[0.18em] uppercase text-muted-ink font-display mt-0.5">
-                {s.l}
-              </p>
+        {/* === Slide navigation bottom bar === */}
+        <div className="pb-10">
+          <div className="mx-auto w-[min(1180px,92vw)]">
+            <div className="flex items-center justify-between gap-6">
+              {/* Slide counter + controls */}
+              <div className="flex items-center gap-4">
+                <span className="font-display font-extrabold italic text-2xl text-paper">
+                  0{active + 1}
+                </span>
+                <span className="font-display text-sm text-muted-ink">/ 0{HERO_SLIDES.length}</span>
+                <div className="flex gap-1.5 ml-3">
+                  <button
+                    onClick={prev}
+                    className="w-9 h-9 rounded-full border border-line glass grid place-items-center text-chrome hover:text-paper hover:border-paper/30 transition-colors"
+                    aria-label="Өмнөх"
+                  >
+                    <ChevronDown className="w-4 h-4 rotate-90" />
+                  </button>
+                  <button
+                    onClick={next}
+                    className="w-9 h-9 rounded-full border border-line glass grid place-items-center text-chrome hover:text-paper hover:border-paper/30 transition-colors"
+                    aria-label="Дараагийн"
+                  >
+                    <ChevronDown className="w-4 h-4 -rotate-90" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Progress bars */}
+              <div className="flex-1 max-w-md flex gap-2">
+                {HERO_SLIDES.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActive(i)}
+                    className="group flex-1 relative h-1 rounded-full overflow-hidden bg-line"
+                    aria-label={`Slide ${i + 1}`}
+                  >
+                    {i === active && !paused ? (
+                      <motion.div
+                        key={`bar-${active}`}
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: 5.5, ease: "linear" }}
+                        className={`absolute inset-y-0 left-0 ${
+                          isRed ? "bg-jetour-red" : "bg-jetour-blue"
+                        }`}
+                      />
+                    ) : i === active ? (
+                      <div
+                        className={`absolute inset-y-0 left-0 w-full ${
+                          isRed ? "bg-jetour-red" : "bg-jetour-blue"
+                        }`}
+                      />
+                    ) : null}
+                  </button>
+                ))}
+              </div>
+
+              {/* Feature mini-chip */}
+              <div className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2">
+                <Sparkles className="w-3.5 h-3.5 text-jetour-red-soft" />
+                <span className="text-xs text-chrome font-display tracking-wider">
+                  Travel+ · Албан ёсны
+                </span>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
-      </motion.div>
-    </section>
-  );
-}
-
-function Chip({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center gap-2.5 glass rounded-xl px-3.5 py-2.5">
-      <span className="w-8 h-8 grid place-items-center rounded-lg bg-gradient-to-br from-jetour-red/25 to-jetour-blue/25 text-paper">
-        {icon}
-      </span>
-      <div className="text-left">
-        <p className="text-[0.6rem] text-muted-ink tracking-[0.18em] uppercase font-display">
-          {label}
-        </p>
-        <p className="font-bold text-sm text-paper leading-tight">{value}</p>
       </div>
-    </div>
+
+      {/* Scroll cue */}
+      <motion.button
+        onClick={() => document.querySelector("#brand")?.scrollIntoView({ behavior: "smooth" })}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="absolute left-1/2 -translate-x-1/2 bottom-4 z-20 flex flex-col items-center gap-1 text-chrome/70 hover:text-paper transition-colors"
+        aria-label="Доош гулгах"
+      >
+        <span className="text-[0.55rem] tracking-[0.3em] uppercase font-display">Илүү</span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown className="w-4 h-4" />
+        </motion.div>
+      </motion.button>
+    </section>
   );
 }

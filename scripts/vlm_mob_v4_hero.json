@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Full-screen car image is visible.  \n- Model name (JETOUR X70 Plus) and price (95.0 сая ₮) are visible.  \n- No text overflow or layout issues.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782275230,
+  "id": "20260624122701e0da7d5295c14a57",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624122701e0da7d5295c14a57",
+  "usage": {
+    "completion_tokens": 46,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 480,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 526
+  }
+}

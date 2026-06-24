@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "OK - The car website screenshot shows a clean layout with no visible watermarks, broken images, layout problems, text overflow, or missing content.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782274915,
+  "id": "202606241221490f5ff6c69e41448b",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241221490f5ff6c69e41448b",
+  "usage": {
+    "completion_tokens": 32,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1723
+  }
+}

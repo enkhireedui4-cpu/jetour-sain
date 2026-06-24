@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, the background car image differs from the X70 Plus (it shows a JETOUR T1/T2 - style vehicle).  \n- Yes, the model name (\"JETOUR T1\"/\"JETOUR T2\") matches the image of the JETOUR - branded car.  \n- No visible watermarks on the slide.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782274852,
+  "id": "20260624122045c4160efdfe5b4159",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624122045c4160efdfe5b4159",
+  "usage": {
+    "completion_tokens": 74,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1692,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1766
+  }
+}

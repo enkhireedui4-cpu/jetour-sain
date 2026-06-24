@@ -55,12 +55,12 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <a
-            href={CONTACT.phoneHref}
+            href={CONTACT.phone1Href}
             className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full border border-line glass text-paper hover:border-jetour-red/60 transition-colors group"
           >
             <Phone className="w-3.5 h-3.5 text-jetour-red group-hover:scale-110 transition-transform" />
             <span className="font-display text-xs font-bold tracking-wider">
-              {CONTACT.phone}
+              {CONTACT.phone1}
             </span>
           </a>
           <button
@@ -95,11 +95,11 @@ export function Navbar() {
               </button>
             ))}
             <a
-              href={CONTACT.phoneHref}
+              href={CONTACT.phone1Href}
               className="mt-3 flex items-center justify-center gap-2 py-3 rounded-full border border-line glass"
             >
               <Phone className="w-4 h-4 text-jetour-red" />
-              <span className="font-display font-bold">{CONTACT.phone}</span>
+              <span className="font-display font-bold">{CONTACT.phone1}</span>
             </a>
             <button
               onClick={() => handleNav("#contact")}

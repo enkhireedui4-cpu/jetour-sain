@@ -112,9 +112,13 @@ export function Distributor() {
                 <span className="font-display font-bold text-sm text-paper">Холбоо барих</span>
               </div>
               <div className="space-y-2">
-                <a href={CONTACT.phoneHref} className="flex items-center gap-2 text-xs text-chrome hover:text-paper transition-colors">
+                <a href={CONTACT.phone1Href} className="flex items-center gap-2 text-xs text-chrome hover:text-paper transition-colors">
                   <Phone className="w-3.5 h-3.5 text-jetour-red-soft" />
-                  {CONTACT.phone}
+                  {CONTACT.phone1}
+                </a>
+                <a href={CONTACT.phone2Href} className="flex items-center gap-2 text-xs text-chrome hover:text-paper transition-colors">
+                  <Phone className="w-3.5 h-3.5 text-jetour-blue-soft" />
+                  {CONTACT.phone2}
                 </a>
                 <div className="flex items-start gap-2 text-xs text-chrome">
                   <MapPin className="w-3.5 h-3.5 text-jetour-red-soft mt-0.5 shrink-0" />

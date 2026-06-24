@@ -2,7 +2,19 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Gauge, Cog, CircleDot, Users, Zap, Route } from "lucide-react";
+import {
+  ArrowRight,
+  Gauge,
+  Cog,
+  CircleDot,
+  Users,
+  Zap,
+  Route,
+  Wind,
+  ShieldCheck,
+  Clock,
+  CheckCircle2,
+} from "lucide-react";
 import { MODELS, type JetourModel } from "@/lib/jetour-data";
 
 export function Models() {
@@ -23,24 +35,27 @@ export function Models() {
             </h2>
           </div>
           <p className="text-chrome max-w-md text-sm lg:text-base leading-relaxed">
-            Хотын кросовероос аяллын баатарт SUV хүртэл — өөрийн амьдралын хэв маягт тохирох загвараа
-            сонгоорой. Бүх загвар Монголд албан ёсоор, {`Сайн Моторс`}-оор баталгаажуулсан.
+            Хотын кросовероос аяллын SUV хүртэл — өөрийн амьдралын хэв маягт тохирох загвараа
+            сонгоорой. Бүх загвар Сайн Моторсоор албан ёсоор баталгаажуулсан.
           </p>
         </div>
 
         {/* Model selector tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-line pb-1">
+        <div className="flex flex-wrap gap-1 mb-8 border-b border-line pb-1 overflow-x-auto">
           {MODELS.map((m) => (
             <button
               key={m.id}
               onClick={() => setActiveId(m.id)}
-              className={`font-display font-extrabold italic text-base lg:text-xl px-5 py-3 transition-all relative ${
-                activeId === m.id
-                  ? "text-paper"
-                  : "text-muted-ink hover:text-chrome"
+              className={`font-display font-extrabold italic text-sm lg:text-lg px-4 lg:px-5 py-3 transition-all relative whitespace-nowrap ${
+                activeId === m.id ? "text-paper" : "text-muted-ink hover:text-chrome"
               }`}
             >
               {m.name}
+              {m.status === "coming-soon" && (
+                <span className="ml-1.5 text-[0.5rem] tracking-wider uppercase bg-jetour-red/20 text-jetour-red-soft px-1.5 py-0.5 rounded font-display not-italic align-middle">
+                  Uдахгүй
+                </span>
+              )}
               {activeId === m.id && (
                 <motion.span
                   layoutId="activeModel"
@@ -74,10 +89,10 @@ export function Models() {
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    "linear-gradient(180deg, transparent 0%, transparent 40%, rgba(7,10,20,0.85) 100%)",
+                    "linear-gradient(180deg, transparent 0%, transparent 40%, rgba(7,10,20,0.92) 100%)",
                 }}
               />
-              <div className="absolute top-5 left-5">
+              <div className="absolute top-5 left-5 flex gap-2">
                 <span
                   className={`font-display text-[0.62rem] font-bold tracking-[0.22em] uppercase px-3 py-1.5 rounded-full glass ${
                     active.accent === "red" ? "text-jetour-red-soft" : "text-jetour-blue-soft"
@@ -85,6 +100,12 @@ export function Models() {
                 >
                   {active.series} Series
                 </span>
+                {active.status === "coming-soon" && (
+                  <span className="font-display text-[0.62rem] font-bold tracking-[0.22em] uppercase px-3 py-1.5 rounded-full bg-jetour-red text-white flex items-center gap-1.5">
+                    <Clock className="w-3 h-3" />
+                    Тун удахгүй
+                  </span>
+                )}
               </div>
               <div className="absolute bottom-5 left-5 right-5">
                 <p
@@ -94,7 +115,7 @@ export function Models() {
                 >
                   {active.tagline}
                 </p>
-                <h3 className="font-display font-extrabold italic text-4xl lg:text-5xl text-paper">
+                <h3 className="font-display font-extrabold italic text-3xl lg:text-5xl text-paper">
                   {active.name}
                 </h3>
               </div>
@@ -106,39 +127,67 @@ export function Models() {
                 {active.longDescription}
               </p>
 
+              {/* Price block */}
+              <div
+                className={`rounded-xl p-4 mb-5 border ${
+                  active.accent === "red"
+                    ? "bg-jetour-red/10 border-jetour-red/30"
+                    : "bg-jetour-blue/10 border-jetour-blue/30"
+                }`}
+              >
+                <div className="flex items-end justify-between">
+                  <div>
+                    <p className="text-[0.6rem] tracking-[0.22em] uppercase text-muted-ink font-display mb-0.5">
+                      {active.price ? "Үнэ" : "Статус"}
+                    </p>
+                    <p
+                      className={`font-display font-extrabold italic text-2xl lg:text-3xl ${
+                        active.accent === "red"
+                          ? "text-jetour-red-soft"
+                          : "text-jetour-blue-soft"
+                      }`}
+                    >
+                      {active.price ?? active.priceNote}
+                    </p>
+                    {active.priceNote && active.price && (
+                      <p className="text-xs text-chrome mt-0.5">{active.priceNote}</p>
+                    )}
+                  </div>
+                  {active.status === "available" && (
+                    <span className="flex items-center gap-1.5 text-xs text-jetour-red-soft">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      Бэлэн
+                    </span>
+                  )}
+                </div>
+              </div>
+
               {/* Spec grid */}
               <div className="grid grid-cols-2 gap-2.5 mb-5">
                 <Spec icon={<Gauge className="w-3.5 h-3.5" />} label="Хөдөлгүүр" value={active.specs.engine} />
-                <Spec icon={<CircleDot className="w-3.5 h-3.5" />} label="Хүчин чадал" value={active.specs.power} />
+                <Spec icon={<Zap className="w-3.5 h-3.5" />} label="Морины хүч" value={active.specs.power} />
+                <Spec icon={<CircleDot className="w-3.5 h-3.5" />} label="Мушгих хүч" value={active.specs.torque} />
                 <Spec icon={<Cog className="w-3.5 h-3.5" />} label="Хурдны хайрцаг" value={active.specs.transmission} />
+                <Spec icon={<Wind className="w-3.5 h-3.5" />} label="Хөтлөгч" value={active.specs.drivetrain} />
                 <Spec icon={<Users className="w-3.5 h-3.5" />} label="Суудал" value={active.specs.seats} />
-                <Spec icon={<Zap className="w-3.5 h-3.5" />} label="Хамгийн өндөр хурд" value={active.specs.topSpeed} />
-                <Spec icon={<Route className="w-3.5 h-3.5" />} label="Аяллын зай" value={active.specs.range} />
               </div>
 
-              {/* Highlights */}
-              <div className="grid grid-cols-2 gap-2.5 mb-6">
-                {active.highlights.map((h) => (
-                  <div
-                    key={h.label}
-                    className={`rounded-xl p-3.5 border ${
-                      active.accent === "red"
-                        ? "bg-jetour-red/10 border-jetour-red/30"
-                        : "bg-jetour-blue/10 border-jetour-blue/30"
-                    }`}
-                  >
-                    <p className="text-[0.6rem] tracking-[0.18em] uppercase text-muted-ink font-display">
-                      {h.label}
-                    </p>
-                    <p
-                      className={`font-display font-extrabold italic text-base mt-0.5 ${
-                        active.accent === "red" ? "text-jetour-red-soft" : "text-jetour-blue-soft"
-                      }`}
+              {/* Safety */}
+              <div className="mb-5">
+                <p className="text-[0.6rem] tracking-[0.22em] uppercase text-muted-ink font-display mb-2 flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Аюулгүй байдлын систем
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {active.safety.map((s) => (
+                    <span
+                      key={s}
+                      className="text-[0.65rem] font-mono bg-ink/60 border border-line rounded px-2 py-1 text-chrome"
                     >
-                      {h.value}
-                    </p>
-                  </div>
-                ))}
+                      {s}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* CTA */}
@@ -164,7 +213,7 @@ export function Models() {
         {/* All models mini-grid */}
         <div className="mt-14 pt-10 border-t border-line">
           <p className="eyebrow text-center mb-6">Бүх загварууд</p>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             {MODELS.map((m) => (
               <button
                 key={m.id}
@@ -193,6 +242,9 @@ export function Models() {
                   </p>
                   <p className="font-display font-extrabold italic text-sm text-paper mt-0.5">
                     {m.name}
+                  </p>
+                  <p className="text-[0.6rem] text-chrome mt-0.5">
+                    {m.price ?? m.priceNote}
                   </p>
                 </div>
               </button>
