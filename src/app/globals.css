@@ -51,6 +51,15 @@
   --color-paper: #F3F5FA;
   --color-muted-ink: #8A93A6;
 
+  /* Light theme tokens for model pages (Jetour KZ style) */
+  --color-light-bg: #F4F6FA;
+  --color-light-bg-2: #FFFFFF;
+  --color-light-card: #FFFFFF;
+  --color-light-text: #0B0F1A;
+  --color-light-text-muted: #5B6477;
+  --color-light-line: #E5E9F0;
+  --color-light-accent: #1A2C5B;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -233,4 +242,76 @@
 ::selection {
   background: rgba(226, 35, 26, 0.4);
   color: #fff;
+}
+
+/* ============================
+   LIGHT THEME — Model pages
+   (Jetour KZ style)
+   ============================ */
+
+.light-theme {
+  background-color: var(--color-light-bg);
+  color: var(--color-light-text);
+}
+
+.light-theme .eyebrow {
+  color: #5B6477;
+}
+
+/* Light gradient fire text */
+.light-theme .text-gradient-fire {
+  background: linear-gradient(96deg, #E2231A 8%, #1A2C5B 48%, #2B6FE0 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Light glass card */
+.light-theme .glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid #E5E9F0;
+  box-shadow: 0 8px 28px -12px rgba(11, 15, 26, 0.12);
+}
+
+.light-theme .bg-grid {
+  background-image:
+    linear-gradient(rgba(11, 15, 26, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 15, 26, 0.04) 1px, transparent 1px);
+}
+
+/* Light theme text helpers */
+.light-theme .text-paper { color: var(--color-light-text); }
+.light-theme .text-chrome { color: var(--color-light-text-muted); }
+.light-theme .text-muted-ink { color: #8A93A6; }
+.light-theme .text-jetour-red-soft { color: #E2231A; }
+.light-theme .text-jetour-blue-soft { color: #2B6FE0; }
+.light-theme .border-line { border-color: #E5E9F0; }
+.light-theme .bg-ink\/60 { background-color: rgba(255, 255, 255, 0.6); }
+.light-theme .bg-ink\/80 { background-color: rgba(255, 255, 255, 0.85); }
+.light-theme .bg-ink-2\/40 { background-color: rgba(244, 246, 250, 0.5); }
+
+/* JETOUR Red CTA button — works on light bg too */
+.light-theme .btn-jetour {
+  font-family: var(--font-montserrat), sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  background: linear-gradient(95deg, #E2231A, #B0151C);
+  color: #fff;
+  box-shadow: 0 16px 40px -14px rgba(226, 35, 26, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.light-theme .btn-jetour:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 50px -14px rgba(226, 35, 26, 0.6);
+}
+
+/* Cinematic dark hero still works (sits within the page) */
+.model-hero-cinema {
+  background:
+    radial-gradient(120% 80% at 8% 18%, rgba(226, 35, 26, 0.45), transparent 46%),
+    radial-gradient(120% 90% at 96% 30%, rgba(43, 111, 224, 0.45), transparent 50%),
+    linear-gradient(180deg, #0A0F1E 0%, #070A14 70%);
 }
