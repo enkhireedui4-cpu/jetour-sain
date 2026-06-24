@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, MapPin, Clock, Mail, Facebook, Instagram, Youtube, ExternalLink, Building2 } from "lucide-react";
-import { CONTACT, SHOWROOM_HOURS } from "@/lib/jetour-data";
+import { Phone, MapPin, Clock, Mail, Facebook, Instagram, Youtube, ExternalLink, Building2, MessageCircle } from "lucide-react";
+import { CONTACT, SHOWROOM_HOURS, BRANCHES } from "@/lib/jetour-data";
 
 function SainMotorsMark({ className = "" }: { className?: string }) {
   return (
@@ -135,11 +135,14 @@ export function Contact() {
                 <a href={CONTACT.youtube} target="_blank" rel="noopener noreferrer" className="w-9 h-9 grid place-items-center rounded-lg bg-[#F7F9FC] text-[#0A1F44] hover:bg-[#0A1F44] hover:text-white transition-colors">
                   <Youtube className="w-4 h-4" />
                 </a>
+                <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="w-9 h-9 grid place-items-center rounded-lg bg-[#F7F9FC] text-[#25D366] hover:bg-[#25D366] hover:text-white transition-colors">
+                  <MessageCircle className="w-4 h-4" />
+                </a>
               </div>
             </div>
           </motion.div>
 
-          {/* Right — Google Maps embed */}
+          {/* Right — Google Maps embed (data-driven from BRANCHES) */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -148,8 +151,8 @@ export function Contact() {
             className="relative rounded-2xl overflow-hidden bg-white border border-[#E2E7EF] min-h-[500px]"
           >
             <iframe
-              src="https://www.google.com/maps?q=Holiday+Inn+Ulaanbaatar+Chingeltei&output=embed"
-              title="JETOUR Mongolia — Sain Motors Showroom байршил"
+              src={BRANCHES[0].mapEmbed}
+              title={`${BRANCHES[0].name} — байршил`}
               className="w-full h-full min-h-[500px] border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -192,6 +195,9 @@ export function Footer() {
               <a href={CONTACT.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-lg bg-white/5 border border-white/10 hover:bg-[#00AEEF] hover:border-[#00AEEF] transition-colors">
                 <Youtube className="w-4 h-4" />
               </a>
+              <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 grid place-items-center rounded-lg bg-white/5 border border-white/10 hover:bg-[#25D366] hover:border-[#25D366] transition-colors">
+                <MessageCircle className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
@@ -213,10 +219,11 @@ export function Footer() {
             <p className="eyebrow text-[#4DD0F5] mb-4">Үйлчилгээ</p>
             <ul className="space-y-2 text-sm">
               <li><a href="#test-drive" className="text-white/70 hover:text-white transition-colors">Тест драйв</a></li>
+              <li><a href="/financing" className="text-white/70 hover:text-white transition-colors">Зээл, санхүүжилт</a></li>
+              <li><a href="/owners" className="text-white/70 hover:text-white transition-colors">Засвар үйлчилгээ</a></li>
+              <li><a href="/owners" className="text-white/70 hover:text-white transition-colors">Оригинал сэлбэг</a></li>
+              <li><a href="/news" className="text-white/70 hover:text-white transition-colors">Мэдээ, сурталчилгаа</a></li>
               <li><a href="#why" className="text-white/70 hover:text-white transition-colors">Баталгаа</a></li>
-              <li><a href="#contact" className="text-white/70 hover:text-white transition-colors">Засвар үйлчилгээ</a></li>
-              <li><a href="#contact" className="text-white/70 hover:text-white transition-colors">Оригинал сэлбэг</a></li>
-              <li><a href="#news" className="text-white/70 hover:text-white transition-colors">Мэдээ, сурталчилгаа</a></li>
             </ul>
           </div>
 

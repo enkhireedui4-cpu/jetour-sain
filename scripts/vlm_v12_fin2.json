@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, bank partner cards (Хаан банк, ХасБанк, Голомт банк, Capitron банк) are visible.  \n- Yes, a lead form (with fields for name, phone, etc.) is visible.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782294054,
+  "id": "2026062417405185d04ec58cdb4267",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062417405185d04ec58cdb4267",
+  "usage": {
+    "completion_tokens": 53,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1681,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1734
+  }
+}

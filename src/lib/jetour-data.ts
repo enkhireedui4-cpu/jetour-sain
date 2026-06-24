@@ -4,6 +4,19 @@
 // - Jetour Kazakhstan (jetour-auto.kz)
 // - Chery Kazakhstan (chery.kz) — дизайны санаа
 
+// CONTACT, BRANCHES, FINANCE_PARTNERS, NEWS_ARTICLES, SHOWROOM_HOURS-ийг
+// branches.ts-ээс re-export хийнэ — ингэснээр ирээдүйд салбар нэмэхэд
+// зөвхөн branches.ts өөрчлөх төдий хангалттай.
+export {
+  CONTACT,
+  BRANCHES,
+  PRIMARY_BRANCH,
+  FINANCE_PARTNERS,
+  NEWS_ARTICLES,
+  SHOWROOM_HOURS,
+} from "./branches";
+export type { Branch, NewsArticle } from "./branches";
+
 export type VehicleColor = {
   name: string;
   hex: string;
@@ -26,26 +39,6 @@ export const LEAD_VARIANTS = {
   solidWhite: "solid-white",
 } as const;
 
-export const CONTACT = {
-  phone1: "7277-8855",
-  phone2: "8910-0274",
-  phone1Href: "tel:+97672778855",
-  phone2Href: "tel:+97689100274",
-  email: "info@sainmotors.mn",
-  address: "Чингэлтэй дүүрэг, 5-р хороо, Хуучнаар ХИД-1, C1 ТВ-ийн байр, Holiday Inn зочид буудлын урд",
-  addressShort: "Чингэлтэй, Holiday Inn",
-  hoursWeekday: "Даваа – Баасан: 09:00 – 20:00",
-  hoursSaturday: "Бямба: 10:00 – 18:00",
-  hoursSunday: "Ням: 11:00 – 16:00",
-  facebook: "https://www.facebook.com/Sainmotors.mn",
-  instagram: "https://www.instagram.com/",
-  youtube: "https://www.youtube.com/",
-  googleMap: "https://rb.gy/xji02i",
-  brand: "SAIN MOTORS",
-  brandFullName: "Сайн Моторс ХХК",
-  brandRole: "Албан ёсны дистрибьютер",
-  brandSince: "2023",
-};
 
 export const WHY_CHOOSE_JETOUR = [
   {
@@ -110,11 +103,8 @@ export const NEWS = [
   },
 ];
 
-export const SHOWROOM_HOURS = [
-  { day: "Даваа – Баасан", hours: "09:00 – 20:00" },
-  { day: "Бямба гараг", hours: "10:00 – 18:00" },
-  { day: "Ням гараг", hours: "11:00 – 16:00" },
-];
+// NEWS болон SHOWROOM_HOURS-ийг branches.ts-аас re-export хийсэн.
+// (хуучин тодорхойлолтуудыг эндээс хасав)
 
 export type ModelSpec = {
   engine: string;
@@ -678,11 +668,11 @@ export const TIMELINE = [
 ];
 
 export const NAV_LINKS = [
-  { href: "#home", label: "HOME" },
-  { href: "#models", label: "MODELS" },
-  { href: "#dealer", label: "SERVICE" },
-  { href: "#brand", label: "ABOUT" },
-  { href: "#dealer", label: "CONTACT" },
+  { href: "#home", label: "HOME", key: "home" },
+  { href: "#models", label: "MODELS", key: "models" },
+  { href: "#dealer", label: "SERVICE", key: "service" },
+  { href: "#brand", label: "ABOUT", key: "about" },
+  { href: "#dealer", label: "CONTACT", key: "contact" },
 ];
 
 // === GLOBAL STATISTICS (dark luxury section with animated counters) ===

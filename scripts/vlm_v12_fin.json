@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, there is a loan calculator with sliders.  \n- No, bank partner cards are not visible.  \n- No, there is no lead form.  \n- Yes, the design conveys a premium automotive feel.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782294009,
+  "id": "202606241739579e34004b9f5e436e",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241739579e34004b9f5e436e",
+  "usage": {
+    "completion_tokens": 48,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1697,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1745
+  }
+}

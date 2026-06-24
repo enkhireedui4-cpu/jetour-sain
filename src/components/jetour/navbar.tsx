@@ -48,7 +48,7 @@ export function Navbar() {
         <nav className="hidden lg:flex items-center gap-10">
           {NAV_LINKS.map((l) => (
             <button
-              key={l.href}
+              key={l.key}
               onClick={() => handleNav(l.href)}
               className={`font-display text-sm font-bold tracking-[0.18em] transition-colors relative group ${
                 isHero ? "text-white hover:text-[#4DD0F5]" : "text-[#0A1F44] hover:text-[#00AEEF]"
@@ -86,7 +86,7 @@ export function Navbar() {
           <nav className="mx-auto w-[min(1280px,94vw)] py-4 flex flex-col gap-1">
             {NAV_LINKS.map((l) => (
               <button
-                key={l.href}
+                key={l.key}
                 onClick={() => handleNav(l.href)}
                 className="text-left py-4 px-2 font-display font-bold tracking-[0.18em] text-sm text-white/90 hover:text-[#4DD0F5] border-b border-white/10"
               >

@@ -48,7 +48,7 @@ export function StickyContactBar() {
               </span>
             </button>
             <button
-              onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })}
               className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#142A5C] text-white shadow-lg hover:bg-[#00AEEF] transition-colors"
               aria-label="Үнийн санал"
             >
@@ -58,15 +58,15 @@ export function StickyContactBar() {
               </span>
             </button>
             <a
-              href="https://m.me/Sainmotors.mn"
+              href={CONTACT.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative w-12 h-12 grid place-items-center rounded-full bg-gradient-to-br from-[#0084FF] to-[#0066CC] text-white shadow-lg hover:scale-110 transition-transform"
-              aria-label="Messenger"
+              className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#25D366] text-white shadow-lg hover:scale-110 transition-transform"
+              aria-label="WhatsApp"
             >
               <MessageCircle className="w-5 h-5" />
               <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#0A1F44] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                Messenger
+                WhatsApp
               </span>
             </a>
           </motion.div>
@@ -99,20 +99,20 @@ export function StickyContactBar() {
                 <span className="text-[0.6rem] font-display font-semibold">Тест</span>
               </button>
               <button
-                onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
+                onClick={() => document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })}
                 className="flex flex-col items-center gap-0.5 py-1.5 rounded-lg text-white hover:bg-white/10 transition-colors"
               >
                 <MessageSquare className="w-4 h-4 text-[#4DD0F5]" />
                 <span className="text-[0.6rem] font-display font-semibold">Санал</span>
               </button>
               <a
-                href="https://m.me/Sainmotors.mn"
+                href={CONTACT.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center gap-0.5 py-1.5 rounded-lg text-white hover:bg-white/10 transition-colors"
               >
-                <MessageCircle className="w-4 h-4 text-[#4DD0F5]" />
-                <span className="text-[0.6rem] font-display font-semibold">Messenger</span>
+                <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                <span className="text-[0.6rem] font-display font-semibold">WhatsApp</span>
               </a>
             </div>
           </motion.div>
