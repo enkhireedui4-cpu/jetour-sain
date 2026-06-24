@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, the hero is minimal/cinematic with just a headline (\"JETOUR MONGOLIA\"), subheadline (\"Your Next Adventure Starts Here\"), and 2 CTAs (\"Explore Models\" + \"Book Test Drive\").  \n- Theme: Premium automotive/adventure (focus on exploration, luxury SUV, and Mongolian market).  \n- No clutter—clean layout with a strong focal point (car image) and minimal text/CTAs.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782291909,
+  "id": "2026062417050418c2492c10c54235",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062417050418c2492c10c54235",
+  "usage": {
+    "completion_tokens": 94,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1692,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1786
+  }
+}

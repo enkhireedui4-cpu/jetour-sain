@@ -4,6 +4,28 @@
 // - Jetour Kazakhstan (jetour-auto.kz)
 // - Chery Kazakhstan (chery.kz) — дизайны санаа
 
+export type VehicleColor = {
+  name: string;
+  hex: string;
+};
+
+// === Vehicle colors ===
+export const VEHICLE_COLORS: VehicleColor[] = [
+  { name: "Цагаан", hex: "#FFFFFF" },
+  { name: "Хар", hex: "#0A0A0A" },
+  { name: "Мөнгөн", hex: "#C5C8CC" },
+  { name: "Гүн цэнхэр", hex: "#0A1F44" },
+  { name: "Улаан", hex: "#E2231A" },
+  { name: "Цэнхэр", hex: "#00AEEF" },
+];
+
+// === Lead form colors ===
+export const LEAD_VARIANTS = {
+  glassLight: "glass-light",
+  glassDark: "glass-dark",
+  solidWhite: "solid-white",
+} as const;
+
 export const CONTACT = {
   phone1: "7277-8855",
   phone2: "8910-0274",
@@ -656,13 +678,11 @@ export const TIMELINE = [
 ];
 
 export const NAV_LINKS = [
-  { href: "#home", label: "Нүүр" },
-  { href: "#brand", label: "Брэнд" },
-  { href: "#models", label: "Загварууд" },
-  { href: "#why", label: "Онцлог" },
-  { href: "#technology", label: "Технологи" },
-  { href: "#news", label: "Мэдээ" },
-  { href: "#contact", label: "Холбоо" },
+  { href: "#home", label: "HOME" },
+  { href: "#models", label: "MODELS" },
+  { href: "#dealer", label: "SERVICE" },
+  { href: "#brand", label: "ABOUT" },
+  { href: "#dealer", label: "CONTACT" },
 ];
 
 // === GLOBAL STATISTICS (dark luxury section with animated counters) ===

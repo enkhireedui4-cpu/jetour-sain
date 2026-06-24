@@ -6,7 +6,7 @@ import { LeadForm } from "./lead-form";
 
 export function FinalCTA() {
   return (
-    <section className="relative py-24 lg:py-32 bg-white overflow-hidden">
+    <section className="relative py-32 lg:py-40 bg-white overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div
         className="absolute inset-0 pointer-events-none"

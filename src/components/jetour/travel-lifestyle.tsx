@@ -65,7 +65,7 @@ export function TravelLifestyle() {
       </div>
 
       {/* Feature blocks */}
-      <div className="bg-white py-20 lg:py-24">
+      <div className="bg-white py-32 lg:py-40">
         <div className="mx-auto w-[min(1280px,94vw)]">
           <div className="grid md:grid-cols-3 gap-6">
             {TRAVEL_FEATURES.map((f, i) => (

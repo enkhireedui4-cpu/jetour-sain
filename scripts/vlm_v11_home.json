@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Hero is minimal: headline \"JETOUR MONGOLIA\", subheadline \"Your Next Adventure Starts Here\", + 2 CTAs (\"Explore Models\", \"Book Test Drive\").  \n- Sections are well-spaced: distinct, generous white space between content blocks (e.g., hero, gradient, dark blue, and footer sections).  \n- Premium automotive feel: clean typography, high-quality car imagery, and sleek color palette (dark blue, white) evoke sophistication.  \n- Overall design balances simplicity with luxury, aligning with premium automotive branding.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782292180,
+  "id": "20260624170929dc22ccd995884c62",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624170929dc22ccd995884c62",
+  "usage": {
+    "completion_tokens": 115,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 6001,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 6116
+  }
+}

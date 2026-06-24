@@ -6,10 +6,10 @@ import { NEWS } from "@/lib/jetour-data";
 
 export function News() {
   return (
-    <section id="news" className="relative py-24 lg:py-32 bg-white overflow-hidden">
+    <section id="news" className="relative py-32 lg:py-40 bg-white overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div className="relative mx-auto w-[min(1280px,94vw)]">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-20">
           <div>
             <motion.p
               initial={{ opacity: 0, x: -20 }}

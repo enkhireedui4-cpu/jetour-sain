@@ -22,10 +22,10 @@ const ICONS: Record<string, React.ReactNode> = {
 
 export function WhyChoose() {
   return (
-    <section id="why" className="relative py-24 lg:py-32 bg-[#F7F9FC] overflow-hidden">
+    <section id="why" className="relative py-32 lg:py-40 bg-[#F7F9FC] overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div className="relative mx-auto w-[min(1280px,94vw)]">
-        <div className="text-center mb-14">
+        <div className="text-center mb-20">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "- Yes, large full-screen vehicle image.  \n- Yes, vehicle name (\"JETOUR X70 Plus\"), tagline (\"Гэр бүлийн төс шийдэл\"), and 2 CTAs (\"Request Quote\", \"Book Test Drive\").  \n- Yes, premium automotive feel via high-quality imagery, clean typography, and professional layout.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782291915,
+  "id": "20260624170510214b4186bb254423",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624170510214b4186bb254423",
+  "usage": {
+    "completion_tokens": 80,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1700,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1780
+  }
+}

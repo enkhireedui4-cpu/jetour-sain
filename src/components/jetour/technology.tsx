@@ -24,7 +24,7 @@ export function Technology() {
   return (
     <section
       id="technology"
-      className="relative py-24 lg:py-32 bg-[#0A1F44] overflow-hidden"
+      className="relative py-32 lg:py-40 bg-[#0A1F44] overflow-hidden"
     >
       <div
         className="absolute inset-0 pointer-events-none opacity-30"
@@ -43,7 +43,7 @@ export function Technology() {
       />
 
       <div className="relative mx-auto w-[min(1280px,94vw)]">
-        <div className="text-center mb-14">
+        <div className="text-center mb-20">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}

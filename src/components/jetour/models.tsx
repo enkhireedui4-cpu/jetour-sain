@@ -1,201 +1,114 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Gauge, Users, Cog, Wind, ChevronRight } from "lucide-react";
-import { ALL_MODELS_FOR_GRID, CONTACT } from "@/lib/jetour-data";
+import { ArrowRight } from "lucide-react";
+import { ALL_MODELS_FOR_GRID } from "@/lib/jetour-data";
 
 export function Models() {
   return (
     <section
       id="models"
-      className="relative py-24 lg:py-32 bg-[#F7F9FC] border-y border-[#E2E7EF] overflow-hidden"
+      className="relative py-32 lg:py-40 bg-white overflow-hidden"
     >
-      <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
-      <div
-        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-        style={{
-          background: "linear-gradient(90deg, transparent, #00AEEF, transparent)",
-        }}
-      />
-
+      <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
       <div className="relative mx-auto w-[min(1280px,94vw)]">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
-          <div>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="eyebrow eyebrow-electric mb-3"
-            >
-              02 · Загварын багц
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="font-display font-extrabold leading-[0.95] text-[#0A1F44] text-4xl lg:text-7xl"
-            >
-              Jetour багц —{" "}
-              <span className="text-gradient-premium italic">өөрийнхөө загвар</span>
-            </motion.h2>
-          </div>
+        <div className="text-center mb-20">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="eyebrow eyebrow-electric mb-4"
+          >
+            Featured Models
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="font-display font-extrabold italic leading-[0.95] text-[#0A1F44] text-5xl lg:text-7xl mb-5"
+          >
+            Explore The <span className="text-gradient-premium">Jetour Lineup</span>
+          </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="max-w-md text-base leading-relaxed text-[#6B7280]"
+            className="max-w-2xl mx-auto text-[#6B7280] text-base lg:text-lg leading-relaxed"
           >
-            Хотын кросовероос аяллын SUV хүртэл — өөрийн амьдралын хэв маягт тохирох загвараа
-            сонгоорой. Бүх загвар Сайн Моторсоор албан ёсоор баталгаажуулсан.
+            Хотын кросовероос аяллын SUV хүртэл — өөрийн амьдралын хэв маягт тохирох JETOUR-оо олоорой.
           </motion.p>
         </div>
 
-        {/* Premium grid of cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Clean premium grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {ALL_MODELS_FOR_GRID.map((m, i) => (
-            <ModelCard key={m.id} model={m} index={i} />
+            <motion.div
+              key={m.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: (i % 3) * 0.12 }}
+            >
+              <Link href={`/models/${m.id}`} className="group block">
+                <article className="bg-white rounded-2xl overflow-hidden border border-[#E2E7EF] card-lift h-full flex flex-col">
+                  {/* Image */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-[#F7F9FC]">
+                    <img
+                      src={m.heroImage}
+                      alt={m.name}
+                      className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
+                      loading="lazy"
+                    />
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, transparent 0%, transparent 55%, rgba(10,31,68,0.5) 100%)",
+                      }}
+                    />
+                    {/* Series badge — minimal */}
+                    <div className="absolute top-4 left-4">
+                      <span className="font-display text-[0.55rem] font-bold tracking-[0.22em] uppercase px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm text-[#0A1F44]">
+                        {m.series}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Body — minimal info */}
+                  <div className="p-7 flex flex-col flex-1">
+                    <h3 className="font-display font-extrabold italic text-2xl text-[#0A1F44] mb-2">
+                      {m.name}
+                    </h3>
+                    <p className="text-sm text-[#6B7280] mb-5 leading-relaxed">
+                      {m.shortDesc}
+                    </p>
+
+                    <div className="mt-auto pt-5 border-t border-[#E2E7EF] flex items-end justify-between">
+                      <div>
+                        <p className="text-[0.55rem] tracking-[0.22em] uppercase text-[#6B7280] font-display mb-1">
+                          Starting From
+                        </p>
+                        <p className="font-display font-extrabold italic text-xl text-[#0A1F44]">
+                          {m.startingPrice ?? m.priceNote ?? "—"}
+                        </p>
+                      </div>
+                      <span className="flex items-center gap-1.5 text-[#00AEEF] font-display font-bold text-sm group-hover:gap-2.5 transition-all">
+                        Learn More
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            </motion.div>
           ))}
         </div>
-
-        {/* CTA below grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mt-14 text-center"
-        >
-          <p className="text-[#6B7280] text-sm mb-5">
-            Танд тохирох загварыг олж чадахгүй байна уу? Манай борлуулалтын баг танд туслана.
-          </p>
-          <button
-            onClick={() =>
-              document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="btn-outline-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm"
-          >
-            Зөвлөгөө авах
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </motion.div>
       </div>
     </section>
-  );
-}
-
-function ModelCard({ model, index }: { model: typeof ALL_MODELS_FOR_GRID[number]; index: number }) {
-  const isAvailable = model.status === "available";
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-      className="group relative bg-white rounded-2xl overflow-hidden border border-[#E2E7EF] card-lift"
-    >
-      {/* Image */}
-      <div className="relative aspect-[16/11] overflow-hidden bg-[#F7F9FC]">
-        <img
-          src={model.heroImage}
-          alt={model.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, transparent 50%, rgba(10,31,68,0.92) 100%)",
-          }}
-        />
-
-        {/* Series badge */}
-        <div className="absolute top-4 left-4 flex gap-2">
-          <span className="font-display text-[0.6rem] font-bold tracking-[0.22em] uppercase px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm text-[#0A1F44]">
-            {model.series}
-          </span>
-          {isAvailable ? (
-            <span className="font-display text-[0.6rem] font-bold tracking-[0.18em] uppercase px-2.5 py-1.5 rounded-full bg-emerald-500/95 text-white flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-white" />
-              Бэлэн
-            </span>
-          ) : (
-            <span className="font-display text-[0.6rem] font-bold tracking-[0.18em] uppercase px-2.5 py-1.5 rounded-full bg-[#00AEEF] text-white">
-              Тун удахгүй
-            </span>
-          )}
-        </div>
-
-        {/* Title overlay */}
-        <div className="absolute bottom-4 left-5 right-5">
-          <p className="eyebrow text-[#4DD0F5] mb-1.5">{model.tagline}</p>
-          <h3 className="font-display font-extrabold italic text-2xl lg:text-3xl text-white">
-            {model.name}
-          </h3>
-        </div>
-      </div>
-
-      {/* Body */}
-      <div className="p-6">
-        <p className="text-sm text-[#6B7280] leading-relaxed mb-5 min-h-[60px]">
-          {model.shortDesc}
-        </p>
-
-        {/* Spec row */}
-        <div className="grid grid-cols-4 gap-2 mb-5">
-          <MiniSpec icon={<Gauge className="w-3.5 h-3.5" />} value={model.specs.power} />
-          <MiniSpec icon={<Cog className="w-3.5 h-3.5" />} value={model.specs.transmission} />
-          <MiniSpec icon={<Wind className="w-3.5 h-3.5" />} value={model.specs.drivetrain} />
-          <MiniSpec icon={<Users className="w-3.5 h-3.5" />} value={model.specs.seats.split(" ")[0]} />
-        </div>
-
-        {/* Price + CTAs */}
-        <div className="pt-5 border-t border-[#E2E7EF]">
-          <div className="flex items-end justify-between mb-4">
-            <div>
-              <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#6B7280] font-display">
-                Үнэ
-              </p>
-              <p className="font-display font-extrabold italic text-2xl text-[#0A1F44]">
-                {model.price ?? model.priceNote}
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() =>
-                document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="btn-primary-jetour flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl text-sm"
-            >
-              Үнийн санал
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() =>
-                document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="px-4 py-3 rounded-xl border border-[#E2E7EF] text-[#0A1F44] hover:bg-[#F7F9FC] transition-colors text-sm font-display font-bold"
-            >
-              Цааш
-            </button>
-          </div>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-function MiniSpec({ icon, value }: { icon: React.ReactNode; value: string }) {
-  return (
-    <div className="bg-[#F7F9FC] rounded-lg p-2 text-center">
-      <div className="flex justify-center text-[#00AEEF] mb-1">{icon}</div>
-      <p className="text-[0.65rem] font-bold text-[#0A1F44] truncate">{value}</p>
-    </div>
   );
 }

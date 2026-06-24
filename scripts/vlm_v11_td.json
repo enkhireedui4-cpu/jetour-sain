@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "YES, Буртгэл амжилттай! JETOUR X70 Plus төст драйв 2026-07-20-нд бүртгэгдлээ. Манай бар бараглаахүйн холбогдоно.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782292153,
+  "id": "20260624170909f639c8174b94437e",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624170909f639c8174b94437e",
+  "usage": {
+    "completion_tokens": 71,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1659,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1730
+  }
+}

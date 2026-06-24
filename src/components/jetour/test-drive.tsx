@@ -62,7 +62,7 @@ export function TestDrive() {
   return (
     <section
       id="test-drive"
-      className="relative py-24 lg:py-32 bg-[#0A1F44] overflow-hidden"
+      className="relative py-32 lg:py-40 bg-[#0A1F44] overflow-hidden"
     >
       <div
         className="absolute inset-0 pointer-events-none opacity-30"

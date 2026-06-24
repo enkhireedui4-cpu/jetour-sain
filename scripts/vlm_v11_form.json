@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "NO. There is no visible success message on the page. The interface shows a form for booking a test drive with input fields and a \"Book Test Drive\" button, but no confirmation or success notification is displayed.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782292028,
+  "id": "20260624170706517ac2ef801b4ca4",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624170706517ac2ef801b4ca4",
+  "usage": {
+    "completion_tokens": 46,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1657,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1703
+  }
+}

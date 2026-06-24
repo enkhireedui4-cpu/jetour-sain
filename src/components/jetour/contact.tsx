@@ -27,7 +27,7 @@ function SainMotorsMark({ className = "" }: { className?: string }) {
 
 export function Contact() {
   return (
-    <section id="contact" className="relative py-24 lg:py-32 bg-[#F7F9FC] border-t border-[#E2E7EF]">
+    <section id="dealer" className="relative py-32 lg:py-40 bg-[#F7F9FC] border-t border-[#E2E7EF]">
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div className="relative mx-auto w-[min(1280px,94vw)]">
         <div className="text-center mb-12">

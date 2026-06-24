@@ -28,7 +28,7 @@ const PILLARS = [
 
 export function BrandStory() {
   return (
-    <section id="brand" className="relative py-24 lg:py-32 bg-white overflow-hidden">
+    <section id="brand" className="relative py-32 lg:py-40 bg-white overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div className="relative mx-auto w-[min(1280px,94vw)]">
         <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-16 items-start">

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Theme: Technical/feature-focused (ADAS, safety systems). 2) Layout clean? Yes, but issues: Text in non-Latin script (likely Mongolian) may hinder readability for non-speakers; icons lack alt text for accessibility.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782291983,
+  "id": "202606241706135f394191456d4f50",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606241706135f394191456d4f50",
+  "usage": {
+    "completion_tokens": 55,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1677,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1732
+  }
+}
