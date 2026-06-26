@@ -14,13 +14,27 @@ const imgOf = (m: M) =>
 const priceOf = (m: M) =>
   m.startingPrice ? `${m.startingPrice}-с эхлэн` : m.priceNote ?? "Тун удахгүй";
 
-const NAV_LINKS = [
-  { label: "Тусгай саналууд", href: "/special-offers", type: "route" as const },
-  { label: "Дилер", href: "/dealer", type: "route" as const },
-  { label: "Санхүүжилт", href: "/financing", type: "route" as const },
-  { label: "Үйлчилгээ", href: "/owners", type: "route" as const },
-  { label: "Мэдээ", href: "/news", type: "route" as const },
-  { label: "Холбоо барих", href: "/#dealer", type: "anchor" as const },
+type NavItem =
+  | { label: string; href: string; type: "route" | "anchor" }
+  | {
+      label: string;
+      type: "dropdown";
+      items: { label: string; href: string; type: "route" | "anchor" }[];
+    };
+
+const NAV_LINKS: NavItem[] = [
+  { label: "Тусгай саналууд", href: "/special-offers", type: "route" },
+  { label: "Дилер", href: "/dealer", type: "route" },
+  {
+    label: "Худалдан авагчдад зориулсан",
+    type: "dropdown",
+    items: [
+      { label: "Туршилтын жолоодлого", href: "/#dealer", type: "anchor" },
+      { label: "Зээлийн мэдээлэл", href: "/financing", type: "route" },
+    ],
+  },
+  { label: "Мэдээ", href: "/news", type: "route" },
+  { label: "Брэндийн тухай", href: "/#dealer", type: "anchor" },
 ];
 
 export function Navbar() {
@@ -29,6 +43,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [dropOpen, setDropOpen] = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,16 +53,17 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mega on outside click
+  // Close mega/dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
         setMegaOpen(false);
+        setDropOpen(false);
       }
     };
-    if (megaOpen) document.addEventListener("mousedown", handler);
+    if (megaOpen || dropOpen) document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [megaOpen]);
+  }, [megaOpen, dropOpen]);
 
   const overHero = isHome && !scrolled && !megaOpen;
 
@@ -101,7 +117,7 @@ export function Navbar() {
           {NAV_LINKS.map((l) =>
             l.type === "route" ? (
               <Link
-                key={l.href}
+                key={l.label}
                 href={l.href}
                 className={`text-sm font-medium transition-colors relative group ${
                   overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
@@ -110,9 +126,9 @@ export function Navbar() {
                 {l.label}
                 <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </Link>
-            ) : (
+            ) : l.type === "anchor" ? (
               <button
-                key={l.href}
+                key={l.label}
                 onClick={() => handleAnchor(l.href)}
                 className={`text-sm font-medium transition-colors relative group ${
                   overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
@@ -121,6 +137,43 @@ export function Navbar() {
                 {l.label}
                 <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </button>
+            ) : (
+              <div key={l.label} className="relative">
+                <button
+                  onClick={() => { setDropOpen((v) => !v); setMegaOpen(false); }}
+                  className={`flex items-center gap-1 text-sm font-medium transition-colors relative ${
+                    overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
+                  } ${dropOpen ? (overHero ? "text-white" : "text-[#17181B]") : ""}`}
+                >
+                  {l.label}
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropOpen ? "rotate-180" : ""}`} />
+                  {dropOpen && <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17]" />}
+                </button>
+                {dropOpen && (
+                  <div className="absolute top-full left-0 mt-3 min-w-[230px] bg-white rounded-xl border border-[#E7E7EA] shadow-xl py-2 z-50">
+                    {l.items.map((it) =>
+                      it.type === "route" ? (
+                        <Link
+                          key={it.label}
+                          href={it.href}
+                          onClick={() => setDropOpen(false)}
+                          className="block px-4 py-2.5 text-sm font-medium text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6] transition-colors"
+                        >
+                          {it.label}
+                        </Link>
+                      ) : (
+                        <button
+                          key={it.label}
+                          onClick={() => { setDropOpen(false); handleAnchor(it.href); }}
+                          className="block w-full text-left px-4 py-2.5 text-sm font-medium text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6] transition-colors"
+                        >
+                          {it.label}
+                        </button>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
             )
           )}
         </nav>
@@ -211,21 +264,47 @@ export function Navbar() {
             {NAV_LINKS.map((l) =>
               l.type === "route" ? (
                 <Link
-                  key={l.href}
+                  key={l.label}
                   href={l.href}
                   onClick={() => setOpen(false)}
                   className="text-left py-3.5 font-medium text-[15px] text-[#17181B] border-b border-[#F0F0F1]"
                 >
                   {l.label}
                 </Link>
-              ) : (
+              ) : l.type === "anchor" ? (
                 <button
-                  key={l.href}
+                  key={l.label}
                   onClick={() => handleAnchor(l.href)}
                   className="text-left py-3.5 font-medium text-[15px] text-[#17181B] border-b border-[#F0F0F1]"
                 >
                   {l.label}
                 </button>
+              ) : (
+                <div key={l.label} className="py-3 border-b border-[#F0F0F1]">
+                  <p className="text-[13px] font-bold tracking-wide uppercase text-[#8A8F98] mb-1">
+                    {l.label}
+                  </p>
+                  {l.items.map((it) =>
+                    it.type === "route" ? (
+                      <Link
+                        key={it.label}
+                        href={it.href}
+                        onClick={() => setOpen(false)}
+                        className="block py-2 pl-3 font-medium text-[15px] text-[#17181B]"
+                      >
+                        {it.label}
+                      </Link>
+                    ) : (
+                      <button
+                        key={it.label}
+                        onClick={() => handleAnchor(it.href)}
+                        className="block w-full text-left py-2 pl-3 font-medium text-[15px] text-[#17181B]"
+                      >
+                        {it.label}
+                      </button>
+                    )
+                  )}
+                </div>
               )
             )}
             <a
