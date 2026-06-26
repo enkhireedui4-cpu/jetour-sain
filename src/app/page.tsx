@@ -3,14 +3,11 @@
 import { Navbar } from "@/components/jetour/navbar";
 import { Hero } from "@/components/jetour/hero";
 import { Models } from "@/components/jetour/models";
-import { TravelLifestyle } from "@/components/jetour/travel-lifestyle";
-import { WhyChoose } from "@/components/jetour/why-choose";
-import { Technology } from "@/components/jetour/technology";
-import { GlobalStats } from "@/components/jetour/global-stats";
+import { ExploreNav } from "@/components/jetour/explore-nav";
+import { TestDrive } from "@/components/jetour/test-drive";
 import { News } from "@/components/jetour/news";
 import { FinalCTA } from "@/components/jetour/final-cta";
 import { Contact, Footer } from "@/components/jetour/contact";
-import { BrandStory } from "@/components/jetour/brand-story";
 
 export default function Home() {
   return (
@@ -19,11 +16,8 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <Models />
-        <TravelLifestyle />
-        <WhyChoose />
-        <Technology />
-        <BrandStory />
-        <GlobalStats />
+        <ExploreNav />
+        <TestDrive />
         <News />
         <FinalCTA />
         <Contact />
