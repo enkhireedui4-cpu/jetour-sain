@@ -44,6 +44,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [dropOpen, setDropOpen] = useState(false);
+  const [featured, setFeatured] = useState(0);
   const megaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -191,43 +192,83 @@ export function Navbar() {
       {/* ── Mega menu ── */}
       {megaOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-[#E7E7EA] shadow-2xl">
-          <div className="mx-auto w-[min(1280px,94vw)] py-8">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#8A8F98]">
-                Бүх загвар
-              </p>
+          <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-[1.55fr_1fr]">
+            {/* Left — model grid */}
+            <div className="py-9 pr-0 lg:pr-10">
+              <div className="flex items-center justify-between mb-7">
+                <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#8A8F98]">
+                  Бүх загвар
+                </p>
+                <button
+                  onClick={() => setMegaOpen(false)}
+                  className="lg:hidden p-1.5 rounded-lg hover:bg-[#F5F5F6] text-[#54585F] hover:text-[#17181B] transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
+                {ALL_MODELS_FOR_GRID.map((mm, i) => (
+                  <Link
+                    key={mm.id}
+                    href={`/models/${mm.id}`}
+                    onClick={() => setMegaOpen(false)}
+                    onMouseEnter={() => setFeatured(i)}
+                    className="group block"
+                  >
+                    <div className="relative aspect-[5/4] mb-2">
+                      {mm.status === "coming-soon" && (
+                        <span className="absolute top-0 left-0 z-10 text-[0.5rem] font-bold tracking-[0.14em] uppercase px-1.5 py-0.5 rounded bg-[#E20A17] text-white">
+                          Шинэ
+                        </span>
+                      )}
+                      <img
+                        src={imgOf(mm)}
+                        alt={mm.name}
+                        className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <p className="font-bold text-sm text-[#17181B] leading-tight group-hover:text-[#E20A17] transition-colors">
+                      {mm.name}
+                    </p>
+                    <p className="text-xs text-[#54585F] mt-0.5">{priceOf(mm)}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Right — featured panel */}
+            <div className="hidden lg:flex relative flex-col justify-end bg-[#F5F5F6] rounded-l-2xl px-9 py-9 overflow-hidden min-h-[360px]">
               <button
                 onClick={() => setMegaOpen(false)}
-                className="p-1.5 rounded-lg hover:bg-[#F5F5F6] text-[#54585F] hover:text-[#17181B] transition-colors"
+                className="absolute top-6 right-6 z-10 p-1.5 rounded-lg hover:bg-white text-[#54585F] hover:text-[#17181B] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {ALL_MODELS_FOR_GRID.map((mm) => (
+              <div className="absolute inset-x-0 top-1/2 -translate-y-[58%] flex items-center justify-center px-6">
+                <img
+                  src={imgOf(ALL_MODELS_FOR_GRID[featured])}
+                  alt={ALL_MODELS_FOR_GRID[featured]?.name}
+                  className="w-full max-h-[230px] object-contain"
+                />
+              </div>
+              <div className="relative">
+                <h3 className="font-extrabold text-2xl text-[#17181B] tracking-tight">
+                  {ALL_MODELS_FOR_GRID[featured]?.name}
+                </h3>
+                <p className="text-sm text-[#E20A17] font-semibold mt-1 mb-4">
+                  {priceOf(ALL_MODELS_FOR_GRID[featured])}
+                </p>
                 <Link
-                  key={mm.id}
-                  href={`/models/${mm.id}`}
+                  href={`/models/${ALL_MODELS_FOR_GRID[featured]?.id}`}
                   onClick={() => setMegaOpen(false)}
-                  className="group block bg-[#F5F5F6] rounded-xl p-4 hover:bg-[#FDECEB] transition-colors"
+                  className="inline-flex items-center gap-2 bg-[#E20A17] text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-[#C00813] transition-colors"
                 >
-                  {mm.status === "coming-soon" && (
-                    <span className="inline-block mb-2 text-[0.55rem] font-bold tracking-[0.16em] uppercase px-2 py-0.5 rounded-full bg-[#E20A17] text-white">
-                      Тун удахгүй
-                    </span>
-                  )}
-                  <div className="aspect-[4/3] overflow-hidden rounded-lg mb-3 bg-white">
-                    <img
-                      src={imgOf(mm)}
-                      alt={mm.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  </div>
-                  <p className="font-bold text-sm text-[#17181B] leading-tight">{mm.name}</p>
-                  <p className="text-xs text-[#E20A17] font-semibold mt-0.5">{priceOf(mm)}</p>
+                  Дэлгэрэнгүй
+                  <ChevronDown className="w-4 h-4 -rotate-90" />
                 </Link>
-              ))}
+              </div>
             </div>
           </div>
         </div>
