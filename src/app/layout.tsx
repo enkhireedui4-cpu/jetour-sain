@@ -1,26 +1,13 @@
 import type { Metadata } from "next";
-import { Montserrat, Inter, Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { FloatingCTA } from "@/components/jetour/floating-cta";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
+// Нэг font family — Inter. Монгол кирилл (ө, ү, ё) цэвэр, цэгтэй, уншигдахуйц.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
@@ -60,9 +47,10 @@ export default function RootLayout({
   return (
     <html lang="mn" suppressHydrationWarning>
       <body
-        className={`${montserrat.variable} ${inter.variable} ${poppins.variable} antialiased bg-white text-[#0A1F44]`}
+        className={`${inter.variable} antialiased bg-white text-[#17181B]`}
       >
         {children}
+        <FloatingCTA />
         <Toaster />
       </body>
     </html>

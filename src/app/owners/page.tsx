@@ -13,17 +13,19 @@ import {
 import Link from "next/link";
 import { CONTACT, SHOWROOM_HOURS } from "@/lib/jetour-data";
 import { EnhancedLeadForm } from "@/components/jetour/enhanced-lead-form";
+import { Navbar } from "@/components/jetour/navbar";
 import { useState } from "react";
 
 export default function OwnersPage() {
   const [tab, setTab] = useState<"service" | "parts">("service");
 
   return (
-    <div className="min-h-screen bg-white text-[#0A1F44]">
-      <div className="h-20" />
+    <div className="min-h-screen bg-white text-[#17181B]">
+      <Navbar />
+      <div className="h-16" />
 
       {/* Hero */}
-      <section className="relative py-20 lg:py-28 bg-[#0A1F44] overflow-hidden">
+      <section className="relative py-20 lg:py-28 bg-[#17181B] overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-30"
           style={{
@@ -35,13 +37,13 @@ export default function OwnersPage() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(50% 60% at 20% 50%, rgba(0,174,239,0.15), transparent 70%)",
+            background: "radial-gradient(50% 60% at 20% 50%, rgba(226,35,26,0.15), transparent 70%)",
           }}
         />
         <div className="relative mx-auto w-[min(1280px,94vw)] text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-[#4DD0F5] transition-colors text-sm font-display font-bold tracking-wider mb-6"
+            className="inline-flex items-center gap-2 text-white/60 hover:text-[#E20A17] transition-colors text-sm font-display font-bold tracking-wider mb-6"
           >
             ← НҮҮР
           </Link>
@@ -49,7 +51,7 @@ export default function OwnersPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="eyebrow text-[#4DD0F5] mb-3"
+            className="eyebrow text-[#E20A17] mb-3"
           >
             Эзэмшигчдэд зориулсан булан
           </motion.p>
@@ -74,7 +76,7 @@ export default function OwnersPage() {
       </section>
 
       {/* Service highlights */}
-      <section className="py-20 lg:py-28 bg-[#F7F9FC]">
+      <section className="py-20 lg:py-28 bg-[#F5F5F6]">
         <div className="mx-auto w-[min(1280px,94vw)]">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {[
@@ -100,12 +102,12 @@ export default function OwnersPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="bg-white rounded-2xl p-7 border border-[#E2E7EF] card-lift"
+                className="bg-white rounded-2xl p-7 border border-[#E7E7EA] card-lift"
               >
-                <div className="w-14 h-14 grid place-items-center rounded-2xl mb-5 bg-gradient-to-br from-[#0A1F44] to-[#142A5C] text-[#4DD0F5]">
+                <div className="w-14 h-14 grid place-items-center rounded-2xl mb-5 bg-gradient-to-br from-[#17181B] to-[#232428] text-[#E20A17]">
                   {f.icon}
                 </div>
-                <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44] mb-3">
+                <h3 className="font-display font-extrabold italic text-xl text-[#17181B] mb-3">
                   {f.title}
                 </h3>
                 <p className="text-[#6B7280] text-sm leading-relaxed">{f.text}</p>
@@ -115,13 +117,13 @@ export default function OwnersPage() {
 
           {/* Tab switcher */}
           <div className="flex justify-center mb-10">
-            <div className="inline-flex bg-white rounded-full border border-[#E2E7EF] p-1">
+            <div className="inline-flex bg-white rounded-full border border-[#E7E7EA] p-1">
               <button
                 onClick={() => setTab("service")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-display font-bold transition-all ${
                   tab === "service"
-                    ? "bg-[#0A1F44] text-white"
-                    : "text-[#6B7280] hover:text-[#0A1F44]"
+                    ? "bg-[#17181B] text-white"
+                    : "text-[#6B7280] hover:text-[#17181B]"
                 }`}
               >
                 <Wrench className="w-4 h-4" />
@@ -131,8 +133,8 @@ export default function OwnersPage() {
                 onClick={() => setTab("parts")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-display font-bold transition-all ${
                   tab === "parts"
-                    ? "bg-[#0A1F44] text-white"
-                    : "text-[#6B7280] hover:text-[#0A1F44]"
+                    ? "bg-[#17181B] text-white"
+                    : "text-[#6B7280] hover:text-[#17181B]"
                 }`}
               >
                 <Package className="w-4 h-4" />
@@ -153,7 +155,7 @@ export default function OwnersPage() {
               {tab === "service" ? (
                 <>
                   <p className="eyebrow eyebrow-electric mb-3">Засвар үйлчилгээ</p>
-                  <h2 className="font-display font-extrabold italic leading-[0.95] text-[#0A1F44] text-4xl lg:text-5xl mb-5">
+                  <h2 className="font-display font-extrabold italic leading-[0.95] text-[#17181B] text-4xl lg:text-5xl mb-5">
                     Үйлчилгээний цаг <span className="text-gradient-premium">захиалах</span>
                   </h2>
                   <p className="text-[#6B7280] text-base leading-relaxed mb-7">
@@ -168,8 +170,8 @@ export default function OwnersPage() {
                       "Цахилгаан, электроник систем",
                       "Баталгаат засвар (warranty)",
                     ].map((p) => (
-                      <div key={p} className="flex items-start gap-2.5 text-sm text-[#0A1F44]">
-                        <CheckCircle2 className="w-4 h-4 text-[#00AEEF] mt-0.5 shrink-0" />
+                      <div key={p} className="flex items-start gap-2.5 text-sm text-[#17181B]">
+                        <CheckCircle2 className="w-4 h-4 text-[#E20A17] mt-0.5 shrink-0" />
                         <span>{p}</span>
                       </div>
                     ))}
@@ -178,7 +180,7 @@ export default function OwnersPage() {
               ) : (
                 <>
                   <p className="eyebrow eyebrow-electric mb-3">Сэлбэг захиалга</p>
-                  <h2 className="font-display font-extrabold italic leading-[0.95] text-[#0A1F44] text-4xl lg:text-5xl mb-5">
+                  <h2 className="font-display font-extrabold italic leading-[0.95] text-[#17181B] text-4xl lg:text-5xl mb-5">
                     Оригинал сэлбэг <span className="text-gradient-premium">захиалах</span>
                   </h2>
                   <p className="text-[#6B7280] text-base leading-relaxed mb-7">
@@ -193,8 +195,8 @@ export default function OwnersPage() {
                       "Цахилгаан, гэрэлтүүлэг",
                       "Дотоод засал, суудал",
                     ].map((p) => (
-                      <div key={p} className="flex items-start gap-2.5 text-sm text-[#0A1F44]">
-                        <CheckCircle2 className="w-4 h-4 text-[#00AEEF] mt-0.5 shrink-0" />
+                      <div key={p} className="flex items-start gap-2.5 text-sm text-[#17181B]">
+                        <CheckCircle2 className="w-4 h-4 text-[#E20A17] mt-0.5 shrink-0" />
                         <span>{p}</span>
                       </div>
                     ))}
@@ -203,7 +205,7 @@ export default function OwnersPage() {
               )}
 
               {/* Service hours */}
-              <div className="bg-white rounded-xl p-5 border border-[#E2E7EF]">
+              <div className="bg-white rounded-xl p-5 border border-[#E7E7EA]">
                 <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#6B7280] font-display mb-3 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   Үйлчилгээний цаг
@@ -212,13 +214,13 @@ export default function OwnersPage() {
                   {SHOWROOM_HOURS.map((h) => (
                     <div key={h.day} className="flex justify-between text-sm">
                       <span className="text-[#6B7280]">{h.day}</span>
-                      <span className="font-display font-bold text-[#0A1F44]">{h.hours}</span>
+                      <span className="font-display font-bold text-[#17181B]">{h.hours}</span>
                     </div>
                   ))}
                 </div>
                 <a
                   href={CONTACT.phone1Href}
-                  className="mt-4 flex items-center gap-2 text-sm text-[#00AEEF] hover:text-[#0A1F44] transition-colors"
+                  className="mt-4 flex items-center gap-2 text-sm text-[#E20A17] hover:text-[#17181B] transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   {CONTACT.phone1}
@@ -256,16 +258,16 @@ export default function OwnersPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#0A1F44] text-white py-10">
+      <footer className="bg-[#17181B] text-white py-10">
         <div className="mx-auto w-[min(1280px,94vw)] text-center">
           <p className="text-xs text-white/50">
             © {new Date().getFullYear()} JETOUR Mongolia · Сайн Моторс ХХК.
           </p>
           <div className="flex justify-center gap-4 mt-3 text-xs">
-            <Link href="/" className="text-white/60 hover:text-[#4DD0F5] transition-colors">Нүүр</Link>
-            <Link href="/#models" className="text-white/60 hover:text-[#4DD0F5] transition-colors">Загварууд</Link>
-            <Link href="/financing" className="text-white/60 hover:text-[#4DD0F5] transition-colors">Зээл</Link>
-            <Link href="/news" className="text-white/60 hover:text-[#4DD0F5] transition-colors">Мэдээ</Link>
+            <Link href="/" className="text-white/60 hover:text-[#E20A17] transition-colors">Нүүр</Link>
+            <Link href="/#models" className="text-white/60 hover:text-[#E20A17] transition-colors">Загварууд</Link>
+            <Link href="/financing" className="text-white/60 hover:text-[#E20A17] transition-colors">Зээл</Link>
+            <Link href="/news" className="text-white/60 hover:text-[#E20A17] transition-colors">Мэдээ</Link>
           </div>
         </div>
       </footer>

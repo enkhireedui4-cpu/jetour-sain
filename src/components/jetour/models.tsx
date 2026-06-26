@@ -1,112 +1,105 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { ALL_MODELS_FOR_GRID } from "@/lib/jetour-data";
+import { motion, AnimatePresence } from "framer-motion";
+import { ALL_MODELS_FOR_GRID, MODEL_COLOR_IMAGES, MODEL_GALLERY_IMAGES } from "@/lib/jetour-data";
+
+type M = (typeof ALL_MODELS_FOR_GRID)[number];
+
+const imgOf = (m: M) =>
+  MODEL_COLOR_IMAGES[m.id]?.[0]?.image ?? MODEL_GALLERY_IMAGES[m.id]?.[0] ?? m.heroImage;
+
+const priceOf = (m: M) =>
+  m.startingPrice ? `${m.startingPrice}-с эхлэн` : m.priceNote ?? "Тун удахгүй";
 
 export function Models() {
+  const models = ALL_MODELS_FOR_GRID;
+  const [active, setActive] = useState(0);
+  const m = models[active];
+
   return (
-    <section
-      id="models"
-      className="relative py-32 lg:py-40 bg-white overflow-hidden"
-    >
-      <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
-      <div className="relative mx-auto w-[min(1280px,94vw)]">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="eyebrow eyebrow-electric mb-4"
-          >
-            Featured Models
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="font-display font-extrabold italic leading-[0.95] text-[#0A1F44] text-5xl lg:text-7xl mb-5"
-          >
-            Explore The <span className="text-gradient-premium">Jetour Lineup</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="max-w-2xl mx-auto text-[#6B7280] text-base lg:text-lg leading-relaxed"
-          >
-            Хотын кросовероос аяллын SUV хүртэл — өөрийн амьдралын хэв маягт тохирох JETOUR-оо олоорой.
-          </motion.p>
-        </div>
+    <section id="models" className="bg-white">
+      {/* Header */}
+      <div className="mx-auto w-[min(1280px,94vw)] pt-14 pb-6">
+        <p className="eyebrow eyebrow-electric mb-2">Загварууд</p>
+        <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-4xl">
+          Танд тохирох JETOUR загвар
+        </h2>
+      </div>
 
-        {/* Clean premium grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {ALL_MODELS_FOR_GRID.map((m, i) => (
-            <motion.div
-              key={m.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: (i % 3) * 0.12 }}
+      {/* Tab strip */}
+      <div className="border-t border-[#E7E7EA] overflow-x-auto">
+        <div className="mx-auto w-[min(1280px,94vw)] flex gap-1 py-2">
+          {models.map((mm, i) => (
+            <button
+              key={mm.id}
+              onClick={() => setActive(i)}
+              className={`shrink-0 px-5 py-2.5 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
+                i === active
+                  ? "bg-[#17181B] text-white"
+                  : "text-[#54585F] hover:text-[#17181B] hover:bg-[#F5F5F6]"
+              }`}
             >
-              <Link href={`/models/${m.id}`} className="group block">
-                <article className="bg-white rounded-2xl overflow-hidden border border-[#E2E7EF] card-lift h-full flex flex-col">
-                  {/* Image */}
-                  <div className="relative aspect-[16/10] overflow-hidden bg-[#F7F9FC]">
-                    <img
-                      src={m.heroImage}
-                      alt={m.name}
-                      className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background:
-                          "linear-gradient(180deg, transparent 0%, transparent 55%, rgba(10,31,68,0.5) 100%)",
-                      }}
-                    />
-                    {/* Series badge — minimal */}
-                    <div className="absolute top-4 left-4">
-                      <span className="font-display text-[0.55rem] font-bold tracking-[0.22em] uppercase px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm text-[#0A1F44]">
-                        {m.series}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Body — minimal info */}
-                  <div className="p-7 flex flex-col flex-1">
-                    <h3 className="font-display font-extrabold italic text-2xl text-[#0A1F44] mb-2">
-                      {m.name}
-                    </h3>
-                    <p className="text-sm text-[#6B7280] mb-5 leading-relaxed">
-                      {m.shortDesc}
-                    </p>
-
-                    <div className="mt-auto pt-5 border-t border-[#E2E7EF] flex items-end justify-between">
-                      <div>
-                        <p className="text-[0.55rem] tracking-[0.22em] uppercase text-[#6B7280] font-display mb-1">
-                          Starting From
-                        </p>
-                        <p className="font-display font-extrabold italic text-xl text-[#0A1F44]">
-                          {m.startingPrice ?? m.priceNote ?? "—"}
-                        </p>
-                      </div>
-                      <span className="flex items-center gap-1.5 text-[#00AEEF] font-display font-bold text-sm group-hover:gap-2.5 transition-all">
-                        Learn More
-                        <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              </Link>
-            </motion.div>
+              {mm.name}
+            </button>
           ))}
+        </div>
+      </div>
+
+      {/* Full-width image showcase */}
+      <div className="relative w-full overflow-hidden bg-[#111]" style={{ minHeight: "62vh" }}>
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={m.id}
+            src={imgOf(m)}
+            alt={m.name}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full object-cover"
+            style={{ minHeight: "62vh", maxHeight: "78vh" }}
+          />
+        </AnimatePresence>
+
+        {/* Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
+
+        {/* Coming soon */}
+        {m.status === "coming-soon" && (
+          <span className="absolute top-5 left-6 text-[0.6rem] font-bold tracking-[0.18em] uppercase px-3 py-1.5 rounded-full bg-[#E20A17] text-white">
+            Тун удахгүй
+          </span>
+        )}
+
+        {/* Bottom overlay */}
+        <div className="absolute bottom-0 left-0 right-0 px-6 lg:px-10 pb-8 flex items-end justify-between gap-4 flex-wrap">
+          {/* Left: CTAs */}
+          <div className="flex gap-3 flex-wrap">
+            <Link
+              href={`/models/${m.id}`}
+              className="bg-white text-[#17181B] px-7 py-3 text-sm font-bold rounded-lg hover:bg-[#E20A17] hover:text-white transition-colors"
+            >
+              Дэлгэрэнгүй
+            </Link>
+            <button
+              onClick={() =>
+                document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="bg-white/15 backdrop-blur-sm border border-white/40 text-white px-7 py-3 text-sm font-bold rounded-lg hover:bg-white/25 transition-colors"
+            >
+              Тест драйв
+            </button>
+          </div>
+
+          {/* Right: Model name + price */}
+          <div className="text-right">
+            <p className="text-white/55 text-sm font-medium mb-0.5">{priceOf(m)}</p>
+            <h3 className="font-extrabold text-3xl lg:text-5xl text-white tracking-tight leading-none">
+              {m.name}
+            </h3>
+          </div>
         </div>
       </div>
     </section>

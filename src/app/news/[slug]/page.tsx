@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NEWS_ARTICLES, CONTACT } from "@/lib/jetour-data";
+import { Navbar } from "@/components/jetour/navbar";
 import { Calendar, Tag, ArrowLeft, ArrowRight, Phone } from "lucide-react";
 
 // === Static params for all news slugs ===
@@ -86,17 +87,18 @@ export default async function NewsDetailPage({
   const related = NEWS_ARTICLES.filter((a) => a.slug !== article.slug).slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-white text-[#0A1F44]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="h-20" />
+      <Navbar />
+      <div className="h-16" />
 
       {/* Hero */}
-      <section className="relative h-[50vh] min-h-[360px] overflow-hidden bg-[#0A1F44]">
+      <section className="relative h-[50vh] min-h-[360px] overflow-hidden bg-[#17181B]">
         <img
           src={article.image}
           alt={article.title}
@@ -106,14 +108,14 @@ export default async function NewsDetailPage({
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(10,31,68,0.7) 0%, rgba(10,31,68,0.4) 50%, rgba(10,31,68,0.95) 100%)",
+              "linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.95) 100%)",
           }}
         />
         <div className="relative z-10 h-full flex items-end pb-12">
           <div className="mx-auto w-[min(900px,94vw)]">
             <Link
               href="/news"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-[#4DD0F5] transition-colors text-sm font-display font-bold tracking-wider mb-5"
+              className="inline-flex items-center gap-2 text-white/60 hover:text-[#E20A17] transition-colors text-sm font-display font-bold tracking-wider mb-5"
             >
               <ArrowLeft className="w-4 h-4" />
               МЭДЭЭ
@@ -121,7 +123,7 @@ export default async function NewsDetailPage({
             <div className="flex items-center gap-3 mb-4">
               <span
                 className={`font-display text-[0.6rem] font-bold tracking-[0.18em] uppercase px-3 py-1.5 rounded-full text-white ${
-                  article.accent === "electric" ? "bg-[#00AEEF]" : "bg-[#0A1F44] border border-white/20"
+                  article.accent === "electric" ? "bg-[#E20A17]" : "bg-[#17181B] border border-white/20"
                 }`}
               >
                 {article.tag}
@@ -141,7 +143,7 @@ export default async function NewsDetailPage({
       {/* Article body */}
       <article className="py-16 lg:py-24">
         <div className="mx-auto w-[min(900px,94vw)]">
-          <p className="text-[0.65rem] tracking-[0.22em] uppercase text-[#00AEEF] font-display mb-4 flex items-center gap-1.5">
+          <p className="text-[0.65rem] tracking-[0.22em] uppercase text-[#E20A17] font-display mb-4 flex items-center gap-1.5">
             <Tag className="w-3 h-3" />
             {article.type}
           </p>
@@ -151,15 +153,15 @@ export default async function NewsDetailPage({
 
           <div className="prose prose-lg max-w-none">
             {article.content.split("\n\n").map((para, i) => (
-              <p key={i} className="text-[#0A1F44] text-base lg:text-lg leading-[1.8] mb-6">
+              <p key={i} className="text-[#17181B] text-base lg:text-lg leading-[1.8] mb-6">
                 {para}
               </p>
             ))}
           </div>
 
           {/* Contact CTA */}
-          <div className="mt-12 p-7 bg-[#F7F9FC] rounded-2xl border border-[#E2E7EF]">
-            <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44] mb-3">
+          <div className="mt-12 p-7 bg-[#F5F5F6] rounded-2xl border border-[#E7E7EA]">
+            <h3 className="font-display font-extrabold italic text-xl text-[#17181B] mb-3">
               Холбоо барих
             </h3>
             <p className="text-sm text-[#6B7280] mb-4 leading-relaxed">
@@ -187,9 +189,9 @@ export default async function NewsDetailPage({
 
       {/* Related */}
       {related.length > 0 && (
-        <section className="py-16 lg:py-20 bg-[#F7F9FC] border-t border-[#E2E7EF]">
+        <section className="py-16 lg:py-20 bg-[#F5F5F6] border-t border-[#E7E7EA]">
           <div className="mx-auto w-[min(1280px,94vw)]">
-            <h2 className="font-display font-extrabold italic text-2xl lg:text-3xl text-[#0A1F44] mb-8">
+            <h2 className="font-display font-extrabold italic text-2xl lg:text-3xl text-[#17181B] mb-8">
               Холбоотой мэдээ
             </h2>
             <div className="grid sm:grid-cols-2 gap-6">
@@ -197,10 +199,10 @@ export default async function NewsDetailPage({
                 <Link
                   key={r.slug}
                   href={`/news/${r.slug}`}
-                  className="group block bg-white rounded-2xl overflow-hidden border border-[#E2E7EF] card-lift"
+                  className="group block bg-white rounded-2xl overflow-hidden border border-[#E7E7EA] card-lift"
                 >
                   <div className="grid sm:grid-cols-[1fr_1.2fr] gap-0">
-                    <div className="aspect-[16/10] sm:aspect-auto overflow-hidden bg-[#F7F9FC]">
+                    <div className="aspect-[16/10] sm:aspect-auto overflow-hidden bg-[#F5F5F6]">
                       <img
                         src={r.image}
                         alt={r.title}
@@ -209,16 +211,16 @@ export default async function NewsDetailPage({
                       />
                     </div>
                     <div className="p-5">
-                      <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#00AEEF] font-display mb-2">
+                      <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#E20A17] font-display mb-2">
                         {r.type}
                       </p>
-                      <h3 className="font-display font-extrabold italic text-base text-[#0A1F44] mb-2 leading-tight">
+                      <h3 className="font-display font-extrabold italic text-base text-[#17181B] mb-2 leading-tight">
                         {r.title}
                       </h3>
                       <p className="text-xs text-[#6B7280] leading-relaxed line-clamp-2 mb-3">
                         {r.excerpt}
                       </p>
-                      <div className="flex items-center gap-1.5 text-[#00AEEF] font-display font-bold text-xs group-hover:gap-2.5 transition-all">
+                      <div className="flex items-center gap-1.5 text-[#E20A17] font-display font-bold text-xs group-hover:gap-2.5 transition-all">
                         Цааш
                         <ArrowRight className="w-3 h-3" />
                       </div>
@@ -231,7 +233,7 @@ export default async function NewsDetailPage({
         </section>
       )}
 
-      <footer className="bg-[#0A1F44] text-white py-10">
+      <footer className="bg-[#17181B] text-white py-10">
         <div className="mx-auto w-[min(1280px,94vw)] text-center">
           <p className="text-xs text-white/50">
             © {new Date().getFullYear()} JETOUR Mongolia · Сайн Моторс ХХК.

@@ -7,12 +7,12 @@ const PILLARS = [
   {
     icon: <Compass className="w-5 h-5" />,
     title: "Travel+ философи",
-    text: "JETOUR нь зөвхөн автомашин биш — аялал, баатарлага, илрүүлэлтийн амьдралын хэв маяг. Монголын уудам нутагт Travel+ философи.",
+    text: "JETOUR нь зөвхөн автомашин биш — аялал, адал явдал, шинийг нээх амьдралын хэв маяг. Монголын уудам нутагт Travel+ философи.",
   },
   {
     icon: <Mountain className="w-5 h-5" />,
     title: "Chery Group-ын өв",
-    text: "Chery Group-ын R&D суурь, Итаалийн дизайны студи. Шинэ загвар бүр дэлхийн түвшний дизайны хэлээр яригдана.",
+    text: "Chery Group-ын R&D суурь, Италийн дизайны студи. Шинэ загвар бүр дэлхийн түвшний дизайны хэлээр яригдана.",
   },
   {
     icon: <Globe2 className="w-5 h-5" />,
@@ -41,13 +41,13 @@ export function BrandStory() {
           >
             <p className="eyebrow eyebrow-electric mb-4">01 · Брэндийн танилцуулга</p>
             <h2 className="font-display font-extrabold italic leading-[0.95] mb-6">
-              <span className="text-[#0A1F44] text-4xl lg:text-6xl block">JETOUR —</span>
+              <span className="text-[#17181B] text-4xl lg:text-6xl block">JETOUR —</span>
               <span className="text-gradient-premium text-4xl lg:text-6xl block">Аяллын соёл</span>
             </h2>
             <p className="text-[#6B7280] text-base leading-relaxed mb-5">
               2018 онд Chery Group-ын дотор төрсөн JETOUR нь залуу, эрч хүчтэй SUV-д төвлөрсөн
-              дэлхийн брэнд. "Travel+" уриан дор — аялагчдын хүсэл, гэр бүлийн аялал, баатарлаг
-              илрүүлэлтийг нэг загварт нэгтгэсэн.
+              дэлхийн брэнд. "Travel+" уриан дор — аялагчдын хүсэл, гэр бүлийн аялал, адал явдалт
+              нээлтийг нэг загварт нэгтгэсэн.
             </p>
             <p className="text-[#6B7280] text-base leading-relaxed mb-8">
               Монголын уудам нутаг, өвлийн хүйтэн, зуны халуун, уулсын араар татсан шороон зам —
@@ -56,15 +56,15 @@ export function BrandStory() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <div className="bg-[#F7F9FC] border border-[#E2E7EF] rounded-xl px-5 py-3">
+              <div className="bg-[#F5F5F6] border border-[#E7E7EA] rounded-xl px-5 py-3">
                 <p className="font-display font-extrabold italic text-3xl text-gradient-premium">2018</p>
                 <p className="text-xs text-[#6B7280] mt-1 tracking-wider uppercase">Үүсгэн байгуулсан</p>
               </div>
-              <div className="bg-[#F7F9FC] border border-[#E2E7EF] rounded-xl px-5 py-3">
+              <div className="bg-[#F5F5F6] border border-[#E7E7EA] rounded-xl px-5 py-3">
                 <p className="font-display font-extrabold italic text-3xl text-gradient-premium">60+</p>
                 <p className="text-xs text-[#6B7280] mt-1 tracking-wider uppercase">Оронд борлуулсан</p>
               </div>
-              <div className="bg-[#F7F9FC] border border-[#E2E7EF] rounded-xl px-5 py-3">
+              <div className="bg-[#F5F5F6] border border-[#E7E7EA] rounded-xl px-5 py-3">
                 <p className="font-display font-extrabold italic text-3xl text-gradient-premium">1М+</p>
                 <p className="text-xs text-[#6B7280] mt-1 tracking-wider uppercase">Борлуулалт</p>
               </div>
@@ -79,25 +79,25 @@ export function BrandStory() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.7, delay: i * 0.1 }}
-                className="group relative overflow-hidden bg-white rounded-2xl p-7 border border-[#E2E7EF] card-lift"
+                className="group relative overflow-hidden bg-white rounded-2xl p-7 border border-[#E7E7EA] card-lift"
               >
                 <div
                   className="absolute -top-12 -right-12 w-40 h-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                   style={{
-                    background: "radial-gradient(circle, rgba(0,174,239,0.1), transparent 70%)",
+                    background: "radial-gradient(circle, rgba(226,35,26,0.1), transparent 70%)",
                   }}
                 />
                 <div className="flex items-start gap-5 relative">
-                  <div className="shrink-0 w-12 h-12 grid place-items-center rounded-xl bg-gradient-to-br from-[#0A1F44]/10 to-[#00AEEF]/10 text-[#0A1F44] border border-[#E2E7EF]">
+                  <div className="shrink-0 w-12 h-12 grid place-items-center rounded-xl bg-gradient-to-br from-[#17181B]/10 to-[#E20A17]/10 text-[#17181B] border border-[#E7E7EA]">
                     {p.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-display font-extrabold italic text-xl lg:text-2xl text-[#0A1F44] mb-2.5">
+                    <h3 className="font-display font-extrabold italic text-xl lg:text-2xl text-[#17181B] mb-2.5">
                       {p.title}
                     </h3>
                     <p className="text-[#6B7280] text-sm lg:text-base leading-relaxed">{p.text}</p>
                   </div>
-                  <span className="font-display font-extrabold italic text-5xl text-[#E2E7EF] leading-none">
+                  <span className="font-display font-extrabold italic text-5xl text-[#E7E7EA] leading-none">
                     0{i + 1}
                   </span>
                 </div>

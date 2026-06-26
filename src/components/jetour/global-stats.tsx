@@ -19,21 +19,13 @@ export function GlobalStats() {
   return (
     <section
       ref={ref}
-      className="relative py-32 lg:py-40 bg-[#0A1F44] overflow-hidden"
+      className="relative py-24 lg:py-32 bg-[#121316] overflow-hidden"
     >
-      <div
-        className="absolute inset-0 pointer-events-none opacity-30"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-        }}
-      />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(50% 60% at 50% 0%, rgba(0,174,239,0.15), transparent 70%)",
+            "radial-gradient(50% 60% at 50% 0%, rgba(226,35,26,0.12), transparent 70%)",
         }}
       />
 
@@ -44,18 +36,18 @@ export function GlobalStats() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="eyebrow text-[#4DD0F5] mb-3"
+            className="eyebrow text-[#E20A17] mb-3"
           >
-            Global Presence
+            Дэлхийд
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="font-display font-extrabold italic leading-[0.95] text-white text-4xl lg:text-6xl mb-4"
+            className="font-extrabold tracking-tight text-white text-3xl lg:text-5xl mb-4"
           >
-            Дэлхийн <span className="text-gradient-electric">JETOUR</span>
+            Дэлхийн <span className="text-[#E20A17]">JETOUR</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -76,9 +68,9 @@ export function GlobalStats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
-              className="relative bg-white/[0.04] border border-white/10 rounded-2xl p-7 text-center hover:border-[#00AEEF]/40 transition-colors group"
+              className="relative bg-white/[0.04] border border-white/10 rounded-2xl p-7 text-center hover:border-[#E20A17]/50 transition-colors group"
             >
-              <div className="w-14 h-14 mx-auto grid place-items-center rounded-2xl mb-5 bg-gradient-to-br from-[#00AEEF]/25 to-[#00AEEF]/5 text-[#4DD0F5] border border-[#00AEEF]/20 group-hover:scale-110 transition-transform">
+              <div className="w-14 h-14 mx-auto grid place-items-center rounded-2xl mb-5 bg-[#E20A17]/15 text-[#E20A17] border border-[#E20A17]/25 group-hover:scale-110 transition-transform">
                 {ICONS[s.icon]}
               </div>
               <Counter value={s.value} suffix={s.suffix} inView={inView} />

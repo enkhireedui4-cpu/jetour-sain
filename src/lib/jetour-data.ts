@@ -32,6 +32,211 @@ export const VEHICLE_COLORS: VehicleColor[] = [
   { name: "Цэнхэр", hex: "#00AEEF" },
 ];
 
+// === Загвар тус бүрийн бодит өнгөний зураг (Color Configurator) ===
+// public/models/<id>/<өнгө>.<ext> — Sain Motors-аас өгсөн студийн зургууд
+export type ModelColorImage = { name: string; hex: string; image: string };
+
+export const MODEL_COLOR_IMAGES: Record<string, ModelColorImage[]> = {
+  "x70-plus": [
+    { name: "Цагаан", hex: "#F1F1F2", image: "/models/x70-plus/white.jpg" },
+    { name: "Хар", hex: "#121316", image: "/models/x70-plus/black.jpg" },
+    { name: "Фантом саарал", hex: "#6B7079", image: "/models/x70-plus/phantom-grey.jpg" },
+    { name: "Далайн цэнхэр", hex: "#1C3D5A", image: "/models/x70-plus/deep-sea-blue.png" },
+  ],
+  x1: [
+    { name: "Цагаан", hex: "#F1F1F2", image: "/models/x1/white.jpeg" },
+    { name: "Шөнийн хар", hex: "#121316", image: "/models/x1/night-black.jpg" },
+    { name: "Улаан", hex: "#C8202A", image: "/models/x1/red.jpeg" },
+    { name: "Технологийн саарал", hex: "#8A8F98", image: "/models/x1/technology-gray.jpeg" },
+  ],
+  x50: [
+    { name: "Цагаан", hex: "#F1F1F2", image: "/models/x50/white.jpeg" },
+    { name: "Хар", hex: "#121316", image: "/models/x50/black.jpeg" },
+    { name: "Фантом саарал", hex: "#6B7079", image: "/models/x50/phantom-grey.jpeg" },
+    { name: "Мөнгөлөг", hex: "#C5C8CC", image: "/models/x50/silver.jpeg" },
+  ],
+  t1: [
+    { name: "Цагаан", hex: "#F1F1F2", image: "/models/t1/white.jpeg" },
+    { name: "Хар", hex: "#121316", image: "/models/t1/black.jpg" },
+    { name: "Алтлаг", hex: "#C9A96A", image: "/models/t1/gold.jpg" },
+    { name: "Мөнгөлөг", hex: "#C5C8CC", image: "/models/t1/silver.jpg" },
+  ],
+  s06: [
+    { name: "Цасан цагаан", hex: "#F1F1F2", image: "/models/s06/snow-white.jpg" },
+    { name: "Оддын хар", hex: "#121316", image: "/models/s06/starlit-black.jpg" },
+    { name: "Фантом саарал", hex: "#6B7079", image: "/models/s06/phantom-gray.jpg" },
+    { name: "Сарны саарал", hex: "#9AA0A6", image: "/models/s06/moon-grey.jpg" },
+    { name: "Сансрын мөнгөлөг", hex: "#C5C8CC", image: "/models/s06/cosmic-silver.jpg" },
+    { name: "Туяа ногоон", hex: "#3E5C4B", image: "/models/s06/aurora-green.jpg" },
+  ],
+  s07: [
+    { name: "Сувдан цагаан", hex: "#F1F1F2", image: "/models/s07/pearl-white.jpg" },
+    { name: "Цасан цагаан", hex: "#EDEEF0", image: "/models/s07/snow-white.jpg" },
+    { name: "Оддын хар", hex: "#121316", image: "/models/s07/starlit-black.jpg" },
+    { name: "Фантом саарал", hex: "#6B7079", image: "/models/s07/phantom-gray.jpg" },
+    { name: "Далайн цэнхэр", hex: "#1C3D5A", image: "/models/s07/ocean-blue.jpg" },
+  ],
+};
+
+// === Технологи / Интерьер — зурагтай цэвэр тайлбар (kz-сайт маягийн) ===
+export type ModelMediaHighlight = { image: string; title: string; caption: string };
+
+export const MODEL_TECH_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
+  x50: [
+    {
+      image: "/models/x50/tech/1.webp",
+      title: "Ухаалаг мультимедиа",
+      caption:
+        "10.25 инчийн хос HD дэлгэц нь дижитал хянах самбар, мэдрэгчтэй мультимедиаг нэгтгэж, жолоодлогын мэдээлэл, энтертайнментийг нэг дор төвлөрүүлнэ.",
+    },
+    {
+      image: "/models/x50/tech/2.webp",
+      title: "360° панорам харах",
+      caption:
+        "Өндөр нягтаршилтай 360° орчны систем автомашины эргэн тойрныг бүрэн харуулж, зогсоол болон нарийн зайд аюулгүй, итгэлтэй маневр хийхэд тусална.",
+    },
+    {
+      image: "/models/x50/tech/3.webp",
+      title: "Утасгүй цэнэглэгч",
+      caption:
+        "Утасгүй цэнэглэгч болон олон төрлийн холболтын шийдэл нь аяллын турш төхөөрөмжөө үргэлж бэлэн байлгах боломжийг олгоно.",
+    },
+  ],
+  "x70-plus": [
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/68144fc691ccd.webp",
+      title: "Гурван бүсийн климат-контроль",
+      caption: "Жолооч болон зорчигч тус бүр өөрийн тохиргоотой — салон даяар тэнцвэртэй, таатай орчин.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/688c693188abc.webp",
+      title: "10.25\" мэдрэгчтэй дэлгэц",
+      caption: "Физик болон мэдрэгчтэй товчлуурын хослол — жолоодлогын үед хялбар, ойлгомжтой удирдлага.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/68144f7274c2e.webp",
+      title: "Панорам тэнгэрлэг дээвэр",
+      caption: "Цахилгаан удирдлагатай панорам дээвэр салоныг илүү гэрэлтэй, уужим болгоно.",
+    },
+  ],
+  dashing: [
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/681475c64e77a.webp",
+      title: "Том хэмжээний дижитал дэлгэц",
+      caption: "Цэвэр интерфэйс бүхий дижитал орчин — жолоодлогын мэдээлэл, энтертайнментийг нэг дор.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/681475a356421.webp",
+      title: "L2.5 ADAS жолоодлогын туслах",
+      caption: "Эгнээнд барих, адаптив круиз, тоормосны туслалцаа — хотын замд илүү аюулгүй.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/68147585f3de5.webp",
+      title: "Sony аудио систем",
+      caption: "Олон чиглэлийн өндөр чанартай дуу — аялал бүрийг илүү тав тухтай болгоно.",
+    },
+  ],
+  t1: [
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/69158d98aa647.webp",
+      title: "Ухаалаг мультимедиа",
+      caption: "Холболттой дэлгэц — навигаци, хөгжим, утасны удирдлага нэг дор төвлөрнө.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/69158d862b25e.webp",
+      title: "360° камер",
+      caption: "Машины эргэн тойрны бүрэн дүр зураг — зогсоол, давчуу орчинд аюулгүй маневр.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/69158d312e2fa.webp",
+      title: "Жолоодлогын туслах систем",
+      caption: "Идэвхтэй аюулгүй байдлын багц — урт замд жолоочийн ачааллыг бууруулна.",
+    },
+  ],
+  t2: [
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/68dc041052819.webp",
+      title: "Олон горимт 4WD",
+      caption: "Элс, шавар, цас зэрэг газрын нөхцөлд тохирох жолоодлогын горимууд.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/68dc03f912f03.webp",
+      title: "Бартаат замын мэдээлэл",
+      caption: "Налуу, өнцөг, луужин — хүнд нөхцөлд бодит цагийн мэдээлэл.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/68dc03f03634f.webp",
+      title: "Ухаалаг туслах систем",
+      caption: "Камер, мэдрэгчид — бартаат зам, гүн усанд итгэлтэй жолоодлого.",
+    },
+  ],
+  "x90-plus": [
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/6812ef655f2da.webp",
+      title: "Том дижитал дэлгэц",
+      caption: "Жолоочийн самбар ба мультимедиа нэгдсэн дэвшилтэт интерфэйс.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/6812ef4ab16e3.webp",
+      title: "7 суудлын уян хатан зохион байгуулалт",
+      caption: "Гуравдугаар эгнээ нугалснаар өргөн ачааны зай — том гэр бүлд тохиромжтой.",
+    },
+    {
+      image: "https://back.jetour-auto.kz/images/cars/technos/6812ef298d291.webp",
+      title: "Дэвшилтэт аюулгүй байдал",
+      caption: "85%+ өндөр хүчдэлийн ган бие, олон тооны аюулгүйн систем.",
+    },
+  ],
+};
+
+export const MODEL_INTERIOR_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
+  x50: [
+    {
+      image: "/models/x50/interior/1.webp",
+      title: "Дижитал хянах самбар",
+      caption:
+        "Жолоочийн өмнөх өндөр нягтаршилтай дижитал самбар хурд, навигаци, аяллын мэдээллийг тод, ойлгомжтой харуулна.",
+    },
+    {
+      image: "/models/x50/interior/2.webp",
+      title: "Дээд зэрэглэлийн салон",
+      caption:
+        "Чанартай материал, ухаалаг технологи хосолсон өргөн салон нь зорчигч бүрд тав тух, аюулгүй мэдрэмжийг бэлэглэнэ.",
+    },
+    {
+      image: "/models/x50/interior/3.webp",
+      title: "Эргономик удирдлага",
+      caption:
+        "Эргономик байрлал, мэдрэгчтэй удирдлага нь жолоодлогыг илүү хялбар, таатай болгоно.",
+    },
+  ],
+};
+
+// === Галерейн зураг (jetour-auto.kz-аас) — exterior/gallery shots ===
+const KZ = "https://back.jetour-auto.kz/images/cars/photos/";
+export const MODEL_GALLERY_IMAGES: Record<string, string[]> = {
+  "x70-plus": [
+    `${KZ}6912e7c9339b5.webp`, `${KZ}6912e7f1702a8.webp`, `${KZ}6912e80f0dc63.webp`,
+    `${KZ}6912e85d12a82.webp`, `${KZ}6912e89254cd5.webp`, `${KZ}6912e8bfca8eb.webp`,
+  ],
+  dashing: [
+    `${KZ}6912d89f9b419.webp`, `${KZ}6912d8c548234.webp`, `${KZ}6912d26c61503.webp`,
+    `${KZ}6912d9e066d76.webp`, `${KZ}6912db73e8e37.webp`, `${KZ}6912dbbe70b18.webp`,
+  ],
+  t1: [
+    `${KZ}6915887161cdf.webp`, `${KZ}691588a1ed436.webp`, `${KZ}6915896163067.webp`,
+    `${KZ}691589b262fca.webp`, `${KZ}691589f4c905f.webp`, `${KZ}69158a51e43ad.webp`,
+  ],
+  t2: [
+    `${KZ}6912eb5f97acb.webp`, `${KZ}6912eb8e567c1.webp`, `${KZ}6912fa47bd963.webp`,
+    `${KZ}6912fa64d996b.webp`, `${KZ}6912fa8f8c66d.webp`, `${KZ}6912faa9ee2f5.webp`,
+  ],
+  "x90-plus": [
+    `${KZ}6912e9c4c1777.webp`, `${KZ}6912ea16368c6.webp`, `${KZ}6912ea3538760.webp`,
+    `${KZ}6912eaa275d00.webp`, `${KZ}6912eacd1942c.webp`,
+  ],
+};
+
 // === Lead form colors ===
 export const LEAD_VARIANTS = {
   glassLight: "glass-light",
@@ -181,14 +386,14 @@ export const MODELS: JetourModel[] = [
     exteriorImages: [IMG.x70_aerial, IMG.x70_rear, IMG.x70_night, IMG.x70_front_dark],
     interiorImages: [IMG.travel_interior],
     gallery: [IMG.x70_aerial, IMG.x70_rear, IMG.x70_night, IMG.x70_front_dark],
-    price: "95.0 сая ₮",
-    startingPrice: "95.0 сая ₮",
+    price: "94.9 сая ₮",
+    startingPrice: "94.9 сая ₮",
     status: "available",
     specs: {
-      engine: "1.6 TCI Turbo",
+      engine: "1.6T GDI",
       power: "197 л.с.",
       torque: "290 Нм",
-      transmission: "7-DCT",
+      transmission: "6-DCT",
       drivetrain: "FWD",
       seats: "7 суудал",
       length: "4749 мм",
@@ -232,8 +437,8 @@ export const MODELS: JetourModel[] = [
     safety: ["ABS", "EBD", "EBA", "TCS", "ESC", "HHC", "HDC", "RMI", "DBF"],
     highlights: [
       { label: "Суудал", value: "7 хүн" },
-      { label: "Хөдөлгүүр", value: "1.6T Turbo" },
-      { label: "Хурдны хайрцаг", value: "7-DCT" },
+      { label: "Хөдөлгүүр", value: "1.6T GDI" },
+      { label: "Хурдны хайрцаг", value: "6-DCT" },
       { label: "Өвлийн горим", value: "Багтсан" },
     ],
     accent: "red",
@@ -252,8 +457,8 @@ export const MODELS: JetourModel[] = [
     exteriorImages: [IMG.x1_branded, IMG.x1_front, IMG.x1_rear_side, IMG.x1_rear],
     interiorImages: [IMG.travel_interior],
     gallery: [IMG.x1_branded, IMG.x1_front, IMG.x1_rear_side, IMG.x1_rear],
-    price: "85.0 сая ₮",
-    startingPrice: "85.0 сая ₮",
+    price: "84.9 сая ₮",
+    startingPrice: "84.9 сая ₮",
     status: "available",
     specs: {
       engine: "1.5 TCI Turbo",
@@ -386,22 +591,22 @@ export const MODELS: JetourModel[] = [
     exteriorImages: [IMG.t1_phev],
     interiorImages: [IMG.travel_interior],
     gallery: [IMG.t1_phev],
-    price: "99.9 / 120.0 сая ₮",
-    priceNote: "Хоёр багц сонголттой",
-    startingPrice: "99.9 сая ₮",
+    price: "119.9 сая ₮-с",
+    priceNote: "Бензин ба PHEV хувилбартай",
+    startingPrice: "119.9 сая ₮",
     status: "available",
     specs: {
-      engine: "1.5T / 2.0T",
-      power: "156–197 л.с.",
-      torque: "230–390 Нм",
-      transmission: "6DCT / 7DCT",
-      drivetrain: "2WD / 4WD",
+      engine: "2.0T / 1.5T PHEV",
+      power: "254 / 590 л.с.",
+      torque: "390 / 840 Нм",
+      transmission: "8AT / 3DHT",
+      drivetrain: "4WD",
       seats: "5 суудал",
       length: "4500 мм",
       wheelbase: "2670 мм",
       groundClearance: "200 мм",
-      topSpeed: "180–200 км/ц",
-      fuel: "Бензин",
+      topSpeed: "200 км/ц",
+      fuel: "Бензин / PHEV",
     },
     exteriorFeatures: [
       {
@@ -433,9 +638,9 @@ export const MODELS: JetourModel[] = [
     ],
     safety: ["ABS", "EBD", "EBA", "TCS", "ESC", "HHC", "HDC"],
     highlights: [
-      { label: "Багц", value: "2 сонголт" },
-      { label: "Жолоодлого", value: "2WD / 4WD" },
-      { label: "Хурдны хайрцаг", value: "6/7-DCT" },
+      { label: "Хөдөлгүүр", value: "2.0T / PHEV" },
+      { label: "Хүчин чадал", value: "254 л.с." },
+      { label: "Хурдны хайрцаг", value: "8AT / 3DHT" },
       { label: "Суудал", value: "5 хүн" },
     ],
     accent: "blue",
@@ -574,7 +779,7 @@ export const HERO_SLIDES = [
     tagline: "Гэр бүлийн төгс шийдэл",
     description: "Тав тух, өргөн уужим салон, ухаалаг технологи",
     image: IMG.x70_aerial,
-    price: "95.0 сая ₮",
+    price: "94.9 сая ₮",
     accent: "red" as const,
   },
   {
@@ -582,7 +787,7 @@ export const HERO_SLIDES = [
     tagline: "Хотын залуусын сонголт",
     description: "Дэвшилтэт технологи, хүчирхэг гүйцэтгэл",
     image: IMG.x1_branded,
-    price: "85.0 сая ₮",
+    price: "84.9 сая ₮",
     accent: "red" as const,
   },
   {
@@ -598,7 +803,7 @@ export const HERO_SLIDES = [
     tagline: "Хот болон аяллын хослол",
     description: "Орчин үеийн технологи, ухаалаг шийдэл",
     image: IMG.t1_phev,
-    price: "99.9 / 120.0 сая ₮",
+    price: "119.9 сая ₮-с",
     accent: "blue" as const,
   },
 ];
@@ -753,13 +958,13 @@ export const TECHNOLOGY_FEATURES = [
   },
   {
     icon: "zap",
-    title: "Беспроводной цэнэглэгч",
+    title: "Утасгүй цэнэглэгч",
     description: "Утсаа тавьж цэнэглэх — утасгүй, кабельгүй. Smartphone-ын тав тухат хэрэглээ.",
   },
   {
     icon: "music",
     title: "Apple CarPlay",
-    description: "iPhone-оо холбож,导航, хөгжим, дуут хяналт — нэг дор. Бүх төрлийн апп дэмждэг.",
+    description: "iPhone-оо холбож, навигаци, хөгжим, дуут хяналт — нэг дор. Бүх төрлийн апп дэмждэг.",
   },
   {
     icon: "smartphone",
@@ -789,9 +994,9 @@ export const ADDITIONAL_MODELS = [
     exteriorImages: ["/jetour-cars/0de60c67e26e.png", "/jetour-cars/a1bafcdc2043.jpg"],
     interiorImages: ["/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif"],
     gallery: ["/jetour-cars/0de60c67e26e.png", "/jetour-cars/a1bafcdc2043.jpg"],
-    price: "Тун удахгүй",
-    priceNote: "Plug-in Hybrid",
-    startingPrice: null,
+    price: "129.9 сая ₮-с",
+    priceNote: "Бензин ба PHEV хувилбар",
+    startingPrice: "129.9 сая ₮",
     status: "coming-soon" as const,
     specs: {
       engine: "1.5T PHEV",
@@ -919,10 +1124,128 @@ export const ADDITIONAL_MODELS = [
     ],
     accent: "red" as const,
   },
+  {
+    id: "s06",
+    name: "JETOUR S06",
+    series: "Urban",
+    tagline: "Хотын ухаалаг кросовер",
+    shortDesc: "Орчин үеийн дизайн, ухаалаг технологи, тав тухтай салон",
+    description:
+      "Хотын өдөр тутмын амьдралд зориулсан орчин үеийн кросовер. Цэвэрхэн дизайн, ухаалаг технологи, өргөн өнгөний сонголт.",
+    longDescription:
+      "JETOUR S06 нь хотын залуу өрхөд зориулсан ухаалаг кросовер. Орчин үеийн дизайн, дижитал салон, өргөн уужим дотоод орчинтой. Олон төрлийн өнгөний сонголтоор хувийн хэв маягаа илэрхийлэх боломжтой.",
+    heroImage: "/models/s06/snow-white.jpg",
+    exteriorImages: [
+      "/models/s06/snow-white.jpg",
+      "/models/s06/starlit-black.jpg",
+      "/models/s06/phantom-gray.jpg",
+      "/models/s06/aurora-green.jpg",
+    ],
+    interiorImages: ["/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif"],
+    gallery: [
+      "/models/s06/snow-white.jpg",
+      "/models/s06/starlit-black.jpg",
+      "/models/s06/cosmic-silver.jpg",
+      "/models/s06/moon-grey.jpg",
+    ],
+    price: null,
+    priceNote: "Үнийн санал авах",
+    startingPrice: null,
+    status: "available" as const,
+    specs: {
+      engine: "1.5T GDI",
+      power: "156 л.с.",
+      torque: "230 Нм",
+      transmission: "CVT",
+      drivetrain: "FWD",
+      seats: "5 суудал",
+      length: "4540 мм",
+      wheelbase: "2720 мм",
+      groundClearance: "190 мм",
+      topSpeed: "180 км/ц",
+      fuel: "Бензин",
+    },
+    exteriorFeatures: [
+      { title: "Орчин үеийн дизайн", description: "Цэвэрхэн шугам, LED гэрэлтүүлэг, спортлог төрх." },
+      { title: "Өргөн өнгөний сонголт", description: "6 төрлийн өнгө — хувийн хэв маягаа илэрхийлэх." },
+    ],
+    interiorFeatures: [
+      { title: "Дижитал салон", description: "Том хэмжээт мэдрэгчтэй дэлгэц, дижитал хянах самбар." },
+      { title: "Тав тухтай орчин", description: "Өргөн уужим салон, чанартай материал." },
+    ],
+    safety: ["ABS", "EBD", "ESC", "360° камер"],
+    highlights: [
+      { label: "Хөдөлгүүр", value: "1.5T GDI" },
+      { label: "Хурдны хайрцаг", value: "CVT" },
+      { label: "Суудал", value: "5 хүн" },
+      { label: "Өнгө", value: "6 сонголт" },
+    ],
+    accent: "red" as const,
+  },
+  {
+    id: "s07",
+    name: "JETOUR S07",
+    series: "Urban",
+    tagline: "Гэр бүлийн ухаалаг SUV",
+    shortDesc: "Уужим салон, дэвшилтэт технологи, тав тух",
+    description:
+      "Гэр бүлд зориулсан өргөн уужим SUV. Дэвшилтэт технологи, тав тухтай салон, найдвартай гүйцэтгэл.",
+    longDescription:
+      "JETOUR S07 нь гэр бүлд зориулсан ухаалаг SUV. Өргөн уужим салон, дэвшилтэт аюулгүй байдлын систем, орчин үеийн дизайнтай. Хот болон хот хоорондын аялалд тав тухтай шийдэл.",
+    heroImage: "/models/s07/pearl-white.jpg",
+    exteriorImages: [
+      "/models/s07/pearl-white.jpg",
+      "/models/s07/starlit-black.jpg",
+      "/models/s07/phantom-gray.jpg",
+      "/models/s07/ocean-blue.jpg",
+    ],
+    interiorImages: ["/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif"],
+    gallery: [
+      "/models/s07/pearl-white.jpg",
+      "/models/s07/starlit-black.jpg",
+      "/models/s07/ocean-blue.jpg",
+      "/models/s07/snow-white.jpg",
+    ],
+    price: null,
+    priceNote: "Үнийн санал авах",
+    startingPrice: null,
+    status: "available" as const,
+    specs: {
+      engine: "1.6T GDI",
+      power: "197 л.с.",
+      torque: "290 Нм",
+      transmission: "7-DCT",
+      drivetrain: "FWD",
+      seats: "5 суудал",
+      length: "4720 мм",
+      wheelbase: "2770 мм",
+      groundClearance: "200 мм",
+      topSpeed: "195 км/ц",
+      fuel: "Бензин",
+    },
+    exteriorFeatures: [
+      { title: "Орчин үеийн дизайн", description: "Спортлог биеийн хэлбэр, LED гэрэлтүүлэг." },
+      { title: "Өргөн өнгөний сонголт", description: "5 төрлийн өнгө — далайн цэнхэрээс оддын хар хүртэл." },
+    ],
+    interiorFeatures: [
+      { title: "Уужим салон", description: "Гэр бүлд тохирох өргөн дотоод орчин." },
+      { title: "Дэвшилтэт технологи", description: "Дижитал дэлгэц, ухаалаг холболт, аюулгүй байдлын систем." },
+    ],
+    safety: ["ABS", "EBD", "ESC", "L2 ADAS", "360° камер"],
+    highlights: [
+      { label: "Хөдөлгүүр", value: "1.6T GDI" },
+      { label: "Хурдны хайрцаг", value: "7-DCT" },
+      { label: "Суудал", value: "5 хүн" },
+      { label: "Өнгө", value: "5 сонголт" },
+    ],
+    accent: "red" as const,
+  },
 ];
 
-// Combine all models for the grid
-export const ALL_MODELS_FOR_GRID = [...MODELS, ...ADDITIONAL_MODELS];
+// Combine all models — grid/mega-menu дээр зөвхөн зарагдаж буй (available) загвар:
+// X70 Plus, X50, X1, T1, S06, S07. "Тун удахгүй" загваруудыг grid-ээс хасна.
+export const ALL_MODELS = [...MODELS, ...ADDITIONAL_MODELS];
+export const ALL_MODELS_FOR_GRID = ALL_MODELS.filter((m) => m.status === "available");
 
 export const LIFESTYLE_IMAGES = {
   hero: "/jetour-cars/8a3bf450cc83.jpg",

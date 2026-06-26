@@ -29,31 +29,31 @@ export function StickyContactBar() {
           >
             <a
               href={CONTACT.phone1Href}
-              className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#0A1F44] text-white shadow-lg hover:bg-[#00AEEF] transition-colors"
+              className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#17181B] text-white shadow-lg hover:bg-[#E20A17] transition-colors"
               aria-label="Залгах"
             >
               <Phone className="w-5 h-5" />
-              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#0A1F44] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#17181B] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Залгах
               </span>
             </a>
             <button
               onClick={() => document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })}
-              className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#00AEEF] text-white shadow-lg hover:bg-[#4DD0F5] transition-colors"
+              className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#E20A17] text-white shadow-lg hover:bg-[#E20A17] transition-colors"
               aria-label="Тест драйв"
             >
               <Calendar className="w-5 h-5" />
-              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#0A1F44] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#17181B] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Тест драйв
               </span>
             </button>
             <button
               onClick={() => document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })}
-              className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#142A5C] text-white shadow-lg hover:bg-[#00AEEF] transition-colors"
+              className="group relative w-12 h-12 grid place-items-center rounded-full bg-[#232428] text-white shadow-lg hover:bg-[#E20A17] transition-colors"
               aria-label="Үнийн санал"
             >
               <MessageSquare className="w-5 h-5" />
-              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#0A1F44] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#17181B] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Үнийн санал
               </span>
             </button>
@@ -65,7 +65,7 @@ export function StickyContactBar() {
               aria-label="WhatsApp"
             >
               <MessageCircle className="w-5 h-5" />
-              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#0A1F44] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <span className="absolute right-full mr-3 whitespace-nowrap text-xs font-display font-bold bg-[#17181B] text-white px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 WhatsApp
               </span>
             </a>
@@ -81,28 +81,28 @@ export function StickyContactBar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0A1F44]/95 backdrop-blur-md border-t border-white/10 shadow-2xl"
+            className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#17181B]/95 backdrop-blur-md border-t border-white/10 shadow-2xl"
           >
             <div className="grid grid-cols-4 gap-1 px-2 py-2">
               <a
                 href={CONTACT.phone1Href}
                 className="flex flex-col items-center gap-0.5 py-1.5 rounded-lg text-white hover:bg-white/10 transition-colors"
               >
-                <Phone className="w-4 h-4 text-[#4DD0F5]" />
+                <Phone className="w-4 h-4 text-[#E20A17]" />
                 <span className="text-[0.6rem] font-display font-semibold">Залгах</span>
               </a>
               <button
                 onClick={() => document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })}
                 className="flex flex-col items-center gap-0.5 py-1.5 rounded-lg text-white hover:bg-white/10 transition-colors"
               >
-                <Calendar className="w-4 h-4 text-[#4DD0F5]" />
+                <Calendar className="w-4 h-4 text-[#E20A17]" />
                 <span className="text-[0.6rem] font-display font-semibold">Тест</span>
               </button>
               <button
                 onClick={() => document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })}
                 className="flex flex-col items-center gap-0.5 py-1.5 rounded-lg text-white hover:bg-white/10 transition-colors"
               >
-                <MessageSquare className="w-4 h-4 text-[#4DD0F5]" />
+                <MessageSquare className="w-4 h-4 text-[#E20A17]" />
                 <span className="text-[0.6rem] font-display font-semibold">Санал</span>
               </button>
               <a

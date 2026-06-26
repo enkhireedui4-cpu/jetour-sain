@@ -27,12 +27,16 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import {
+  ALL_MODELS,
   ALL_MODELS_FOR_GRID,
-  VEHICLE_COLORS,
+  MODEL_COLOR_IMAGES,
+  MODEL_GALLERY_IMAGES,
+  MODEL_TECH_HIGHLIGHTS,
+  MODEL_INTERIOR_HIGHLIGHTS,
   CONTACT,
   TECHNOLOGY_FEATURES,
 } from "@/lib/jetour-data";
-import { Gallery, ColorSelector } from "@/components/jetour/gallery";
+import { Gallery } from "@/components/jetour/gallery";
 import { useToast } from "@/hooks/use-toast";
 
 const TECH_ICON_MAP: Record<string, React.ReactNode> = {
@@ -54,11 +58,11 @@ const SAFETY_FEATURES = [
 
 export default function ModelDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const model = ALL_MODELS_FOR_GRID.find((m) => m.id === id);
+  const model = ALL_MODELS.find((m) => m.id === id);
 
   if (!model) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white text-[#0A1F44]">
+      <div className="min-h-screen flex items-center justify-center bg-white text-[#17181B]">
         <div className="text-center">
           <h1 className="font-display font-extrabold italic text-4xl mb-4">Загвар олдсонгүй</h1>
           <p className="text-[#6B7280] mb-6">Таны хайсан загвар байхгүй байна.</p>
@@ -74,44 +78,57 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
 }
 
 function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[number] }) {
-  const accentColor = model.accent === "red" ? "#E2231A" : "#00AEEF";
-  const accentSoft = model.accent === "red" ? "#FF4A42" : "#4DD0F5";
+  const accentColor = "#E20A17";
+  const accentSoft = "#FF4A42";
+
+  // Бодит өнгөний зураг (Color Configurator)
+  const colorImages = MODEL_COLOR_IMAGES[model.id] ?? [];
+  const galleryImgs = MODEL_GALLERY_IMAGES[model.id] ?? [];
+  const [colorIdx, setColorIdx] = useState(0);
+  const heroImg = colorImages[0]?.image ?? galleryImgs[0] ?? model.heroImage;
+  const exteriorImgs = colorImages.length
+    ? colorImages.map((c) => c.image)
+    : galleryImgs.length
+    ? galleryImgs
+    : model.exteriorImages;
+  const techHi = MODEL_TECH_HIGHLIGHTS[model.id] ?? [];
+  const interiorHi = MODEL_INTERIOR_HIGHLIGHTS[model.id] ?? [];
 
   return (
-    <div className="min-h-screen bg-white text-[#0A1F44]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       {/* === Top back navigation === */}
-      <div className="bg-[#0A1F44] text-white py-4 sticky top-0 z-30">
+      <div className="bg-[#17181B] text-white py-4 sticky top-0 z-30">
         <div className="mx-auto w-[min(1280px,94vw)] flex items-center justify-between">
           <Link
             href="/#models"
             className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm font-display font-bold tracking-wider"
           >
             <ArrowLeft className="w-4 h-4" />
-            БҮХ ЗАГВАР
+            Бүх загвар
           </Link>
           <div className="flex items-center gap-3">
             <a
               href={CONTACT.phone1Href}
-              className="hidden sm:flex items-center gap-2 text-white/80 hover:text-[#4DD0F5] transition-colors text-xs font-display font-bold"
+              className="hidden sm:flex items-center gap-2 text-white/80 hover:text-[#E20A17] transition-colors text-xs font-display font-bold"
             >
               <Phone className="w-3.5 h-3.5" />
               {CONTACT.phone1}
             </a>
             <Link
-              href="/#test-drive"
-              className="btn-electric-jetour px-4 py-2 rounded-full text-xs tracking-widest"
+              href="#request-info"
+              className="btn-electric-jetour px-4 py-2 rounded-full text-xs tracking-wide"
             >
-              BOOK TEST DRIVE
+              Тест драйв
             </Link>
           </div>
         </div>
       </div>
 
       {/* === Vehicle Hero Banner === */}
-      <section className="relative h-[80vh] min-h-[560px] overflow-hidden bg-[#0A1F44]">
+      <section className="relative h-[80vh] min-h-[560px] overflow-hidden bg-[#17181B]">
         <div className="absolute inset-0">
           <img
-            src={model.heroImage}
+            src={heroImg}
             alt={model.name}
             className="w-full h-full object-cover"
             loading="eager"
@@ -120,7 +137,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(10,31,68,0.7) 0%, rgba(10,31,68,0.3) 35%, rgba(10,31,68,0.5) 75%, rgba(10,31,68,0.95) 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.95) 100%)",
             }}
           />
           <div
@@ -142,7 +159,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
                 className="eyebrow mb-3"
                 style={{ color: accentSoft }}
               >
-                {model.series} Series
+                {model.series} цуврал
               </p>
               <h1
                 className="font-display font-extrabold italic text-white mb-4"
@@ -177,14 +194,14 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
                   href="#request-info"
                   className="btn-electric-jetour px-6 py-3.5 rounded-xl text-sm flex items-center gap-2"
                 >
-                  Request Quote
+                  Үнийн санал авах
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
-                  href="#test-drive-form"
+                  href="#request-info"
                   className="btn-outline-light px-6 py-3.5 rounded-xl text-sm"
                 >
-                  Book Test Drive
+                  Тест драйв захиалах
                 </a>
               </div>
             </motion.div>
@@ -193,23 +210,51 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       </section>
 
       {/* === Exterior Gallery === */}
-      <Section title="Exterior Gallery" eyebrow="01 · Экстерьер" bg="bg-white">
+      <Section title="Гадна үзэмж" eyebrow="01 · Экстерьер" bg="bg-white">
         <p className="text-[#6B7280] text-base lg:text-lg leading-relaxed mb-10 max-w-3xl">
           {model.description}
         </p>
-        <Gallery key={`ext-${model.id}`} images={model.exteriorImages} alt={model.name} accent={model.accent} />
+        <Gallery key={`ext-${model.id}`} images={exteriorImgs} alt={model.name} accent={model.accent} />
       </Section>
 
-      {/* === Interior Gallery === */}
-      <Section title="Interior Gallery" eyebrow="02 · Интерьер" bg="bg-[#F7F9FC]">
-        <p className="text-[#6B7280] text-base lg:text-lg leading-relaxed mb-10 max-w-3xl">
-          {model.longDescription}
-        </p>
-        <Gallery key={`int-${model.id}`} images={model.interiorImages} alt={model.name} accent={model.accent} />
+      {/* === Interior === */}
+      <Section title="Дотор салон" eyebrow="02 · Интерьер" bg="bg-[#F5F5F6]">
+        {interiorHi.length > 0 ? (
+          <MediaHighlights items={interiorHi} />
+        ) : (
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <div className="rounded-2xl overflow-hidden bg-white border border-[#E7E7EA]">
+              <img
+                src={model.interiorImages[0]}
+                alt={`${model.name} — салон`}
+                className="w-full aspect-[16/10] object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div>
+              <p className="text-[#54585F] text-base leading-relaxed mb-7 max-w-lg">
+                {model.shortDesc}
+              </p>
+              <div className="space-y-5">
+                {model.interiorFeatures.map((f) => (
+                  <div key={f.title} className="border-l-2 border-[#E20A17] pl-4">
+                    <h3 className="font-bold text-base text-[#17181B] mb-1">{f.title}</h3>
+                    <p className="text-sm text-[#54585F] leading-relaxed">{f.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </Section>
 
       {/* === Technology Section === */}
-      <Section title="Technology" eyebrow="03 · Технологи" bg="bg-[#0A1F44]" dark>
+      {techHi.length > 0 ? (
+        <Section title="Технологи" eyebrow="03 · Технологи" bg="bg-white">
+          <MediaHighlights items={techHi} />
+        </Section>
+      ) : (
+      <Section title="Технологи" eyebrow="03 · Технологи" bg="bg-[#17181B]" dark>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {TECHNOLOGY_FEATURES.map((t, i) => (
             <motion.div
@@ -219,9 +264,9 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
               whileHover={{ y: -8 }}
-              className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-2xl p-7 hover:border-[#00AEEF]/50 transition-colors"
+              className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-2xl p-7 hover:border-[#E20A17]/50 transition-colors"
             >
-              <div className="w-14 h-14 grid place-items-center rounded-2xl mb-5 border border-[#00AEEF]/30 bg-gradient-to-br from-[#00AEEF]/20 to-[#00AEEF]/5 text-[#4DD0F5]">
+              <div className="w-14 h-14 grid place-items-center rounded-2xl mb-5 border border-[#E20A17]/30 bg-gradient-to-br from-[#E20A17]/20 to-[#E20A17]/5 text-[#E20A17]">
                 {TECH_ICON_MAP[t.icon]}
               </div>
               <h3 className="font-display font-extrabold italic text-lg text-white mb-3">{t.title}</h3>
@@ -230,9 +275,10 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
           ))}
         </div>
       </Section>
+      )}
 
       {/* === Safety Section === */}
-      <Section title="Safety Features" eyebrow="04 · Аюулгүй байдал" bg="bg-white">
+      <Section title="Аюулгүй байдал" eyebrow="04 · Хамгаалалт" bg="bg-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {SAFETY_FEATURES.map((s, i) => (
             <motion.div
@@ -241,13 +287,13 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
-              className="bg-white rounded-2xl p-6 border border-[#E2E7EF] card-lift"
+              className="bg-white rounded-2xl p-6 border border-[#E7E7EA] card-lift"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 grid place-items-center rounded-xl bg-gradient-to-br from-[#0A1F44] to-[#142A5C] text-[#4DD0F5]">
+                <div className="w-10 h-10 grid place-items-center rounded-xl bg-gradient-to-br from-[#17181B] to-[#232428] text-[#E20A17]">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
-                <h3 className="font-display font-extrabold italic text-base text-[#0A1F44]">
+                <h3 className="font-display font-extrabold italic text-base text-[#17181B]">
                   {s.title}
                 </h3>
               </div>
@@ -257,51 +303,108 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
         </div>
       </Section>
 
-      {/* === Specifications Section === */}
-      <Section title="Specifications" eyebrow="05 · Техник үзүүлэлт" bg="bg-[#F7F9FC]">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <SpecCard icon={<Gauge className="w-4 h-4" />} label="Хөдөлгүүр" value={model.specs.engine} />
-          <SpecCard icon={<Zap className="w-4 h-4" />} label="Морины хүч" value={model.specs.power} />
-          <SpecCard icon={<CircleDot className="w-4 h-4" />} label="Мушгих хүч" value={model.specs.torque} />
-          <SpecCard icon={<Cog className="w-4 h-4" />} label="Хурдны хайрцаг" value={model.specs.transmission} />
-          <SpecCard icon={<Wind className="w-4 h-4" />} label="Хөтлөгч" value={model.specs.drivetrain} />
-          <SpecCard icon={<Users className="w-4 h-4" />} label="Суудал" value={model.specs.seats} />
-          <SpecCard icon={<Ruler className="w-4 h-4" />} label="Биеийн урт" value={model.specs.length} />
-          <SpecCard icon={<Navigation className="w-4 h-4" />} label="Тэнхлэгийн зай" value={model.specs.wheelbase} />
-          <SpecCard icon={<Fuel className="w-4 h-4" />} label="Газрын тусгаар" value={model.specs.groundClearance} />
-        </div>
-      </Section>
-
-      {/* === Color Selector === */}
-      <Section title="Color Options" eyebrow="06 · Өнгийн сонголт" bg="bg-white">
-        <div className="bg-[#F7F9FC] rounded-2xl p-8 border border-[#E2E7EF]">
-          <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 items-center">
-            <div
-              className="aspect-[16/10] rounded-xl overflow-hidden grid place-items-center"
-              style={{
-                background: "linear-gradient(135deg, #F7F9FC 0%, #E2E7EF 100%)",
-              }}
-            >
-              <img
-                src={model.heroImage}
-                alt={model.name}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
+      {/* === Color Configurator === */}
+      {colorImages.length > 0 && (
+        <Section title="Өнгөний сонголт" eyebrow="05 · Өнгө" bg="bg-[#F5F5F6]">
+          <div className="bg-white rounded-2xl p-6 lg:p-8 border border-[#E7E7EA]">
+            <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-10 items-center">
+              <div className="aspect-[16/10] rounded-xl overflow-hidden bg-white border border-[#E7E7EA]">
+                <img
+                  key={colorImages[colorIdx].image}
+                  src={colorImages[colorIdx].image}
+                  alt={`${model.name} — ${colorImages[colorIdx].name}`}
+                  className="w-full h-full object-cover animate-[reveal-up_0.5s_ease]"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <p className="eyebrow eyebrow-electric mb-1.5">Өнгө сонгох</p>
+                <p className="font-bold text-2xl text-[#17181B] mb-5">
+                  {colorImages[colorIdx].name}
+                </p>
+                <div className="flex flex-wrap gap-3 mb-5">
+                  {colorImages.map((c, i) => (
+                    <button
+                      key={c.name}
+                      onClick={() => setColorIdx(i)}
+                      title={c.name}
+                      aria-label={c.name}
+                      className={`w-11 h-11 rounded-full transition-all ${
+                        colorIdx === i
+                          ? "ring-2 ring-offset-2 ring-[#E20A17] scale-110"
+                          : "ring-1 ring-[#D9DADE] hover:scale-105"
+                      }`}
+                      style={{ background: c.hex }}
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-[#8A8F98] leading-relaxed">
+                  Өнгө сонгоход үнэ өөрчлөгдөхгүй. Showroom-д бодит өнгийг харах боломжтой.
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="eyebrow eyebrow-electric mb-3">Сонгосон өнгө</p>
-              <ColorSelector colors={VEHICLE_COLORS} />
-              <p className="text-xs text-[#6B7280] mt-5 leading-relaxed">
-                Өнгө сонгоход үнэ өөрчлөгдөхгүй. Showroom-д бодит өнгийг харах боломжтой.
-              </p>
+          </div>
+        </Section>
+      )}
+
+      {/* === Specifications Section (kz-маягийн: зураг + үзүүлэлт + үнэ) === */}
+      <Section title="Техникийн үзүүлэлт" eyebrow="06 · Үзүүлэлт" bg="bg-white">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="rounded-2xl overflow-hidden bg-white border border-[#E7E7EA]">
+            <img
+              src={heroImg}
+              alt={model.name}
+              className="w-full aspect-[16/10] object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-7 mb-8">
+              <SpecItem label="Хөдөлгүүрийн хэмжээ" value={model.specs.engine} />
+              <SpecItem label="Хамгийн их чадал" value={model.specs.power} />
+              <SpecItem label="Биеийн урт" value={model.specs.length} />
+              <SpecItem label="Газрын тусгаар" value={model.specs.groundClearance} />
+              <SpecItem label="Хурдны хайрцаг" value={model.specs.transmission} />
+              <SpecItem label="Тэнхлэг хоорондын зай" value={model.specs.wheelbase} />
+            </div>
+            <div className="flex flex-wrap items-end gap-6 pt-6 border-t border-[#E7E7EA]">
+              <div>
+                <p className="text-[0.6rem] tracking-[0.18em] uppercase text-[#8A8F98] mb-1">Үнэ</p>
+                <p className="font-bold text-2xl lg:text-3xl text-[#17181B]">
+                  {model.startingPrice ?? model.price ?? model.priceNote ?? "Тун удахгүй"}
+                </p>
+              </div>
+              <a href="#request-info" className="btn-electric-jetour px-6 py-3.5 rounded-full text-sm">
+                Тест драйв захиалах
+              </a>
             </div>
           </div>
         </div>
       </Section>
 
+      {/* === Test Drive CTA band (kz-маягийн авсаархан) === */}
+      <section className="py-14 lg:py-16 bg-[#17181B]">
+        <div className="mx-auto w-[min(1280px,94vw)] flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="max-w-2xl">
+            <h2 className="font-extrabold tracking-tight text-white text-2xl lg:text-4xl mb-3">
+              Тест драйвт бүртгүүлэх
+            </h2>
+            <p className="text-white/70 text-sm lg:text-base leading-relaxed">
+              JETOUR-ийн дэвшилтэт технологи, загварлаг хийц, гайхалтай жолоодлогын мэдрэмжийг
+              биечлэн туршиж үзээрэй. Өнөөдөр тест драйвт бүртгүүлж, өөрт тохирох автомашинаа сонгоорой.
+            </p>
+          </div>
+          <a
+            href="#request-info"
+            className="btn-electric-jetour shrink-0 px-8 py-4 rounded-full text-sm text-center"
+          >
+            Тест драйв захиалах
+          </a>
+        </div>
+      </section>
+
       {/* === Request Information Form === */}
-      <section id="request-info" className="py-32 lg:py-40 bg-[#F7F9FC] border-t border-[#E2E7EF]">
+      <section id="request-info" className="py-24 lg:py-28 bg-[#F5F5F6] border-t border-[#E7E7EA]">
         <div className="mx-auto w-[min(1280px,94vw)]">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <motion.div
@@ -311,12 +414,12 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
               transition={{ duration: 0.7 }}
             >
               <p className="eyebrow eyebrow-electric mb-3">07 · Мэдээлэл авах</p>
-              <h2 className="font-display font-extrabold italic leading-[0.95] text-[#0A1F44] text-4xl lg:text-6xl mb-5">
+              <h2 className="font-display font-extrabold italic leading-[0.95] text-[#17181B] text-4xl lg:text-6xl mb-5">
                 {model.name} —{" "}
                 <span className="text-gradient-premium">мэдээлэл авах</span>
               </h2>
               <p className="text-[#6B7280] text-base lg:text-lg leading-relaxed mb-7 max-w-md">
-                Манай борлуулалтын баг танд нарийвчилсан мэдээлэл, үнийн санал өгнө. Бичлэг
+                Манай борлуулалтын баг танд нарийвчилсан мэдээлэл, үнийн санал өгнө. Хүсэлт
                 үлдээгээрэй.
               </p>
               <a
@@ -333,45 +436,8 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
         </div>
       </section>
 
-      {/* === Test Drive Form === */}
-      <section id="test-drive-form" className="py-32 lg:py-40 bg-[#0A1F44]">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-            >
-              <p className="eyebrow text-[#4DD0F5] mb-3">08 · Тест драйв</p>
-              <h2 className="font-display font-extrabold italic leading-[0.95] text-white text-4xl lg:text-6xl mb-5">
-                Өөрийн биеэр <span className="text-gradient-electric">мэдрээрэй</span>
-              </h2>
-              <p className="text-white/80 text-base lg:text-lg leading-relaxed mb-7 max-w-md">
-                {model.name}-ыг өөрийн биеэр жолоодон, өөрт тохирох эсэхийг мэдрээрэй. Үнэгүй,
-                дараалалгүй.
-              </p>
-              <div className="space-y-3">
-                {[
-                  "30-60 минутад туршиж үзнэ",
-                  "Мэргэжлийн зөвлөгөө үнэгүй",
-                  "Showroom: Чингэлтэй, Holiday Inn",
-                ].map((p) => (
-                  <div key={p} className="flex items-center gap-2.5 text-sm text-white">
-                    <CheckCircle2 className="w-4 h-4 text-[#4DD0F5]" />
-                    {p}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            <TestDriveForm modelName={model.name} />
-          </div>
-        </div>
-      </section>
-
       {/* === Related Models === */}
-      <Section title="Related Models" eyebrow="09 · Бусад загварууд" bg="bg-white">
+      <Section title="Төстэй загварууд" eyebrow="09 · Бусад загвар" bg="bg-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ALL_MODELS_FOR_GRID.filter((m) => m.id !== model.id)
             .slice(0, 3)
@@ -379,9 +445,9 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
               <Link
                 key={m.id}
                 href={`/models/${m.id}`}
-                className="group block bg-white rounded-2xl overflow-hidden border border-[#E2E7EF] card-lift"
+                className="group block bg-white rounded-2xl overflow-hidden border border-[#E7E7EA] card-lift"
               >
-                <div className="relative aspect-[16/10] overflow-hidden bg-[#F7F9FC]">
+                <div className="relative aspect-[16/10] overflow-hidden bg-[#F5F5F6]">
                   <img
                     src={m.heroImage}
                     alt={m.name}
@@ -392,20 +458,20 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
                     className="absolute inset-0 pointer-events-none"
                     style={{
                       background:
-                        "linear-gradient(180deg, transparent 50%, rgba(10,31,68,0.5) 100%)",
+                        "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.5) 100%)",
                     }}
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44] mb-2">
+                  <h3 className="font-display font-extrabold italic text-xl text-[#17181B] mb-2">
                     {m.name}
                   </h3>
                   <p className="text-sm text-[#6B7280] mb-4">{m.shortDesc}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-display font-bold text-[#0A1F44]">
+                    <span className="text-sm font-display font-bold text-[#17181B]">
                       {m.startingPrice ?? m.priceNote}
                     </span>
-                    <span className="flex items-center gap-1.5 text-[#00AEEF] font-display font-bold text-sm group-hover:gap-2.5 transition-all">
+                    <span className="flex items-center gap-1.5 text-[#E20A17] font-display font-bold text-sm group-hover:gap-2.5 transition-all">
                       Цааш
                       <ArrowRight className="w-4 h-4" />
                     </span>
@@ -418,7 +484,6 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
 
       {/* Footer */}
       <Footer />
-      <StickyContactBarWrapper />
     </div>
   );
 }
@@ -447,13 +512,13 @@ function Section({
           className="mb-12"
         >
           <p
-            className={`eyebrow mb-3 ${dark ? "text-[#4DD0F5]" : "eyebrow-electric"}`}
+            className={`eyebrow mb-3 ${dark ? "text-[#E20A17]" : "eyebrow-electric"}`}
           >
             {eyebrow}
           </p>
           <h2
             className={`font-display font-extrabold italic leading-[0.95] text-4xl lg:text-6xl ${
-              dark ? "text-white" : "text-[#0A1F44]"
+              dark ? "text-white" : "text-[#17181B]"
             }`}
           >
             {title}
@@ -465,16 +530,47 @@ function Section({
   );
 }
 
+function MediaHighlights({ items }: { items: { image: string; title: string; caption: string }[] }) {
+  return (
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
+      {items.map((it, i) => (
+        <motion.div
+          key={it.title}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
+        >
+          <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-[#F5F5F6] border border-[#E7E7EA] mb-4">
+            <img src={it.image} alt={it.title} className="w-full h-full object-cover" loading="lazy" />
+          </div>
+          <h3 className="font-bold text-lg text-[#17181B] mb-1.5">{it.title}</h3>
+          <p className="text-[#54585F] text-sm leading-relaxed">{it.caption}</p>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+function SpecItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-[#8A8F98] text-[0.8rem] leading-snug mb-1.5">{label}:</p>
+      <p className="font-bold text-lg text-[#17181B]">{value}</p>
+    </div>
+  );
+}
+
 function SpecCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="bg-white rounded-xl p-5 border border-[#E2E7EF]">
-      <div className="flex items-center gap-2 mb-2 text-[#00AEEF]">
+    <div className="bg-white rounded-xl p-5 border border-[#E7E7EA]">
+      <div className="flex items-center gap-2 mb-2 text-[#E20A17]">
         {icon}
         <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#6B7280] font-display">
           {label}
         </p>
       </div>
-      <p className="font-display font-extrabold italic text-base text-[#0A1F44]">{value}</p>
+      <p className="font-display font-extrabold italic text-base text-[#17181B]">{value}</p>
     </div>
   );
 }
@@ -484,7 +580,7 @@ function InfoRequestForm({ modelName }: { modelName: string }) {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "" });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.phone) {
       toast({
@@ -493,6 +589,15 @@ function InfoRequestForm({ modelName }: { modelName: string }) {
         description: "Нэр болон утас оруулна уу.",
       });
       return;
+    }
+    try {
+      await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "info-request", name: form.name, phone: form.phone, model: modelName }),
+      });
+    } catch {
+      /* lead console log-д хадгалагдана */
     }
     setSubmitted(true);
     toast({
@@ -503,11 +608,11 @@ function InfoRequestForm({ modelName }: { modelName: string }) {
 
   if (submitted) {
     return (
-      <div className="bg-white rounded-2xl p-8 shadow-2xl border border-[#E2E7EF] text-center">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#0A1F44] to-[#00AEEF] grid place-items-center">
+      <div className="bg-white rounded-2xl p-8 shadow-2xl border border-[#E7E7EA] text-center">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#17181B] to-[#E20A17] grid place-items-center">
           <CheckCircle2 className="w-8 h-8 text-white" />
         </div>
-        <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44] mb-2">
+        <h3 className="font-display font-extrabold italic text-xl text-[#17181B] mb-2">
           Баярлалаа!
         </h3>
         <p className="text-[#6B7280] text-sm mb-5">
@@ -527,10 +632,10 @@ function InfoRequestForm({ modelName }: { modelName: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="bg-white rounded-2xl p-8 shadow-2xl border border-[#E2E7EF] space-y-4">
+    <form onSubmit={onSubmit} className="bg-white rounded-2xl p-8 shadow-2xl border border-[#E7E7EA] space-y-4">
       <div className="flex items-center gap-2 mb-2">
-        <div className="w-1.5 h-6 bg-[#00AEEF] rounded-full" />
-        <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44]">
+        <div className="w-1.5 h-6 bg-[#E20A17] rounded-full" />
+        <h3 className="font-display font-extrabold italic text-xl text-[#17181B]">
           Мэдээлэл авах
         </h3>
       </div>
@@ -541,7 +646,7 @@ function InfoRequestForm({ modelName }: { modelName: string }) {
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           placeholder="Нэрээ оруулна уу"
-          className="w-full bg-transparent text-[#0A1F44] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
+          className="w-full bg-transparent text-[#17181B] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
         />
       </Field>
       <Field label="Утас *">
@@ -552,7 +657,7 @@ function InfoRequestForm({ modelName }: { modelName: string }) {
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
           placeholder="8 оронтой"
           maxLength={8}
-          className="w-full bg-transparent text-[#0A1F44] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
+          className="w-full bg-transparent text-[#17181B] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
         />
       </Field>
       <button
@@ -560,10 +665,10 @@ function InfoRequestForm({ modelName }: { modelName: string }) {
         className="btn-electric-jetour w-full flex items-center justify-center gap-2 py-4 rounded-xl text-base"
       >
         <Send className="w-4 h-4" />
-        Request Information
+        Мэдээлэл авах
       </button>
       <p className="text-[0.65rem] text-[#6B7280] text-center leading-relaxed">
-        Загвар: <span className="font-bold text-[#0A1F44]">{modelName}</span>
+        Загвар: <span className="font-bold text-[#17181B]">{modelName}</span>
       </p>
     </form>
   );
@@ -574,7 +679,7 @@ function TestDriveForm({ modelName }: { modelName: string }) {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", date: "" });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.phone || !form.date) {
       toast({
@@ -583,6 +688,15 @@ function TestDriveForm({ modelName }: { modelName: string }) {
         description: "Нэр, утас, огноо оруулна уу.",
       });
       return;
+    }
+    try {
+      await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "test-drive", name: form.name, phone: form.phone, date: form.date, model: modelName }),
+      });
+    } catch {
+      /* lead console log-д хадгалагдана */
     }
     setSubmitted(true);
     toast({
@@ -594,10 +708,10 @@ function TestDriveForm({ modelName }: { modelName: string }) {
   if (submitted) {
     return (
       <div className="bg-white rounded-2xl p-8 shadow-2xl text-center">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#0A1F44] to-[#00AEEF] grid place-items-center">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#17181B] to-[#E20A17] grid place-items-center">
           <CheckCircle2 className="w-8 h-8 text-white" />
         </div>
-        <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44] mb-2">
+        <h3 className="font-display font-extrabold italic text-xl text-[#17181B] mb-2">
           Бүртгэл амжилттай!
         </h3>
         <p className="text-[#6B7280] text-sm mb-5">
@@ -619,8 +733,8 @@ function TestDriveForm({ modelName }: { modelName: string }) {
   return (
     <form onSubmit={onSubmit} className="bg-white rounded-2xl p-8 shadow-2xl space-y-4">
       <div className="flex items-center gap-2 mb-2">
-        <div className="w-1.5 h-6 bg-[#00AEEF] rounded-full" />
-        <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44]">
+        <div className="w-1.5 h-6 bg-[#E20A17] rounded-full" />
+        <h3 className="font-display font-extrabold italic text-xl text-[#17181B]">
           Тест драйв бүртгэх
         </h3>
       </div>
@@ -631,7 +745,7 @@ function TestDriveForm({ modelName }: { modelName: string }) {
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           placeholder="Нэрээ оруулна уу"
-          className="w-full bg-transparent text-[#0A1F44] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
+          className="w-full bg-transparent text-[#17181B] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
         />
       </Field>
       <Field label="Утас *">
@@ -642,7 +756,7 @@ function TestDriveForm({ modelName }: { modelName: string }) {
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
           placeholder="8 оронтой"
           maxLength={8}
-          className="w-full bg-transparent text-[#0A1F44] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
+          className="w-full bg-transparent text-[#17181B] placeholder:text-[#9CA3AF] text-sm focus:outline-none"
         />
       </Field>
       <Field label="Огноо *">
@@ -652,7 +766,7 @@ function TestDriveForm({ modelName }: { modelName: string }) {
           value={form.date}
           onChange={(e) => setForm({ ...form, date: e.target.value })}
           min={new Date().toISOString().slice(0, 10)}
-          className="w-full bg-transparent text-[#0A1F44] text-sm focus:outline-none"
+          className="w-full bg-transparent text-[#17181B] text-sm focus:outline-none"
         />
       </Field>
       <button
@@ -660,10 +774,10 @@ function TestDriveForm({ modelName }: { modelName: string }) {
         className="btn-electric-jetour w-full flex items-center justify-center gap-2 py-4 rounded-xl text-base"
       >
         <Calendar className="w-4 h-4" />
-        Book Test Drive
+        Тест драйв захиалах
       </button>
       <p className="text-[0.65rem] text-[#6B7280] text-center leading-relaxed">
-        Загвар: <span className="font-bold text-[#0A1F44]">{modelName}</span>
+        Загвар: <span className="font-bold text-[#17181B]">{modelName}</span>
       </p>
     </form>
   );
@@ -675,16 +789,12 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <span className="block text-[0.65rem] tracking-[0.18em] uppercase text-[#6B7280] font-display mb-1.5">
         {label}
       </span>
-      <div className="flex items-center gap-2.5 bg-[#F7F9FC] border border-[#E2E7EF] rounded-xl px-4 py-3 focus-within:border-[#00AEEF] focus-within:ring-2 focus-within:ring-[#00AEEF]/15 transition-all">
+      <div className="flex items-center gap-2.5 bg-[#F5F5F6] border border-[#E7E7EA] rounded-xl px-4 py-3 focus-within:border-[#E20A17] focus-within:ring-2 focus-within:ring-[#E20A17]/15 transition-all">
         {children}
       </div>
     </label>
   );
 }
 
-// Footer + Sticky contact imports to reuse
+// Footer import to reuse
 import { Footer } from "@/components/jetour/contact";
-import { StickyContactBar } from "@/components/jetour/sticky-contact";
-function StickyContactBarWrapper() {
-  return <StickyContactBar />;
-}

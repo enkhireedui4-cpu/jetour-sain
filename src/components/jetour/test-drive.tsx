@@ -7,7 +7,7 @@ import { EnhancedLeadForm } from "./enhanced-lead-form";
 
 export function TestDrive() {
   return (
-    <section id="test-drive" className="relative py-32 lg:py-40 bg-[#0A1F44] overflow-hidden">
+    <section id="test-drive" className="relative py-32 lg:py-40 bg-[#17181B] overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none opacity-30"
         style={{
@@ -19,7 +19,7 @@ export function TestDrive() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(50% 50% at 80% 30%, rgba(0,174,239,0.15), transparent 70%)",
+          background: "radial-gradient(50% 50% at 80% 30%, rgba(226,35,26,0.15), transparent 70%)",
         }}
       />
 
@@ -32,7 +32,7 @@ export function TestDrive() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <p className="eyebrow text-[#4DD0F5] mb-3">05 · Тест драйв</p>
+            <p className="eyebrow text-[#E20A17] mb-3">05 · Тест драйв</p>
             <h2 className="font-display font-extrabold italic leading-[0.95] text-white text-4xl lg:text-6xl mb-5">
               Өөрийн биеэр{" "}
               <span className="text-gradient-electric">мэдрээрэй</span>
@@ -52,7 +52,7 @@ export function TestDrive() {
                   key={item.text}
                   className="flex items-center gap-3 bg-white/[0.05] border border-white/10 rounded-xl px-4 py-3"
                 >
-                  <span className="w-8 h-8 grid place-items-center rounded-lg bg-gradient-to-br from-[#00AEEF]/30 to-[#00AEEF]/10 text-[#4DD0F5]">
+                  <span className="w-8 h-8 grid place-items-center rounded-lg bg-gradient-to-br from-[#E20A17]/30 to-[#E20A17]/10 text-[#E20A17]">
                     {item.icon}
                   </span>
                   <span className="text-sm text-white">{item.text}</span>
@@ -63,15 +63,15 @@ export function TestDrive() {
             <div className="pt-6 border-t border-white/10">
               <p className="text-xs text-white/60 leading-relaxed">
                 Холбоо барих утас:{" "}
-                <a href={CONTACT.phone1Href} className="text-[#4DD0F5] hover:text-white transition-colors font-bold">
+                <a href={CONTACT.phone1Href} className="text-[#E20A17] hover:text-white transition-colors font-bold">
                   {CONTACT.phone1}
                 </a>
                 {" · "}
-                <a href={CONTACT.phone2Href} className="text-[#4DD0F5] hover:text-white transition-colors font-bold">
+                <a href={CONTACT.phone2Href} className="text-[#E20A17] hover:text-white transition-colors font-bold">
                   {CONTACT.phone2}
                 </a>
                 {" · "}
-                <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="text-[#4DD0F5] hover:text-white transition-colors font-bold">
+                <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="text-[#E20A17] hover:text-white transition-colors font-bold">
                   WhatsApp
                 </a>
                 {" · "}

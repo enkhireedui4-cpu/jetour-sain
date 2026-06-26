@@ -29,7 +29,7 @@ export function TravelLifestyle() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(10,31,68,0.5) 0%, rgba(10,31,68,0.2) 50%, rgba(10,31,68,0.85) 100%)",
+              "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.75) 100%)",
           }}
         />
 
@@ -39,7 +39,7 @@ export function TravelLifestyle() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="eyebrow text-[#4DD0F5] mb-4"
+            className="eyebrow text-white/80 mb-4"
           >
             Travel+ Lifestyle
           </motion.p>
@@ -59,35 +59,31 @@ export function TravelLifestyle() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-white/90 text-lg lg:text-xl max-w-2xl"
           >
-            Бүх аялалд зориулагдсан — Монголын уудам нутаг, гэр бүлийн амьдрал, баатарлаг илрүүлэлт.
+            Бүх аялалд зориулагдсан — Монголын уудам нутаг, гэр бүлийн амьдрал, адал явдалт аялал.
           </motion.p>
         </div>
       </div>
 
       {/* Feature blocks */}
-      <div className="bg-white py-32 lg:py-40">
+      <div className="bg-white py-20 lg:py-28">
         <div className="mx-auto w-[min(1280px,94vw)]">
           <div className="grid md:grid-cols-3 gap-6">
             {TRAVEL_FEATURES.map((f, i) => (
               <motion.div
                 key={f.title}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, delay: i * 0.15 }}
-                className="group bg-white rounded-2xl p-7 border border-[#E2E7EF] card-lift"
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                className="group bg-white rounded-2xl p-7 border border-[#E7E7EA] card-lift"
               >
-                <motion.div
-                  whileHover={{ scale: 1.05, rotate: -3 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="w-14 h-14 grid place-items-center rounded-2xl mb-5 bg-gradient-to-br from-[#0A1F44] to-[#00AEEF] text-white"
-                >
+                <div className="w-12 h-12 grid place-items-center rounded-xl mb-5 bg-[#FDECEB] text-[#E20A17]">
                   {ICONS[f.icon]}
-                </motion.div>
-                <h3 className="font-display font-extrabold italic text-xl lg:text-2xl text-[#0A1F44] mb-3">
+                </div>
+                <h3 className="font-bold text-xl text-[#17181B] mb-3">
                   {f.title}
                 </h3>
-                <p className="text-[#6B7280] text-sm leading-relaxed">{f.description}</p>
+                <p className="text-[#54585F] text-sm leading-relaxed">{f.description}</p>
               </motion.div>
             ))}
           </div>

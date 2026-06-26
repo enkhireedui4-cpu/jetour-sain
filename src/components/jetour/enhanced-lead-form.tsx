@@ -85,15 +85,15 @@ export function EnhancedLeadForm({
 
   const isDark = variant === "dark";
   const inputBg = isDark
-    ? "bg-white/[0.06] border-white/15 focus-within:border-[#00AEEF] focus-within:ring-2 focus-within:ring-[#00AEEF]/20"
-    : "bg-[#F7F9FC] border-[#E2E7EF] focus-within:border-[#00AEEF] focus-within:ring-2 focus-within:ring-[#00AEEF]/15";
+    ? "bg-white/[0.06] border-white/15 focus-within:border-[#E20A17] focus-within:ring-2 focus-within:ring-[#E20A17]/20"
+    : "bg-[#F5F5F6] border-[#E7E7EA] focus-within:border-[#E20A17] focus-within:ring-2 focus-within:ring-[#E20A17]/15";
   const inputText = isDark
     ? "text-white placeholder:text-white/50"
-    : "text-[#0A1F44] placeholder:text-[#9CA3AF]";
+    : "text-[#17181B] placeholder:text-[#9CA3AF]";
   const labelClass = isDark
     ? "text-[0.6rem] tracking-[0.18em] uppercase text-white/70 font-display"
     : "text-[0.6rem] tracking-[0.18em] uppercase text-[#6B7280] font-display";
-  const headingColor = isDark ? "text-white" : "text-[#0A1F44]";
+  const headingColor = isDark ? "text-white" : "text-[#17181B]";
   const iconColor = isDark ? "text-white/50" : "text-[#6B7280]";
 
   const submitLabelFinal =
@@ -199,14 +199,14 @@ export function EnhancedLeadForm({
     return (
       <div
         className={`rounded-2xl p-8 shadow-2xl text-center ${
-          isDark ? "bg-white/[0.05] border border-white/10" : "bg-white border border-[#E2E7EF]"
+          isDark ? "bg-white/[0.05] border border-white/10" : "bg-white border border-[#E7E7EA]"
         }`}
       >
         <motion.div
           initial={{ scale: 0, rotate: -30 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", duration: 0.6 }}
-          className="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-[#0A1F44] to-[#00AEEF] grid place-items-center"
+          className="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-[#17181B] to-[#E20A17] grid place-items-center"
         >
           <CheckCircle2 className="w-10 h-10 text-white" />
         </motion.div>
@@ -222,7 +222,7 @@ export function EnhancedLeadForm({
           className={`font-display font-bold text-sm rounded-full px-5 py-2.5 transition-colors ${
             isDark
               ? "border border-white/30 text-white hover:bg-white/10"
-              : "border border-[#0A1F44] text-[#0A1F44] hover:bg-[#0A1F44] hover:text-white"
+              : "border border-[#17181B] text-[#17181B] hover:bg-[#17181B] hover:text-white"
           }`}
         >
           Шинээр хүсэлт илгээх
@@ -235,11 +235,11 @@ export function EnhancedLeadForm({
     <form
       onSubmit={onSubmit}
       className={`rounded-2xl p-6 lg:p-8 shadow-2xl space-y-4 ${
-        isDark ? "bg-white/[0.05] border border-white/10" : "bg-white border border-[#E2E7EF]"
+        isDark ? "bg-white/[0.05] border border-white/10" : "bg-white border border-[#E7E7EA]"
       }`}
     >
       <div className="flex items-center gap-2 mb-2">
-        <div className="w-1.5 h-6 bg-[#00AEEF] rounded-full" />
+        <div className="w-1.5 h-6 bg-[#E20A17] rounded-full" />
         <h3 className={`font-display font-extrabold italic text-xl lg:text-2xl ${headingColor}`}>
           {title}
         </h3>
@@ -300,7 +300,7 @@ export function EnhancedLeadForm({
             <select
               value={form.model}
               onChange={(e) => setForm({ ...form, model: e.target.value })}
-              className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#0A1F44]`}
+              className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#17181B]`}
             >
               <option value="">{modelName ?? "Загвар сонгох (заавал биш)"}</option>
               {ALL_MODELS_FOR_GRID.map((m) => (
@@ -326,7 +326,7 @@ export function EnhancedLeadForm({
               value={form.branch}
               onChange={(e) => setForm({ ...form, branch: e.target.value })}
               disabled={BRANCHES.length === 1}
-              className={`w-full bg-transparent text-sm focus:outline-none ${inputText} disabled:opacity-70 [&>option]:bg-white [&>option]:text-[#0A1F44]`}
+              className={`w-full bg-transparent text-sm focus:outline-none ${inputText} disabled:opacity-70 [&>option]:bg-white [&>option]:text-[#17181B]`}
             >
               <option value="">Салбар сонгох</option>
               {BRANCHES.map((b) => (
@@ -364,7 +364,7 @@ export function EnhancedLeadForm({
                 <select
                   value={form.time}
                   onChange={(e) => setForm({ ...form, time: e.target.value })}
-                  className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#0A1F44]`}
+                  className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#17181B]`}
                 >
                   <option value="">Цаг сонгох</option>
                   {TIME_SLOTS.map((t) => (
@@ -444,7 +444,7 @@ export function EnhancedLeadForm({
 
       <p className={`text-[0.6rem] text-center leading-relaxed pt-1 ${isDark ? "text-white/50" : "text-[#6B7280]"}`}>
         Таны мэдээлэл зөвхөн JETOUR Mongolia-тай холбоотой зорилгоор ашиглагдана.{" "}
-        <a href={CONTACT.phone1Href} className={`underline ${isDark ? "text-[#4DD0F5]" : "text-[#00AEEF]"}`}>
+        <a href={CONTACT.phone1Href} className={`underline ${isDark ? "text-[#E20A17]" : "text-[#E20A17]"}`}>
           {CONTACT.phone1}
         </a>
       </p>
@@ -490,10 +490,10 @@ function ContactMethodBtn({
       onClick={onClick}
       className={`flex flex-col items-center gap-1.5 py-3 rounded-xl border transition-all ${
         active
-          ? "border-[#00AEEF] bg-[#00AEEF]/10 text-[#00AEEF]"
+          ? "border-[#E20A17] bg-[#E20A17]/10 text-[#E20A17]"
           : isDark
           ? "border-white/15 text-white/60 hover:border-white/30"
-          : "border-[#E2E7EF] text-[#6B7280] hover:border-[#0A1F44]/20"
+          : "border-[#E7E7EA] text-[#6B7280] hover:border-[#17181B]/20"
       }`}
     >
       {icon}

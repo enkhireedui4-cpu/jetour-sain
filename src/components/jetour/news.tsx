@@ -1,101 +1,88 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Tag } from "lucide-react";
-import { NEWS } from "@/lib/jetour-data";
+import { ArrowRight, Calendar } from "lucide-react";
+import { NEWS_ARTICLES } from "@/lib/jetour-data";
 
 export function News() {
+  const items = NEWS_ARTICLES.slice(0, 3);
+
   return (
-    <section id="news" className="relative py-32 lg:py-40 bg-white overflow-hidden">
-      <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
+    <section id="news" className="relative py-24 lg:py-32 bg-[#F5F5F6]">
       <div className="relative mx-auto w-[min(1280px,94vw)]">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-20">
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-12 lg:mb-14">
+          <div className="max-w-xl">
             <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="eyebrow eyebrow-electric mb-3"
-            >
-              04 · Мэдээ, сурталчилгаа
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="font-display font-extrabold leading-[0.95] text-[#0A1F44] text-4xl lg:text-7xl"
+              transition={{ duration: 0.6 }}
+              className="eyebrow eyebrow-electric mb-3"
             >
-              Шинэ <span className="text-gradient-premium italic">мэдээлэл</span>
+              Мэдээ
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl"
+            >
+              Шинэ мэдээлэл
             </motion.h2>
           </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="max-w-md text-base leading-relaxed text-[#6B7280]"
+          <Link
+            href="/news"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#17181B] hover:text-[#E20A17] transition-colors"
           >
-            Jetour Mongolia-ын шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт — бүгд энд.
-          </motion.p>
+            Бүх мэдээ
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {NEWS.map((n, i) => (
-            <motion.article
-              key={n.id}
-              initial={{ opacity: 0, y: 30 }}
+          {items.map((n, i) => (
+            <motion.div
+              key={n.slug}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group bg-white rounded-2xl overflow-hidden border border-[#E2E7EF] card-lift cursor-pointer"
+              transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <img
-                  src={n.image}
-                  alt={n.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: "linear-gradient(180deg, transparent 50%, rgba(10,31,68,0.5) 100%)",
-                  }}
-                />
-                <div className="absolute top-4 left-4 flex gap-2">
-                  <span
-                    className={`font-display text-[0.6rem] font-bold tracking-[0.18em] uppercase px-3 py-1.5 rounded-full ${
-                      n.accent === "electric"
-                        ? "bg-[#00AEEF] text-white"
-                        : "bg-[#0A1F44] text-white"
-                    }`}
-                  >
-                    {n.tag}
-                  </span>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 text-white text-xs">
-                  <Calendar className="w-3 h-3" />
-                  <span className="font-display tracking-wide">{n.date}</span>
-                </div>
-              </div>
+              <Link href={`/news/${n.slug}`} className="group block h-full">
+                <article className="bg-white rounded-2xl overflow-hidden border border-[#E7E7EA] card-lift h-full flex flex-col">
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <img
+                      src={n.image}
+                      alt={n.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-3.5 left-3.5">
+                      <span className="text-[0.6rem] font-semibold tracking-[0.16em] uppercase px-2.5 py-1 rounded-full bg-[#E20A17] text-white">
+                        {n.tag}
+                      </span>
+                    </div>
+                  </div>
 
-              <div className="p-6">
-                <p className="text-[0.65rem] tracking-[0.22em] uppercase text-[#00AEEF] font-display mb-2 flex items-center gap-1.5">
-                  <Tag className="w-3 h-3" />
-                  {n.type}
-                </p>
-                <h3 className="font-display font-extrabold italic text-xl text-[#0A1F44] mb-3 leading-tight">
-                  {n.title}
-                </h3>
-                <p className="text-sm text-[#6B7280] leading-relaxed mb-4">{n.excerpt}</p>
-                <div className="flex items-center gap-1.5 text-[#0A1F44] font-display font-bold text-sm group-hover:text-[#00AEEF] transition-colors">
-                  Цааш унших
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            </motion.article>
+                  <div className="p-6 flex flex-col flex-1">
+                    <p className="text-xs text-[#8A8F98] mb-2 flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3" />
+                      {n.date}
+                    </p>
+                    <h3 className="font-bold text-lg text-[#17181B] mb-2.5 leading-snug group-hover:text-[#E20A17] transition-colors">
+                      {n.title}
+                    </h3>
+                    <p className="text-sm text-[#54585F] leading-relaxed mb-4 line-clamp-3">{n.excerpt}</p>
+                    <span className="mt-auto inline-flex items-center gap-1.5 text-[#17181B] font-semibold text-sm group-hover:gap-2.5 transition-all">
+                      Цааш унших
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </article>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

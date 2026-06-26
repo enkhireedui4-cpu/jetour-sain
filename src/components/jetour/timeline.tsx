@@ -5,12 +5,12 @@ import { TIMELINE } from "@/lib/jetour-data";
 
 export function Timeline() {
   return (
-    <section className="relative py-24 lg:py-32 bg-[#F7F9FC] overflow-hidden">
+    <section className="relative py-24 lg:py-32 bg-[#F5F5F6] overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div className="relative mx-auto w-[min(1280px,94vw)]">
         <div className="text-center mb-14">
           <p className="eyebrow eyebrow-electric mb-3">Брэндийн түүх</p>
-          <h2 className="font-display font-extrabold italic leading-[0.95] text-[#0A1F44] text-4xl lg:text-6xl mb-4">
+          <h2 className="font-display font-extrabold italic leading-[0.95] text-[#17181B] text-4xl lg:text-6xl mb-4">
             JETOUR-ын <span className="text-gradient-premium">аялал</span>
           </h2>
           <p className="text-[#6B7280] max-w-2xl mx-auto text-base leading-relaxed">
@@ -24,7 +24,7 @@ export function Timeline() {
             className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-px lg:-translate-x-1/2"
             style={{
               background:
-                "linear-gradient(180deg, transparent, rgba(10,31,68,0.4) 10%, rgba(0,174,239,0.4) 90%, transparent)",
+                "linear-gradient(180deg, transparent, rgba(0,0,0,0.4) 10%, rgba(226,35,26,0.4) 90%, transparent)",
             }}
           />
 
@@ -40,8 +40,8 @@ export function Timeline() {
               >
                 {/* Node */}
                 <div className="absolute left-4 lg:left-1/2 -translate-x-1/2 z-10">
-                  <div className="w-3 h-3 rounded-full bg-[#00AEEF] ring-4 ring-[#00AEEF]/20" />
-                  <div className="absolute inset-0 w-3 h-3 rounded-full bg-[#00AEEF] animate-ping opacity-40" />
+                  <div className="w-3 h-3 rounded-full bg-[#E20A17] ring-4 ring-[#E20A17]/20" />
+                  <div className="absolute inset-0 w-3 h-3 rounded-full bg-[#E20A17] animate-ping opacity-40" />
                 </div>
 
                 {/* Card */}
@@ -52,11 +52,11 @@ export function Timeline() {
                       : "lg:col-start-2 lg:pl-12"
                   }`}
                 >
-                  <div className="bg-white rounded-2xl p-6 border border-[#E2E7EF] card-lift inline-block w-full">
+                  <div className="bg-white rounded-2xl p-6 border border-[#E7E7EA] card-lift inline-block w-full">
                     <p className="font-display font-extrabold italic text-3xl lg:text-4xl text-gradient-premium mb-2">
                       {item.year}
                     </p>
-                    <h3 className="font-display font-bold text-lg text-[#0A1F44] mb-2">
+                    <h3 className="font-display font-bold text-lg text-[#17181B] mb-2">
                       {item.title}
                     </h3>
                     <p className="text-[#6B7280] text-sm leading-relaxed">{item.text}</p>

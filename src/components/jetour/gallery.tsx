@@ -26,11 +26,11 @@ export function Gallery({ images, alt, accent }: Props) {
     return () => clearInterval(t);
   }, [next, paused, images.length]);
 
-  const accentColor = accent === "red" ? "#E2231A" : "#00AEEF";
+  const accentColor = accent === "red" ? "#E20A17" : "#E20A17";
 
   return (
     <div
-      className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-white border border-[#E2E7EF]"
+      className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-white border border-[#E7E7EA]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -49,7 +49,7 @@ export function Gallery({ images, alt, accent }: Props) {
       </AnimatePresence>
 
       {/* Image counter */}
-      <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full text-xs font-display font-bold bg-[#0A1F44]/80 text-white backdrop-blur-sm">
+      <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full text-xs font-display font-bold bg-[#17181B]/80 text-white backdrop-blur-sm">
         {String(active + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
       </div>
 
@@ -61,8 +61,8 @@ export function Gallery({ images, alt, accent }: Props) {
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full grid place-items-center transition-all hover:scale-110"
             style={{
               background: "rgba(255,255,255,0.95)",
-              color: "#0A1F44",
-              boxShadow: "0 6px 18px -4px rgba(10,31,68,0.25)",
+              color: "#17181B",
+              boxShadow: "0 6px 18px -4px rgba(0,0,0,0.25)",
             }}
             aria-label="Өмнөх зураг"
           >
@@ -73,8 +73,8 @@ export function Gallery({ images, alt, accent }: Props) {
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full grid place-items-center transition-all hover:scale-110"
             style={{
               background: "rgba(255,255,255,0.95)",
-              color: "#0A1F44",
-              boxShadow: "0 6px 18px -4px rgba(10,31,68,0.25)",
+              color: "#17181B",
+              boxShadow: "0 6px 18px -4px rgba(0,0,0,0.25)",
             }}
             aria-label="Дараагийн зураг"
           >
@@ -131,8 +131,8 @@ export function ColorSelector({ colors, onColorChange }: ColorSelectorProps) {
             }}
             className={`group flex items-center gap-2.5 px-4 py-3 rounded-xl border transition-all ${
               active === i
-                ? "border-[#00AEEF] bg-[#F0F9FF]"
-                : "border-[#E2E7EF] bg-white hover:border-[#0A1F44]/30"
+                ? "border-[#E20A17] bg-[#F0F9FF]"
+                : "border-[#E7E7EA] bg-white hover:border-[#17181B]/30"
             }`}
           >
             <span
@@ -141,7 +141,7 @@ export function ColorSelector({ colors, onColorChange }: ColorSelectorProps) {
             />
             <span
               className={`font-display font-bold text-sm ${
-                active === i ? "text-[#00AEEF]" : "text-[#0A1F44]"
+                active === i ? "text-[#E20A17]" : "text-[#17181B]"
               }`}
             >
               {c.name}
@@ -151,7 +151,7 @@ export function ColorSelector({ colors, onColorChange }: ColorSelectorProps) {
       </div>
       <p className="text-sm text-[#6B7280]">
         Сонгосон өнгө:{" "}
-        <span className="font-display font-bold text-[#0A1F44]">{colors[active].name}</span>
+        <span className="font-display font-bold text-[#17181B]">{colors[active].name}</span>
       </p>
     </div>
   );

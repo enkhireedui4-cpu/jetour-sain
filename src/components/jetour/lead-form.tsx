@@ -67,7 +67,7 @@ export function LeadForm({
   const isSolid = variant === "solid-white";
 
   const containerClass = isSolid
-    ? "bg-white rounded-2xl p-6 lg:p-7 shadow-2xl border border-[#E2E7EF]"
+    ? "bg-white rounded-2xl p-6 lg:p-7 shadow-2xl border border-[#E7E7EA]"
     : isLight
     ? "glass-premium rounded-2xl p-6 lg:p-7"
     : "glass-dark rounded-2xl p-6 lg:p-7";
@@ -77,14 +77,14 @@ export function LeadForm({
     : "text-[0.6rem] tracking-[0.18em] uppercase text-white/70 font-display";
 
   const inputBg = isLight || isSolid
-    ? "bg-[#F7F9FC] border border-[#E2E7EF] focus-within:border-[#00AEEF] focus-within:ring-2 focus-within:ring-[#00AEEF]/15"
-    : "bg-white/[0.06] border border-white/15 focus-within:border-[#00AEEF] focus-within:ring-2 focus-within:ring-[#00AEEF]/20";
+    ? "bg-[#F5F5F6] border border-[#E7E7EA] focus-within:border-[#E20A17] focus-within:ring-2 focus-within:ring-[#E20A17]/15"
+    : "bg-white/[0.06] border border-white/15 focus-within:border-[#E20A17] focus-within:ring-2 focus-within:ring-[#E20A17]/20";
 
   const inputText = isLight || isSolid
-    ? "text-[#0A1F44] placeholder:text-[#9CA3AF]"
+    ? "text-[#17181B] placeholder:text-[#9CA3AF]"
     : "text-white placeholder:text-white/50";
 
-  const headingColor = isLight || isSolid ? "text-[#0A1F44]" : "text-white";
+  const headingColor = isLight || isSolid ? "text-[#17181B]" : "text-white";
 
   if (submitted) {
     return (
@@ -93,7 +93,7 @@ export function LeadForm({
           initial={{ scale: 0, rotate: -30 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", duration: 0.6 }}
-          className="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-[#0A1F44] to-[#00AEEF] grid place-items-center"
+          className="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-[#17181B] to-[#E20A17] grid place-items-center"
         >
           <CheckCircle2 className="w-10 h-10 text-white" />
         </motion.div>
@@ -107,7 +107,7 @@ export function LeadForm({
           onClick={reset}
           className={`font-display font-bold text-sm rounded-full px-5 py-2.5 transition-colors ${
             isLight || isSolid
-              ? "border border-[#0A1F44] text-[#0A1F44] hover:bg-[#0A1F44] hover:text-white"
+              ? "border border-[#17181B] text-[#17181B] hover:bg-[#17181B] hover:text-white"
               : "border border-white/30 text-white hover:bg-white/10"
           }`}
         >
@@ -121,7 +121,7 @@ export function LeadForm({
     <div className={containerClass}>
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
-          <div className="w-1.5 h-6 bg-[#00AEEF] rounded-full" />
+          <div className="w-1.5 h-6 bg-[#E20A17] rounded-full" />
           <h3 className={`font-display font-extrabold italic text-xl lg:text-2xl ${headingColor}`}>
             {title}
           </h3>
@@ -170,7 +170,7 @@ export function LeadForm({
             <select
               value={form.model}
               onChange={(e) => setForm({ ...form, model: e.target.value })}
-              className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#0A1F44]`}
+              className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#17181B]`}
             >
               <option value="">Загвар сонгох (заавал биш)</option>
               {ALL_MODELS_FOR_GRID.map((m) => (
@@ -212,7 +212,7 @@ export function LeadForm({
               onClick={(e) => onSubmit(e as unknown as React.FormEvent, "test-drive")}
               className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-display font-bold transition-all ${
                 isLight || isSolid
-                  ? "border border-[#0A1F44] text-[#0A1F44] hover:bg-[#0A1F44] hover:text-white"
+                  ? "border border-[#17181B] text-[#17181B] hover:bg-[#17181B] hover:text-white"
                   : "border border-white/40 text-white hover:bg-white/15"
               }`}
             >
