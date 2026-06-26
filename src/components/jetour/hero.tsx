@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { HERO_SLIDES } from "@/lib/jetour-data";
 
 export function Hero() {
@@ -11,6 +11,10 @@ export function Hero() {
 
   const next = useCallback(() => {
     setActive((p) => (p + 1) % HERO_SLIDES.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setActive((p) => (p - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
   }, []);
 
   useEffect(() => {
@@ -24,7 +28,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[92vh] overflow-hidden bg-[#121316]"
+      className="relative h-screen min-h-[640px] overflow-hidden bg-[#121316]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -52,8 +56,24 @@ export function Hero() {
         <div className="absolute inset-0 hero-overlay pointer-events-none" />
       </div>
 
+      {/* === Prev / Next arrows (chery.kz маягийн) === */}
+      <button
+        onClick={prev}
+        aria-label="Өмнөх зураг"
+        className="absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 grid place-items-center rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+      <button
+        onClick={next}
+        aria-label="Дараагийн зураг"
+        className="absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 grid place-items-center rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
+
       {/* === Content — зүүн доод буланд, цэвэр === */}
-      <div className="relative z-10 min-h-[92vh] flex flex-col justify-end pb-24 lg:pb-28 px-6">
+      <div className="relative z-10 h-full flex flex-col justify-end pb-24 lg:pb-28 px-6">
         <div className="mx-auto w-[min(1280px,94vw)]">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -138,20 +158,6 @@ export function Hero() {
           </button>
         ))}
       </div>
-
-      {/* Scroll cue */}
-      <motion.button
-        onClick={() => document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 text-white/50 hover:text-white transition-colors"
-        aria-label="Доош гүйлгэх"
-      >
-        <motion.div animate={{ y: [0, 5, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
-          <ChevronDown className="w-4 h-4" />
-        </motion.div>
-      </motion.button>
     </section>
   );
 }
