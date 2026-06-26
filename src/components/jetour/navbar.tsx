@@ -18,7 +18,7 @@ const NAV_LINKS = [
   { label: "Санхүүжилт", href: "/financing", type: "route" as const },
   { label: "Үйлчилгээ", href: "/owners", type: "route" as const },
   { label: "Мэдээ", href: "/news", type: "route" as const },
-  { label: "Холбоо барих", href: "/#contact", type: "anchor" as const },
+  { label: "Холбоо барих", href: "/#dealer", type: "anchor" as const },
 ];
 
 export function Navbar() {
