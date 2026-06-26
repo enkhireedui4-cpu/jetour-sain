@@ -178,31 +178,14 @@ export function Navbar() {
           )}
         </nav>
 
-        {/* Right actions */}
-        <div className="flex items-center gap-2.5">
-          <a
-            href={CONTACT.phone1Href}
-            className={`hidden md:inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
-              overHero ? "text-white hover:text-white/80" : "text-[#17181B] hover:text-[#E20A17]"
-            }`}
-          >
-            <Phone className="w-4 h-4" />
-            {CONTACT.phone1}
-          </a>
-          <button
-            onClick={() => handleAnchor("/#dealer")}
-            className="btn-electric-jetour hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
-          >
-            Тест драйв
-          </button>
-          <button
-            className={`lg:hidden p-2 ${overHero ? "text-white" : "text-[#17181B]"}`}
-            onClick={() => setOpen(!open)}
-            aria-label={open ? "Цэс хаах" : "Цэс нээх"}
-          >
-            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
+        {/* Mobile menu toggle */}
+        <button
+          className={`lg:hidden p-2 ${overHero ? "text-white" : "text-[#17181B]"}`}
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Цэс хаах" : "Цэс нээх"}
+        >
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
 
       {/* ── Mega menu ── */}
