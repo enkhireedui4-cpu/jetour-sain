@@ -15,6 +15,8 @@ const priceOf = (m: M) =>
   m.startingPrice ? `${m.startingPrice}-с эхлэн` : m.priceNote ?? "Тун удахгүй";
 
 const NAV_LINKS = [
+  { label: "Тусгай саналууд", href: "/special-offers", type: "route" as const },
+  { label: "Дилер", href: "/dealer", type: "route" as const },
   { label: "Санхүүжилт", href: "/financing", type: "route" as const },
   { label: "Үйлчилгээ", href: "/owners", type: "route" as const },
   { label: "Мэдээ", href: "/news", type: "route" as const },
