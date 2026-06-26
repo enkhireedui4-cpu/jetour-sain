@@ -18,7 +18,7 @@ export function FloatingCTA() {
   const handleTestDrive = () => {
     setOpen(false);
     const el =
-      document.querySelector("#test-drive") ?? document.querySelector("#contact");
+      document.querySelector("#test-drive") ?? document.querySelector("#dealer");
     el?.scrollIntoView({ behavior: "smooth" });
   };
 

@@ -135,7 +135,7 @@ export function Navbar() {
             {CONTACT.phone1}
           </a>
           <button
-            onClick={() => handleAnchor("/#test-drive")}
+            onClick={() => handleAnchor("/#dealer")}
             className="btn-electric-jetour hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
           >
             Тест драйв
@@ -233,7 +233,7 @@ export function Navbar() {
               <Phone className="w-4 h-4" /> {CONTACT.phone1}
             </a>
             <button
-              onClick={() => handleAnchor("/#test-drive")}
+              onClick={() => handleAnchor("/#dealer")}
               className="btn-electric-jetour mt-3 py-3.5 rounded-full text-center text-sm"
             >
               Тест драйв захиалах

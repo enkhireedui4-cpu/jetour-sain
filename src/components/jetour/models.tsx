@@ -85,7 +85,7 @@ export function Models() {
             </Link>
             <button
               onClick={() =>
-                document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })
+                document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })
               }
               className="bg-white/15 backdrop-blur-sm border border-white/40 text-white px-7 py-3 text-sm font-bold rounded-lg hover:bg-white/25 transition-colors"
             >

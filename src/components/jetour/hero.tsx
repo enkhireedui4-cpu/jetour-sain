@@ -125,7 +125,7 @@ export function Hero() {
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
-              onClick={() => document.querySelector("#test-drive")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })}
               className="btn-outline-light px-7 py-3.5 rounded-full text-base"
             >
               Тест драйв захиалах

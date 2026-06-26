@@ -232,7 +232,7 @@ export function Footer() {
           <div>
             <p className="eyebrow text-[#E20A17] mb-4">Үйлчилгээ</p>
             <ul className="space-y-2 text-sm">
-              <li><a href="#test-drive" className="text-white/70 hover:text-white transition-colors">Тест драйв</a></li>
+              <li><a href="#dealer" className="text-white/70 hover:text-white transition-colors">Тест драйв</a></li>
               <li><a href="/financing" className="text-white/70 hover:text-white transition-colors">Зээл, санхүүжилт</a></li>
               <li><a href="/owners" className="text-white/70 hover:text-white transition-colors">Засвар үйлчилгээ</a></li>
               <li><a href="/owners" className="text-white/70 hover:text-white transition-colors">Оригинал сэлбэг</a></li>

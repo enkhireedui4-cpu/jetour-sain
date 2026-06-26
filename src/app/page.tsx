@@ -4,9 +4,7 @@ import { Navbar } from "@/components/jetour/navbar";
 import { Hero } from "@/components/jetour/hero";
 import { Models } from "@/components/jetour/models";
 import { ExploreNav } from "@/components/jetour/explore-nav";
-import { TestDrive } from "@/components/jetour/test-drive";
 import { News } from "@/components/jetour/news";
-import { FinalCTA } from "@/components/jetour/final-cta";
 import { Contact, Footer } from "@/components/jetour/contact";
 
 export default function Home() {
@@ -17,9 +15,7 @@ export default function Home() {
         <Hero />
         <Models />
         <ExploreNav />
-        <TestDrive />
         <News />
-        <FinalCTA />
         <Contact />
       </main>
       <Footer />
