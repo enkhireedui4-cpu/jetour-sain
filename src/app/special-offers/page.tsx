@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight, Phone } from "lucide-react";
@@ -49,10 +49,18 @@ const OFFERS: Offer[] = [
 
 export default function SpecialOffersPage() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const offer = OFFERS[active];
 
   const prev = () => setActive((p) => (p - 1 + OFFERS.length) % OFFERS.length);
-  const next = () => setActive((p) => (p + 1) % OFFERS.length);
+  const next = useCallback(() => setActive((p) => (p + 1) % OFFERS.length), []);
+
+  // Авто-гүйлгэлт (jetour.kz шиг)
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(next, 5000);
+    return () => clearInterval(t);
+  }, [next, paused, active]);
 
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
@@ -61,7 +69,11 @@ export default function SpecialOffersPage() {
 
       {/* ── Featured slider ── */}
       <section className="bg-white pt-10 lg:pt-14 pb-16 lg:pb-20">
-        <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div
+          className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-12 items-center"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
           {/* Left — text */}
           <div className="order-2 lg:order-1">
             <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#8A8F98] mb-8">
@@ -116,15 +128,26 @@ export default function SpecialOffersPage() {
             </div>
           </div>
 
-          {/* Right — poster */}
-          <div className="order-1 lg:order-2">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#F5F5F6]">
-              <img
-                key={offer.id}
-                src={offer.poster}
-                alt={offer.title}
-                className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300"
-              />
+          {/* Right — poster carousel (slide-in) */}
+          <div className="order-1 lg:order-2 lg:-mr-[max(0px,calc((100vw-1280px)/2))]">
+            <div className="relative w-full overflow-hidden">
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${active * 100}%)` }}
+              >
+                {OFFERS.map((o) => (
+                  <div
+                    key={o.id}
+                    className="min-w-full aspect-[4/3] flex items-center justify-center"
+                  >
+                    <img
+                      src={o.poster}
+                      alt={o.title}
+                      className="max-w-full max-h-full w-auto h-auto object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
