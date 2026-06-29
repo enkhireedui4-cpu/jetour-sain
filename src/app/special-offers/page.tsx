@@ -4,48 +4,11 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight, Phone } from "lucide-react";
-import { CONTACT } from "@/lib/jetour-data";
+import { CONTACT, SPECIAL_OFFERS } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 
-type Offer = {
-  id: string;
-  modelId: string;
-  poster: string;
-  title: string;
-  desc: string;
-};
-
-const OFFERS: Offer[] = [
-  {
-    id: "x70-plus",
-    modelId: "x70-plus",
-    poster: "/offers/x70-offer.png",
-    title: "Jetour X70 Plus — зээл 1.5% хүүтэй",
-    desc: "10% урьдчилгаатай, сарын 1.5% хүүтэй, 96 сар хүртэлх хугацаатай. Гэр бүлийн 7 суудалт орчин үеийн SUV.",
-  },
-  {
-    id: "x50",
-    modelId: "x50",
-    poster: "/offers/x50-offer.png",
-    title: "Jetour X50 — таатай зээлийн нөхцөл",
-    desc: "Хотын амьдралд төгс тохирох кроссовер. 10% урьдчилгаа, 1.5% сарын хүү, 96 сар хүртэл.",
-  },
-  {
-    id: "x1",
-    modelId: "x1",
-    poster: "/offers/x1-offer.png",
-    title: "Jetour X1 — хотын ухаалаг сонголт",
-    desc: "Залуу өрх, анхны машинд. Уян хатан зээлийн нөхцөл — 10% урьдчилгаа, 1.5% сарын хүү.",
-  },
-  {
-    id: "t1",
-    modelId: "t1",
-    poster: "/offers/t1-offer.png",
-    title: "Jetour T цуврал — аяллын баатар",
-    desc: "Travel+ философиор бүтээгдсэн бартаат замын SUV. 10% урьдчилгаа, 1.5% сарын хүү, 96 сар хүртэл.",
-  },
-];
+const OFFERS = SPECIAL_OFFERS;
 
 export default function SpecialOffersPage() {
   const [active, setActive] = useState(0);
@@ -89,7 +52,7 @@ export default function SpecialOffersPage() {
             </div>
 
             <Link
-              href={`/models/${offer.modelId}`}
+              href={`/special-offers/${offer.id}`}
               className="inline-flex items-center gap-2 bg-[#17181B] text-white px-7 py-3.5 rounded-lg text-sm font-bold hover:bg-[#E20A17] transition-colors"
             >
               Дэлгэрэнгүй мэдээлэл
@@ -169,7 +132,7 @@ export default function SpecialOffersPage() {
                 transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
               >
                 <Link
-                  href={`/models/${o.modelId}`}
+                  href={`/special-offers/${o.id}`}
                   className="group block bg-white rounded-2xl overflow-hidden border border-[#E7E7EA] hover:shadow-lg hover:border-[#E20A17] transition-all h-full"
                 >
                   <div className="aspect-[16/10] overflow-hidden bg-[#0E0E10]">
