@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Phone, X, Gauge } from "lucide-react";
 import { CONTACT } from "@/lib/jetour-data";
+import { trackMetaEvent } from "./meta-pixel";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -30,6 +31,7 @@ export function FloatingCTA() {
           <a
             href={CONTACT.phone1Href}
             aria-label="Залгах"
+            onClick={() => trackMetaEvent("Contact", { method: "phone" })}
             className="w-12 h-12 rounded-full bg-[#E20A17] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
           >
             <Phone className="w-5 h-5" />
@@ -50,6 +52,7 @@ export function FloatingCTA() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
+            onClick={() => trackMetaEvent("Contact", { method: "whatsapp" })}
             className="w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
           >
             <WhatsAppIcon className="w-6 h-6" />

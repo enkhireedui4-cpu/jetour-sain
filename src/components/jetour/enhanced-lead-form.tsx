@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { ALL_MODELS_FOR_GRID, BRANCHES, CONTACT } from "@/lib/jetour-data";
 import { useToast } from "@/hooks/use-toast";
+import { trackMetaEvent } from "./meta-pixel";
 
 type LeadType = "test-drive" | "info-request" | "financing" | "service" | "parts" | "general";
 
@@ -165,6 +166,11 @@ export function EnhancedLeadForm({
         throw new Error(data.error || "Хүсэлт илгээхэд алдаа гарлаа");
       }
       setSubmitted(true);
+      // Meta Pixel — Lead conversion (boost/retargeting-д ашиглана)
+      trackMetaEvent("Lead", {
+        content_name: type,
+        content_category: form.model || undefined,
+      });
       toast({
         title: "Амжилттай!",
         description: `${form.name}, манай баг удахгүй холбогдоно.`,

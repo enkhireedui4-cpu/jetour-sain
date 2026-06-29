@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { FloatingCTA } from "@/components/jetour/floating-cta";
+import { MetaPixel } from "@/components/jetour/meta-pixel";
 
 // Нэг font family — Inter. Монгол кирилл (ө, ү, ё) цэвэр, цэгтэй, уншигдахуйц.
 const inter = Inter({
@@ -49,6 +50,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} antialiased bg-white text-[#17181B]`}
       >
+        <MetaPixel />
         {children}
         <FloatingCTA />
         <Toaster />
