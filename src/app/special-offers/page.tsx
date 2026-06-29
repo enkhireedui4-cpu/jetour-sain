@@ -1,123 +1,181 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
 import Link from "next/link";
-import { Tag, Percent, Gift, Wrench, ArrowRight, Phone } from "lucide-react";
-import { CONTACT, FINANCE_PARTNERS } from "@/lib/jetour-data";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, ArrowRight, Phone } from "lucide-react";
+import { CONTACT } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 
-const OFFERS = [
+type Offer = {
+  id: string;
+  modelId: string;
+  poster: string;
+  title: string;
+  desc: string;
+};
+
+const OFFERS: Offer[] = [
   {
-    icon: <Percent className="w-6 h-6" />,
-    title: "Хүүгийн хөнгөлөлттэй зээл",
-    desc: "Хамтрагч банкуудтай хамтран 1.3%-аас эхлэх хүүтэй, 60 сар хүртэлх хугацаатай уян хатан зээл.",
-    badge: "Санхүүжилт",
-    href: "/financing",
+    id: "x70-plus",
+    modelId: "x70-plus",
+    poster: "/offers/x70-offer.png",
+    title: "Jetour X70 Plus — зээл 1.5% хүүтэй",
+    desc: "10% урьдчилгаатай, сарын 1.5% хүүтэй, 96 сар хүртэлх хугацаатай. Гэр бүлийн 7 суудалт орчин үеийн SUV.",
   },
   {
-    icon: <Gift className="w-6 h-6" />,
-    title: "Бэлэн авах урамшуулал",
-    desc: "Бэлэн төлбөрөөр худалдан авахад нэмэлт хөнгөлөлт болон дагалдах хэрэгслийн багц.",
-    badge: "Урамшуулал",
-    href: "/#dealer",
+    id: "x50",
+    modelId: "x50",
+    poster: "/offers/x50-offer.png",
+    title: "Jetour X50 — таатай зээлийн нөхцөл",
+    desc: "Хотын амьдралд төгс тохирох кроссовер. 10% урьдчилгаа, 1.5% сарын хүү, 96 сар хүртэл.",
   },
   {
-    icon: <Wrench className="w-6 h-6" />,
-    title: "Үнэгүй техник үзлэг",
-    desc: "Шинэ эзэмшигчдэд эхний жилийн засвар үйлчилгээ, техникийн үзлэг үнэгүй.",
-    badge: "Үйлчилгээ",
-    href: "/owners",
+    id: "x1",
+    modelId: "x1",
+    poster: "/offers/x1-offer.png",
+    title: "Jetour X1 — хотын ухаалаг сонголт",
+    desc: "Залуу өрх, анхны машинд. Уян хатан зээлийн нөхцөл — 10% урьдчилгаа, 1.5% сарын хүү.",
+  },
+  {
+    id: "t1",
+    modelId: "t1",
+    poster: "/offers/t1-offer.png",
+    title: "Jetour T цуврал — аяллын баатар",
+    desc: "Travel+ философиор бүтээгдсэн бартаат замын SUV. 10% урьдчилгаа, 1.5% сарын хүү, 96 сар хүртэл.",
   },
 ];
 
 export default function SpecialOffersPage() {
+  const [active, setActive] = useState(0);
+  const offer = OFFERS[active];
+
+  const prev = () => setActive((p) => (p - 1 + OFFERS.length) % OFFERS.length);
+  const next = () => setActive((p) => (p + 1) % OFFERS.length);
+
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
       <div className="h-16" />
 
-      {/* Header */}
-      <section className="bg-white pt-14 lg:pt-20 pb-10">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <p className="eyebrow eyebrow-electric mb-3">Тусгай саналууд</p>
-          <h1 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl mb-3">
-            Танд зориулсан онцгой санал
-          </h1>
-          <p className="text-[#54585F] text-base lg:text-lg max-w-2xl leading-relaxed">
-            JETOUR-аа илүү таатай нөхцөлөөр эзэмших боломж. Доорх саналуудын талаар манай баг
-            дэлгэрэнгүй мэдээлэл өгөх болно.
-          </p>
-        </div>
-      </section>
+      {/* ── Featured slider ── */}
+      <section className="bg-white pt-10 lg:pt-14 pb-16 lg:pb-20">
+        <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          {/* Left — text */}
+          <div className="order-2 lg:order-1">
+            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#8A8F98] mb-8">
+              Тусгай саналууд
+            </p>
+            <div key={offer.id}>
+              <h1 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-4xl leading-tight mb-4">
+                {offer.title}
+              </h1>
+              <p className="text-[#54585F] text-base leading-relaxed max-w-md mb-7">
+                {offer.desc}
+              </p>
+            </div>
 
-      {/* Offers grid */}
-      <section className="bg-white pb-16 lg:pb-20">
-        <div className="mx-auto w-[min(1280px,94vw)] grid md:grid-cols-3 gap-6">
-          {OFFERS.map((o, i) => (
-            <motion.div
-              key={o.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+            <Link
+              href={`/models/${offer.modelId}`}
+              className="inline-flex items-center gap-2 bg-[#17181B] text-white px-7 py-3.5 rounded-lg text-sm font-bold hover:bg-[#E20A17] transition-colors"
             >
-              <Link
-                href={o.href}
-                className="group block h-full bg-[#F5F5F6] rounded-2xl p-7 border border-[#E7E7EA] hover:bg-white hover:border-[#E20A17] hover:shadow-lg transition-all"
+              Дэлгэрэнгүй мэдээлэл
+            </Link>
+
+            {/* Controls */}
+            <div className="flex items-center gap-3 mt-12">
+              <button
+                onClick={prev}
+                aria-label="Өмнөх"
+                className="w-11 h-11 grid place-items-center rounded-lg border border-[#E7E7EA] text-[#17181B] hover:bg-[#17181B] hover:text-white transition-colors"
               >
-                <div className="flex items-center justify-between mb-5">
-                  <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/10 text-[#E20A17]">
-                    {o.icon}
-                  </span>
-                  <span className="text-[0.6rem] font-bold tracking-[0.16em] uppercase px-2.5 py-1 rounded-full bg-[#17181B] text-white">
-                    {o.badge}
-                  </span>
-                </div>
-                <h3 className="font-bold text-xl text-[#17181B] mb-2.5 group-hover:text-[#E20A17] transition-colors">
-                  {o.title}
-                </h3>
-                <p className="text-sm text-[#54585F] leading-relaxed mb-5">{o.desc}</p>
-                <span className="inline-flex items-center gap-1.5 text-[#E20A17] font-semibold text-sm group-hover:gap-2.5 transition-all">
-                  Дэлгэрэнгүй
-                  <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
-            </motion.div>
-          ))}
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={next}
+                aria-label="Дараагийн"
+                className="w-11 h-11 grid place-items-center rounded-lg border border-[#E7E7EA] text-[#17181B] hover:bg-[#17181B] hover:text-white transition-colors"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Dots */}
+            <div className="flex items-center gap-2 mt-6">
+              {OFFERS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActive(i)}
+                  aria-label={`${i + 1}-р санал`}
+                  className={`h-1 rounded-full transition-all ${
+                    i === active ? "w-8 bg-[#17181B]" : "w-4 bg-[#D9Dadd] hover:bg-[#B5B8BD]"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Right — poster */}
+          <div className="order-1 lg:order-2">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#F5F5F6]">
+              <img
+                key={offer.id}
+                src={offer.poster}
+                alt={offer.title}
+                className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Finance partners strip */}
+      {/* ── All offers grid ── */}
       <section className="bg-[#F5F5F6] py-16 lg:py-20 border-t border-[#E7E7EA]">
         <div className="mx-auto w-[min(1280px,94vw)]">
-          <div className="flex items-center gap-2 mb-8">
-            <Tag className="w-4 h-4 text-[#E20A17]" />
-            <p className="eyebrow eyebrow-electric">Хамтрагч банкууд</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {FINANCE_PARTNERS.map((p) => (
-              <div key={p.name} className="bg-white rounded-2xl p-6 border border-[#E7E7EA]">
-                <p className="font-bold text-lg text-[#17181B] mb-3">{p.name}</p>
-                <div className="space-y-1.5 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-[#8A8F98]">Хүү</span>
-                    <span className="font-semibold text-[#E20A17]">{p.rate}</span>
+          <h2 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-3xl mb-8">
+            Бүх санал
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {OFFERS.map((o, i) => (
+              <motion.div
+                key={o.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+              >
+                <Link
+                  href={`/models/${o.modelId}`}
+                  className="group block bg-white rounded-2xl overflow-hidden border border-[#E7E7EA] hover:shadow-lg hover:border-[#E20A17] transition-all h-full"
+                >
+                  <div className="aspect-[16/10] overflow-hidden bg-[#0E0E10]">
+                    <img
+                      src={o.poster}
+                      alt={o.title}
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#8A8F98]">Хугацаа</span>
-                    <span className="font-semibold text-[#17181B]">{p.term}</span>
+                  <div className="p-5">
+                    <h3 className="font-bold text-base text-[#17181B] mb-2 leading-snug group-hover:text-[#E20A17] transition-colors">
+                      {o.title}
+                    </h3>
+                    <p className="text-sm text-[#54585F] leading-relaxed line-clamp-2 mb-3">
+                      {o.desc}
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 text-[#E20A17] font-semibold text-sm group-hover:gap-2.5 transition-all">
+                      Дэлгэрэнгүй
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#8A8F98]">Урьдчилгаа</span>
-                    <span className="font-semibold text-[#17181B]">{p.downPayment}</span>
-                  </div>
-                </div>
-              </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-3">
+          {/* Contact CTA */}
+          <div className="mt-12 flex flex-wrap gap-3">
             <a
               href={CONTACT.phone1Href}
               className="btn-electric-jetour inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm"
