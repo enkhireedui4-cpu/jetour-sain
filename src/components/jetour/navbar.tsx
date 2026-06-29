@@ -24,7 +24,14 @@ type NavItem =
 
 const NAV_LINKS: NavItem[] = [
   { label: "Тусгай саналууд", href: "/special-offers", type: "route" },
-  { label: "Дилер", href: "/dealer", type: "route" },
+  {
+    label: "Бидний тухай",
+    type: "dropdown",
+    items: [
+      { label: "Брэнд", href: "/brand", type: "route" },
+      { label: "Дилер", href: "/dealer", type: "route" },
+    ],
+  },
   {
     label: "Худалдан авагчдад зориулсан",
     type: "dropdown",
@@ -34,7 +41,6 @@ const NAV_LINKS: NavItem[] = [
     ],
   },
   { label: "Мэдээ", href: "/news", type: "route" },
-  { label: "Брэндийн тухай", href: "/#dealer", type: "anchor" },
 ];
 
 export function Navbar() {
@@ -43,7 +49,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
-  const [dropOpen, setDropOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const megaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,12 +64,12 @@ export function Navbar() {
     const handler = (e: MouseEvent) => {
       if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
         setMegaOpen(false);
-        setDropOpen(false);
+        setOpenMenu(null);
       }
     };
-    if (megaOpen || dropOpen) document.addEventListener("mousedown", handler);
+    if (megaOpen || openMenu) document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [megaOpen, dropOpen]);
+  }, [megaOpen, openMenu]);
 
   const overHero = isHome && !scrolled && !megaOpen;
 
@@ -100,7 +106,7 @@ export function Navbar() {
         <nav className="hidden lg:flex items-center gap-8">
           {/* Models mega trigger */}
           <button
-            onClick={() => setMegaOpen(!megaOpen)}
+            onClick={() => { setMegaOpen(!megaOpen); setOpenMenu(null); }}
             className={`flex items-center gap-1 text-sm font-medium transition-colors relative group ${
               overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
             } ${megaOpen ? (overHero ? "text-white" : "text-[#17181B]") : ""}`}
@@ -140,23 +146,23 @@ export function Navbar() {
             ) : (
               <div key={l.label} className="relative">
                 <button
-                  onClick={() => { setDropOpen((v) => !v); setMegaOpen(false); }}
+                  onClick={() => { setOpenMenu((v) => (v === l.label ? null : l.label)); setMegaOpen(false); }}
                   className={`flex items-center gap-1 text-sm font-medium transition-colors relative ${
                     overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
-                  } ${dropOpen ? (overHero ? "text-white" : "text-[#17181B]") : ""}`}
+                  } ${openMenu === l.label ? (overHero ? "text-white" : "text-[#17181B]") : ""}`}
                 >
                   {l.label}
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropOpen ? "rotate-180" : ""}`} />
-                  {dropOpen && <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17]" />}
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openMenu === l.label ? "rotate-180" : ""}`} />
+                  {openMenu === l.label && <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17]" />}
                 </button>
-                {dropOpen && (
+                {openMenu === l.label && (
                   <div className="absolute top-full left-0 mt-3 min-w-[230px] bg-white rounded-xl border border-[#E7E7EA] shadow-xl py-2 z-50">
                     {l.items.map((it) =>
                       it.type === "route" ? (
                         <Link
                           key={it.label}
                           href={it.href}
-                          onClick={() => setDropOpen(false)}
+                          onClick={() => setOpenMenu(null)}
                           className="block px-4 py-2.5 text-sm font-medium text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6] transition-colors"
                         >
                           {it.label}
@@ -164,7 +170,7 @@ export function Navbar() {
                       ) : (
                         <button
                           key={it.label}
-                          onClick={() => { setDropOpen(false); handleAnchor(it.href); }}
+                          onClick={() => { setOpenMenu(null); handleAnchor(it.href); }}
                           className="block w-full text-left px-4 py-2.5 text-sm font-medium text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6] transition-colors"
                         >
                           {it.label}
