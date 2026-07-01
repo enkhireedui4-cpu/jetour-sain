@@ -5,12 +5,12 @@ import { Navbar } from "@/components/jetour/navbar";
 import { Calendar, Tag, ArrowRight, ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Мэдээ, сурталчилгаа — JETOUR Mongolia",
+  title: "Мэдээ, сурталчилгаа — JETOUR",
   description:
-    "JETOUR Mongolia-ын шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт, үйл явдал — бүгд энд.",
+    "JETOUR -ын шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт, үйл явдал — бүгд энд.",
   openGraph: {
-    title: "Мэдээ, сурталчилгаа — JETOUR Mongolia",
-    description: "JETOUR Mongolia-ын шинэ загвар, брэндийн мэдээ, үйлчилгээ.",
+    title: "Мэдээ, сурталчилгаа — JETOUR",
+    description: "JETOUR-ын шинэ загвар, брэндийн мэдээ, үйлчилгээ.",
     type: "website",
     locale: "mn_MN",
   },
@@ -109,7 +109,7 @@ export default function NewsListPage() {
       <footer className="bg-[#17181B] text-white py-10">
         <div className="mx-auto w-[min(1280px,94vw)] text-center">
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} JETOUR Mongolia · Сайн Моторс ХХК.
+            © {new Date().getFullYear()} JETOUR · Сайн Моторс ХХК.
           </p>
         </div>
       </footer>

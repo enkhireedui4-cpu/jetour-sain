@@ -56,7 +56,7 @@ export function Hero() {
         <div className="absolute inset-0 hero-overlay pointer-events-none" />
       </div>
 
-      {/* === Prev / Next arrows (chery.kz маягийн) === */}
+      {/* === Prev / Next arrows  === */}
       <button
         onClick={prev}
         aria-label="Өмнөх зураг"

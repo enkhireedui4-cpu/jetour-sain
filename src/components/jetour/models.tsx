@@ -1,22 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { ALL_MODELS_FOR_GRID, MODEL_COLOR_IMAGES, MODEL_GALLERY_IMAGES } from "@/lib/jetour-data";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
-type M = (typeof ALL_MODELS_FOR_GRID)[number];
+type HeroModel = {
+  id: string; // /special-offers/{id}
+  name: string;
+  image: string;
+};
 
-const imgOf = (m: M) =>
-  MODEL_COLOR_IMAGES[m.id]?.[0]?.image ?? MODEL_GALLERY_IMAGES[m.id]?.[0] ?? m.heroImage;
-
-const priceOf = (m: M) =>
-  m.startingPrice ? `${m.startingPrice}-с эхлэн` : m.priceNote ?? "Тун удахгүй";
+const MODELS: HeroModel[] = [
+  { id: "x70-plus", name: "JETOUR X70 Plus", image: "/models-hero/x70-plus.png" },
+  { id: "x50", name: "JETOUR X50", image: "/models-hero/x50.png" },
+  { id: "x1", name: "JETOUR X1", image: "/models-hero/x1.png" },
+  { id: "t1", name: "JETOUR T1", image: "/models-hero/t1.png" },
+];
 
 export function Models() {
-  const models = ALL_MODELS_FOR_GRID;
   const [active, setActive] = useState(0);
-  const m = models[active];
+  const [paused, setPaused] = useState(false);
+
+  const next = useCallback(() => setActive((p) => (p + 1) % MODELS.length), []);
+  const prev = () => setActive((p) => (p - 1 + MODELS.length) % MODELS.length);
+
+  // Авто-солигдол (~5 сек)
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(next, 5000);
+    return () => clearInterval(t);
+  }, [next, paused, active]);
 
   return (
     <section id="models" className="bg-white">
@@ -28,77 +41,69 @@ export function Models() {
         </h2>
       </div>
 
-      {/* Tab strip */}
-      <div className="border-t border-[#E7E7EA] overflow-x-auto">
-        <div className="mx-auto w-[min(1280px,94vw)] flex gap-1 py-2">
-          {models.map((mm, i) => (
-            <button
-              key={mm.id}
-              onClick={() => setActive(i)}
-              className={`shrink-0 px-5 py-2.5 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
-                i === active
-                  ? "bg-[#17181B] text-white"
-                  : "text-[#54585F] hover:text-[#17181B] hover:bg-[#F5F5F6]"
-              }`}
-            >
-              {mm.name}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Full-width image showcase */}
-      <div className="relative w-full overflow-hidden bg-[#111]" style={{ minHeight: "62vh" }}>
-        <AnimatePresence mode="wait">
-          <motion.img
+      <div
+        className="relative w-full overflow-hidden bg-[#111]"
+        style={{ height: "clamp(420px, 72vh, 820px)" }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        {/* Slides */}
+        {MODELS.map((m, i) => (
+          <img
             key={m.id}
-            src={imgOf(m)}
+            src={m.image}
             alt={m.name}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full object-cover"
-            style={{ minHeight: "62vh", maxHeight: "78vh" }}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+              i === active ? "opacity-100" : "opacity-0"
+            }`}
+            loading={i === 0 ? "eager" : "lazy"}
           />
-        </AnimatePresence>
+        ))}
 
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
+        {/* Subtle gradient for button legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
-        {/* Coming soon */}
-        {m.status === "coming-soon" && (
-          <span className="absolute top-5 left-6 text-[0.6rem] font-bold tracking-[0.18em] uppercase px-3 py-1.5 rounded-full bg-[#E20A17] text-white">
-            Тун удахгүй
-          </span>
-        )}
+        {/* "Дэлгэрэнгүй мэдээлэл авах" button — bottom left */}
+        <div className="absolute bottom-8 left-6 lg:left-10 z-10">
+          <Link
+            href={`/special-offers/${MODELS[active].id}`}
+            className="inline-flex items-center gap-2 bg-[#17181B] text-white px-7 py-3.5 text-sm font-bold rounded-lg hover:bg-[#E20A17] transition-colors"
+          >
+            Дэлгэрэнгүй мэдээлэл авах
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
 
-        {/* Bottom overlay */}
-        <div className="absolute bottom-0 left-0 right-0 px-6 lg:px-10 pb-8 flex items-end justify-between gap-4 flex-wrap">
-          {/* Left: CTAs */}
-          <div className="flex gap-3 flex-wrap">
-            <Link
-              href={`/models/${m.id}`}
-              className="bg-white text-[#17181B] px-7 py-3 text-sm font-bold rounded-lg hover:bg-[#E20A17] hover:text-white transition-colors"
-            >
-              Дэлгэрэнгүй
-            </Link>
+        {/* Arrows + dots — bottom right */}
+        <div className="absolute bottom-8 right-6 lg:right-10 z-10 flex flex-col items-end gap-4">
+          <div className="flex gap-2">
             <button
-              onClick={() =>
-                document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="bg-white/15 backdrop-blur-sm border border-white/40 text-white px-7 py-3 text-sm font-bold rounded-lg hover:bg-white/25 transition-colors"
+              onClick={prev}
+              aria-label="Өмнөх"
+              className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 backdrop-blur-sm border border-white/40 text-white hover:bg-white hover:text-[#17181B] transition-colors"
             >
-              Тест драйв
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={next}
+              aria-label="Дараагийн"
+              className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 backdrop-blur-sm border border-white/40 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+            >
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
-
-          {/* Right: Model name + price */}
-          <div className="text-right">
-            <p className="text-white/55 text-sm font-medium mb-0.5">{priceOf(m)}</p>
-            <h3 className="font-extrabold text-3xl lg:text-5xl text-white tracking-tight leading-none">
-              {m.name}
-            </h3>
+          <div className="flex items-center gap-2">
+            {MODELS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                aria-label={`${i + 1}-р загвар`}
+                className={`h-1 rounded-full transition-all ${
+                  i === active ? "w-8 bg-white" : "w-4 bg-white/40 hover:bg-white/70"
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>

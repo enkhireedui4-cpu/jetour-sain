@@ -20,11 +20,11 @@ export function generateMetadata({
     const article = NEWS_ARTICLES.find((a) => a.slug === slug);
     if (!article) {
       return {
-        title: "Мэдээ олдсонгүй — JETOUR Mongolia",
+        title: "Мэдээ олдсонгүй — JETOUR",
       };
     }
     return {
-      title: `${article.title} — JETOUR Mongolia`,
+      title: `${article.title} — JETOUR`,
       description: article.excerpt,
       openGraph: {
         title: article.title,
@@ -79,7 +79,7 @@ export default async function NewsDetailPage({
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://jetour-mongolia.mn/news/${article.slug}`,
+      "@id": `https://jetour-sain.mn/news/${article.slug}`,
     },
   };
 
@@ -236,7 +236,7 @@ export default async function NewsDetailPage({
       <footer className="bg-[#17181B] text-white py-10">
         <div className="mx-auto w-[min(1280px,94vw)] text-center">
           <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} JETOUR Mongolia · Сайн Моторс ХХК.
+            © {new Date().getFullYear()} JETOUR · Сайн Моторс ХХК.
           </p>
         </div>
       </footer>

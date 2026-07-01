@@ -16,7 +16,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "JETOUR Mongolia — Албан ёсны дистрибьютер SAIN MOTORS",
   description:
-    "JETOUR Mongolia — албан ёсны дистрибьютер Сайн Моторс. X70 Plus, X1, X50, T1, G700 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 7277-8855, 8910-0274",
+    "JETOUR — албан ёсны дистрибьютер Сайн Моторс. X70 Plus, X1, X50, T1, G700 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 7277-8855, 8910-0274",
   keywords: [
     "JETOUR Mongolia",
     "Jetour Монгол",
