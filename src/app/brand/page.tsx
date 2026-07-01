@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -12,6 +13,10 @@ import {
   Cpu,
   ArrowRight,
   Phone,
+  Lightbulb,
+  Shield,
+  Zap,
+  MapPin,
 } from "lucide-react";
 import {
   GLOBAL_STATS,
@@ -35,31 +40,140 @@ const FEATURE_ICONS: Record<string, React.ReactNode> = {
   cpu: <Cpu className="w-6 h-6" />,
 };
 
+const TIMELINE = [
+  { year: 2018, title: "Брэнд байгуулагдав", desc: "Chery Group дэлхийн SUV брэнд төрүүлэв" },
+  { year: 2019, title: "X70 гарсан", desc: "Флагман загвар худалдаанд орлоо" },
+  { year: 2021, title: "Дэлхийн зах зээл", desc: "100+ орны зах зээлд нүүлэгдэв" },
+  { year: 2024, title: "Монголд орлоо", desc: "SAIN MOTORS-оор албан ёсоор суухалтал" },
+];
+
+const WHY_JETOUR = [
+  { icon: Lightbulb, title: "Innovation", desc: "Орчин үеийн технологи + дизайн" },
+  { icon: MapPin, title: "Travel Lifestyle", desc: "Аялалын бүх зүйл нэгдсэн" },
+  { icon: Shield, title: "Safety", desc: "Орчлон аюулгүй байдлын 6-р зэрэг" },
+  { icon: Zap, title: "Smart Tech", desc: "L2.5 ADAS, 360° камер, Apple CarPlay" },
+];
+
+// Animated counter hook
+function useCounter(end: number, duration: number = 2000) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let start = 0;
+    const step = end / (duration / 50);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 50);
+    return () => clearInterval(timer);
+  }, [end, duration]);
+  return count;
+}
+
 export default function BrandPage() {
+  const count80 = useCounter(80, 2000);
+  const count2000 = useCounter(2000, 2000);
+  const count50 = useCounter(50, 2000);
+
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
       <div className="h-16" />
 
-      {/* Hero */}
-      <section className="relative h-[60vh] min-h-[420px] overflow-hidden bg-[#0E0E10]">
-        <img
+      {/* Hero — Full-screen cinematic */}
+      <section className="relative h-screen min-h-[600px] overflow-hidden bg-[#0E0E10]">
+        <motion.img
+          initial={{ scale: 1.05, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.2 }}
           src={LIFESTYLE_IMAGES.hero}
           alt="JETOUR — Travel+"
-          className="absolute inset-0 w-full h-full object-cover opacity-70"
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30" />
-        <div className="relative z-10 h-full flex items-end pb-12 lg:pb-16">
-          <div className="mx-auto w-[min(1280px,94vw)]">
-            <p className="text-xs font-bold tracking-[0.24em] uppercase text-white/70 mb-3">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/40" />
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="max-w-2xl px-6"
+          >
+            <p className="text-xs font-bold tracking-[0.24em] uppercase text-white/70 mb-6">
               Брэндийн тухай
             </p>
-            <h1 className="font-extrabold tracking-tight text-white text-4xl lg:text-6xl leading-[1.02] max-w-3xl">
-              JETOUR — <span className="text-[#E20A17]">Аяллын соёл</span>
+            <h1 className="font-extrabold tracking-tight text-white text-5xl lg:text-7xl leading-[1.05] mb-6">
+              JETOUR —<br />
+              <span className="text-[#E20A17]">Аяллын соёл</span>
             </h1>
-            <p className="text-white/85 text-base lg:text-lg leading-relaxed mt-4 max-w-xl">
+            <p className="text-white/85 text-lg leading-relaxed max-w-xl mx-auto mb-10">
               Зөвхөн машин биш — аялал, адал явдал, шинийг нээх амьдралын хэв маяг.
             </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex flex-wrap gap-4 justify-center"
+            >
+              <Link
+                href="/#models"
+                className="bg-[#E20A17] text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-[#E20A17] transition-all"
+              >
+                Загварууд үзэх
+              </Link>
+              <Link
+                href="/dealer"
+                className="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-[#17181B] transition-all"
+              >
+                Дилер олох
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Timeline */}
+      <section className="py-20 lg:py-28 bg-gradient-to-b from-white to-[#F5F5F6]">
+        <div className="mx-auto w-[min(1280px,94vw)]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#E20A17] mb-2">
+              Брэндийн түүх
+            </p>
+            <h2 className="font-extrabold tracking-tight text-[#17181B] text-4xl lg:text-5xl">
+              JETOUR-ийн аялал
+            </h2>
+          </motion.div>
+          <div className="grid lg:grid-cols-4 gap-8">
+            {TIMELINE.map((item, i) => (
+              <motion.div
+                key={item.year}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="relative"
+              >
+                <div className="h-32 rounded-2xl bg-gradient-to-br from-[#E20A17]/10 to-[#E20A17]/5 border border-[#E20A17]/20 p-6 flex flex-col justify-between">
+                  <div>
+                    <p className="text-3xl font-extrabold text-[#E20A17] mb-1">{item.year}</p>
+                    <h3 className="font-bold text-[#17181B] text-lg">{item.title}</h3>
+                  </div>
+                  <p className="text-sm text-[#54585F]">{item.desc}</p>
+                </div>
+                {i < TIMELINE.length - 1 && (
+                  <div className="hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-0.5 bg-[#E20A17]/30" />
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -107,7 +221,7 @@ export default function BrandPage() {
         </div>
       </section>
 
-      {/* Global stats */}
+      {/* Global stats with counter animation */}
       <section className="py-16 lg:py-20 bg-[#0E0E10] text-white">
         <div className="mx-auto w-[min(1280px,94vw)]">
           <p className="text-xs font-bold tracking-[0.24em] uppercase text-white/50 mb-2">
@@ -116,26 +230,49 @@ export default function BrandPage() {
           <h2 className="font-extrabold tracking-tight text-3xl lg:text-4xl mb-10">
             Дэлхийн <span className="text-[#E20A17]">JETOUR</span>
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            {GLOBAL_STATS.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="rounded-2xl bg-white/[0.04] border border-white/10 p-6"
-              >
-                <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/15 text-[#E20A17] mb-5">
-                  {STAT_ICONS[s.icon]}
-                </span>
-                <p className="font-extrabold text-3xl lg:text-4xl tracking-tight">
-                  {s.value >= 1000000 ? `${s.value / 1000000}M` : s.value}
-                  {s.suffix}
-                </p>
-                <p className="text-white/60 text-sm mt-1">{s.label}</p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* Custom counter cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="rounded-2xl bg-white/[0.04] border border-white/10 p-6"
+            >
+              <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/15 text-[#E20A17] mb-5">
+                <Globe className="w-6 h-6" />
+              </span>
+              <p className="font-extrabold text-3xl lg:text-4xl tracking-tight">{count80}+</p>
+              <p className="text-white/60 text-sm mt-1">Оронд борлуулсан</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="rounded-2xl bg-white/[0.04] border border-white/10 p-6"
+            >
+              <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/15 text-[#E20A17] mb-5">
+                <Users className="w-6 h-6" />
+              </span>
+              <p className="font-extrabold text-3xl lg:text-4xl tracking-tight">{count2000}+</p>
+              <p className="text-white/60 text-sm mt-1">Дилер сүлжээ</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 col-span-2 lg:col-span-1"
+            >
+              <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/15 text-[#E20A17] mb-5">
+                <Award className="w-6 h-6" />
+              </span>
+              <p className="font-extrabold text-3xl lg:text-4xl tracking-tight">{count50}+M</p>
+              <p className="text-white/60 text-sm mt-1">Дэлхийн эзэмшигчид</p>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -166,6 +303,52 @@ export default function BrandPage() {
                 <p className="text-sm text-[#54585F] leading-relaxed">{f.description}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Jetour */}
+      <section className="py-16 lg:py-24 bg-[#F5F5F6] border-t border-[#E7E7EA]">
+        <div className="mx-auto w-[min(1280px,94vw)]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#E20A17] mb-2">
+              Яагаад JETOUR?
+            </p>
+            <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-4xl">
+              4 шалтгаан
+            </h2>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {WHY_JETOUR.map((item, i) => {
+              const IconComponent = item.icon;
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="group rounded-2xl bg-white border border-[#E7E7EA] p-7 hover:shadow-xl hover:border-[#E20A17] transition-all h-full cursor-pointer"
+                >
+                  <motion.span
+                    className="w-14 h-14 grid place-items-center rounded-xl bg-[#E20A17]/10 text-[#E20A17] mb-5 inline-flex"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <IconComponent className="w-7 h-7" />
+                  </motion.span>
+                  <h3 className="font-bold text-lg text-[#17181B] mb-2 group-hover:text-[#E20A17] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-[#54585F] leading-relaxed">{item.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
