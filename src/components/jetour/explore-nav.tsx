@@ -32,7 +32,7 @@ export function ExploreNav() {
           transition={{ duration: 0.6 }}
         >
           <p className="text-xs font-bold tracking-[0.22em] uppercase text-[#8A8F98] mb-8">
-            Навигаци
+            Цэс
           </p>
           <div className="flex flex-col">
             {NAV_ITEMS.map((item) =>
