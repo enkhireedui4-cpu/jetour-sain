@@ -2,7 +2,7 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 import { SPECIAL_OFFERS } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
@@ -41,13 +41,13 @@ export default function OfferDetailPage({ params }: { params: Promise<{ id: stri
         </Link>
       </div>
 
-      {/* Hero poster — ирмэг хүртэл бүтэн дүүргэсэн (jetour.kz маяг) */}
+      {/* Hero poster — бүтэн постер, том, таслалгүй */}
       <section className="pt-4 pb-10">
-        <div className="relative w-full h-[58vh] lg:h-[74vh] overflow-hidden bg-[#0E0E10]">
+        <div className="mx-auto w-[min(1100px,94vw)]">
           <img
             src={offer.poster}
             alt={offer.title}
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="w-full h-auto rounded-2xl shadow-sm"
           />
         </div>
       </section>
@@ -80,6 +80,15 @@ export default function OfferDetailPage({ params }: { params: Promise<{ id: stri
                 </p>
               ))}
             </div>
+            <button
+              onClick={() =>
+                document.querySelector("#lead-form")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="inline-flex items-center gap-2 bg-[#E20A17] text-white px-7 py-3.5 rounded-lg text-sm font-bold hover:bg-[#17181B] transition-colors mt-8"
+            >
+              Хүсэлт үлдээх
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
           <div className="lg:pt-2">
             <p className="text-[#17181B] text-lg leading-relaxed font-medium">{offer.tagline}</p>
@@ -118,7 +127,7 @@ export default function OfferDetailPage({ params }: { params: Promise<{ id: stri
       )}
 
       {/* Lead form */}
-      <section className="bg-[#F5F5F6] py-16 lg:py-20 border-t border-[#E7E7EA]">
+      <section id="lead-form" className="bg-[#F5F5F6] py-16 lg:py-20 border-t border-[#E7E7EA] scroll-mt-20">
         <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-14 items-start">
           <div>
             <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-4xl mb-4">
