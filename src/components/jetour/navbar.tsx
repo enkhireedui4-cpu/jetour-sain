@@ -326,7 +326,7 @@ function JetourLogo({ overHero }: { overHero: boolean }) {
         style={{ background: overHero ? "rgba(255,255,255,0.25)" : "#E7E7EA" }}
       />
       <img
-        src="/logos/sain-motors-logo.png"
+        src={overHero ? "/logos/sain-motors-logo.png" : "/logos/sain-motors-black.png"}
         alt="Sain Motors"
         className="h-6 w-auto"
       />
