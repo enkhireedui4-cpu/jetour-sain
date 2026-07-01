@@ -97,13 +97,22 @@ export function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
+            className="flex flex-wrap items-center gap-3"
           >
-            <Link
-              href={`/special-offers/${slide.id}`}
+            <button
+              onClick={() =>
+                document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })
+              }
               className="inline-flex items-center gap-2 bg-white text-[#17181B] px-8 py-4 rounded-full text-base font-bold hover:bg-[#E20A17] hover:text-white transition-colors"
             >
-              Дэлгэрэнгүй мэдээлэл авах
+              Хүсэлт үлдээх
               <ArrowRight className="w-4 h-4" />
+            </button>
+            <Link
+              href={`/special-offers/${slide.id}`}
+              className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/40 text-white px-8 py-4 rounded-full text-base font-bold hover:bg-white/25 transition-colors"
+            >
+              Дэлгэрэнгүй мэдээлэл авах
             </Link>
           </motion.div>
         </div>
