@@ -79,6 +79,36 @@ export default function OfferDetailPage({ params }: { params: Promise<{ id: stri
         </div>
       </section>
 
+      {/* Spec table */}
+      {offer.specs && offer.specs.length > 0 && (
+        <section className="pb-14">
+          <div className="mx-auto w-[min(1280px,94vw)]">
+            <h2 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-3xl mb-6">
+              Техникийн үзүүлэлт
+            </h2>
+            <div className="overflow-hidden rounded-2xl border border-[#E7E7EA]">
+              <table className="w-full text-sm">
+                <tbody>
+                  {offer.specs.map((s, i) => (
+                    <tr
+                      key={s.label}
+                      className={i % 2 === 0 ? "bg-[#F5F5F6]" : "bg-white"}
+                    >
+                      <td className="px-5 py-3.5 font-semibold text-[#17181B] align-top w-[42%] sm:w-[32%] border-b border-[#E7E7EA]">
+                        {s.label}
+                      </td>
+                      <td className="px-5 py-3.5 text-[#54585F] border-b border-[#E7E7EA]">
+                        {s.value}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Lead form */}
       <section className="bg-[#F5F5F6] py-16 lg:py-20 border-t border-[#E7E7EA]">
         <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-14 items-start">
