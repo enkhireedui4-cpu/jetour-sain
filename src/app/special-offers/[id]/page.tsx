@@ -41,16 +41,23 @@ export default function OfferDetailPage({ params }: { params: Promise<{ id: stri
         </Link>
       </div>
 
-      {/* Hero poster */}
-      <section className="pt-6 pb-10">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <div className="w-full rounded-2xl overflow-hidden bg-[#0E0E10] flex items-center justify-center">
-            <img
-              src={offer.poster}
-              alt={offer.title}
-              className="w-full h-auto max-h-[78vh] object-contain"
-            />
-          </div>
+      {/* Hero poster — бүтэн дэлгэц дүүргэсэн (jetour.kz маяг) */}
+      <section className="pt-4 pb-10">
+        <div className="relative w-full h-[58vh] lg:h-[76vh] overflow-hidden bg-[#0E0E10]">
+          {/* Бүдэг дэвсгэр — зайг дүүргэнэ */}
+          <img
+            src={offer.poster}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-40"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+          {/* Тод постер — бүтэн харагдана */}
+          <img
+            src={offer.poster}
+            alt={offer.title}
+            className="absolute inset-0 w-full h-full object-contain"
+          />
         </div>
       </section>
 
