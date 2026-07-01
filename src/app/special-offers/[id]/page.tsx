@@ -61,10 +61,20 @@ export default function OfferDetailPage({ params }: { params: Promise<{ id: stri
             <h1 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-4xl leading-tight mb-3">
               {offer.title}
             </h1>
-            <p className="flex items-center gap-1.5 text-sm text-[#8A8F98] mb-8">
+            <p className="flex items-center gap-1.5 text-sm text-[#8A8F98] mb-5">
               <Calendar className="w-4 h-4" />
               {offer.date}
             </p>
+            {offer.price && (
+              <div className="mb-8">
+                <span className="block text-xs font-bold tracking-[0.18em] uppercase text-[#8A8F98] mb-1">
+                  Үндсэн үнэ
+                </span>
+                <span className="text-2xl lg:text-3xl font-extrabold text-[#E20A17]">
+                  {offer.price}
+                </span>
+              </div>
+            )}
             <div className="space-y-4">
               {offer.body.map((p, i) => (
                 <p key={i} className="text-[#54585F] text-base leading-relaxed">
