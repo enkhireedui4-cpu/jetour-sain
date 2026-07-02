@@ -33,10 +33,13 @@ import {
   MODEL_GALLERY_IMAGES,
   MODEL_TECH_HIGHLIGHTS,
   MODEL_INTERIOR_HIGHLIGHTS,
+  MODEL_QUALITY_HIGHLIGHTS,
+  MODEL_SAFETY_HIGHLIGHTS,
   CONTACT,
   TECHNOLOGY_FEATURES,
 } from "@/lib/jetour-data";
 import { Gallery } from "@/components/jetour/gallery";
+import { EnhancedLeadForm } from "@/components/jetour/enhanced-lead-form";
 import { useToast } from "@/hooks/use-toast";
 
 const TECH_ICON_MAP: Record<string, React.ReactNode> = {
@@ -93,6 +96,8 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
     : model.exteriorImages;
   const techHi = MODEL_TECH_HIGHLIGHTS[model.id] ?? [];
   const interiorHi = MODEL_INTERIOR_HIGHLIGHTS[model.id] ?? [];
+  const qualityHi = MODEL_QUALITY_HIGHLIGHTS[model.id] ?? [];
+  const safetyHi = MODEL_SAFETY_HIGHLIGHTS[model.id] ?? [];
 
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
@@ -278,6 +283,11 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       )}
 
       {/* === Safety Section === */}
+      {safetyHi.length > 0 ? (
+        <Section title="Аюулгүй байдал" eyebrow="04 · Хамгаалалт" bg="bg-white">
+          <MediaHighlights items={safetyHi} />
+        </Section>
+      ) : (
       <Section title="Аюулгүй байдал" eyebrow="04 · Хамгаалалт" bg="bg-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {SAFETY_FEATURES.map((s, i) => (
@@ -302,10 +312,22 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
           ))}
         </div>
       </Section>
+      )}
+
+      {/* === Quality Section (хөдөлгүүр, явах анги) === */}
+      {qualityHi.length > 0 && (
+        <Section title="Чанар" eyebrow="05 · Чанар" bg="bg-white">
+          <MediaHighlights items={qualityHi} />
+        </Section>
+      )}
 
       {/* === Color Configurator === */}
       {colorImages.length > 0 && (
-        <Section title="Өнгөний сонголт" eyebrow="05 · Өнгө" bg="bg-[#F5F5F6]">
+        <Section
+          title="Өнгөний сонголт"
+          eyebrow={`${qualityHi.length ? "06" : "05"} · Өнгө`}
+          bg="bg-[#F5F5F6]"
+        >
           <div className="bg-white rounded-2xl p-6 lg:p-8 border border-[#E7E7EA]">
             <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-10 items-center">
               <div className="aspect-[16/10] rounded-xl overflow-hidden bg-white border border-[#E7E7EA]">
@@ -348,7 +370,11 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       )}
 
       {/* === Specifications Section (kz-маягийн: зураг + үзүүлэлт + үнэ) === */}
-      <Section title="Техникийн үзүүлэлт" eyebrow="06 · Үзүүлэлт" bg="bg-white">
+      <Section
+        title="Техникийн үзүүлэлт"
+        eyebrow={`${qualityHi.length ? "07" : "06"} · Үзүүлэлт`}
+        bg="bg-white"
+      >
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="rounded-2xl overflow-hidden bg-white border border-[#E7E7EA]">
             <img
@@ -413,7 +439,9 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
-              <p className="eyebrow eyebrow-electric mb-3">07 · Мэдээлэл авах</p>
+              <p className="eyebrow eyebrow-electric mb-3">
+                {qualityHi.length ? "08" : "07"} · Мэдээлэл авах
+              </p>
               <h2 className="font-display font-extrabold italic leading-[0.95] text-[#17181B] text-4xl lg:text-6xl mb-5">
                 {model.name} —{" "}
                 <span className="text-gradient-premium">мэдээлэл авах</span>
@@ -431,7 +459,19 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
               </a>
             </motion.div>
 
-            <InfoRequestForm modelName={model.name} />
+            <EnhancedLeadForm
+              type="test-drive"
+              variant="white"
+              title="Санал хүсэлт"
+              subtitle={`${model.name} — мэдээлэл авах, тест драйв`}
+              modelName={model.name}
+              showModelField
+              showDateField
+              showTimeField={false}
+              showEmailField={false}
+              showMessageField
+              submitLabel="Илгээх"
+            />
           </div>
         </div>
       </section>

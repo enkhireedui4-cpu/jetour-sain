@@ -210,6 +210,68 @@ export const MODEL_INTERIOR_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = 
         "Эргономик байрлал, мэдрэгчтэй удирдлага нь жолоодлогыг илүү хялбар, таатай болгоно.",
     },
   ],
+  "x70-plus": [
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p2_1.png",
+      title: "Дүүжин төв консол",
+      caption:
+        "Агаарт хөвж буй мэт дүүжин төв консол — орчин үеийн, цэвэр, уужим орон зайн мэдрэмжийг бэлэглэнэ.",
+    },
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p2_2.png",
+      title: "62 инчийн супер өргөн панорам люк",
+      caption:
+        "Өргөн уудам тэнгэрийн цонх салоныг байгалийн гэрлээр дүүргэж, аялал бүрийг онцгой болгоно.",
+    },
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p2_3.png",
+      title: "2720мм тэнхлэгийн зай — B ангиллын тав тух",
+      caption:
+        "Уртасгасан тэнхлэгийн зай, 5/7 суудлын уян хатан хувиргалт — гэр бүлийн хэрэгцээнд бүрэн зохицно.",
+    },
+  ],
+};
+
+// === ЧАНАР (Quality) — хөдөлгүүр, явах ангийн онцлох ===
+export const MODEL_QUALITY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
+  "x70-plus": [
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p3_1.png",
+      title: "Хятадын шилдэг 10 хөдөлгүүрийн нэг",
+      caption:
+        "1.5T / 1.6TGDI турбо хөдөлгүүр — хүч чадал, түлшний хэмнэлтийг төгс тэнцвэржүүлсэн, олон улсад хүлээн зөвшөөрөгдсөн чанар.",
+    },
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p3_2.png",
+      title: "Дөрвөн дугуйн бие даасан дүүжлүүр",
+      caption:
+        "Бүх дугуйн бие даасан дүүжлүүр, хөнгөн цагаан урд удирдлагын гар — Монголын замд жигд, тогтвортой явалт.",
+    },
+  ],
+};
+
+// === АЮУЛГҮЙ БАЙДАЛ — зурагтай онцлох (jetourglobal) ===
+export const MODEL_SAFETY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
+  "x70-plus": [
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p4_1.png",
+      title: "Эгнээнээс гарахыг сануулах (LDW)",
+      caption:
+        "Эгнээнээсээ санамсаргүй хазайхад дуут болон дүрст дохиогоор шууд сануулж, замын аюулаас сэргийлнэ.",
+    },
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p4_2.png",
+      title: "Сохор цэгийн хяналт (BSM)",
+      caption:
+        "Хажуугийн үл харагдах бүс дэх тээврийн хэрэгслийг мэдэрч, эгнээ солих үед анхааруулна.",
+    },
+    {
+      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p4_3.png",
+      title: "Яаралтай автомат тоормос (AEB)",
+      caption:
+        "Мөргөлдөх эрсдэлийг урьдчилан мэдэрч, систем өөрөө тоормослон ослоос сэргийлнэ.",
+    },
+  ],
 };
 
 // === Галерейн зураг (jetour-auto.kz-аас) — exterior/gallery shots ===
