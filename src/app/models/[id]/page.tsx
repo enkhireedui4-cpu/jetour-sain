@@ -35,6 +35,7 @@ import {
   MODEL_INTERIOR_HIGHLIGHTS,
   MODEL_QUALITY_HIGHLIGHTS,
   MODEL_SAFETY_HIGHLIGHTS,
+  MODEL_EXTERIOR_IMAGES,
   CONTACT,
   TECHNOLOGY_FEATURES,
 } from "@/lib/jetour-data";
@@ -89,11 +90,13 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
   const galleryImgs = MODEL_GALLERY_IMAGES[model.id] ?? [];
   const [colorIdx, setColorIdx] = useState(0);
   const heroImg = colorImages[0]?.image ?? galleryImgs[0] ?? model.heroImage;
-  const exteriorImgs = colorImages.length
-    ? colorImages.map((c) => c.image)
-    : galleryImgs.length
-    ? galleryImgs
-    : model.exteriorImages;
+  const exteriorImgs =
+    MODEL_EXTERIOR_IMAGES[model.id] ??
+    (colorImages.length
+      ? colorImages.map((c) => c.image)
+      : galleryImgs.length
+      ? galleryImgs
+      : model.exteriorImages);
   const techHi = MODEL_TECH_HIGHLIGHTS[model.id] ?? [];
   const interiorHi = MODEL_INTERIOR_HIGHLIGHTS[model.id] ?? [];
   const qualityHi = MODEL_QUALITY_HIGHLIGHTS[model.id] ?? [];
@@ -153,8 +156,8 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
           />
         </div>
 
-        <div className="relative z-10 h-full flex items-end pb-16">
-          <div className="mx-auto w-[min(1280px,94vw)] w-full">
+        <div className="relative z-10 h-full flex items-end pb-16 px-6">
+          <div className="mx-auto w-[min(1280px,94vw)]" style={{ width: "min(1280px, 94vw)" }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

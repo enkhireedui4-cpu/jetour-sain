@@ -9,10 +9,10 @@ type Slide = { id: string; name: string; image: string };
 
 // Цэвэр кино зураг (animation болгоход тохиромжтой) + /special-offers/{id}
 const SLIDES: Slide[] = [
-  { id: "x70-plus", name: "JETOUR X70 Plus", image: "/models-hero/x70-plus.png" },
-  { id: "x50", name: "JETOUR X50", image: "/models-hero/x50.png" },
-  { id: "x1", name: "JETOUR X1", image: "/models-hero/x1.png" },
-  { id: "t1", name: "JETOUR T1", image: "/models-hero/t1.png" },
+  { id: "x70-plus", name: "JETOUR X70 Plus", image: "/models-hero/x70-plus.jpg" },
+  { id: "x50", name: "JETOUR X50", image: "/models-hero/x50.jpg" },
+  { id: "x1", name: "JETOUR X1", image: "/models-hero/x1.jpg" },
+  { id: "t1", name: "JETOUR T1", image: "/models-hero/t1.jpg" },
 ];
 
 export function Hero() {

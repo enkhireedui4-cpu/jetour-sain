@@ -232,6 +232,19 @@ export const MODEL_INTERIOR_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = 
   ],
 };
 
+// === ГАДНА ҮЗЭМЖ — сонгомол lifestyle зургууд (Гадна үзэмж галерей) ===
+export const MODEL_EXTERIOR_IMAGES: Record<string, string[]> = {
+  "x70-plus": [
+    "/models-ext/x70-plus-1.jpg",
+    "/models-ext/x70-plus-2.jpg",
+    "/models-ext/x70-plus-3.jpg",
+    "/models-ext/x70-plus-4.jpg",
+  ],
+  x50: ["/models-ext/x50-1.jpg", "/models-ext/x50-2.jpg", "/models-ext/x50-3.jpg"],
+  x1: ["/models-ext/x1-1.jpg", "/models-ext/x1-2.jpg", "/models-ext/x1-3.jpg"],
+  t1: ["/models-ext/t1-1.jpg", "/models-ext/t1-2.jpg", "/models-ext/t1-3.jpg"],
+};
+
 // === ЧАНАР (Quality) — хөдөлгүүр, явах ангийн онцлох ===
 export const MODEL_QUALITY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
   "x70-plus": [
@@ -1334,7 +1347,7 @@ export const SPECIAL_OFFERS: SpecialOffer[] = [
     id: "x70-plus",
     modelId: "x70-plus",
     modelName: "JETOUR X70 Plus",
-    poster: "/offers/x70-offer.png",
+    poster: "/offers/x70-offer.jpg",
     title: "Jetour X70 Plus — зээл 1.5% хүүтэй",
     desc: "Гэр бүлийн хэрэгцээнд бүрэн нийцсэн, тав тух, өргөн уужим салон, ухаалаг технологи, найдвартай ажиллагаагаараа таны гэр бүлийн аялал, өдөр тутмын хэрэглээнд төгс шийдэл болно.",
     date: "2026.06.03",
@@ -1362,7 +1375,7 @@ export const SPECIAL_OFFERS: SpecialOffer[] = [
     id: "x50",
     modelId: "x50",
     modelName: "JETOUR X50",
-    poster: "/offers/x50-offer.png",
+    poster: "/offers/x50-offer.jpg",
     title: "Jetour X50 — таатай зээлийн нөхцөл",
     desc: "Тав тух, ухаалаг технологи, бат бөх найдвартай байдлыг хослуулсан шинэ үеийн SUV. Урьдчилгаа 10%, сарын хүү 1.5%, хугацаа 96 сар хүртэл.",
     date: "2026.06.03",
@@ -1390,7 +1403,7 @@ export const SPECIAL_OFFERS: SpecialOffer[] = [
     id: "x1",
     modelId: "x1",
     modelName: "JETOUR X1",
-    poster: "/offers/x1-offer.png",
+    poster: "/offers/x1-offer.jpg",
     title: "Jetour X1 — хотын ухаалаг сонголт",
     desc: "Дэвшилтэт технологи, орчин үеийн дизайн, хүчирхэг гүйцэтгэлийг хослуулсан бөгөөд их хотын өдөр тутмын амьдралд тохирсон шийдэл болно. Урьдчилгаа 10%, сарын хүү 1.5%.",
     date: "2026.06.03",
@@ -1418,7 +1431,7 @@ export const SPECIAL_OFFERS: SpecialOffer[] = [
     id: "t1",
     modelId: "t1",
     modelName: "JETOUR T1",
-    poster: "/offers/t1-offer.png",
+    poster: "/offers/t1-offer.jpg",
     title: "Jetour T цуврал — аяллын баатар",
     desc: "Орчин үеийн технологи, ухаалаг шийдэл болон олон талын хэрэглээг хослуулсан SUV. Урьдчилгаа 10%, сарын хүү 1.5%, хугацаа 96 сар хүртэл.",
     date: "2026.06.03",
