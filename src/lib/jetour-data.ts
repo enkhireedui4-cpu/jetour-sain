@@ -104,85 +104,85 @@ export const MODEL_TECH_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
   ],
   "x70-plus": [
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/68144fc691ccd.webp",
+      image: "/ext/68144fc691ccd.webp",
       title: "Гурван бүсийн климат-контроль",
       caption: "Жолооч болон зорчигч тус бүр өөрийн тохиргоотой — салон даяар тэнцвэртэй, таатай орчин.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/688c693188abc.webp",
+      image: "/ext/688c693188abc.webp",
       title: "10.25\" мэдрэгчтэй дэлгэц",
       caption: "Физик болон мэдрэгчтэй товчлуурын хослол — жолоодлогын үед хялбар, ойлгомжтой удирдлага.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/68144f7274c2e.webp",
+      image: "/ext/68144f7274c2e.webp",
       title: "Панорам тэнгэрлэг дээвэр",
       caption: "Цахилгаан удирдлагатай панорам дээвэр салоныг илүү гэрэлтэй, уужим болгоно.",
     },
   ],
   dashing: [
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/681475c64e77a.webp",
+      image: "/ext/681475c64e77a.webp",
       title: "Том хэмжээний дижитал дэлгэц",
       caption: "Цэвэр интерфэйс бүхий дижитал орчин — жолоодлогын мэдээлэл, энтертайнментийг нэг дор.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/681475a356421.webp",
+      image: "/ext/681475a356421.webp",
       title: "L2.5 ADAS жолоодлогын туслах",
       caption: "Эгнээнд барих, адаптив круиз, тоормосны туслалцаа — хотын замд илүү аюулгүй.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/68147585f3de5.webp",
+      image: "/ext/68147585f3de5.webp",
       title: "Sony аудио систем",
       caption: "Олон чиглэлийн өндөр чанартай дуу — аялал бүрийг илүү тав тухтай болгоно.",
     },
   ],
   t1: [
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/69158d98aa647.webp",
+      image: "/ext/69158d98aa647.webp",
       title: "Ухаалаг мультимедиа",
       caption: "Холболттой дэлгэц — навигаци, хөгжим, утасны удирдлага нэг дор төвлөрнө.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/69158d862b25e.webp",
+      image: "/ext/69158d862b25e.webp",
       title: "360° камер",
       caption: "Машины эргэн тойрны бүрэн дүр зураг — зогсоол, давчуу орчинд аюулгүй маневр.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/69158d312e2fa.webp",
+      image: "/ext/69158d312e2fa.webp",
       title: "Жолоодлогын туслах систем",
       caption: "Идэвхтэй аюулгүй байдлын багц — урт замд жолоочийн ачааллыг бууруулна.",
     },
   ],
   t2: [
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/68dc041052819.webp",
+      image: "/ext/68dc041052819.webp",
       title: "Олон горимт 4WD",
       caption: "Элс, шавар, цас зэрэг газрын нөхцөлд тохирох жолоодлогын горимууд.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/68dc03f912f03.webp",
+      image: "/ext/68dc03f912f03.webp",
       title: "Бартаат замын мэдээлэл",
       caption: "Налуу, өнцөг, луужин — хүнд нөхцөлд бодит цагийн мэдээлэл.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/68dc03f03634f.webp",
+      image: "/ext/68dc03f03634f.webp",
       title: "Ухаалаг туслах систем",
       caption: "Камер, мэдрэгчид — бартаат зам, гүн усанд итгэлтэй жолоодлого.",
     },
   ],
   "x90-plus": [
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/6812ef655f2da.webp",
+      image: "/ext/6812ef655f2da.webp",
       title: "Том дижитал дэлгэц",
       caption: "Жолоочийн самбар ба мультимедиа нэгдсэн дэвшилтэт интерфэйс.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/6812ef4ab16e3.webp",
+      image: "/ext/6812ef4ab16e3.webp",
       title: "7 суудлын уян хатан зохион байгуулалт",
       caption: "Гуравдугаар эгнээ нугалснаар өргөн ачааны зай — том гэр бүлд тохиромжтой.",
     },
     {
-      image: "https://back.jetour-auto.kz/images/cars/technos/6812ef298d291.webp",
+      image: "/ext/6812ef298d291.webp",
       title: "Дэвшилтэт аюулгүй байдал",
       caption: "85%+ өндөр хүчдэлийн ган бие, олон тооны аюулгүйн систем.",
     },
@@ -212,19 +212,19 @@ export const MODEL_INTERIOR_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = 
   ],
   "x70-plus": [
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p2_1.png",
+      image: "/ext/p2_1.png",
       title: "Дүүжин төв консол",
       caption:
         "Агаарт хөвж буй мэт дүүжин төв консол — орчин үеийн, цэвэр, уужим орон зайн мэдрэмжийг бэлэглэнэ.",
     },
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p2_2.png",
+      image: "/ext/p2_2.png",
       title: "62 инчийн супер өргөн панорам люк",
       caption:
         "Өргөн уудам тэнгэрийн цонх салоныг байгалийн гэрлээр дүүргэж, аялал бүрийг онцгой болгоно.",
     },
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p2_3.png",
+      image: "/ext/p2_3.png",
       title: "2720мм тэнхлэгийн зай — B ангиллын тав тух",
       caption:
         "Уртасгасан тэнхлэгийн зай, 5/7 суудлын уян хатан хувиргалт — гэр бүлийн хэрэгцээнд бүрэн зохицно.",
@@ -236,13 +236,13 @@ export const MODEL_INTERIOR_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = 
 export const MODEL_QUALITY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
   "x70-plus": [
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p3_1.png",
+      image: "/ext/p3_1.png",
       title: "Хятадын шилдэг 10 хөдөлгүүрийн нэг",
       caption:
         "1.5T / 1.6TGDI турбо хөдөлгүүр — хүч чадал, түлшний хэмнэлтийг төгс тэнцвэржүүлсэн, олон улсад хүлээн зөвшөөрөгдсөн чанар.",
     },
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p3_2.png",
+      image: "/ext/p3_2.png",
       title: "Дөрвөн дугуйн бие даасан дүүжлүүр",
       caption:
         "Бүх дугуйн бие даасан дүүжлүүр, хөнгөн цагаан урд удирдлагын гар — Монголын замд жигд, тогтвортой явалт.",
@@ -254,19 +254,19 @@ export const MODEL_QUALITY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
 export const MODEL_SAFETY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
   "x70-plus": [
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p4_1.png",
+      image: "/ext/p4_1.png",
       title: "Эгнээнээс гарахыг сануулах (LDW)",
       caption:
         "Эгнээнээсээ санамсаргүй хазайхад дуут болон дүрст дохиогоор шууд сануулж, замын аюулаас сэргийлнэ.",
     },
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p4_2.png",
+      image: "/ext/p4_2.png",
       title: "Сохор цэгийн хяналт (BSM)",
       caption:
         "Хажуугийн үл харагдах бүс дэх тээврийн хэрэгслийг мэдэрч, эгнээ солих үед анхааруулна.",
     },
     {
-      image: "https://www.jetourglobal.com/new-static/images/vehicles/cars/x70Plus/p4_3.png",
+      image: "/ext/p4_3.png",
       title: "Яаралтай автомат тоормос (AEB)",
       caption:
         "Мөргөлдөх эрсдэлийг урьдчилан мэдэрч, систем өөрөө тоормослон ослоос сэргийлнэ.",
@@ -275,7 +275,7 @@ export const MODEL_SAFETY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
 };
 
 // === Галерейн зураг (jetour-auto.kz-аас) — exterior/gallery shots ===
-const KZ = "https://back.jetour-auto.kz/images/cars/photos/";
+const KZ = "/ext/";
 export const MODEL_GALLERY_IMAGES: Record<string, string[]> = {
   "x70-plus": [
     `${KZ}6912e7c9339b5.webp`, `${KZ}6912e7f1702a8.webp`, `${KZ}6912e80f0dc63.webp`,
