@@ -252,6 +252,7 @@ export const MODEL_SHOWCASE: Record<
   { hero?: string; exterior: ShowcaseSlide[]; interior: ShowcaseSlide[] }
 > = {
   "x70-plus": {
+    hero: "/ext/p5_1.png",
     exterior: [
       { image: "/ext/p1_1.png", caption: "Хүчирхэг атлетик төрх" },
       { image: "/ext/p1_2.png", caption: "Метеор загварын иж бүрэн LED арын гэрэл" },
@@ -311,6 +312,11 @@ export const MODEL_SHOWCASE: Record<
       { image: "/ext/t2-int-2.webp", caption: "15.6 инчийн Snapdragon 8155 ухаалаг дэлгэц" },
     ],
   },
+};
+
+// === МОЗАЙК — хуудасны төгсгөлийн 3 зургийн hover-коллаж ===
+export const MODEL_MOSAIC: Record<string, string[]> = {
+  "x70-plus": ["/ext/p5_1.png", "/ext/p5_2.png", "/ext/p5_3.png"],
 };
 
 // === ЧАНАР (Quality) — хөдөлгүүр, явах ангийн онцлох ===

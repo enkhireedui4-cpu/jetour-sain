@@ -27,6 +27,7 @@ import {
   MODEL_SAFETY_HIGHLIGHTS,
   MODEL_EXTERIOR_IMAGES,
   MODEL_SHOWCASE,
+  MODEL_MOSAIC,
   type ShowcaseSlide,
   CONTACT,
   TECHNOLOGY_FEATURES,
@@ -91,6 +92,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
   const interiorHi = MODEL_INTERIOR_HIGHLIGHTS[model.id] ?? [];
   const qualityHi = MODEL_QUALITY_HIGHLIGHTS[model.id] ?? [];
   const safetyHi = MODEL_SAFETY_HIGHLIGHTS[model.id] ?? [];
+  const mosaic = MODEL_MOSAIC[model.id] ?? [];
 
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
@@ -246,11 +248,21 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       </Section>
       )}
 
-      {/* === Safety Section === */}
+      {/* === Safety Section — дүүрэн гүйдэг слайдер (global маяг) === */}
       {safetyHi.length > 0 ? (
-        <Section title="Аюулгүй байдал" eyebrow="Хамгаалалт" bg="bg-white">
-          <MediaHighlights items={safetyHi} />
-        </Section>
+        <section className="bg-white py-16 lg:py-24 overflow-hidden">
+          <div className="mx-auto w-[min(1280px,94vw)] mb-10">
+            <p className="eyebrow eyebrow-electric mb-3">Хамгаалалт</p>
+            <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl">
+              Аюулгүй байдал
+            </h2>
+          </div>
+          <ShowcaseSlider
+            key={`safe-${model.id}`}
+            slides={safetyHi.map((h) => ({ image: h.image, caption: h.title }))}
+            alt="Аюулгүй байдал"
+          />
+        </section>
       ) : (
       <Section title="Аюулгүй байдал" eyebrow="Хамгаалалт" bg="bg-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -278,59 +290,88 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       </Section>
       )}
 
-      {/* === Quality Section (хөдөлгүүр, явах анги) === */}
+      {/* === Quality Section — global маягийн 2 том зураг, тайлбар нь зурган дээрээ === */}
       {qualityHi.length > 0 && (
-        <Section title="Чанар" eyebrow="Чанар" bg="bg-white">
-          <MediaHighlights items={qualityHi} />
-        </Section>
-      )}
-
-      {/* === Color Configurator === */}
-      {colorImages.length > 0 && (
-        <Section
-          title="Өнгөний сонголт"
-          eyebrow="Өнгө"
-          bg="bg-[#F5F5F6]"
-        >
-          <div className="bg-white rounded-2xl p-6 lg:p-8 border border-[#E7E7EA]">
-            <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-10 items-center">
-              <div className="aspect-[16/10] rounded-xl overflow-hidden bg-white border border-[#E7E7EA]">
-                <img
-                  key={colorImages[colorIdx].image}
-                  src={colorImages[colorIdx].image}
-                  alt={`${model.name} — ${colorImages[colorIdx].name}`}
-                  className="w-full h-full object-cover animate-[reveal-up_0.5s_ease]"
-                  loading="lazy"
-                />
-              </div>
-              <div>
-                <p className="eyebrow eyebrow-electric mb-1.5">Өнгө сонгох</p>
-                <p className="font-bold text-2xl text-[#17181B] mb-5">
-                  {colorImages[colorIdx].name}
-                </p>
-                <div className="flex flex-wrap gap-3 mb-5">
-                  {colorImages.map((c, i) => (
-                    <button
-                      key={c.name}
-                      onClick={() => setColorIdx(i)}
-                      title={c.name}
-                      aria-label={c.name}
-                      className={`w-11 h-11 rounded-full transition-all ${
-                        colorIdx === i
-                          ? "ring-2 ring-offset-2 ring-[#E20A17] scale-110"
-                          : "ring-1 ring-[#D9DADE] hover:scale-105"
-                      }`}
-                      style={{ background: c.hex }}
-                    />
-                  ))}
+        <section className="bg-[#F5F5F6] py-16 lg:py-24">
+          <div className="mx-auto w-[min(1280px,94vw)]">
+            <p className="eyebrow eyebrow-electric mb-3 text-center">Чанар</p>
+            <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl mb-10 text-center">
+              Чанар
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4 lg:gap-5">
+              {qualityHi.map((q) => (
+                <div
+                  key={q.title}
+                  className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-[#0E0E10]"
+                >
+                  <img
+                    src={q.image}
+                    alt={q.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/75 to-transparent pointer-events-none" />
+                  <p
+                    className="absolute left-5 right-5 bottom-5 text-white font-bold text-base lg:text-xl leading-snug"
+                    style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
+                  >
+                    {q.title}
+                  </p>
                 </div>
-                <p className="text-xs text-[#8A8F98] leading-relaxed">
-                  Өнгө сонгоход үнэ өөрчлөгдөхгүй. Showroom-д бодит өнгийг харах боломжтой.
-                </p>
-              </div>
+              ))}
             </div>
           </div>
-        </Section>
+        </section>
+      )}
+
+      {/* === Өнгөний сонголт — 360 hall маяг: том машин төвд, өнгөнүүд яг доор нь === */}
+      {colorImages.length > 0 && (
+        <section
+          className="overflow-hidden"
+          style={{
+            background: "linear-gradient(180deg, #FAFAFB 0%, #EFF0F2 55%, #E6E7EA 100%)",
+          }}
+        >
+          <div className="pt-16 lg:pt-20 text-center px-6">
+            <p className="eyebrow eyebrow-electric mb-3">Өнгө</p>
+            <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl">
+              Өнгөний сонголт
+            </h2>
+          </div>
+
+          {/* Том машин — дэлгэц дүүрэн */}
+          <div className="relative mx-auto w-[min(1200px,96vw)]">
+            <img
+              key={colorImages[colorIdx].image}
+              src={colorImages[colorIdx].image}
+              alt={`${model.name} — ${colorImages[colorIdx].name}`}
+              className="w-full object-cover rounded-2xl animate-[reveal-up_0.5s_ease] shadow-[0_30px_60px_-30px_rgba(23,24,27,0.35)]"
+              style={{ height: "clamp(300px, 62vh, 640px)" }}
+              loading="lazy"
+            />
+          </div>
+
+          {/* Өнгөний цэгүүд — яг доод талд, төвд */}
+          <div className="pb-14 lg:pb-16 pt-8 flex flex-col items-center gap-3">
+            <div className="flex items-center gap-4 bg-white/85 backdrop-blur rounded-full px-7 py-3.5 shadow-md">
+              {colorImages.map((c, i) => (
+                <button
+                  key={c.name}
+                  onClick={() => setColorIdx(i)}
+                  title={c.name}
+                  aria-label={c.name}
+                  className={`w-8 h-8 lg:w-9 lg:h-9 rounded-full transition-all ${
+                    colorIdx === i
+                      ? "ring-2 ring-offset-2 ring-[#17181B] scale-110"
+                      : "ring-1 ring-[#D9DADE] hover:scale-110"
+                  }`}
+                  style={{ background: c.hex }}
+                />
+              ))}
+            </div>
+            <p className="text-sm font-bold text-[#17181B]">{colorImages[colorIdx].name}</p>
+          </div>
+        </section>
       )}
 
       {/* === Specifications Section (kz-маягийн: зураг + үзүүлэлт + үнэ) === */}
@@ -481,6 +522,34 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
             ))}
         </div>
       </Section>
+
+      {/* === Төгсгөлийн мозайк — hover-д бага зэрэг томордог 3 зураг (global маяг) === */}
+      {mosaic.length >= 3 && (
+        <section className="bg-white">
+          <div className="grid md:grid-cols-2 gap-1">
+            <div className="group relative overflow-hidden h-[42vh] md:h-[88vh]">
+              <img
+                src={mosaic[0]}
+                alt={`${model.name} — 1`}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+            <div className="grid grid-rows-2 gap-1 h-[56vh] md:h-[88vh]">
+              {[mosaic[1], mosaic[2]].map((img, i) => (
+                <div key={img} className="group relative overflow-hidden">
+                  <img
+                    src={img}
+                    alt={`${model.name} — ${i + 2}`}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <Footer />
