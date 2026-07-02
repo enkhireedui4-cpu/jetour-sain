@@ -471,7 +471,7 @@ export const MODELS: JetourModel[] = [
       transmission: "6-DCT",
       drivetrain: "FWD",
       seats: "7 суудал",
-      length: "4749 мм",
+      length: "4724 мм",
       wheelbase: "2720 мм",
       groundClearance: "210 мм",
       topSpeed: "195 км/ц",
@@ -542,8 +542,8 @@ export const MODELS: JetourModel[] = [
       transmission: "6-DCT",
       drivetrain: "2WD",
       seats: "5 суудал",
-      length: "4400 мм",
-      wheelbase: "2610 мм",
+      length: "4590 мм",
+      wheelbase: "2720 мм",
       groundClearance: "180 мм",
       topSpeed: "180 км/ц",
       fuel: "Бензин",
@@ -801,17 +801,17 @@ export const MODELS: JetourModel[] = [
     priceNote: "Тун удахгүй",
     status: "coming-soon",
     specs: {
-      engine: "1.5T PHEV",
-      power: "340 л.с.",
-      torque: "600 Нм",
-      transmission: "3-DHT",
+      engine: "2.0T / 1.5T PHEV",
+      power: "254 / 600 л.с.",
+      torque: "390 / 915 Нм",
+      transmission: "8AT / 3DHT",
       drivetrain: "4WD",
       seats: "5 суудал",
       length: "4495 мм",
       wheelbase: "2672 мм",
       groundClearance: "220 мм",
       topSpeed: "190 км/ц",
-      fuel: "PHEV",
+      fuel: "Бензин / PHEV",
     },
     exteriorFeatures: [
       {
@@ -1072,19 +1072,19 @@ export const ADDITIONAL_MODELS = [
     price: "129.9 сая ₮-с",
     priceNote: "Бензин ба PHEV хувилбар",
     startingPrice: "129.9 сая ₮",
-    status: "coming-soon" as const,
+    status: "available" as const,
     specs: {
-      engine: "1.5T PHEV",
-      power: "340 л.с.",
-      torque: "600 Нм",
-      transmission: "3-DHT",
+      engine: "2.0T / 1.5T PHEV",
+      power: "254 / 600 л.с.",
+      torque: "390 / 915 Нм",
+      transmission: "8AT / 3DHT",
       drivetrain: "4WD",
       seats: "5 суудал",
       length: "4495 мм",
       wheelbase: "2672 мм",
       groundClearance: "220 мм",
       topSpeed: "190 км/ц",
-      fuel: "PHEV",
+      fuel: "Бензин / PHEV",
     },
     exteriorFeatures: [
       { title: "Travel+ баатар загвар", description: "Бэхлэлт бүтэц, бартаат замд тохирох дизайн." },
@@ -1226,7 +1226,7 @@ export const ADDITIONAL_MODELS = [
     price: null,
     priceNote: "Үнийн санал авах",
     startingPrice: null,
-    status: "available" as const,
+    status: "coming-soon" as const,
     specs: {
       engine: "1.5T GDI",
       power: "156 л.с.",
@@ -1284,7 +1284,7 @@ export const ADDITIONAL_MODELS = [
     price: null,
     priceNote: "Үнийн санал авах",
     startingPrice: null,
-    status: "available" as const,
+    status: "coming-soon" as const,
     specs: {
       engine: "1.6T GDI",
       power: "197 л.с.",
@@ -1318,9 +1318,12 @@ export const ADDITIONAL_MODELS = [
 ];
 
 // Combine all models — grid/mega-menu дээр зөвхөн зарагдаж буй (available) загвар:
-// X70 Plus, X50, X1, T1, S06, S07. "Тун удахгүй" загваруудыг grid-ээс хасна.
+// X70 Plus, X50, X1, T1, T2. "Тун удахгүй" загваруудыг grid-ээс хасна.
 export const ALL_MODELS = [...MODELS, ...ADDITIONAL_MODELS];
-export const ALL_MODELS_FOR_GRID = ALL_MODELS.filter((m) => m.status === "available");
+const GRID_ORDER = ["x70-plus", "x50", "x1", "t1", "t2"];
+export const ALL_MODELS_FOR_GRID = ALL_MODELS.filter((m) => m.status === "available").sort(
+  (a, b) => GRID_ORDER.indexOf(a.id) - GRID_ORDER.indexOf(b.id)
+);
 
 export const LIFESTYLE_IMAGES = {
   hero: "/jetour-cars/8a3bf450cc83.jpg",
