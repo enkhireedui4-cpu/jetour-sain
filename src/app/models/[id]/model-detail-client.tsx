@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  ArrowLeft,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Phone,
   Gauge,
   Zap,
@@ -25,11 +26,14 @@ import {
   MODEL_QUALITY_HIGHLIGHTS,
   MODEL_SAFETY_HIGHLIGHTS,
   MODEL_EXTERIOR_IMAGES,
+  MODEL_SHOWCASE,
+  type ShowcaseSlide,
   CONTACT,
   TECHNOLOGY_FEATURES,
 } from "@/lib/jetour-data";
 import { Gallery } from "@/components/jetour/gallery";
 import { EnhancedLeadForm } from "@/components/jetour/enhanced-lead-form";
+import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 
 const TECH_ICON_MAP: Record<string, React.ReactNode> = {
@@ -70,14 +74,12 @@ export default function ModelDetailClient({ id }: { id: string }) {
 }
 
 function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[number] }) {
-  const accentColor = "#E20A17";
-  const accentSoft = "#FF4A42";
-
   // Бодит өнгөний зураг (Color Configurator)
   const colorImages = MODEL_COLOR_IMAGES[model.id] ?? [];
   const galleryImgs = MODEL_GALLERY_IMAGES[model.id] ?? [];
   const [colorIdx, setColorIdx] = useState(0);
-  const heroImg = colorImages[0]?.image ?? galleryImgs[0] ?? model.heroImage;
+  const showcase = MODEL_SHOWCASE[model.id];
+  const heroImg = showcase?.hero ?? colorImages[0]?.image ?? galleryImgs[0] ?? model.heroImage;
   const exteriorImgs =
     MODEL_EXTERIOR_IMAGES[model.id] ??
     (colorImages.length
@@ -92,112 +94,56 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
 
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
-      {/* === Top back navigation === */}
-      <div className="bg-[#17181B] text-white py-4 sticky top-0 z-30">
-        <div className="mx-auto w-[min(1280px,94vw)] flex items-center justify-between">
-          <Link
-            href="/#models"
-            className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm font-display font-bold tracking-wider"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Бүх загвар
-          </Link>
-          <div className="flex items-center gap-3">
-            <a
-              href={CONTACT.phone1Href}
-              className="hidden sm:flex items-center gap-2 text-white/80 hover:text-[#E20A17] transition-colors text-xs font-display font-bold"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              {CONTACT.phone1}
-            </a>
-            <Link
-              href="#request-info"
-              className="btn-electric-jetour px-4 py-2 rounded-full text-xs tracking-wide"
-            >
-              Тест драйв
-            </Link>
-          </div>
-        </div>
-      </div>
+      {/* === Энгийн үндсэн цэс (kz маяг — хуудас солигдоход цэс өөрчлөгдөхгүй) === */}
+      <Navbar />
+      <div className="h-16" />
 
-      {/* === Vehicle Hero Banner === */}
-      <section className="relative h-[80vh] min-h-[560px] overflow-hidden bg-[#17181B]">
-        <div className="absolute inset-0">
-          <img
-            src={heroImg}
-            alt={model.name}
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.95) 100%)",
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `radial-gradient(50% 60% at 20% 50%, ${accentColor}33, transparent 70%)`,
-            }}
-          />
-        </div>
+      {/* === Vehicle Hero — дэлгэц дүүрэн зураг, жижиг цэвэр текст (kz маяг) === */}
+      <section className="relative h-[calc(100vh-4rem)] min-h-[520px] overflow-hidden bg-[#17181B]">
+        <img
+          src={heroImg}
+          alt={model.name}
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
 
-        <div className="relative z-10 h-full flex items-end pb-16 px-6">
-          <div className="mx-auto w-[min(1280px,94vw)]" style={{ width: "min(1280px, 94vw)" }}>
+        <div className="relative z-10 h-full flex items-end pb-14 px-6">
+          <div style={{ width: "min(1280px, 94vw)", margin: "0 auto" }}>
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9 }}
+              transition={{ duration: 0.8 }}
             >
-              <p
-                className="eyebrow mb-3"
-                style={{ color: accentSoft }}
-              >
-                {model.series} цуврал
-              </p>
               <h1
-                className="font-display font-extrabold italic text-white mb-4"
+                className="font-extrabold tracking-tight text-white mb-3"
                 style={{
-                  fontSize: "clamp(2.8rem, 8vw, 6rem)",
-                  lineHeight: 0.95,
-                  textShadow: "0 6px 30px rgba(0,0,0,0.5)",
+                  fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+                  lineHeight: 1.05,
+                  textShadow: "0 4px 24px rgba(0,0,0,0.5)",
                 }}
               >
                 {model.name}
               </h1>
               <p
-                className="text-lg lg:text-xl text-white/90 mb-8 max-w-xl"
+                className="text-base lg:text-lg text-white/90 mb-7 max-w-xl"
                 style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}
               >
                 {model.tagline}
               </p>
-              <div className="flex flex-wrap items-center gap-4">
-                <div>
-                  <p className="text-[0.6rem] tracking-[0.22em] uppercase text-white/60 font-display mb-1">
-                    Үнэ
-                  </p>
-                  <p
-                    className="font-display font-extrabold italic text-3xl text-white"
-                    style={{ textShadow: "0 4px 20px rgba(0,0,0,0.5)" }}
-                  >
-                    {model.startingPrice ?? model.price ?? model.priceNote}
-                  </p>
-                </div>
-                <div className="h-14 w-px bg-white/20" />
+              <div className="flex flex-wrap items-center gap-3">
                 <a
                   href="#request-info"
-                  className="btn-electric-jetour px-6 py-3.5 rounded-xl text-sm flex items-center gap-2"
+                  className="bg-white text-[#17181B] px-7 py-3.5 rounded-lg text-sm font-bold hover:bg-[#E20A17] hover:text-white transition-colors"
                 >
-                  Үнийн санал авах
-                  <ArrowRight className="w-4 h-4" />
+                  Хүсэлт илгээх
                 </a>
                 <a
-                  href="#request-info"
-                  className="btn-outline-light px-6 py-3.5 rounded-xl text-sm"
+                  href="#specs"
+                  className="bg-white/15 backdrop-blur-sm border border-white/40 text-white px-7 py-3.5 rounded-lg text-sm font-bold hover:bg-white/25 transition-colors"
                 >
-                  Тест драйв захиалах
+                  Үнийн жагсаалт
                 </a>
               </div>
             </motion.div>
@@ -205,20 +151,47 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
         </div>
       </section>
 
-      {/* === Exterior Gallery === */}
-      <Section title="Гадна үзэмж" eyebrow="01 · Экстерьер" bg="bg-white">
-        <p className="text-[#6B7280] text-base lg:text-lg leading-relaxed mb-10 max-w-3xl">
-          {model.description}
-        </p>
-        <Gallery key={`ext-${model.id}`} images={exteriorImgs} alt={model.name} accent={model.accent} />
-      </Section>
-
-      {/* === Interior === */}
-      <Section title="Дотор салон" eyebrow="02 · Интерьер" bg="bg-[#F5F5F6]">
-        {interiorHi.length > 0 ? (
-          <MediaHighlights items={interiorHi} />
+      {/* === Гадна үзэмж — дэлгэц дүүрэн гүйдэг слайдер (global маяг) === */}
+      <section className="bg-white py-16 lg:py-24 overflow-hidden">
+        <div className="mx-auto w-[min(1280px,94vw)] mb-10">
+          <p className="eyebrow eyebrow-electric mb-3">Экстерьер</p>
+          <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl mb-5">
+            Гадна үзэмж
+          </h2>
+          <p className="text-[#6B7280] text-base lg:text-lg leading-relaxed max-w-3xl">
+            {model.description}
+          </p>
+        </div>
+        {showcase?.exterior?.length ? (
+          <ShowcaseSlider key={`ext-${model.id}`} slides={showcase.exterior} alt={model.name} />
         ) : (
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div className="mx-auto w-[min(1280px,94vw)]">
+            <Gallery
+              key={`ext-${model.id}`}
+              images={exteriorImgs}
+              alt={model.name}
+              accent={model.accent}
+            />
+          </div>
+        )}
+      </section>
+
+      {/* === Дотор салон — том гүйдэг слайдер === */}
+      <section className="bg-[#F5F5F6] py-16 lg:py-24 overflow-hidden">
+        <div className="mx-auto w-[min(1280px,94vw)] mb-10">
+          <p className="eyebrow eyebrow-electric mb-3">Интерьер</p>
+          <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl">
+            Дотор салон
+          </h2>
+        </div>
+        {showcase?.interior?.length ? (
+          <ShowcaseSlider key={`int-${model.id}`} slides={showcase.interior} alt={model.name} />
+        ) : interiorHi.length > 0 ? (
+          <div className="mx-auto w-[min(1280px,94vw)]">
+            <MediaHighlights items={interiorHi} />
+          </div>
+        ) : (
+          <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             <div className="rounded-2xl overflow-hidden bg-white border border-[#E7E7EA]">
               <img
                 src={model.interiorImages[0]}
@@ -242,15 +215,15 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
             </div>
           </div>
         )}
-      </Section>
+      </section>
 
       {/* === Technology Section === */}
       {techHi.length > 0 ? (
-        <Section title="Технологи" eyebrow="03 · Технологи" bg="bg-white">
+        <Section title="Технологи" eyebrow="Технологи" bg="bg-white">
           <MediaHighlights items={techHi} />
         </Section>
       ) : (
-      <Section title="Технологи" eyebrow="03 · Технологи" bg="bg-[#17181B]" dark>
+      <Section title="Технологи" eyebrow="Технологи" bg="bg-[#17181B]" dark>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {TECHNOLOGY_FEATURES.map((t, i) => (
             <motion.div
@@ -275,11 +248,11 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
 
       {/* === Safety Section === */}
       {safetyHi.length > 0 ? (
-        <Section title="Аюулгүй байдал" eyebrow="04 · Хамгаалалт" bg="bg-white">
+        <Section title="Аюулгүй байдал" eyebrow="Хамгаалалт" bg="bg-white">
           <MediaHighlights items={safetyHi} />
         </Section>
       ) : (
-      <Section title="Аюулгүй байдал" eyebrow="04 · Хамгаалалт" bg="bg-white">
+      <Section title="Аюулгүй байдал" eyebrow="Хамгаалалт" bg="bg-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {SAFETY_FEATURES.map((s, i) => (
             <motion.div
@@ -307,7 +280,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
 
       {/* === Quality Section (хөдөлгүүр, явах анги) === */}
       {qualityHi.length > 0 && (
-        <Section title="Чанар" eyebrow="05 · Чанар" bg="bg-white">
+        <Section title="Чанар" eyebrow="Чанар" bg="bg-white">
           <MediaHighlights items={qualityHi} />
         </Section>
       )}
@@ -316,7 +289,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       {colorImages.length > 0 && (
         <Section
           title="Өнгөний сонголт"
-          eyebrow={`${qualityHi.length ? "06" : "05"} · Өнгө`}
+          eyebrow="Өнгө"
           bg="bg-[#F5F5F6]"
         >
           <div className="bg-white rounded-2xl p-6 lg:p-8 border border-[#E7E7EA]">
@@ -361,11 +334,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       )}
 
       {/* === Specifications Section (kz-маягийн: зураг + үзүүлэлт + үнэ) === */}
-      <Section
-        title="Техникийн үзүүлэлт"
-        eyebrow={`${qualityHi.length ? "07" : "06"} · Үзүүлэлт`}
-        bg="bg-white"
-      >
+      <Section id="specs" title="Техникийн үзүүлэлт" eyebrow="Үзүүлэлт" bg="bg-white">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="rounded-2xl overflow-hidden bg-white border border-[#E7E7EA]">
             <img
@@ -431,7 +400,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
               transition={{ duration: 0.7 }}
             >
               <p className="eyebrow eyebrow-electric mb-3">
-                {qualityHi.length ? "08" : "07"} · Мэдээлэл авах
+                Мэдээлэл авах
               </p>
               <h2 className="font-display font-extrabold italic leading-[0.95] text-[#17181B] text-4xl lg:text-6xl mb-5">
                 {model.name} —{" "}
@@ -468,7 +437,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
       </section>
 
       {/* === Related Models === */}
-      <Section title="Төстэй загварууд" eyebrow="09 · Бусад загвар" bg="bg-white">
+      <Section title="Төстэй загварууд" eyebrow="Бусад загвар" bg="bg-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ALL_MODELS_FOR_GRID.filter((m) => m.id !== model.id)
             .slice(0, 3)
@@ -524,16 +493,18 @@ function Section({
   eyebrow,
   bg,
   dark = false,
+  id,
   children,
 }: {
   title: string;
   eyebrow: string;
   bg: string;
   dark?: boolean;
+  id?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className={`py-32 lg:py-40 ${bg} overflow-hidden`}>
+    <section id={id} className={`py-32 lg:py-40 ${bg} overflow-hidden scroll-mt-16`}>
       <div className="mx-auto w-[min(1280px,94vw)]">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -588,6 +559,99 @@ function SpecItem({ label, value }: { label: string; value: string }) {
     <div>
       <p className="text-[#8A8F98] text-[0.8rem] leading-snug mb-1.5">{label}:</p>
       <p className="font-bold text-lg text-[#17181B]">{value}</p>
+    </div>
+  );
+}
+
+/**
+ * Дэлгэц дүүрэн, гүйж (translateX) солигддог том слайдер — global сайтын маяг.
+ * Сум дарахад дараагийн зураг урсаж орж ирнэ; 5 сек тутам автоматаар солигдоно.
+ */
+function ShowcaseSlider({ slides, alt }: { slides: ShowcaseSlide[]; alt: string }) {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const next = useCallback(
+    () => setActive((p) => (p + 1) % slides.length),
+    [slides.length]
+  );
+  const prev = () => setActive((p) => (p - 1 + slides.length) % slides.length);
+
+  useEffect(() => {
+    if (paused || slides.length <= 1) return;
+    const t = setInterval(next, 5000);
+    return () => clearInterval(t);
+  }, [next, paused, slides.length, active]);
+
+  return (
+    <div
+      className="relative w-full overflow-hidden bg-[#0E0E10]"
+      style={{ height: "clamp(340px, 72vh, 820px)" }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Гүйдэг зам */}
+      <div
+        className="flex h-full transition-transform duration-700 ease-out"
+        style={{ transform: `translateX(-${active * 100}%)` }}
+      >
+        {slides.map((s, i) => (
+          <div key={i} className="relative min-w-full h-full">
+            <img
+              src={s.image}
+              alt={`${alt} — ${s.caption}`}
+              className="w-full h-full object-cover"
+              loading={i === 0 ? "eager" : "lazy"}
+            />
+            <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+            <p
+              className="absolute left-6 lg:left-10 bottom-8 lg:bottom-10 text-white font-bold text-lg lg:text-2xl max-w-xl pr-6"
+              style={{ textShadow: "0 2px 14px rgba(0,0,0,0.6)" }}
+            >
+              {s.caption}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {slides.length > 1 && (
+        <>
+          {/* Сумнууд — баруун доод */}
+          <div className="absolute bottom-8 lg:bottom-10 right-6 lg:right-10 z-10 flex gap-2">
+            <button
+              onClick={prev}
+              aria-label="Өмнөх зураг"
+              className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 backdrop-blur-sm border border-white/40 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={next}
+              aria-label="Дараагийн зураг"
+              className="w-11 h-11 grid place-items-center rounded-lg bg-white/15 backdrop-blur-sm border border-white/40 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Тоолуур + цэгүүд */}
+          <div className="absolute top-6 right-6 lg:right-10 z-10 text-xs font-bold text-white bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5">
+            {String(active + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+          </div>
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                aria-label={`${i + 1}-р зураг`}
+                className={`h-1 rounded-full transition-all ${
+                  i === active ? "w-7 bg-[#E20A17]" : "w-3.5 bg-white/40 hover:bg-white/70"
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

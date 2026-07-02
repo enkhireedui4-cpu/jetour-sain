@@ -245,6 +245,74 @@ export const MODEL_EXTERIOR_IMAGES: Record<string, string[]> = {
   t1: ["/models-ext/t1-1.jpg", "/models-ext/t1-2.jpg", "/models-ext/t1-3.jpg"],
 };
 
+// === ШОУКЕЙС — загварын хуудасны том гүйдэг слайдер (гадна/дотор) ===
+export type ShowcaseSlide = { image: string; caption: string };
+export const MODEL_SHOWCASE: Record<
+  string,
+  { hero?: string; exterior: ShowcaseSlide[]; interior: ShowcaseSlide[] }
+> = {
+  "x70-plus": {
+    exterior: [
+      { image: "/ext/p1_1.png", caption: "Хүчирхэг атлетик төрх" },
+      { image: "/ext/p1_2.png", caption: "Метеор загварын иж бүрэн LED арын гэрэл" },
+      { image: "/ext/p1_3.png", caption: "Хоёр талдаа хос яндан" },
+      { image: "/ext/p1_4.png", caption: "20 инчийн спортлог обуд" },
+    ],
+    interior: [
+      { image: "/ext/p2_1.png", caption: "Дүүжин төв консол" },
+      { image: "/ext/p2_2.png", caption: "62 инчийн супер өргөн панорам люк" },
+      { image: "/ext/p2_3.png", caption: "2720мм тэнхлэг — 5/7 суудлын уян хатан орон зай" },
+    ],
+  },
+  x50: {
+    exterior: [
+      { image: "/models-ext/x50-1.jpg", caption: "Орчин үеийн архитектур дизайн" },
+      { image: "/models-ext/x50-2.jpg", caption: "Ямар ч цаг агаарт итгэлтэй" },
+      { image: "/models-ext/x50-3.jpg", caption: "Онцгой LED арын гэрэл" },
+    ],
+    interior: [
+      { image: "/models/x50/interior/1.webp", caption: "Дижитал хянах самбар" },
+      { image: "/models/x50/interior/2.webp", caption: "Дээд зэрэглэлийн уужим салон" },
+      { image: "/models/x50/interior/3.webp", caption: "Эргономик мэдрэгч удирдлага" },
+    ],
+  },
+  x1: {
+    exterior: [
+      { image: "/models-ext/x1-1.jpg", caption: "Хотын динамик хэмнэл" },
+      { image: "/models-ext/x1-2.jpg", caption: "Купе маягийн урсгал силуэт" },
+      { image: "/models-ext/x1-3.jpg", caption: "Премиум мэдрэмж — хаана ч" },
+    ],
+    interior: [],
+  },
+  t1: {
+    exterior: [
+      { image: "/models-ext/t1-1.jpg", caption: "Цөлийн нар жаргах аялал" },
+      { image: "/models-ext/t1-2.jpg", caption: "Бартаанд төрсөн зориг" },
+      { image: "/models-ext/t1-3.jpg", caption: "Хадан зам — асуудал биш" },
+      { image: "/ext/t1-sa-image1.webp", caption: "Амралтын өдрийн хамтрагч" },
+    ],
+    interior: [
+      {
+        image: "/ext/t1-sa-image3.webp",
+        caption: "Премиум интерьер — панорам люк, ухаалаг удирдлага",
+      },
+    ],
+  },
+  t2: {
+    hero: "/ext/t2-hero.jpg",
+    exterior: [
+      { image: "/ext/t2-hero.jpg", caption: "Люкс оффроуд флагман" },
+      { image: "/ext/t2-ext-1.webp", caption: "Зоригтой, бат бөх пропорц" },
+      { image: "/ext/t2-ext-2.webp", caption: "Хотод ч, хээр ч адил тансаг" },
+      { image: "/ext/t2-ext-3.webp", caption: "Жинхэнэ оффроуд чадвар" },
+    ],
+    interior: [
+      { image: "/ext/t2-int-1.webp", caption: "Тансаг зэрэглэлийн салон" },
+      { image: "/ext/t2-int-2.webp", caption: "15.6 инчийн Snapdragon 8155 ухаалаг дэлгэц" },
+    ],
+  },
+};
+
 // === ЧАНАР (Quality) — хөдөлгүүр, явах ангийн онцлох ===
 export const MODEL_QUALITY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
   "x70-plus": [
