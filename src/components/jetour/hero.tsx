@@ -51,6 +51,7 @@ export function Hero() {
             alt={s.name}
             className="w-full h-full object-cover"
             loading={i === 0 ? "eager" : "lazy"}
+            fetchPriority={i === 0 ? "high" : "auto"}
           />
         </div>
       ))}
