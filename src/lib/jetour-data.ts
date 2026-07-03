@@ -319,6 +319,26 @@ export const MODEL_MOSAIC: Record<string, string[]> = {
   "x70-plus": ["/ext/p5_1.png", "/ext/p5_2.png", "/ext/p5_3.png"],
 };
 
+// === 360° ЧИРЖ ЭРГҮҮЛЭХ ХАРАГДАЦ ===
+// jetourglobal.com-оос татсан турнтэйбл фрейм (~190° хагас эргэлт — бүтэн 360 биш,
+// учир нь тэдний сайт зөвхөн энэ хэсгийг нээлттэй тавьсан байсан).
+type Model360Color = { key: string; name: string; hex: string; frames: string[] };
+const frame360 = (nums: number[], color: string) =>
+  nums.map((n) => `/ext/360/x70plus/${color}/${n}.webp`);
+const ARC_FULL_360 = [
+  ...Array.from({ length: 28 }, (_, i) => 10 + i), // 10..37
+  ...Array.from({ length: 18 }, (_, i) => 39 + i * 2), // 39,41,...,73
+];
+const ARC_GREY_360 = Array.from({ length: 27 }, (_, i) => 10 + i); // 10..36
+
+export const MODEL_360: Record<string, Model360Color[]> = {
+  "x70-plus": [
+    { key: "white", name: "Цагаан", hex: "#F1F1F2", frames: frame360(ARC_FULL_360, "white") },
+    { key: "black", name: "Хар", hex: "#121316", frames: frame360(ARC_FULL_360, "black") },
+    { key: "grey", name: "Саарал", hex: "#6B7079", frames: frame360(ARC_GREY_360, "grey") },
+  ],
+};
+
 // === ЧАНАР (Quality) — хөдөлгүүр, явах ангийн онцлох ===
 export const MODEL_QUALITY_HIGHLIGHTS: Record<string, ModelMediaHighlight[]> = {
   "x70-plus": [

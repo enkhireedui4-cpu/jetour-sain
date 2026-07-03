@@ -28,11 +28,13 @@ import {
   MODEL_EXTERIOR_IMAGES,
   MODEL_SHOWCASE,
   MODEL_MOSAIC,
+  MODEL_360,
   type ShowcaseSlide,
   CONTACT,
   TECHNOLOGY_FEATURES,
 } from "@/lib/jetour-data";
 import { Gallery } from "@/components/jetour/gallery";
+import { Model360Viewer } from "@/components/jetour/model-360-viewer";
 import { EnhancedLeadForm } from "@/components/jetour/enhanced-lead-form";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
@@ -93,6 +95,7 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
   const qualityHi = MODEL_QUALITY_HIGHLIGHTS[model.id] ?? [];
   const safetyHi = MODEL_SAFETY_HIGHLIGHTS[model.id] ?? [];
   const mosaic = MODEL_MOSAIC[model.id] ?? [];
+  const colors360 = MODEL_360[model.id];
 
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
@@ -152,6 +155,21 @@ function ModelDetailContent({ model }: { model: typeof ALL_MODELS_FOR_GRID[numbe
           </div>
         </div>
       </section>
+
+      {/* === 360° чирж эргүүлэх харагдац === */}
+      {colors360 && (
+        <section className="bg-white py-16 lg:py-24">
+          <div className="mx-auto w-[min(1000px,94vw)]">
+            <div className="text-center mb-10">
+              <p className="eyebrow eyebrow-electric mb-3">360°</p>
+              <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-5xl">
+                Чирж эргүүлж харах
+              </h2>
+            </div>
+            <Model360Viewer colors={colors360} alt={model.name} />
+          </div>
+        </section>
+      )}
 
       {/* === Гадна үзэмж — дэлгэц дүүрэн гүйдэг слайдер (global маяг) === */}
       <section className="bg-white py-16 lg:py-24 overflow-hidden">
