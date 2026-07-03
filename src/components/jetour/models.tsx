@@ -48,23 +48,23 @@ export function Models() {
       </div>
 
       {/* Full-width image showcase */}
-      <div className="relative w-full overflow-hidden bg-[#111]" style={{ minHeight: "62vh" }}>
+      <div className="relative w-full overflow-hidden bg-[#111]" style={{ height: "clamp(520px, 82vh, 920px)" }}>
         <AnimatePresence mode="wait">
           <motion.img
             key={m.id}
             src={imgOf(m)}
             alt={m.name}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full object-cover"
-            style={{ minHeight: "62vh", maxHeight: "78vh" }}
+            transition={{ duration: 0.45, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover object-top"
           />
         </AnimatePresence>
 
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
+        {/* Gradient — доод хэсгийн цайвар шалыг нуух */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/15 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#111] to-transparent pointer-events-none" />
 
         {/* Coming soon */}
         {m.status === "coming-soon" && (
