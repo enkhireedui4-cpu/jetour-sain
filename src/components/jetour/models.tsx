@@ -2,12 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ALL_MODELS_FOR_GRID, MODEL_COLOR_IMAGES, MODEL_GALLERY_IMAGES } from "@/lib/jetour-data";
+import {
+  ALL_MODELS_FOR_GRID,
+  MODEL_COLOR_IMAGES,
+  MODEL_GALLERY_IMAGES,
+  MODEL_EXTERIOR_IMAGES,
+} from "@/lib/jetour-data";
 
 type M = (typeof ALL_MODELS_FOR_GRID)[number];
 
+// Студийн дөрвөлжин зургийн оронд lifestyle (өргөн) зургийг эхэнд тавьж,
+// auto.kz шиг том, тайралт багатай харагдацтай болгоно.
 const imgOf = (m: M) =>
-  MODEL_COLOR_IMAGES[m.id]?.[0]?.image ?? MODEL_GALLERY_IMAGES[m.id]?.[0] ?? m.heroImage;
+  MODEL_EXTERIOR_IMAGES[m.id]?.[0] ??
+  MODEL_COLOR_IMAGES[m.id]?.[0]?.image ??
+  MODEL_GALLERY_IMAGES[m.id]?.[0] ??
+  m.heroImage;
 
 const priceOf = (m: M) =>
   m.startingPrice ? `${m.startingPrice}-с эхлэн` : m.priceNote ?? "Тун удахгүй";
