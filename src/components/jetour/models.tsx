@@ -77,20 +77,20 @@ export function Models() {
         <div className="absolute bottom-0 left-0 right-0 px-6 lg:px-10 pb-8 flex items-end justify-between gap-4 flex-wrap">
           {/* Left: CTAs */}
           <div className="flex gap-3 flex-wrap">
-            <Link
-              href={`/models/${m.id}`}
-              className="bg-white text-[#17181B] px-7 py-3 text-sm font-bold rounded-lg hover:bg-[#E20A17] hover:text-white transition-colors"
-            >
-              Дэлгэрэнгүй
-            </Link>
             <button
               onClick={() =>
                 document.querySelector("#dealer")?.scrollIntoView({ behavior: "smooth" })
               }
               className="bg-white/15 backdrop-blur-sm border border-white/40 text-white px-7 py-3 text-sm font-bold rounded-lg hover:bg-white/25 transition-colors"
             >
-              Тест драйв
+              Хүсэлт илгээх
             </button>
+            <Link
+              href={`/models/${m.id}`}
+              className="bg-white text-[#17181B] px-7 py-3 text-sm font-bold rounded-lg hover:bg-[#E20A17] hover:text-white transition-colors"
+            >
+              Дэлгэрэнгүй үзэх
+            </Link>
           </div>
 
           {/* Right: Model name + price */}
