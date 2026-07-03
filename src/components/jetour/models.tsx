@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { ALL_MODELS_FOR_GRID, MODEL_COLOR_IMAGES, MODEL_GALLERY_IMAGES } from "@/lib/jetour-data";
 
 type M = (typeof ALL_MODELS_FOR_GRID)[number];
@@ -48,23 +47,21 @@ export function Models() {
       </div>
 
       {/* Full-width image showcase */}
-      <div className="relative w-full overflow-hidden bg-[#111]" style={{ height: "clamp(520px, 82vh, 920px)" }}>
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={m.id}
-            src={imgOf(m)}
-            alt={m.name}
-            initial={{ opacity: 0, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: "easeInOut" }}
-            className="absolute inset-0 w-full h-full object-cover object-top"
+      <div className="relative w-full overflow-hidden bg-[#111]" style={{ height: "clamp(460px, 72vh, 760px)" }}>
+        {models.map((mm, i) => (
+          <img
+            key={mm.id}
+            src={imgOf(mm)}
+            alt={mm.name}
+            loading={i === 0 ? "eager" : "lazy"}
+            className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-in-out ${
+              i === active ? "opacity-100" : "opacity-0"
+            }`}
           />
-        </AnimatePresence>
+        ))}
 
-        {/* Gradient — доод хэсгийн цайвар шалыг нуух */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/15 to-transparent pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#111] to-transparent pointer-events-none" />
+        {/* Gradient — доод хэсэгт текст уншигдахуйц болгоно */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-transparent pointer-events-none" />
 
         {/* Coming soon */}
         {m.status === "coming-soon" && (
