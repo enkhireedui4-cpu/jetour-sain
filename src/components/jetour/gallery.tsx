@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { BLUR_DATA_URL } from "@/lib/image";
+import { useDragSwipe } from "@/hooks/use-drag";
+import { cyclicOffset, slideJumped } from "@/lib/slider";
 
 type Props = {
   images: string[];
@@ -11,14 +14,21 @@ type Props = {
 };
 
 export function Gallery({ images, alt, accent }: Props) {
-  const [active, setActive] = useState(0);
+  /** Одоогийн ба өмнөх зураг — өмнөхийг циклийн "үсрэлт"-ийг илрүүлэхэд хэрэглэнэ */
+  const [nav, setNav] = useState({ active: 0, from: 0 });
+  const { active, from } = nav;
   const [paused, setPaused] = useState(false);
 
-  const next = useCallback(() => {
-    setActive((p) => (p + 1) % images.length);
-  }, [images.length]);
-
-  const prev = () => setActive((p) => (p - 1 + images.length) % images.length);
+  const step = useCallback(
+    (dir: 1 | -1) =>
+      setNav((s) => ({
+        active: (s.active + dir + images.length) % images.length,
+        from: s.active,
+      })),
+    [images.length]
+  );
+  const next = useCallback(() => step(1), [step]);
+  const prev = () => step(-1);
 
   useEffect(() => {
     if (paused || images.length <= 1) return;
@@ -28,25 +38,61 @@ export function Gallery({ images, alt, accent }: Props) {
 
   const accentColor = accent === "red" ? "#E20A17" : "#E20A17";
 
+  /* Чирэх явцын шилжилт — зураг хуруу дагаж хөдөлнө, тавихад байрандаа суана */
+  const [dragDx, setDragDx] = useState(0);
+  const dragging = dragDx !== 0;
+
+  // Хулганаар чирэх / хуруугаар шудрах
+  const swipe = useDragSwipe({
+    onNext: next,
+    onPrev: prev,
+    onStart: () => setPaused(true),
+    onEnd: () => setPaused(false),
+    onMove: setDragDx,
+  });
+
   return (
     <div
-      className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-white border border-[#E7E7EA]"
+      className={`relative aspect-[16/10] rounded-2xl overflow-hidden bg-white border border-[#E7E7EA] ${
+        images.length > 1 ? swipe.className : ""
+      }`}
+      style={images.length > 1 ? swipe.style : undefined}
+      {...(images.length > 1 ? swipe.handlers : {})}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <AnimatePresence mode="sync">
-        <motion.img
-          key={`${alt}-${active}`}
-          src={images[active]}
-          alt={`${alt} - ${active + 1}`}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="lazy"
-        />
-      </AnimatePresence>
+      {/* Хэвтээ гулсалт: зураг бүр идэвхтэйгээсээ хамгийн дөт талд зогсож,
+          солигдоход хажуугаасаа гүйж орно (fade биш). Циклээр эргэхэд ч
+          зөвхөн нэг дэлгэцийн зайд хөдөлнө. Чирэх үед хуруу дагана. */}
+      {images.map((src, i) => {
+        const off = cyclicOffset(i, active, images.length);
+        const frozen = dragging || slideJumped(i, from, active, images.length);
+
+        return (
+          <div
+            key={src}
+            className="absolute inset-0 transition-transform duration-500 ease-out"
+            style={{
+              transform: `translateX(calc(${off * 100}% + ${dragDx}px))`,
+              /* Чирч байх зуур шилжилт байвал зураг хуруунаас хоцорно */
+              ...(frozen ? { transition: "none" } : null),
+            }}
+            aria-hidden={off !== 0}
+          >
+            <Image
+              src={src}
+              alt={`${alt} - ${i + 1}`}
+              fill
+              sizes="(max-width: 1280px) 100vw, 1200px"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
+              priority={i === 0}
+              draggable={false}
+              className="object-cover"
+            />
+          </div>
+        );
+      })}
 
       {/* Image counter */}
       <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full text-xs font-display font-bold bg-[#17181B]/80 text-white backdrop-blur-sm">
@@ -89,7 +135,7 @@ export function Gallery({ images, alt, accent }: Props) {
           {images.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => setNav((s) => ({ active: i, from: s.active }))}
               className="h-1.5 rounded-full transition-all"
               style={{
                 width: i === active ? "28px" : "8px",
@@ -100,59 +146,6 @@ export function Gallery({ images, alt, accent }: Props) {
           ))}
         </div>
       )}
-    </div>
-  );
-}
-
-// === Color Selector ===
-export type VehicleColor = {
-  name: string;
-  hex: string;
-  image?: string;
-};
-
-type ColorSelectorProps = {
-  colors: VehicleColor[];
-  onColorChange?: (color: VehicleColor) => void;
-};
-
-export function ColorSelector({ colors, onColorChange }: ColorSelectorProps) {
-  const [active, setActive] = useState(0);
-
-  return (
-    <div>
-      <div className="flex flex-wrap gap-3 mb-5">
-        {colors.map((c, i) => (
-          <button
-            key={c.name}
-            onClick={() => {
-              setActive(i);
-              onColorChange?.(c);
-            }}
-            className={`group flex items-center gap-2.5 px-4 py-3 rounded-xl border transition-all ${
-              active === i
-                ? "border-[#E20A17] bg-[#F0F9FF]"
-                : "border-[#E7E7EA] bg-white hover:border-[#17181B]/30"
-            }`}
-          >
-            <span
-              className="w-6 h-6 rounded-full border-2 border-white shadow-md"
-              style={{ background: c.hex, boxShadow: `0 0 0 1px ${c.hex}40` }}
-            />
-            <span
-              className={`font-display font-bold text-sm ${
-                active === i ? "text-[#E20A17]" : "text-[#17181B]"
-              }`}
-            >
-              {c.name}
-            </span>
-          </button>
-        ))}
-      </div>
-      <p className="text-sm text-[#6B7280]">
-        Сонгосон өнгө:{" "}
-        <span className="font-display font-bold text-[#17181B]">{colors[active].name}</span>
-      </p>
     </div>
   );
 }

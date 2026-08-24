@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { FloatingCTA } from "@/components/jetour/floating-cta";
 import { MetaPixel } from "@/components/jetour/meta-pixel";
+import { GoogleAnalytics } from "@/components/jetour/google-analytics";
 
 // Нэг font family — Inter. Монгол кирилл (ө, ү, ё) цэвэр, цэгтэй, уншигдахуйц.
 const inter = Inter({
@@ -19,11 +20,11 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jetour.mn";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "JETOUR Mongolia — Албан ёсны дистрибьютер SAIN MOTORS",
+    default: "JETOUR — Албан ёсны дистрибьютор SAIN MOTORS",
     template: "%s | JETOUR Mongolia",
   },
   description:
-    "JETOUR — албан ёсны дистрибьютер Сайн Моторс. X70 Plus, X1, X50, T1 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 7277-8855, 8910-0274",
+    "JETOUR — албан ёсны дистрибьютор Сайн Моторс. X70 Plus, X1, X50, T1 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 7277-8855, 8910-0274",
   keywords: [
     "JETOUR Mongolia",
     "Jetour Монгол",
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
   openGraph: {
-    title: "JETOUR Mongolia — Албан ёсны дистрибьютер SAIN MOTORS",
+    title: "JETOUR Mongolia — Албан ёсны дистрибьютор SAIN MOTORS",
     description:
       "JETOUR Travel+ загварууд — Монголд албан ёсоор. Тест драйв, борлуулалт, үйлчилгээ.",
     siteName: "JETOUR Mongolia",
@@ -52,8 +53,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/models-hero/x70-plus.jpg",
-        width: 2048,
-        height: 2048,
+        width: 1772,
+        height: 1772,
         alt: "JETOUR X70 Plus — SAIN MOTORS",
       },
     ],
@@ -97,6 +98,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="mn" suppressHydrationWarning>
+      <head>
+        {/* Гуравдагч origin-уудтай холболтыг урьдчилан бэлтгэнэ — газрын зураг, pixel
+            ачаалагдах үедээ хүлээлгэхгүй (эхний зурагтай өрсөлдөхгүй). */}
+        <link rel="dns-prefetch" href="https://www.google.com" />
+        <link rel="dns-prefetch" href="https://maps.google.com" />
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+      </head>
       <body
         className={`${inter.variable} antialiased bg-white text-[#17181B]`}
       >
@@ -104,7 +112,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
+        <a href="#main-content" className="skip-link">
+          Үндсэн агуулга руу шилжих
+        </a>
         <MetaPixel />
+        {/* GA4 — NEXT_PUBLIC_GA_MEASUREMENT_ID тохируулаагүй бол юу ч ачаалахгүй */}
+        <GoogleAnalytics />
         {children}
         <FloatingCTA />
         <Toaster />

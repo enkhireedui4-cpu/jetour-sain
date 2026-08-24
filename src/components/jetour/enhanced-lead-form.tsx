@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   User,
@@ -8,7 +8,7 @@ import {
   Mail,
   Car,
   Calendar,
-  Clock,
+  ShieldCheck,
   MessageSquare,
   Send,
   CheckCircle2,
@@ -16,25 +16,19 @@ import {
   PhoneCall,
   MessageCircle,
 } from "lucide-react";
-import { ALL_MODELS_FOR_GRID, BRANCHES, CONTACT } from "@/lib/jetour-data";
+import { BRANCHES } from "@/lib/jetour-data";
+
+type PublicModel = { id: string; name: string; status: string };
 import { useToast } from "@/hooks/use-toast";
 import { trackMetaEvent } from "./meta-pixel";
 
-type LeadType = "test-drive" | "info-request" | "financing" | "service" | "parts" | "general";
+type LeadType = "test-drive" | "info-request" | "service" | "parts" | "general";
 
 type Props = {
   type?: LeadType;
   title?: string;
   subtitle?: string;
   modelName?: string;
-  // financing-specific
-  financingData?: {
-    vehiclePrice?: number;
-    downPayment?: number;
-    termMonths?: number;
-    interestRate?: number;
-    monthlyPayment?: number;
-  };
   variant?: "white" | "dark";
   showModelField?: boolean;
   showBranchField?: boolean;
@@ -46,11 +40,12 @@ type Props = {
   submitLabel?: string;
 };
 
-const TIME_SLOTS = [
-  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-  "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
-  "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
-  "18:00", "18:30", "19:00",
+// Нарийн цагийн оронд өдрийн хэсэг — сонголт хялбар, showroom утсаар баталгаажуулна
+const TIME_OF_DAY = [
+  { value: "Өглөө (09:00–12:00)", label: "Өглөө" },
+  { value: "Өдөр (12:00–16:00)", label: "Өдөр" },
+  { value: "Орой (16:00–20:00)", label: "Орой" },
+  { value: "Хэзээ ч болно", label: "Хэзээ ч болно" },
 ];
 
 export function EnhancedLeadForm({
@@ -58,7 +53,6 @@ export function EnhancedLeadForm({
   title = "Тест драйв бүртгэх",
   subtitle = "Манай борлуулалтын баг тантай холбогдоно",
   modelName,
-  financingData,
   variant = "white",
   showModelField = true,
   showBranchField = true,
@@ -72,6 +66,16 @@ export function EnhancedLeadForm({
   const { toast } = useToast();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [models, setModels] = useState<PublicModel[]>([]);
+
+  useEffect(() => {
+    fetch("/api/public/models")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.ok) setModels(d.models);
+      })
+      .catch(() => {});
+  }, []);
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -92,8 +96,8 @@ export function EnhancedLeadForm({
     ? "text-white placeholder:text-white/50"
     : "text-[#17181B] placeholder:text-[#9CA3AF]";
   const labelClass = isDark
-    ? "text-[0.6rem] tracking-[0.18em] uppercase text-white/70 font-display"
-    : "text-[0.6rem] tracking-[0.18em] uppercase text-[#6B7280] font-display";
+    ? "text-[11px] tracking-[0.18em] uppercase text-white/70 font-display"
+    : "text-[11px] tracking-[0.18em] uppercase text-[#6B7280] font-display";
   const headingColor = isDark ? "text-white" : "text-[#17181B]";
   const iconColor = isDark ? "text-white/50" : "text-[#6B7280]";
 
@@ -101,8 +105,6 @@ export function EnhancedLeadForm({
     submitLabel ??
     (type === "test-drive"
       ? "Тест драйв бүртгүүлэх"
-      : type === "financing"
-      ? "Зээлийн өргөдөл илгээх"
       : type === "service"
       ? "Засвар захиалах"
       : type === "parts"
@@ -154,7 +156,6 @@ export function EnhancedLeadForm({
       if (form.time) payload.time = form.time;
       if (showContactMethod) payload.contactMethod = form.contactMethod;
       if (form.message) payload.message = form.message;
-      if (financingData) Object.assign(payload, financingData);
 
       const res = await fetch("/api/lead", {
         method: "POST",
@@ -240,7 +241,7 @@ export function EnhancedLeadForm({
   return (
     <form
       onSubmit={onSubmit}
-      className={`rounded-2xl p-6 lg:p-8 shadow-2xl space-y-4 ${
+      className={`rounded-2xl p-5 lg:p-8 shadow-2xl space-y-3.5 lg:space-y-4 ${
         isDark ? "bg-white/[0.05] border border-white/10" : "bg-white border border-[#E7E7EA]"
       }`}
     >
@@ -250,7 +251,21 @@ export function EnhancedLeadForm({
           {title}
         </h3>
       </div>
-      <p className={`text-xs mb-2 ${isDark ? "text-white/60" : "text-[#6B7280]"}`}>{subtitle}</p>
+      {subtitle && (
+        <p className={`text-xs ${isDark ? "text-white/60" : "text-[#6B7280]"}`}>{subtitle}</p>
+      )}
+
+      {/* Хариу өгөх амлалт — илгээхээс ӨМНӨ харагдана (санаа зовнилыг бууруулна) */}
+      <div
+        className={`flex items-center gap-2 rounded-xl px-3.5 py-2.5 mb-1 ${
+          isDark ? "bg-white/[0.06]" : "bg-[#F5F5F6]"
+        }`}
+      >
+        <ShieldCheck className="w-4 h-4 text-[#E20A17] shrink-0" />
+        <p className={`text-xs leading-snug ${isDark ? "text-white/75" : "text-[#54585F]"}`}>
+          Манай баг <span className="font-bold text-[#E20A17]">24 цагийн дотор</span> тантай холбогдоно.
+        </p>
+      </div>
 
       {/* Name + Phone */}
       <div className="grid sm:grid-cols-2 gap-3">
@@ -259,6 +274,11 @@ export function EnhancedLeadForm({
             <User className={`w-3.5 h-3.5 ${iconColor}`} />
             <input
               type="text"
+              /* `name` + `autoComplete` — утсан дээр хөтөч/нууц үг хадгалагч
+                 нэр, дугаарыг автоматаар санал болгоно. Үүнгүйгээр хэрэглэгч
+                 бүгдийг гараар шивдэг — гол хөрвүүлэлтийн зам дээрх шууд саад. */
+              name="name"
+              autoComplete="name"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Нэрээ оруулна уу"
@@ -272,6 +292,10 @@ export function EnhancedLeadForm({
             <Phone className={`w-3.5 h-3.5 ${iconColor}`} />
             <input
               type="tel"
+              name="phone"
+              autoComplete="tel"
+              /* Монголын дугаар 8 оронтой цэвэр тоо — утсанд тоон гар гарна */
+              inputMode="numeric"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
               placeholder="8 оронтой"
@@ -289,6 +313,8 @@ export function EnhancedLeadForm({
             <Mail className={`w-3.5 h-3.5 ${iconColor}`} />
             <input
               type="email"
+              name="email"
+              autoComplete="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="email@example.com"
@@ -309,7 +335,7 @@ export function EnhancedLeadForm({
               className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#17181B]`}
             >
               <option value="">{modelName ?? "Загвар сонгох (заавал биш)"}</option>
-              {ALL_MODELS_FOR_GRID.map((m) => (
+              {models.map((m) => (
                 <option key={m.id} value={m.name}>
                   {m.name} {m.status === "coming-soon" ? "(тун удахгүй)" : ""}
                 </option>
@@ -364,21 +390,28 @@ export function EnhancedLeadForm({
             </Field>
           )}
           {showTimeField && (
-            <Field label="Цаг" labelClass={labelClass}>
-              <div className={`flex items-center gap-2.5 rounded-xl px-4 py-3 transition-all ${inputBg}`}>
-                <Clock className={`w-3.5 h-3.5 ${iconColor}`} />
-                <select
-                  value={form.time}
-                  onChange={(e) => setForm({ ...form, time: e.target.value })}
-                  className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#17181B]`}
-                >
-                  <option value="">Цаг сонгох</option>
-                  {TIME_SLOTS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
+            <Field label="Тохиромжтой цаг" labelClass={labelClass}>
+              <div className="grid grid-cols-2 gap-2">
+                {TIME_OF_DAY.map((t) => {
+                  const active = form.time === t.value;
+                  return (
+                    <button
+                      key={t.value}
+                      type="button"
+                      onClick={() => setForm({ ...form, time: active ? "" : t.value })}
+                      aria-pressed={active}
+                      className={`flex items-center justify-center gap-1.5 py-2.5 rounded-full border text-[0.8rem] font-semibold transition-all ${
+                        active
+                          ? "border-[#17181B] bg-[#17181B] text-white"
+                          : isDark
+                          ? "border-white/15 text-white/70 hover:border-white/30"
+                          : "border-[#E7E7EA] text-[#54585F] hover:border-[#17181B]/30"
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  );
+                })}
               </div>
             </Field>
           )}
@@ -448,10 +481,10 @@ export function EnhancedLeadForm({
         )}
       </button>
 
-      <p className={`text-[0.6rem] text-center leading-relaxed pt-1 ${isDark ? "text-white/50" : "text-[#6B7280]"}`}>
-        Таны мэдээлэл зөвхөн JETOUR Mongolia-тай холбоотой зорилгоор ашиглагдана.{" "}
-        <a href={CONTACT.phone1Href} className={`underline ${isDark ? "text-[#E20A17]" : "text-[#E20A17]"}`}>
-          {CONTACT.phone1}
+      <p className={`text-[11px] text-center leading-relaxed pt-1 ${isDark ? "text-white/50" : "text-[#6B7280]"}`}>
+        Таны мэдээлэл зөвхөн JETOUR-той холбоотой зорилгоор ашиглагдана.{" "}
+        <a href="/privacy" className="underline text-[#E20A17]">
+          Нууцлалын бодлого
         </a>
       </p>
     </form>

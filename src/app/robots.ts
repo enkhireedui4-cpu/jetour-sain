@@ -1,12 +1,15 @@
 import type { MetadataRoute } from "next";
 
+const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://jetour.mn").replace(/\/$/, "");
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/"],
+      disallow: ["/api/", "/admin/"],
     },
-    sitemap: "https://jetour-mongolia.mn/sitemap.xml",
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

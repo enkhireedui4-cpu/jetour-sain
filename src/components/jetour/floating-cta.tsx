@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Phone, X, Gauge } from "lucide-react";
 import { CONTACT } from "@/lib/jetour-data";
 import { trackMetaEvent } from "./meta-pixel";
@@ -15,6 +15,25 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 export function FloatingCTA() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  /**
+   * Доош гүйлгэхэд далд болж, дээш гүйлгэхэд эргэн гарна — контент уншиж
+   * байхад товч халхлахгүй. Цэс нээлттэй үед далд болгохгүй.
+   */
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - last;
+      if (Math.abs(delta) > 8) {
+        setHidden(delta > 0 && y > 240);
+        last = y;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleTestDrive = () => {
     setOpen(false);
@@ -24,7 +43,20 @@ export function FloatingCTA() {
   };
 
   return (
-    <div className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2">
+    <div
+      /* Хэсгүүдийн хооронд "үсрэхгүй" — fixed, дэлгэцийн ирмэгээс тогтмол зайд.
+         Утасны safe-area (iOS home indicator) -г тооцно: доод зай = 20px +
+         safe-area. Баруун зай ч мөн адил (landscape дээр notch-ийн зүүн/баруун). */
+      style={{
+        bottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))",
+        right: "calc(1.25rem + env(safe-area-inset-right, 0px))",
+      }}
+      className={`fixed z-50 flex flex-col items-end gap-2 transition-all duration-300 ${
+        hidden && !open
+          ? "translate-y-24 opacity-0 pointer-events-none"
+          : "translate-y-0 opacity-100"
+      }`}
+    >
       {open && (
         <>
           {/* Залгах */}

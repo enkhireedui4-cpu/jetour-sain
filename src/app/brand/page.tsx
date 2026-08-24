@@ -1,382 +1,283 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import Image from "next/image";
 import {
-  Users,
-  Globe,
-  Factory,
-  Award,
-  Heart,
+  ArrowRight,
   Compass,
   Cpu,
-  ArrowRight,
-  Phone,
-  Lightbulb,
-  Shield,
+  Route,
   Zap,
-  MapPin,
+  ShieldCheck,
+  Package,
+  Wrench,
+  Award,
+  Snowflake,
+  BadgeCheck,
+  Gauge,
 } from "lucide-react";
-import {
-  GLOBAL_STATS,
-  TRAVEL_FEATURES,
-  CONTACT,
-  LIFESTYLE_IMAGES,
-} from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
+import { CONTACT } from "@/lib/jetour-data";
+import { BLUR_DATA_URL } from "@/lib/image";
 
-const STAT_ICONS: Record<string, React.ReactNode> = {
-  users: <Users className="w-6 h-6" />,
-  globe: <Globe className="w-6 h-6" />,
-  factory: <Factory className="w-6 h-6" />,
-  award: <Award className="w-6 h-6" />,
+export const metadata: Metadata = {
+  title: "Брэндийн тухай — JETOUR",
+  description:
+    "JETOUR — Chery Group-ийн Travel+ SUV брэнд. Монголд SAIN MOTORS-оор дамжин албан ёсоор.",
+  alternates: { canonical: "/brand" },
 };
 
-const FEATURE_ICONS: Record<string, React.ReactNode> = {
-  heart: <Heart className="w-6 h-6" />,
-  compass: <Compass className="w-6 h-6" />,
-  cpu: <Cpu className="w-6 h-6" />,
-};
+// Server Component — клиент JavaScript ачаалахгүй.
+// Анимаци нь globals.css-ийн CSS-only `.reveal` / `.stagger` утилитаар хийгдэнэ.
+
+const STORY = [
+  { icon: Award, title: "2018 онд байгуулагдсан", text: "Chery Group-ийн шинэлэг, эрч хүчтэй SUV брэнд." },
+  { icon: Gauge, title: "20+ жилийн туршлага", text: "Автомашины салбарын гүн туршлага дээр бүтээгдсэн." },
+  { icon: Cpu, title: "Дэлхийн R&D", text: "Судалгаа, хөгжүүлэлтийн дэлхийн түвшний бааз." },
+  { icon: Compass, title: "Олон улсын дизайны баг", text: "Загвар бүр олон улсын дизайны хэлээр яригдана." },
+];
+
+const PHILOSOPHY = [
+  {
+    icon: Compass,
+    label: "Travel+",
+    title: "Аяллын концепц",
+    items: ["Гэр бүлийн тав тух", "Адал явдал", "Өдөр тутмын хэрэглээ"],
+  },
+  {
+    icon: Zap,
+    label: "JET + TOUR",
+    title: "Нэрийн утга",
+    items: ["JET — түргэн шуурхай", "TOUR — аялал", "Таатай, хялбар аялал"],
+  },
+  {
+    icon: Route,
+    label: "Vision",
+    title: "Алсын хараа",
+    items: ["Ухаалаг технологи", "Тав тух, орчин үеийн дизайн", "Дэлхийн SUV брэнд"],
+  },
+];
+
+const SAIN_FEATURES = [
+  { icon: BadgeCheck, title: "Албан ёсны дистрибьютор", text: "JETOUR брэндийн Монгол дахь албан ёсны төлөөлөгч." },
+  { icon: ShieldCheck, title: "Албан ёсны баталгаа", text: "Баталгаат хугацаа, стандартын дагуух үйлчилгээ." },
+  { icon: Package, title: "Оригинал сэлбэг", text: "Албан ёсны, чанарын шаардлага хангасан сэлбэг." },
+  { icon: Wrench, title: "Мэргэжлийн үйлчилгээ", text: "Борлуулалтын дараах засвар үйлчилгээ." },
+  { icon: Gauge, title: "Найдвартай ашиглалт", text: "Тогтмол засвар, техник хяналтын дэмжлэг." },
+  { icon: Snowflake, title: "Монголд зохицсон", text: "Цаг уур, замын нөхцөлд тохирсон загварууд." },
+];
+
+const WHY = [
+  { icon: Cpu, title: "Дэлхийн инженерчлэл" },
+  { icon: Compass, title: "Олон улсын дизайн" },
+  { icon: BadgeCheck, title: "Албан ёсны дистрибьютор" },
+  { icon: ShieldCheck, title: "Баталгаа ба сэлбэг" },
+  { icon: Zap, title: "Ухаалаг технологи" },
+  { icon: Snowflake, title: "Монголд зохицсон" },
+];
 
 const TIMELINE = [
-  { year: 2018, title: "Брэнд байгуулагдав", desc: "Chery Group дэлхийн SUV брэнд төрүүлэв" },
-  { year: 2019, title: "X70 гарсан", desc: "Флагман загвар худалдаанд орлоо" },
-  { year: 2021, title: "Дэлхийн зах зээл", desc: "100+ орны зах зээлд нүүлэгдэв" },
-  { year: 2024, title: "Монголд орлоо", desc: "SAIN MOTORS-оор албан ёсоор суухалтал" },
+  { year: "2018", title: "Брэнд байгуулагдсан" },
+  { year: "—", title: "Зах зээлд тэлэлт" },
+  { year: "—", title: "Дэлхийн хэмжээнд өсөлт" },
+  { year: CONTACT.brandSince, title: "Монголд албан ёсоор" },
 ];
-
-const WHY_JETOUR = [
-  { icon: Lightbulb, title: "Innovation", desc: "Орчин үеийн технологи + дизайн" },
-  { icon: MapPin, title: "Travel Lifestyle", desc: "Аялалын бүх зүйл нэгдсэн" },
-  { icon: Shield, title: "Safety", desc: "Орчлон аюулгүй байдлын 6-р зэрэг" },
-  { icon: Zap, title: "Smart Tech", desc: "L2.5 ADAS, 360° камер, Apple CarPlay" },
-];
-
-// Animated counter hook
-function useCounter(end: number, duration: number = 2000) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    let start = 0;
-    const step = end / (duration / 50);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 50);
-    return () => clearInterval(timer);
-  }, [end, duration]);
-  return count;
-}
 
 export default function BrandPage() {
-  const count80 = useCounter(80, 2000);
-  const count2000 = useCounter(2000, 2000);
-  const count50 = useCounter(50, 2000);
-
   return (
-    <div className="min-h-screen bg-white text-[#17181B]">
+    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
       <div className="h-16" />
 
-      {/* Hero — Full-screen cinematic */}
-      <section className="relative h-screen min-h-[600px] overflow-hidden bg-[#0E0E10]">
-        <motion.img
-          initial={{ scale: 1.05, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.2 }}
-          src={LIFESTYLE_IMAGES.hero}
-          alt="JETOUR — Travel+"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/40" />
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="max-w-2xl px-6"
-          >
-            <p className="text-xs font-bold tracking-[0.24em] uppercase text-white/70 mb-6">
-              Брэндийн тухай
+      {/* ===== 1. HERO ===== */}
+      <section className="border-b border-[#E7E7EA]">
+        <div className="container-page grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-16 lg:py-24 min-h-[70vh]">
+          <div className="reveal">
+            <h1 className="type-h1 mb-6">Аялахын тулд бүтээгдсэн брэнд</h1>
+            <p className="text-[17px] lg:text-lg leading-[1.7] text-[#54585F] max-w-md mb-9">
+              JETOUR бол Chery Group-ийн шинэлэг SUV брэнд. Travel+ концепцээр гэр бүлийн тав тух,
+              адал явдал, өдөр тутмын хэрэглээг нэг дор цогцлуулна.
             </p>
-            <h1 className="font-extrabold tracking-tight text-white text-5xl lg:text-7xl leading-[1.05] mb-6">
-              JETOUR —<br />
-              <span className="text-[#E20A17]">Аяллын соёл</span>
-            </h1>
-            <p className="text-white/85 text-lg leading-relaxed max-w-xl mx-auto mb-10">
-              Зөвхөн машин биш — аялал, адал явдал, шинийг нээх амьдралын хэв маяг.
-            </p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-wrap gap-4 justify-center"
-            >
-              <Link
-                href="/#models"
-                className="bg-[#E20A17] text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-[#E20A17] transition-all"
-              >
-                Загварууд үзэх
-              </Link>
-              <Link
-                href="/dealer"
-                className="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-[#17181B] transition-all"
-              >
-                Дилер олох
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="py-20 lg:py-28 bg-gradient-to-b from-white to-[#F5F5F6]">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#E20A17] mb-2">
-              Брэндийн түүх
-            </p>
-            <h2 className="font-extrabold tracking-tight text-[#17181B] text-4xl lg:text-5xl">
-              JETOUR-ийн аялал
-            </h2>
-          </motion.div>
-          <div className="grid lg:grid-cols-4 gap-8">
-            {TIMELINE.map((item, i) => (
-              <motion.div
-                key={item.year}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="relative"
-              >
-                <div className="h-32 rounded-2xl bg-gradient-to-br from-[#E20A17]/10 to-[#E20A17]/5 border border-[#E20A17]/20 p-6 flex flex-col justify-between">
-                  <div>
-                    <p className="text-3xl font-extrabold text-[#E20A17] mb-1">{item.year}</p>
-                    <h3 className="font-bold text-[#17181B] text-lg">{item.title}</h3>
-                  </div>
-                  <p className="text-sm text-[#54585F]">{item.desc}</p>
-                </div>
-                {i < TIMELINE.length - 1 && (
-                  <div className="hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-0.5 bg-[#E20A17]/30" />
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Story */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="mx-auto w-[min(1100px,94vw)] grid lg:grid-cols-2 gap-10 lg:gap-16">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-3xl mb-4">
-              Chery Group-ын дотор төрсөн дэлхийн брэнд
-            </h2>
-            <p className="text-[#54585F] leading-relaxed mb-4">
-              2018 онд Chery Group-ын дотор төрсөн JETOUR нь залуу, эрч хүчтэй SUV-д төвлөрсөн
-              дэлхийн брэнд. &quot;Travel+&quot; урианы дор — аялагчдын хүсэл, гэр бүлийн аялал,
-              адал явдал нээлтийг нэг загварт нэгтгэсэн.
-            </p>
-            <p className="text-[#54585F] leading-relaxed">
-              Chery Group-ын R&amp;D суурь, Италийн дизайны студи дээр тулгуурлан шинэ загвар бүр
-              дэлхийн түвшний дизайны хэлээр яригдана.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <h2 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-3xl mb-4">
-              Монголд — Sain Motors-оор дамжин
-            </h2>
-            <p className="text-[#54585F] leading-relaxed mb-4">
-              {CONTACT.brandFullName} нь JETOUR брэндийн Монгол дахь {CONTACT.brandRole.toLowerCase()}.
-              {CONTACT.brandSince} оноос хойш Монголын зах зээлд албан ёсоор үйл ажиллагаа явуулж байна.
-            </p>
-            <p className="text-[#54585F] leading-relaxed">
-              Монголын уудам нутаг, өвлийн хүйтэн, зуны халуун, уулсын зам — эдгээрт тохирсон загвар,
-              4S стандартын үйлчилгээ, оригинал сэлбэгийн бүрэн нөөцтэйгээр үйлчилнэ.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Global stats with counter animation */}
-      <section className="py-16 lg:py-20 bg-[#0E0E10] text-white">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <p className="text-xs font-bold tracking-[0.24em] uppercase text-white/50 mb-2">
-            Дэлхийд
-          </p>
-          <h2 className="font-extrabold tracking-tight text-3xl lg:text-4xl mb-10">
-            Дэлхийн <span className="text-[#E20A17]">JETOUR</span>
-          </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
-            {/* Custom counter cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="rounded-2xl bg-white/[0.04] border border-white/10 p-6"
-            >
-              <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/15 text-[#E20A17] mb-5">
-                <Globe className="w-6 h-6" />
-              </span>
-              <p className="font-extrabold text-3xl lg:text-4xl tracking-tight">{count80}+</p>
-              <p className="text-white/60 text-sm mt-1">Оронд борлуулсан</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="rounded-2xl bg-white/[0.04] border border-white/10 p-6"
-            >
-              <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/15 text-[#E20A17] mb-5">
-                <Users className="w-6 h-6" />
-              </span>
-              <p className="font-extrabold text-3xl lg:text-4xl tracking-tight">{count2000}+</p>
-              <p className="text-white/60 text-sm mt-1">Дилер сүлжээ</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 col-span-2 lg:col-span-1"
-            >
-              <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/15 text-[#E20A17] mb-5">
-                <Award className="w-6 h-6" />
-              </span>
-              <p className="font-extrabold text-3xl lg:text-4xl tracking-tight">{count50}+M</p>
-              <p className="text-white/60 text-sm mt-1">Дэлхийн эзэмшигчид</p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Travel+ features */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#E20A17] mb-2">
-            Travel+ философи
-          </p>
-          <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-4xl mb-10">
-            Зөвхөн машин биш
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {TRAVEL_FEATURES.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="rounded-2xl bg-[#F5F5F6] border border-[#E7E7EA] p-7"
-              >
-                <span className="w-12 h-12 grid place-items-center rounded-xl bg-[#E20A17]/10 text-[#E20A17] mb-5">
-                  {FEATURE_ICONS[f.icon]}
-                </span>
-                <h3 className="font-bold text-lg text-[#17181B] mb-2">{f.title}</h3>
-                <p className="text-sm text-[#54585F] leading-relaxed">{f.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Jetour */}
-      <section className="py-16 lg:py-24 bg-[#F5F5F6] border-t border-[#E7E7EA]">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#E20A17] mb-2">
-              Яагаад JETOUR?
-            </p>
-            <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-4xl">
-              4 шалтгаан
-            </h2>
-          </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {WHY_JETOUR.map((item, i) => {
-              const IconComponent = item.icon;
-              return (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group rounded-2xl bg-white border border-[#E7E7EA] p-7 hover:shadow-xl hover:border-[#E20A17] transition-all h-full cursor-pointer"
-                >
-                  <motion.span
-                    className="w-14 h-14 grid place-items-center rounded-xl bg-[#E20A17]/10 text-[#E20A17] mb-5 inline-flex"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <IconComponent className="w-7 h-7" />
-                  </motion.span>
-                  <h3 className="font-bold text-lg text-[#17181B] mb-2 group-hover:text-[#E20A17] transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-[#54585F] leading-relaxed">{item.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 lg:py-20 bg-[#F5F5F6] border-t border-[#E7E7EA]">
-        <div className="mx-auto w-[min(1280px,94vw)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <h2 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-3xl mb-2">
-              JETOUR-ийг өөрийн биеэр мэдрээрэй
-            </h2>
-            <p className="text-[#54585F]">Загвар үзэх, тест драйв, дилертэй холбогдох.</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
             <Link
-              href="/#models"
-              className="inline-flex items-center gap-2 bg-[#17181B] text-white px-6 py-3.5 rounded-full text-sm font-bold hover:bg-[#E20A17] transition-colors"
+              href="/models"
+              className="btn-electric-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
             >
               Загварууд үзэх
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <a
-              href={CONTACT.phone1Href}
-              className="btn-electric-jetour inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm"
+          </div>
+
+          <div className="reveal relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#F5F5F6]">
+            <Image
+              src="/models-hero/x70-plus-hero.png"
+              alt="JETOUR SUV"
+              fill
+              priority
+              sizes="(max-width: 1024px) 94vw, 46vw"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 2. WHO IS JETOUR ===== */}
+      <section className="py-20 lg:py-36">
+        <div className="container-page grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="reveal relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#F5F5F6]">
+            <Image
+              src="/models-hero/t1.jpg"
+              alt="JETOUR"
+              fill
+              sizes="(max-width: 1024px) 94vw, 46vw"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
+              className="object-cover"
+            />
+          </div>
+
+          <div>
+            <div className="reveal mb-10">
+              <h2 className="type-h2">Chery Group-ийн SUV брэнд</h2>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {STORY.map((s, i) => (
+                <div
+                  key={s.title}
+                  className="stagger rounded-3xl border border-[#E7E7EA] bg-white p-6 card-lift"
+                  style={{ "--index": i } as React.CSSProperties}
+                >
+                  <s.icon className="w-5 h-5 text-[#E20A17] mb-4" />
+                  <h3 className="font-bold text-base mb-1.5">{s.title}</h3>
+                  <p className="text-sm text-[#54585F] leading-[1.7]">{s.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 3. TRAVEL+ PHILOSOPHY ===== */}
+      <section className="py-20 lg:py-36 bg-[#F5F5F6] border-y border-[#E7E7EA]">
+        <div className="container-page">
+          <div className="reveal max-w-xl mb-12 lg:mb-16">
+            <h2 className="type-h2">Travel+ — аялахын философи</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {PHILOSOPHY.map((p, i) => (
+              <div
+                key={p.label}
+                className="stagger rounded-3xl border border-[#E7E7EA] bg-white p-8 lg:p-9 card-lift"
+                style={{ "--index": i } as React.CSSProperties}
+              >
+                <p.icon className="w-6 h-6 text-[#E20A17] mb-6" />
+                <p className="eyebrow text-[#6B7280] mb-2">{p.label}</p>
+                <h3 className="text-xl font-bold mb-5">{p.title}</h3>
+                <ul className="space-y-2.5">
+                  {p.items.map((it) => (
+                    <li key={it} className="text-[15px] text-[#54585F] leading-[1.7]">
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 4. ABOUT SAIN MOTORS ===== */}
+      <section className="py-20 lg:py-36">
+        <div className="container-page grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-16">
+          <div className="reveal lg:sticky lg:top-24 self-start">
+            <h2 className="type-h2 mb-6">Итгэлтэй түнш</h2>
+            <p className="text-[17px] lg:text-lg leading-[1.7] text-[#54585F] max-w-sm">
+              {CONTACT.brandFullName} нь дэлхийн жишигт нийцсэн JETOUR брэндийг Монголын
+              хэрэглэгчиддээ албан ёсоор хүргэж байна.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {SAIN_FEATURES.map((f, i) => (
+              <div
+                key={f.title}
+                className="stagger rounded-3xl border border-[#E7E7EA] bg-white p-6 card-lift"
+                style={{ "--index": i } as React.CSSProperties}
+              >
+                <f.icon className="w-5 h-5 text-[#E20A17] mb-4" />
+                <h3 className="font-bold text-base mb-1.5">{f.title}</h3>
+                <p className="text-sm text-[#54585F] leading-[1.7]">{f.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 5. WHY CHOOSE JETOUR ===== */}
+      <section className="py-20 lg:py-36 bg-[#F5F5F6] border-y border-[#E7E7EA]">
+        <div className="container-page">
+          <div className="reveal max-w-xl mb-12 lg:mb-14">
+            <h2 className="type-h2">Сонголтын үндэслэл</h2>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            {WHY.map((w, i) => (
+              <div
+                key={w.title}
+                className="stagger flex items-center gap-4 rounded-3xl border border-[#E7E7EA] bg-white px-6 py-7 card-lift"
+                style={{ "--index": i } as React.CSSProperties}
+              >
+                <w.icon className="w-5 h-5 text-[#E20A17] shrink-0" />
+                <h3 className="font-bold text-[15px] lg:text-base leading-snug">{w.title}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 6. TIMELINE ===== */}
+      <section className="py-20 lg:py-36">
+        <div className="container-page">
+          <div className="reveal max-w-xl mb-12 lg:mb-14">
+            <h2 className="type-h2">Брэндийн аялал</h2>
+          </div>
+          <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6 border-t border-[#E7E7EA] pt-12">
+            {TIMELINE.map((t, i) => (
+              <li
+                key={t.title}
+                className="stagger relative"
+                style={{ "--index": i } as React.CSSProperties}
+              >
+                <span
+                  className="absolute -top-[54px] left-0 w-2 h-2 rounded-full bg-[#E20A17]"
+                  aria-hidden
+                />
+                <p className="text-2xl lg:text-3xl font-extrabold tracking-tight mb-2">{t.year}</p>
+                <p className="text-[15px] text-[#54585F] leading-[1.7]">{t.title}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ===== 7. FINAL CTA ===== */}
+      <section className="py-20 lg:py-32 bg-[#F5F5F6] border-t border-[#E7E7EA]">
+        <div className="container-page reveal text-center">
+          <h2 className="type-h2 mb-8">Дараагийн аялалдаа бэлэн үү?</h2>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link
+              href="/models"
+              className="btn-electric-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
             >
-              <Phone className="w-4 h-4" />
-              {CONTACT.phone1}
-            </a>
+              Загварууд үзэх
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/test-drive"
+              className="btn-ink-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
+            >
+              Тест драйв захиалах
+            </Link>
           </div>
         </div>
       </section>

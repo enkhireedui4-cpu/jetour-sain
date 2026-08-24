@@ -1,139 +1,307 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { ChevronLeft, ChevronRight, ArrowRight, ChevronDown } from "lucide-react";
+import { BLUR_DATA_URL } from "@/lib/image";
+import { useDragSwipe } from "@/hooks/use-drag";
+import { cyclicOffset, slideJumped } from "@/lib/slider";
 
-type Slide = { id: string; name: string; image: string };
+/**
+ * `imageMobile` — босоо (9:16) хувилбар. Слайд дэлгэц дүүрэн `object-cover`
+ * тул утсан дээр 16:9 зураг өргөнөөсөө 3/4 тайрагддаг. Босоо хувилбартай
+ * загварт түүнийг үзүүлнэ; байхгүй бол wide зураг л хэрэглэгдэнэ.
+ */
+type Slide = { id: string; name: string; image: string; imageMobile?: string };
 
-// Цэвэр кино зураг (animation болгоход тохиромжтой) + /special-offers/{id}
+// Кино маягийн бүтэн дэлгэцийн зургууд. Зураг нь тухайн загварын хуудасны
+// толгойн зурагтай нэг — нүүр ба дэлгэрэнгүй хуудас хоорондоо тасрахгүй.
 const SLIDES: Slide[] = [
-  { id: "x70-plus", name: "JETOUR X70 Plus", image: "/models-hero/x70-plus.jpg" },
-  { id: "x50", name: "JETOUR X50", image: "/models-hero/x50.jpg" },
-  { id: "x1", name: "JETOUR X1", image: "/models-hero/x1.jpg" },
-  { id: "t1", name: "JETOUR T1", image: "/models-hero/t1.jpg" },
+  { id: "x70-plus", name: "JETOUR X70 Plus", image: "/models-hero/x70-plus-hero.png" },
+  {
+    id: "t2-phev",
+    name: "JETOUR T2 PHEV",
+    image: "/models-hero/t2/1.jpg",
+    imageMobile: "/models-hero/t2/1-hero.webp",
+  },
+  {
+    id: "g700",
+    name: "JETOUR G700",
+    image: "/models/g700/wide/cover.webp",
+    imageMobile: "/models/g700/tall/cover.webp",
+  },
 ];
 
+const SLIDE_MS = 6000;
+
+/**
+ * Слайдын зураг — босоо хувилбартай бол breakpoint тус бүр ЗӨВХӨН өөрийн
+ * хувилбарыг татна: нуугдсан салааны `sizes`-ыг `1px` болгоно (Next нь
+ * `display:none`-ыг мэдэхгүй тул үүнгүйгээр хоёр зураг хоёуланг татах).
+ */
+function SlideImage({
+  slide,
+  active,
+  priority,
+}: {
+  slide: Slide;
+  active: boolean;
+  priority: boolean;
+}) {
+  const cls = `object-cover transition-transform ease-out ${
+    active ? "scale-[1.03]" : "scale-100"
+  }`;
+  const style = { transitionDuration: `${SLIDE_MS + 1200}ms` };
+  const hasMobile = Boolean(slide.imageMobile);
+
+  return (
+    <>
+      {hasMobile && (
+        <Image
+          src={slide.imageMobile!}
+          alt={slide.name}
+          fill
+          sizes="(min-width: 1024px) 1px, 100vw"
+          priority={priority}
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          draggable={false}
+          className={`${cls} lg:hidden`}
+          style={style}
+        />
+      )}
+      {/* Хоёулаа адил `alt` авна: нуугдсан нь `display: none` тул дэлгэц
+          уншигчийн мод дээр гарахгүй — давхар уншигдахгүй. */}
+      <Image
+        src={slide.image}
+        alt={slide.name}
+        fill
+        sizes={hasMobile ? "(min-width: 1024px) 100vw, 1px" : "100vw"}
+        priority={priority}
+        placeholder="blur"
+        blurDataURL={BLUR_DATA_URL}
+        draggable={false}
+        className={`${cls}${hasMobile ? " hidden lg:block" : ""}`}
+        style={style}
+      />
+    </>
+  );
+}
+
 export function Hero() {
-  const [active, setActive] = useState(0);
+  /** Одоогийн ба өмнөх слайд — өмнөхийг циклийн "үсрэлт"-ийг илрүүлэхэд хэрэглэнэ */
+  const [nav, setNav] = useState({ active: 0, from: 0 });
+  const { active, from } = nav;
   const [paused, setPaused] = useState(false);
 
-  const next = useCallback(() => setActive((p) => (p + 1) % SLIDES.length), []);
-  const prev = () => setActive((p) => (p - 1 + SLIDES.length) % SLIDES.length);
+  // Hero контентын parallax — скролл хийхэд текст/CTA дээш хөвж бүдгэрнэ
+  const heroRef = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  // useReducedMotion() нь сервер дээр false, клиент дээр хэрэглэгчийн тохиргоог
+  // буцаадаг. Тиймээс style-ыг `undefined`-аар нөхцөлдүүлбэл hydration mismatch болно.
+  // Оронд нь style-ыг ҮРГЭЛЖ дамжуулж, reduced-motion үед хөдөлгөөний хүрээг тэглэнэ —
+  // scroll=0 үед хоёр тал ижил (y:0, opacity:1) гарах тул mismatch үүсэхгүй.
+  const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -80]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], reduce ? [1, 1] : [1, 0]);
 
-  // Авто-солигдол (5 сек)
+  const step = useCallback(
+    (dir: 1 | -1) =>
+      setNav((s) => ({
+        active: (s.active + dir + SLIDES.length) % SLIDES.length,
+        from: s.active,
+      })),
+    []
+  );
+  const next = useCallback(() => step(1), [step]);
+  const prev = () => step(-1);
+
+  // Авто-солигдол
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(next, 5000);
+    const t = setInterval(next, SLIDE_MS);
     return () => clearInterval(t);
   }, [next, paused, active]);
 
+  // Гарын сумаар удирдах
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+     
+  }, [next]);
+
   const slide = SLIDES[active];
+
+  /* Чирэх явцын шилжилт — зураг хуруу дагаж хөдөлнө, тавихад байрандаа суана */
+  const [dragDx, setDragDx] = useState(0);
+  const dragging = dragDx !== 0;
+
+  // Хулганаар чирэх / хуруугаар шудрах — дэлгэц дүүрэн тул босго өндөр
+  const swipe = useDragSwipe({
+    onNext: next,
+    onPrev: prev,
+    threshold: 60,
+    onStart: () => setPaused(true),
+    onEnd: () => setPaused(false),
+    onMove: setDragDx,
+  });
 
   return (
     <section
+      ref={heroRef}
       id="home"
-      className="relative h-screen min-h-[560px] overflow-hidden bg-[#0E0E10]"
+      aria-roledescription="carousel"
+      aria-label="JETOUR загварууд"
+      className={`hero ${swipe.className}`}
+      style={swipe.style}
+      {...swipe.handlers}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* === Slides === */}
-      {SLIDES.map((s, i) => (
-        <div
-          key={s.id}
-          className={`absolute inset-0 transition-opacity duration-[900ms] ${
-            i === active ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <img
-            src={s.image}
-            alt={s.name}
-            className="w-full h-full object-cover"
-            loading={i === 0 ? "eager" : "lazy"}
-            fetchPriority={i === 0 ? "high" : "auto"}
-          />
-        </div>
-      ))}
+      {/* === Slides — хажуу булангаас гүйж орно, дотор нь зөөлөн Ken Burns ===
+          Зурвас хуруу дагаж хөдөлдөг тул чирэлт зогсонги биш; тавихад
+          `transition` эргэж асаад ойрын слайд руу зөөлөн суудаг. */}
+      <div className="hero__track">
+        {SLIDES.map((s, i) => {
+          const off = cyclicOffset(i, active, SLIDES.length);
+          /* Циклээр эргэхэд нэг слайд нөгөө тал руу "гүйж" гарахыг зогсооно:
+             цаагуур үсэрсэн слайд чимээгүй байрлалаа авна. */
+          const frozen = dragging || slideJumped(i, from, active, SLIDES.length);
 
-      {/* Зөөлөн gradient — доод хэсэгт текст уншигдахуйц */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
+          return (
+            <div
+              key={s.id}
+              aria-hidden={off !== 0}
+              className="hero__slide"
+              style={{
+                transform: `translateX(calc(${off * 100}% + ${dragDx}px))`,
+                ...(frozen ? { transition: "none" } : null),
+              }}
+            >
+              {/* Гүний давхарга — зураг слайдаасаа өөр хурдтай хөдөлж орон зайн
+                  мэдрэмж өгнө */}
+              <div
+                className="hero__parallax"
+                style={{
+                  transform: `translateX(calc(${off * 10}% - ${dragDx * 0.1}px))`,
+                  ...(frozen ? { transition: "none" } : null),
+                }}
+              >
+                <SlideImage slide={s} active={off === 0} priority={i === 0} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
-      {/* === Prev / Next arrows === */}
+      {/* Ганц зөөлөн scrim — уншигдацад шаардлагатай хамгийн бага хэмжээ.
+          (Өмнө хоёр давхар overlay зургийг хэт хардуулж байсан.) */}
+      <div className="hero__scrim" />
+
+      {/* === Prev / Next arrows — зөвхөн desktop === */}
       <button
         onClick={prev}
-        aria-label="Өмнөх"
-        className="absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 grid place-items-center rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+        aria-label="Өмнөх загвар"
+        className="hero__arrow left-4 lg:left-7"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft size={16} />
       </button>
       <button
         onClick={next}
-        aria-label="Дараагийн"
-        className="absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 grid place-items-center rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+        aria-label="Дараагийн загвар"
+        className="hero__arrow right-4 lg:right-7"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight size={16} />
       </button>
 
-      {/* === Content — зөвхөн нэр + нэг товч === */}
-      <div className="relative z-10 h-full flex flex-col justify-end pb-24 lg:pb-28 px-6">
-        <div className="mx-auto w-[min(1280px,94vw)]">
+      {/* === Content — загварын нэр + CTA (parallax) === */}
+      <motion.div className="hero__content" style={{ y: contentY, opacity: contentOpacity }}>
+        <div className="container-page">
+          <motion.p
+            key={`tag-${active}`}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="hero__eyebrow"
+          >
+            TRAVEL+ SUV
+          </motion.p>
+
           <motion.h1
             key={`title-${active}`}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="font-extrabold tracking-tight text-white mb-7"
-            style={{
-              fontSize: "clamp(2.5rem, 6.5vw, 5.5rem)",
-              lineHeight: 1.02,
-              textShadow: "0 4px 30px rgba(0,0,0,0.45)",
-            }}
+            className="hero__title"
           >
             {slide.name}
           </motion.h1>
 
+          {/* Туслах мөр — утсанд нуугдана (машины доод хэсэгтэй давхцахгүй) */}
+          <p className="hero__sub hidden sm:block">Таны аяллыг илүү эрхэм болгоно.</p>
+
           <motion.div
             key={`cta-${active}`}
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
+            className="hero__cta"
           >
-            <Link
-              href={`/special-offers/${slide.id}`}
-              className="inline-flex items-center gap-2 bg-white text-[#17181B] px-8 py-4 rounded-full text-base font-bold hover:bg-[#E20A17] hover:text-white transition-colors"
-            >
-              Дэлгэрэнгүй мэдээлэл авах
-              <ArrowRight className="w-4 h-4" />
+            <Link href={`/models/${slide.id}`} className="hero__btn hero__btn--primary">
+              Дэлгэрэнгүй үзэх
+              <ArrowRight size={15} />
+            </Link>
+            <Link href="/test-drive" className="hero__btn hero__btn--ghost">
+              Тест драйв захиалах
             </Link>
           </motion.div>
         </div>
+      </motion.div>
+
+      {/* === Slide indicators — container-т зэрэгцүүлсэн === */}
+      <div className="hero__dots">
+        <div className="container-page flex items-center gap-2">
+          {SLIDES.map((s, i) => (
+            <button
+              key={i}
+              onClick={() => setNav((s) => ({ active: i, from: s.active }))}
+              className="hero__dot"
+              style={{ width: i === active ? "28px" : "12px" }}
+              aria-label={`${s.name} үзэх`}
+              aria-current={i === active}
+            >
+              {i === active && !paused ? (
+                <motion.div
+                  key={`bar-${active}`}
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: SLIDE_MS / 1000, ease: "linear" }}
+                  className="absolute inset-y-0 left-0 bg-[#E20A17]"
+                />
+              ) : i === active ? (
+                <div className="absolute inset-y-0 left-0 w-full bg-[#E20A17]" />
+              ) : null}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* === Slide indicators === */}
-      <div className="absolute bottom-9 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2.5">
-        {SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            className="relative h-1 rounded-full overflow-hidden bg-white/30 transition-all"
-            style={{ width: i === active ? "36px" : "16px" }}
-            aria-label={`${i + 1}-р зураг`}
-          >
-            {i === active && !paused ? (
-              <motion.div
-                key={`bar-${active}`}
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 5, ease: "linear" }}
-                className="absolute inset-y-0 left-0 bg-[#E20A17]"
-              />
-            ) : i === active ? (
-              <div className="absolute inset-y-0 left-0 w-full bg-[#E20A17]" />
-            ) : null}
-          </button>
-        ))}
-      </div>
+      {/* Scroll cue */}
+      <button
+        onClick={() =>
+          document.querySelector("#models")?.scrollIntoView({ behavior: "smooth" })
+        }
+        aria-label="Доош гүйлгэх"
+        className="hidden lg:flex absolute bottom-7 right-7 z-10 w-9 h-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:text-white hover:border-white/60 transition-colors"
+      >
+        <ChevronDown size={16} />
+      </button>
     </section>
   );
 }

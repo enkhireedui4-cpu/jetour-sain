@@ -44,7 +44,7 @@
   --color-jetour-red-dark: #C00813;
   --color-jetour-ink: #17181B;        /* near-black, гарчиг */
   --color-jetour-body: #54585F;       /* dark gray, бичвэр */
-  --color-jetour-muted: #8A8F98;      /* туслах */
+  --color-jetour-muted: #6B7280;      /* туслах — AA-passing (≈4.6:1 on white) */
   --color-jetour-white: #FFFFFF;
   --color-jetour-paper: #F5F5F6;      /* цайвар саарал section */
   --color-jetour-line: #E7E7EA;       /* border */
@@ -54,10 +54,23 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);   /* 20px — showcase/large containers */
+
+  /* Semantic feedback (functional only — never decorative) */
+  --color-success: #16A34A;
+  --color-success-bg: #F0FDF4;
+  --color-destructive-bg: #FEF2F2;
+
+  /* Motion tokens — one easing curve, four durations */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 450ms;
+  --duration-slower: 800ms;
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.75rem;
   --background: #FFFFFF;
   --foreground: #17181B;
   --card: #FFFFFF;
@@ -69,7 +82,7 @@
   --secondary: #F5F5F6;
   --secondary-foreground: #17181B;
   --muted: #F5F5F6;
-  --muted-foreground: #8A8F98;
+  --muted-foreground: #696F79;
   --accent: #E20A17;
   --accent-foreground: #FFFFFF;
   --destructive: #DC2626;
@@ -105,12 +118,173 @@
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
     font-family: var(--font-inter), system-ui, sans-serif;
+    line-height: 1.6;
   }
   /* Гарчигийг цэвэр, нэг font (Inter), italic-гүй — Монгол үсэгт тохиромжтой */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-inter), system-ui, sans-serif;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
   }
+
+  /* Keyboard focus — бүх интерактив элементэд ижил, тод харагдана */
+  :focus-visible {
+    outline: 2px solid #E20A17;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Хөдөлгөөн мэдрэмтгий хэрэглэгчид — бүх анимацийг унтраана */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Дээрх дүрэм БҮХ шилжилтийг унтраадаг. Гэвч зарим хөдөлгөөн нь чимэглэл
+     биш МЭДЭЭЛЭЛ байдаг — жишээ нь слайдер аль зүг рүү шилжсэнийг заадаг.
+     Тэдгээрийг энд буцааж нээнэ.
+
+     Энэ блок нь ЗААВАЛ `@layer base` ДОТОР, дээрх дүрмийн ДАРАА байх ёстой:
+     `!important`-ийн хувьд давхаргын эрэмбэ УРВУУ болдог тул давхаргагүй
+     газар бичсэн `!important` нь давхаргатайдаа ялагддаг. Өмнө нь файлын
+     сүүлд бичсэн байсан тул огт ажиллаагүй. */
+  @media (prefers-reduced-motion: reduce) {
+    .ex-showcase__slide {
+      transition-duration: 420ms !important;
+    }
+
+    /* Гүний parallax нь зөвхөн гоо сайхны давхарга — бүрэн хасна */
+    .ex-showcase__parallax {
+      transition-duration: 0.01ms !important;
+      transform: none !important;
+      left: 0;
+      width: 100%;
+    }
+
+    /* Hero — чиглэл нь мэдээлэл тул шилжилт үлдэнэ, гүний давхарга хасагдана */
+    .hero__slide,
+    .cin__slide,
+    .x50tech__row {
+      transition-duration: 420ms !important;
+    }
+
+    /* Технологийн текстийн гарц ба гүний давхарга нь чимэглэл — бүрэн хасна:
+       текст шууд эцсийн төлөвтэйгээ харагдана. */
+    .x50pf__slide.is-active .x50pf__feature-title,
+    .x50pf__slide.is-active .x50pf__text,
+    .ex-showcase__caption {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .x50tech__parallax {
+      transition-duration: 0.01ms !important;
+      transform: none !important;
+      left: 0;
+      width: 100%;
+    }
+
+    /* Ken Burns нь зөвхөн гоо сайхны давхарга — бүрэн хасна */
+    .cin__kb,
+    .cin__kb.is-active {
+      transform: none !important;
+    }
+
+    .hero__parallax {
+      transition-duration: 0.01ms !important;
+      transform: none !important;
+      left: 0;
+      width: 100%;
+    }
+
+    /* Нүүрний загварын текст — үсрэхгүй, зөөлөн гарч ирнэ */
+    .mdlsel__id,
+    .mdlsel__metrics {
+      animation-duration: 260ms !important;
+    }
+  }
+}
+
+/* ============================================================
+   Layout primitives — нэг л хэмжээс, бүх хуудсанд ижил
+   ============================================================ */
+
+/* Хуудасны гол багана.
+   `100vw - 40px` нь хажуугийн зайд 20px-ийн ДООД хязгаар тавина: 94vw дангаараа
+   утсан дээр 3vw буюу 390px дэлгэцэнд ердөө ~12px үлдээдэг байв. min() хамгийн
+   багыг сонгодог тул энэ гишүүн зөвхөн ~667px-ээс доош ялна — таблет (94vw ≈
+   23px) болон десктоп (1280px таг) хөндөгдөхгүй. */
+.container-page {
+  margin-inline: auto;
+  width: min(1280px, 94vw, 100vw - 40px);
+}
+
+/* Section-ий босоо амьсгал — жижиг/том хоёр хэмнэл */
+/* Хэсгийн босоо амьсгал. Өмнө 64→112px байсныг 48→72px болгов: аудитаар
+   "Онцлох боломжууд" ба "Хүсэлт" хэсгийн 27–29% нь зөвхөн padding байсан. */
+.section-pad {
+  padding-block: clamp(3rem, 5vw, 4.5rem);
+}
+.section-pad-sm {
+  padding-block: clamp(2.25rem, 3.5vw, 3.25rem);
+}
+
+/* ============================================================
+   Typography scale — fluid, бүх хуудсанд ижил шатлал
+   ============================================================ */
+
+/* Hero гарчиг: 44 → 72px */
+.type-display {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  text-wrap: balance;
+}
+
+/* Хуудасны H1: 36 → 56px */
+.type-h1 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  text-wrap: balance;
+}
+
+/* Section гарчиг: 32 → 48px */
+.type-h2 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  text-wrap: balance;
+}
+
+/* Картын гарчиг: 22 → 28px */
+.type-h3 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+}
+
+/* Body-гийн удиртгал догол — 17-18px, уужим line-height */
+.type-lead {
+  font-size: clamp(1.0625rem, 1.4vw, 1.125rem);
+  line-height: 1.7;
+  color: #54585F;
+}
+
+/* Туслах / meta текст — 14px */
+.type-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #54585F;
 }
 
 /* Display helper — нэг font (Inter), цэвэр */
@@ -119,8 +293,7 @@
   letter-spacing: -0.01em;
 }
 
-/* "AI шиг" харагддаг italic гарчигийг бүхэлд нь болиулна.
-   .font-display.italic (0,2,0) > Tailwind-ийн .italic (0,1,0) тул override болно. */
+/* "AI шиг" харагддаг italic гарчигийг бүхэлд нь болиулна. */
 .font-display.italic,
 h1.italic, h2.italic, h3.italic, h4.italic {
   font-style: normal;
@@ -168,20 +341,47 @@ h1.italic, h2.italic, h3.italic, h4.italic {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* === Buttons — нэг загвар, gradient-гүй === */
-/* Primary CTA = улаан */
+/* ============================================================
+   Buttons — нэг систем: primary (улаан) / ink / outline / light
+   Бүгд ижил өндөр, ижил радиус, focus/active/disabled төлөвтэй
+   ============================================================ */
+
 .btn-electric-jetour,
-.btn-primary-jetour {
+.btn-primary-jetour,
+.btn-ink-jetour,
+.btn-outline-jetour,
+.btn-outline-light {
   font-family: var(--font-inter), sans-serif;
   font-weight: 600;
   letter-spacing: 0.01em;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-electric-jetour:active,
+.btn-primary-jetour:active,
+.btn-ink-jetour:active,
+.btn-outline-jetour:active,
+.btn-outline-light:active {
+  transform: scale(0.98);
+}
+.btn-electric-jetour:disabled,
+.btn-primary-jetour:disabled,
+.btn-ink-jetour:disabled,
+.btn-outline-jetour:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary CTA = улаан */
+.btn-electric-jetour,
+.btn-primary-jetour {
   background: #E20A17;
   color: #FFFFFF;
   box-shadow: 0 10px 24px -12px rgba(226, 35, 26, 0.5);
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-.btn-electric-jetour:hover,
-.btn-primary-jetour:hover {
+.btn-electric-jetour:hover:not(:disabled),
+.btn-primary-jetour:hover:not(:disabled) {
   background: #C00813;
   transform: translateY(-1px);
   box-shadow: 0 14px 30px -12px rgba(226, 35, 26, 0.55);
@@ -189,29 +389,21 @@ h1.italic, h2.italic, h3.italic, h4.italic {
 
 /* Secondary = near-black solid */
 .btn-ink-jetour {
-  font-family: var(--font-inter), sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.01em;
   background: #17181B;
   color: #FFFFFF;
-  transition: background 0.2s ease, transform 0.2s ease;
 }
-.btn-ink-jetour:hover {
+.btn-ink-jetour:hover:not(:disabled) {
   background: #000000;
   transform: translateY(-1px);
 }
 
 /* Outline = ink border (secondary) */
 .btn-outline-jetour {
-  font-family: var(--font-inter), sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.01em;
   background: transparent;
   color: #17181B;
   border: 1.5px solid #D9DADE;
-  transition: all 0.2s ease;
 }
-.btn-outline-jetour:hover {
+.btn-outline-jetour:hover:not(:disabled) {
   border-color: #17181B;
   background: #17181B;
   color: #FFFFFF;
@@ -219,14 +411,10 @@ h1.italic, h2.italic, h3.italic, h4.italic {
 
 /* Outline (dark зургийн дээр) */
 .btn-outline-light {
-  font-family: var(--font-inter), sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.01em;
   background: rgba(255,255,255,0.08);
   color: #FFFFFF;
   border: 1.5px solid rgba(255,255,255,0.6);
   backdrop-filter: blur(8px);
-  transition: all 0.2s ease;
 }
 .btn-outline-light:hover {
   background: #FFFFFF;
@@ -241,7 +429,7 @@ h1.italic, h2.italic, h3.italic, h4.italic {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-size: 0.7rem;
-  color: #8A8F98;
+  color: #6B7280;
 }
 
 .eyebrow-electric {
@@ -263,17 +451,64 @@ h1.italic, h2.italic, h3.italic, h4.italic {
   to { opacity: 1; transform: translateY(0); }
 }
 .reveal {
-  animation: reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: reveal-up 0.8s var(--ease-premium) both;
+}
+
+/* Grid item cascade — --index-ээр дараалж орж ирнэ */
+.stagger {
+  animation: reveal-up 0.7s var(--ease-premium) both;
+  animation-delay: calc(var(--index, 0) * 80ms);
+}
+
+/* Crossfade layer — өнгө сонголт, hero slide */
+.crossfade {
+  transition: opacity var(--duration-slow) ease-in-out;
+}
+
+/* Skeleton loading — CMS агуулга ачаалж байх үед */
+@keyframes skeleton-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #F5F5F6 25%, #ECECEE 50%, #F5F5F6 75%);
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.5s ease-in-out infinite;
+  border-radius: var(--radius-lg);
+}
+
+/* Skip-to-content — keyboard хэрэглэгчид зориулсан */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 100;
+  background: #17181B;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 12px 12px;
+  transition: transform var(--duration-fast) ease;
+}
+.skip-link:focus {
+  transform: translate(-50%, 0);
+  outline: 2px solid #E20A17;
+  outline-offset: 2px;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: #F5F5F6; }
 ::-webkit-scrollbar-thumb {
   background: #C9CACE;
   border-radius: 8px;
 }
-::-webkit-scrollbar-thumb:hover { background: #E20A17; }
+/* Хулгана scrollbar дээр байхад бүтэн үйлдвэрийн үнднээр улаан босоо
+   зурвас гарч, баруун захад анхаарал татаж байв. Улаан нь зөвхөн
+   бодит UI-д (идэвхтэй зурвас, CTA) — scrollbar нь нейтраль байна. */
+::-webkit-scrollbar-thumb:hover { background: #A9ADB2; }
 
 /* Selection */
 ::selection {
@@ -282,3 +517,4747 @@ h1.italic, h2.italic, h3.italic, h4.italic {
 }
 
 .text-balance { text-wrap: balance; }
+
+/* Хажуугийн scroll bar-гүй хэвтээ гүйлгэх туузнууд */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Range slider — санхүүжилтийн тооцоолуур гэх мэт */
+input[type="range"].range-jetour {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    #E20A17 0%,
+    #E20A17 var(--range-progress, 50%),
+    #E7E7EA var(--range-progress, 50%),
+    #E7E7EA 100%
+  );
+  cursor: pointer;
+}
+input[type="range"].range-jetour::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  border: 2px solid #E20A17;
+  box-shadow: 0 2px 8px rgba(23, 24, 27, 0.18);
+  transition: transform 0.15s ease;
+}
+input[type="range"].range-jetour::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+input[type="range"].range-jetour::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  border: 2px solid #E20A17;
+  box-shadow: 0 2px 8px rgba(23, 24, 27, 0.18);
+}
+
+/* === Өнгөний сонголт (студи маяг) — загварын хуудасны #colors секц ===
+   Дэвсгэр нь сонгосон өнгөөр өнгөлөгдөж зөөлөн солигдоно, ард нь том
+   сүүдэрлэсэн англи үг, зүүн талд босоо swatch, машин голдоо. */
+.color-studio {
+  position: relative;
+  overflow: hidden;
+  /* Өнгө солиход дэвсгэрийн шилжилт зургийн crossfade-тай нэг хэмнэлээр */
+  transition: background 0.5s ease-out;
+  /* Доод зайг багасгав — swatch-ууд дэлгэцээс гарч байсан */
+  padding: clamp(40px, 5vw, 72px) 0 clamp(24px, 3vw, 44px);
+  /* Тогтмол navbar-ыг хассан үлдсэн дэлгэцийг бүтнээр эзэлнэ */
+  min-height: calc(100vh - 4rem);
+  min-height: calc(100svh - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.color-studio__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ============================================================
+   Гадна үзэмж / Дотор салон — нэг дизайн системийн блок: гарчиг + том зураг.
+   Хоёр хэсэг ижил хэмнэл, ижил гарчгийн хэмжээтэй байхын тулд.
+   ============================================================ */
+.showcase-section {
+  padding-top: clamp(64px, 7vw, 96px);
+  overflow: hidden;
+}
+
+/* Гарчиг зургийн дотор орох үед — зураг бүтэн хэмжээгээрээ, дээр нь зай авахгүй */
+.showcase-section--bleed {
+  padding-top: 0;
+}
+
+/* Зургийн дээрх гарчиг — контейнерын хаялбартай тэгшилнэ */
+.showcase-title {
+  position: absolute;
+  inset-inline: 0;
+  top: clamp(24px, 4vw, 56px);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Аль ч зураг дээр уншигдахуйц байлгах зөөлөн бараан scrim */
+.showcase-title-scrim {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: clamp(140px, 20vw, 260px);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.46) 0%,
+    rgba(0, 0, 0, 0.18) 48%,
+    transparent 100%
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Хоёр класстай сонголт — эх файл дахь дараалалаас үл хамааран хүчинтэй */
+.showcase-head__title.showcase-head__title--on-image {
+  color: #FFFFFF;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.showcase-head {
+  margin-bottom: clamp(18px, 2.2vw, 26px);
+}
+
+.showcase-head__title {
+  margin: 0;
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #17181B;
+}
+
+/* ============================================================
+   Өнгөний сонголт — "hall" хувилбар (X70 Plus-аас бусад загвар).
+   Дэвсгэртэй студи фото тул тунгалаг PNG-ийн студи хувилбар тохирохгүй.
+   Шатлал: машин → сонгогч → өнгөний нэр → арын watermark.
+   ============================================================ */
+.color-hall {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #FAFAFB 0%, #EFF0F2 55%, #E6E7EA 100%);
+  padding: clamp(44px, 6.5vw, 84px) 0 clamp(40px, 5.5vw, 72px);
+}
+
+/* Арын том англи үг — watermark төдий. Машины дэлгэрэнгүйг халхлахгүй */
+.color-hall__word {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: clamp(70px, 15vw, 240px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgba(11, 11, 13, 0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Хэсгийн дотоод багана. .container-page-тай ижил өргөн, гэхдээ энэ хэсэг нь
+   бүтэн өргөний watermark агуулдаг тул өргөнөө өөрөө эзэмшинэ. */
+.color-hall__inner {
+  position: relative;
+  z-index: 2;
+  width: min(1280px, 94vw, 100vw - 40px);
+  margin-inline: auto;
+}
+
+/* Editorial гарчиг — зүүн тэгшилсэн (машин голдоо → зохиомжийн асимметр) */
+.color-hall__eyebrow {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #17181B;
+}
+
+/* Сонгогдсон өнгөний албан ёсны нэр — бүтээгдэхүүний мэдээлэл, гарчиг биш.
+   min-height нь нэр солигдоход мөр хөдлөхгүй байхыг батална. */
+.color-hall__name {
+  margin: 0;
+  min-height: 27px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  color: #54585F;
+  animation: color-name-in 0.28s ease-out;
+}
+
+/* Дотор салоны hotspot картын зөөлөн гарц — маш нимгэн, зөвхөн opacity + 4px */
+
+@keyframes color-name-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.color-hall__stage {
+  position: relative;
+  margin-top: clamp(18px, 2.6vw, 30px);
+  height: clamp(300px, 62vh, 640px);
+}
+
+/* Сонгогч — цайвар шилэн "pill". Утсанд шаардлагатай бол хэвтээ гүйнэ. */
+.color-hall__picker {
+  margin: clamp(20px, 2.8vw, 32px) 0 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  max-width: 100%;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(23, 24, 27, 0.07);
+  backdrop-filter: blur(8px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.color-hall__picker::-webkit-scrollbar {
+  display: none;
+}
+
+/* Бөөрөнхий, ижил хэмжээтэй swatch. inset highlight нь металлик мэдрэмж өгч,
+   цагаан/мөнгөлөг өнгө ч дэвсгэрээс салж харагдана. */
+.color-hall__swatch {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid rgba(23, 24, 27, 0.14);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.22s ease-out, box-shadow 0.22s ease-out,
+    border-color 0.22s ease-out;
+}
+
+.color-hall__swatch:hover {
+  transform: scale(1.05);
+}
+
+.color-hall__swatch:focus-visible {
+  outline: 2px solid #17181B;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .color-hall__picker {
+    margin-inline: auto;
+  }
+  .color-hall__stage {
+    height: clamp(260px, 46vh, 420px);
+  }
+  .color-hall__word {
+    font-size: 76px;
+  }
+}
+
+/* ------------------------------------------------------------
+   --compact — авсаархан, голлосон сонгогч (G700).
+   Хайрцаггүй: swatch-ууд шууд дэвсгэр дээр. Градиент/сүүдэргүй,
+   сонгогдсоныг хос ринг (дотор нимгэн цайвар + гадна 2px хар) илэрхийлнэ.
+   ------------------------------------------------------------ */
+.color-hall--compact {
+  /* Цэвэр цагаан дэвсгэр (градиентгүй) — машин бүрэн тодроно */
+  background: #FFFFFF;
+  padding: clamp(30px, 3.6vw, 44px) 0 clamp(22px, 2.6vw, 34px);
+}
+
+/* Загварын нэр — хэсгийн эхний мөр. Hero-ийн H1-ийг давхардуулахгүйн тулд
+   гарчиг биш, зүгээр текст (SEO-д хоёр H1 гарахгүй). */
+.color-hall--compact .color-hall__model {
+  margin: 0 0 10px 0;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #17181B;
+}
+
+.color-hall--compact .color-hall__eyebrow {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  color: #6B7280;
+}
+
+.color-hall--compact .color-hall__word {
+  font-size: clamp(56px, 10vw, 150px);
+}
+
+/* Шатлал: гарчиг → шошго → swatch → нэр → зураг.
+   Зайнууд: гарчиг→шошго 10px, шошго→swatch 24px, swatch→нэр 8px, нэр→зураг 28px. */
+.color-hall--compact .color-hall__stage {
+  margin-top: 28px;
+}
+
+/* Хайрцаг/pill-гүй, голлосон нэг мөр. Утсанд шаардвал хэвтээ гүйнэ. */
+.color-hall--compact .color-hall__picker {
+  margin: 24px auto 0;
+  gap: 14px;
+  padding: 2px;
+  background: none;
+  border: 0;
+  backdrop-filter: none;
+  justify-content: center;
+}
+
+.color-hall--compact .color-hall__swatch {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(23, 24, 27, 0.16);
+  box-shadow: none;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out;
+}
+
+.color-hall--compact .color-hall__swatch:hover {
+  transform: scale(1.08);
+  border-color: rgba(23, 24, 27, 0.38);
+}
+
+/* Сонгогдсон өнгөний нэр — swatch-уудын доор, голлосон */
+.color-hall__name--under {
+  margin-top: 8px;
+  min-height: 22px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #17181B;
+}
+
+/* ============================================================
+   Хэсгийн том гарчиг — бүх media section-д нэг ижил хэмжээ/жин/caps.
+   (Өнгөний сонголт / Гадна үзэмж / Дотор салон / Онцлох боломжууд гэх мэт)
+   ============================================================ */
+.section-title-lg {
+  margin: 0;
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* Өнгөний сонголтын гарчиг — том, тод; дэвсгэрийн аяснаас хамаарч
+   inline-аар цагаан ↔ ink болно. */
+.color-studio__eyebrow {
+  margin-bottom: clamp(18px, 2.2vw, 30px);
+  transition: color 0.5s ease-out;
+}
+
+/* Машин голдоо, өнгө сонгогч доор нь голлож — configurator-ын хэвшсэн зохиомж.
+   Бүх өнгөнд машины хэмжээ/байрлал ижил (stage хөдлөхгүй). */
+/* Мөрийг дэлгэц дүүрэн болгов — тайз болон swatch эгнээ нь контейнерын
+   1360px хязгаараас үл хамааран дэлгэцийн яг голд байрлана. */
+.color-studio__row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.6vw, 22px);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+/* Өнгө сонгогч — доод талд голлосон хэвтээ эгнээ */
+.color-studio__swatches {
+  order: 2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(6px, 1.2vw, 18px);
+  flex-shrink: 0;
+}
+
+/* Товч — ≥40px хүрэлцэх талбай, харагдах хэсэг нь дотроо жижиг цэг */
+.color-studio__swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 44px;
+  padding: 8px 6px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.color-studio__dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--cs-swatch-line, rgba(23, 24, 27, 0.22));
+  outline: 1.5px solid transparent;
+  outline-offset: 4px;
+  transition: outline-color 0.3s ease-out, transform 0.3s ease-out,
+    border-color 0.3s ease-out;
+}
+
+.color-studio__swatch:hover .color-studio__dot {
+  transform: scale(1.08);
+}
+
+.color-studio__swatch[aria-pressed="true"] .color-studio__dot {
+  outline-color: var(--cs-ring, #17181B);
+}
+
+.color-studio__swatch:focus-visible {
+  outline: none;
+}
+
+.color-studio__swatch:focus-visible .color-studio__dot {
+  outline-color: var(--cs-ring, #17181B);
+  outline-width: 2px;
+}
+
+/* Өнгөний нэр — маш нам гүм, авсаархан туслах шошго */
+.color-studio__name {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--cs-muted, rgba(23, 24, 27, 0.58));
+  opacity: 0.75;
+  transition: opacity 0.3s ease-out, color 0.5s ease-out;
+}
+
+.color-studio__swatch[aria-pressed="true"] .color-studio__name {
+  color: var(--cs-ink, #17181B);
+  opacity: 1;
+}
+
+/* Машины тайз — хоёр талдаа амьсгалтай (дэлгэцийн 90%).
+   Зураг object-cover-оор өргөнөө эзэлж, тунгалаг PNG-ийн дээд/доод хоосон
+   зай л тайрагдана — машин бүтнээрээ, тайрагдалгүй харагдана. */
+/* Тайзны өндөр — гарчиг, swatch, padding-ийг хассан үлдсэн дэлгэцэнд багтана.
+   280px нь толгой+сонгогчийн эзлэх зай; ингэснээр аль ч десктоп дээр
+   өнгө сонгогч доогуур унахгүй, бүх секц нэг дэлгэцэнд харагдана. */
+.color-studio__stage {
+  order: 1;
+  position: relative;
+  /* object-cover тул машины харагдах ХЭМЖЭЭ нь тайзны ӨРГӨНӨӨС хамаарна
+     (scale = өргөн / 1920). Тиймээс машиныг томруулахын тулд өргөнийг
+     дэлгэц дүүрэн болгов — машин ~11% том харагдана. Машин зургийн 59%
+     өргөнийг эзэлдэг тул хажуу тал тайрагдахгүй хэвээр. */
+  width: min(100vw, 1700px);
+  margin-inline: auto;
+  min-width: 0;
+  /* Тайзны ӨНДӨР нь машины эргэн тойрны амьсгалыг тодорхойлно (дээд/доод
+     хоосон зай хэдийг тайрахыг). Үлдсэн дэлгэцийг бүтнээр эзэлж, секц нь
+     100svh-4rem-д яг багтана: 278px = гарчиг(45+30) + gap(22) + swatch(63) +
+     padding(72+44). Хэмжилтээр 275px тул 3px нөөцтэй. */
+  height: min(clamp(240px, 42vw, 760px), calc(100svh - 4rem - 278px));
+  min-height: 240px;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .color-studio {
+    /* Утсанд дэлгэц дүүрэн албадах шаардлагагүй — агуулгаараа л өндөрлөнө */
+    min-height: 0;
+  }
+  .color-studio__inner {
+    padding: 0 20px;
+  }
+  .color-studio__stage {
+    /* Утсанд өргөнөөс хамаарсан намхан зурвас. Харьцаа нь 16:9-өөс хэзээ ч
+       нарийсахгүй — эс тэгвээс object-cover хажуу талыг тайрч машины
+       хамар/сүүлийг иддэг. */
+    width: 100%;
+    height: min(clamp(180px, 50vw, 300px), calc(100vw / 1.7778));
+    min-height: 0;
+  }
+  .color-studio__dot {
+    width: 22px;
+    height: 22px;
+  }
+  .color-studio__name {
+    font-size: 11px;
+  }
+}
+
+/* ============================================================
+   Гадна үзэмж — editorial showcase (premium automotive)
+   Зураг нь гол баатар; шошго, тайлбар, контрол нь түүнийг дэмжинэ.
+   ============================================================ */
+.ex-showcase {
+  position: relative;
+  overflow: hidden;
+  background: #0E0E10;
+  color: #FFFFFF;
+}
+
+/* --- Хэсгийн шошго (гарчиг биш — тэмдэглэгээ) --- */
+.ex-showcase__label {
+  padding: clamp(28px, 4vw, 44px) clamp(20px, 5vw, 32px) clamp(14px, 2vw, 20px);
+}
+
+.ex-showcase__label-mn {
+  margin: 0;
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+/* --- Тайз --- */
+.ex-showcase__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+/* Утасны 9:16 хувилбартай слайдерт (одоогоор Гадна үзэмжид байхгүй) */
+.ex-showcase__stage--tall {
+  aspect-ratio: 9 / 16;
+}
+
+/* Слайдын гулсалт.
+   Өмнөх `cubic-bezier(0.16, 1, 0.3, 1)` нь замынхаа 75%-ийг эхний 20%
+   хугацаанд туулдаг expo-out муруй — "шидэгдээд зогсох" мэт мэдрэгдэнэ.
+   Энэ муруй нь аажим хурдалж, урт жигд буулттай: 780мс-д тайван, жинтэй.
+   (Нүүрний загвар солих хөдөлгөөнтэй ижил зарчим.) */
+.ex-showcase__track {
+  position: relative;
+  height: 100%;
+}
+
+/* Слайд бүр идэвхтэйгээсээ хамгийн дөт талд зогсоно (JS-ээс `off`) —
+   цикл эргэлтэд ч зөвхөн нэг дэлгэцийн зайд хөдөлнө. */
+.ex-showcase__slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transition: transform 780ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  will-change: transform;
+}
+
+/* Зураг слайдаасаа УДААН хөдөлнө (parallax).
+   Слайд 100% гүйхэд энэ давхарга 12% л шилжинэ — хоёр өөр хурдтай давхарга
+   болж, хавтгай гулсалт биш ГҮНТЭЙ хөдөлгөөн мэдрэгдэнэ.
+
+   `width: 124%` + зүүн шилжилт нь ЗӨВХӨН тэр 12%-ийн зөрүүг нөхөх зорилготой:
+   үүнгүйгээр гулсах агшинд слайдын ирмэг дээр хоосон зурвас гарна. */
+.ex-showcase__parallax {
+  position: absolute;
+  top: 0;
+  left: -12%;
+  width: 124%;
+  height: 100%;
+  transition: transform 780ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  will-change: transform;
+}
+
+/* --- Доод мөр: тайлбар + контрол --- */
+.ex-showcase__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(16px, 3vw, 40px);
+  padding: clamp(16px, 2.4vw, 24px) clamp(20px, 5vw, 32px) clamp(24px, 3vw, 36px);
+}
+
+/* Тайлбар нь зураг СУУСНЫ ДАРАА гарч ирнэ: 250мс хүлээгээд 460мс-д дээшээ
+   хөвж тодрох. Ингэснээр "зураг ирлээ → дараа нь түүний тайлбар" гэсэн
+   дараалал мэдрэгдэнэ. Технологи ба салоны хэсэгтэй ижил хэмнэл, ижил муруй
+   — хуудасны хөдөлгөөн нэг гартай болно.
+
+   `key={active}` тул слайд солигдоход элемент дахин mount болж анимаци
+   дахин ажиллана. */
+.ex-showcase__caption {
+  min-width: 0;
+  animation: ex-showcase-fade 460ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
+}
+
+@keyframes ex-showcase-fade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ex-showcase__caption-mn {
+  margin: 0;
+  font-size: clamp(17px, 1.6vw, 22px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+}
+
+.ex-showcase__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.ex-showcase__arrows {
+  display: flex;
+  gap: 10px;
+}
+
+.ex-showcase__arrow {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.ex-showcase__arrow:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.ex-showcase__meter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ex-showcase__counter {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.78);
+  white-space: nowrap;
+}
+
+.ex-showcase__counter em {
+  font-style: normal;
+  margin: 0 5px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Прогресс — хэсэг бүр нь дарж шилжих товч (хуучин цэгүүдийн үүрэг хэвээр) */
+.ex-showcase__progress {
+  display: flex;
+  gap: 6px;
+  width: clamp(84px, 11vw, 150px);
+}
+
+.ex-showcase__seg {
+  flex: 1;
+  height: 14px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ex-showcase__seg::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 400ms ease;
+}
+
+.ex-showcase__seg:hover::before {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.ex-showcase__seg[aria-current="true"]::before {
+  background: #FFFFFF;
+}
+
+/* --- Десктоп: шошго/доод мөр зургийн дээр давхарлана --- */
+@media (min-width: 1024px) {
+  .ex-showcase__stage {
+    aspect-ratio: auto;
+    /* Дэлгэц дүүрэн — тогтмол navbar (4rem)-ыг хассан үлдсэн талбайг яг
+       бүтнээр эзэлнэ: секц рүү гүйхэд цагаан цэсний доор зай ч үлдэхгүй,
+       хөрш секц ч цухуйхгүй. Хэт өндөр цонхонд (харьцаа < 1.25) машины
+       хамар/сүүл тайрагдахаас 1.25 хязгаар хамгаална. */
+    height: min(calc(100vh - 4rem), calc(100vw / 1.25));
+    height: min(calc(100svh - 4rem), calc(100vw / 1.25));
+  }
+
+  .ex-showcase__stage--tall {
+    aspect-ratio: auto;
+  }
+
+  .ex-showcase__label,
+  .ex-showcase__foot {
+    position: absolute;
+    z-index: 3;
+  }
+
+  .ex-showcase__label {
+    top: 0;
+    left: 0;
+    /* Тайз нь navbar-ын доор эхэлдэг тул энгийн дээд зай хангалттай */
+    padding: clamp(34px, 3.4vw, 52px) clamp(32px, 4vw, 64px) 0;
+  }
+
+  .ex-showcase__foot {
+    inset-inline: 0;
+    bottom: 0;
+    padding: 0 clamp(32px, 4vw, 64px) clamp(28px, 3vw, 44px);
+  }
+
+  /* Зөөлөн scrim — текст/контрол аль ч зураг дээр уншигдана */
+  .ex-showcase::before,
+  .ex-showcase::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .ex-showcase::before {
+    top: 0;
+    height: 190px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+  }
+
+  .ex-showcase::after {
+    bottom: 0;
+    height: 240px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.68) 0%, transparent 100%);
+  }
+}
+
+/* --- УТАС: шошго/тайлбар мөн ЗУРГИЙН ДЭЭР ---
+   Өмнө нь утсан дээр шошго зургийн дээр, тайлбар доор — тусдаа хар зурвас
+   болж, зураг хоёр хар хайрцгийн хооронд шахагдаж байв. Ширээн дээр аль
+   хэдийн зураг дээр давхарладаг тул утсыг ч ижил зарчимд оруулав: блок нь
+   нэг бүтэн зураг шиг уншигдана.
+
+   Зөвхөн X50-д хамаарна () — бусад загварын утасны
+   харагдац өмнөх шигээ хэвээр. Зөвхөн БАЙРЛАЛ хөндөгдөнө: фонтын хэмжээ,
+   сум, тоолуур, прогресс нь тухайн загварынхаа хэвээрээ. */
+@media (max-width: 1023.98px) {
+  [data-model="x50"] .ex-showcase__label,
+  [data-model="x50"] .ex-showcase__foot {
+    position: absolute;
+    inset-inline: 0;
+    z-index: 3;
+  }
+
+  [data-model="x50"] .ex-showcase__label {
+    top: 0;
+    padding: clamp(18px, 5vw, 30px) clamp(20px, 5vw, 32px) 0;
+  }
+
+  [data-model="x50"] .ex-showcase__foot {
+    bottom: 0;
+    padding: 0 clamp(20px, 5vw, 32px) clamp(16px, 4.5vw, 24px);
+  }
+
+  /* Уншигдацын scrim — ширээнийхтэй ижил, зөвхөн нимгэн (утасны кадр бага) */
+  [data-model="x50"] .ex-showcase::before,
+  [data-model="x50"] .ex-showcase::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  [data-model="x50"] .ex-showcase::before {
+    top: 0;
+    height: 42%;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.34) 55%,
+      transparent 100%
+    );
+  }
+
+  [data-model="x50"] .ex-showcase::after {
+    bottom: 0;
+    height: 46%;
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.38) 52%,
+      transparent 100%
+    );
+  }
+}
+
+/* ============================================================
+   Нүүр хуудасны HERO — premium automotive: зураг гол, UI хоёрдогч
+   ============================================================ */
+.hero {
+  --hero-pad-b: clamp(4.5rem, 9vh, 8rem);
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  background: #0E0E10;
+}
+
+/* Загварын хуудасны толгойн слайдер (CinematicSlider).
+   Слайд бүр идэвхтэйгээсээ хамгийн дөт талд зогсдог тул чирэхэд дараагийн
+   зураг хажуугаасаа хамт орж ирнэ (өмнө нь 16% + бүдгэрэлт байв). */
+.cin__slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Ken Burns — идэвхтэй зураг харагдаж байх хугацаандаа тайван томорно.
+   Хугацааг JS-ээс (`transitionDuration`) өгнө: авто-гүйлтийн интервалаас хамаарна. */
+.cin__kb {
+  position: absolute;
+  inset: 0;
+  transform: scale(1);
+  transition-property: transform;
+  transition-timing-function: linear;
+  will-change: transform;
+}
+
+.cin__kb.is-active {
+  transform: scale(1.07);
+}
+
+/* Hero-гийн зургийн зурвас — слайд бүр хажуу булангаасаа гүйж орно.
+   Өмнө нь зөвхөн opacity crossfade байсан тул чиглэл мэдрэгддэггүй байв. */
+.hero__track {
+  position: absolute;
+  inset: 0;
+}
+
+/* Слайд бүр идэвхтэйгээсээ хамгийн дөт талд зогсоно (JS-ээс `off`).
+   Тиймээс цикл эргэхэд ч зөвхөн нэг дэлгэцийн зайд хөдөлнө. */
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transition: transform 900ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  will-change: transform;
+}
+
+/* Зурвасаас 10%-иар илүү өргөн — гүний шилжилтэд ирмэг хоосрохгүй */
+.hero__parallax {
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 100%;
+  transition: transform 900ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  will-change: transform;
+}
+
+/* Доод scrim — текст уншигдахуйц болгох хамгийн бага хэмжээ.
+   Хуучин from-black/75 + хэвтээ 0.62 давхар overlay-г нэгтгэж зөөлрүүлэв. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.18) 26%, transparent 52%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.34) 0%, transparent 46%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--hero-pad-b);
+}
+
+.hero__eyebrow {
+  margin: 0 0 clamp(10px, 1.2vh, 16px);
+  font-size: clamp(11px, 0.85vw, 12px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Гарчиг — 32px (утас) → 72px (том дэлгэц). Дэлгэцийг дийлдэггүй, гэхдээ хүчтэй. */
+.hero__title {
+  margin: 0;
+  font-size: clamp(2rem, 4.2vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+}
+
+.hero__sub {
+  margin: clamp(10px, 1.4vh, 18px) 0 0;
+  max-width: 34ch;
+  font-size: clamp(13px, 1vw, 16px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.hero__cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(20px, 2.8vh, 36px);
+}
+
+/* Товчнууд — авсаархан, машинаас илүү анхаарал татахгүй */
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.hero__btn--primary {
+  background: #FFFFFF;
+  color: #17181B;
+}
+
+.hero__btn--primary:hover {
+  background: #E20A17;
+  color: #FFFFFF;
+}
+
+.hero__btn--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.hero__btn--ghost:hover {
+  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+/* Сум — жижиг, нам гүм */
+.hero__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  display: none;
+  place-items: center;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.85);
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.hero__arrow:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+}
+
+/* Индикатор — нимгэн прогресс зурвас */
+.hero__dots {
+  position: absolute;
+  bottom: clamp(20px, 3vh, 34px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.hero__dot {
+  position: relative;
+  height: 2px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.28);
+  transition: width 0.4s ease-out, background-color 0.3s ease;
+}
+
+.hero__dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+@media (min-width: 768px) {
+  .hero__arrow {
+    display: grid;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__cta {
+    gap: 10px;
+  }
+  .hero__btn {
+    height: 42px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+}
+
+/* ============================================================
+   Нүүр — JETOUR загвар сонгогч (premium automotive configurator)
+
+   Геометр: толгой (нэр | үзүүлэлт) → том тайз → доод сонгогч.
+   Машинууд тайзан дээр давхарлаж байрлана; сонголт солигдоход зөвхөн
+   `transform`/`opacity` хөдөлнө — layout хэзээ ч дахин тооцогдохгүй.
+   ============================================================ */
+.mdlsel {
+  /* --- Студийн token систем ------------------------------------------
+     Хэмжилт: найман загварын кузовын дундаж гэрэлтэлт 0.038–0.246 буюу
+     БҮГД бараан. Цагаан/тод машин байхгүй тул дэвсгэрийг гүнзгийрүүлэхэд
+     загвар бүрийн тодрол САЙЖИРНА (эсрэгээр биш). Иймд өмнөх 1–2%-ийн
+     ялгааг орхиж, ойлгогдохуйц ΔL* 4–10 болгов.
+     Бүх өнгө нейтрал-сэрүүн, ханалт нь маш бага (RGB зөрүү ≤ 11). --- */
+  --mdl-studio-top: #E9ECEF;       /* орчны хана */
+  --mdl-studio-mid: #F7F8FA;       /* машины түвшин — хамгийн гэрэлтэй */
+  --mdl-studio-floor: #DFE3E8;     /* студийн шал */
+  --mdl-rail: #DCE0E6;             /* сонгогчийн бүс — тусдаа давхарга */
+
+  --mdl-text: #17181B;             /* --color-jetour-ink */
+  /* Шалны аяс гүнзгийрсэн тул хуучин #6B7280 нь 3.6:1 болж AA унана.
+     #596270 нь хамгийн бараан гадаргуу (#DCE0E6) дээр ч 4.6:1 өгнө. */
+  --mdl-muted: #596270;
+  --mdl-line: #CBD2DA;             /* тонтой гадаргуу дээр харагдах заагч */
+  --mdl-control: rgba(255, 255, 255, 0.72);
+  --mdl-hover: #FFFFFF;
+  --mdl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mdl-dur: 560ms;
+
+  /* Гурван давхарга — CSS арга барил нь бус, ОРЧИН нь мэдрэгдэх ёстой:
+       1. Машины ард зөөлөн гэрлийн талбар (radial) — кузовыг тусгаарлана.
+       2. Босоо аяс: хана → машины гэрэлтэй түвшин → шал → сонгогчийн бүс.
+          Шилжилт бүр олон цэгтэй тул 8-бит зурвасжилт үүсэхгүй.
+       3. Хажуугийн маш нарийн уналт — тайзны төв рүү анхаарал татна. */
+  background:
+    radial-gradient(88% 60% at 50% 45%, #FBFCFD 0%, rgba(251, 252, 253, 0) 72%),
+    linear-gradient(
+      90deg,
+      rgba(15, 20, 28, 0.035) 0%,
+      rgba(15, 20, 28, 0) 24%,
+      rgba(15, 20, 28, 0) 76%,
+      rgba(15, 20, 28, 0.035) 100%
+    ),
+    linear-gradient(
+      180deg,
+      var(--mdl-studio-top) 0%,
+      #EFF1F4 18%,
+      var(--mdl-studio-mid) 40%,
+      #F0F2F5 60%,
+      #E7EAEF 74%,
+      var(--mdl-studio-floor) 84%,
+      var(--mdl-rail) 93%,
+      var(--mdl-rail) 100%
+    );
+  padding-block: clamp(2rem, 3.6vw, 3.5rem);
+  overflow: hidden;
+
+  /* Машины хайрцгийн өргөн — гурван хязгаарын хамгийн бага нь: дээд хэмжээ,
+     дэлгэцийн өргөн, БОЛОН үлдэж буй босоо зай. Сүүлийнх нь хэсгийг ямар ч
+     өндөртэй цонхон дээр нэг дэлгэцэнд багтаана.
+
+     Шинэ дэвсгэр илүү амьсгал өгсөн тул 74vw → 78vw (≈+5%). */
+  --car-w: min(1180px, 78vw, max(320px, (100svh - 24rem) * 2.55));
+  /* Бүх хажуу зургийн хамгийн НАРИЙН харьцаа 2.571 (G700 / T1 PHEV). Түүнээс
+     нарийн байхад `contain` дээр машин БҮР өргөнөөрөө дүүрч, ижил уртад
+     харагдана — загвар солиход хэмжээ нь үсрэхгүй. */
+  --car-ar: 2.55;
+}
+
+.mdlsel__inner {
+  margin-inline: auto;
+  width: min(1280px, 94vw, 100vw - 40px);
+}
+
+/* --- Толгой --- */
+.mdlsel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(20px, 3vw, 48px);
+  flex-wrap: wrap;
+}
+
+.mdlsel__id {
+  min-width: 0;
+}
+
+.mdlsel__name {
+  margin: 0;
+  font-size: clamp(32px, 3.6vw, 52px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--mdl-text);
+}
+
+.mdlsel__sub {
+  margin: clamp(8px, 0.8vw, 12px) 0 0;
+  max-width: 34ch;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.5;
+  color: var(--mdl-muted);
+  /* Мөрийн зайг урьдчилан нөөцөлж, загвар солиход хэсэг үсрэхээс сэргийлнэ.
+     Хэмжсэн: одоогийн найман дэд гарчиг 375–1440 хүртэл БҮГД яг нэг мөр тул
+     нөөц нь 1 мөр. (Өмнө нь X50-ийнх 2 мөр болдог байсан учир 3em байв —
+     тэр нь одоо загвар бүрийн доор ~25px хоосон зай үлдээж байсан.)
+     ЧУХАЛ: админаас 2 мөр болох урт дэд гарчиг оруулбал энэ утгыг 3em
+     болгож буцаах хэрэгтэй, эс бөгөөс тэр загвар руу солиход зохиомж үсэрнэ. */
+  min-height: 1.5em;
+}
+
+/* --- Хэмжээст үзүүлэлт — хүрээ/сүүдэргүй, зөвхөн typography --- */
+/* Гурван ТЭНЦҮҮ багана. Урт шошгыг үг таслах замаар богиносгохын оронд
+   баганы өргөнөөр шийдэв — албан ёсны нэршил бүтнээрээ үлдэнэ. */
+.mdlsel__metrics {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Хоёр мөр: 1-т тоо, 2-т шошго. Багана бүр subgrid-ээр эдгээр мөрийг
+     ХУВААЛЦАНА — иймд шошго 1 ч бай 2 мөр ч бай, гурван тоо ҮРГЭЛЖ нэг
+     шугам дээр зогсоно (өмнө нь урт шошго тоогоо дээш түлхдэг байв). */
+  grid-template-rows: auto auto;
+  column-gap: clamp(16px, 2.2vw, 30px);
+  row-gap: 0;
+  width: min(100%, 440px);
+}
+
+/* DOM нь нэр → утга (dl семантик); харагдац нь эргэж, том тоо дээрээ гарна */
+.mdlsel__metric {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
+  min-width: 0;
+}
+
+/* DOM дараалал нь нэр → утга (dl семантик), харагдац нь эргэнэ */
+.mdlsel__metric-value {
+  grid-row: 1;
+}
+
+.mdlsel__metric-label {
+  grid-row: 2;
+}
+
+.mdlsel__metric-value {
+  margin: 0;
+  font-size: clamp(21px, 2vw, 30px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--mdl-text);
+  white-space: nowrap;
+}
+
+.mdlsel__metric-value span {
+  margin-left: 4px;
+  /* Нэгж нь тооны 0.44 хувь — гэхдээ жижиг дэлгэцэнд 9px хүртэл буурдаг
+     байсан тул доод хязгаар тавив. */
+  font-size: max(10.5px, 0.44em);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--mdl-muted);
+  vertical-align: 0.6em;
+}
+
+.mdlsel__metric-label {
+  margin: 7px 0 0;
+  padding-top: 7px;
+  border-top: 1px solid var(--mdl-line);
+  font-size: clamp(11px, 0.72vw, 11.5px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mdl-muted);
+}
+
+/* --- Тайз ---
+   Тайз нь ДЭЛГЭЦ ДҮҮРЭН (100vw) бөгөөд зөвхөн ирмэг дээрээ таслана. Ингэснээр
+   машин "үл үзэгдэх хана"-нд алга болохгүй, дэлгэцийн ирмэгээр жинхэнэ гарч
+   явна (reference сайтынхтай адил). Машин өөрөө голдоо `--car-w` өргөнтэй. */
+.mdlsel__stage {
+  position: relative;
+  margin-top: clamp(10px, 2vw, 30px);
+  /* Бүтэн өргөн — эцэг контейнерээс мулталж, цонхны хоёр ирмэг хүртэл */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  height: calc(var(--car-w) / var(--car-ar));
+  overflow: hidden;
+}
+
+.mdlsel__car {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* Голлуулах нь margin-аар — ингэснээр `transform` нь ЗӨВХӨН анимацийнх
+     болж, WAAPI-ийн keyframe-үүд цэвэр байна. */
+  left: 50%;
+  width: var(--car-w);
+  margin-left: calc(var(--car-w) / -2);
+  /* Замыг WAAPI зурна (`models.tsx`). Энд зөвхөн эцсийн байрлал —
+     CSS transition ЗОРИУДААР байхгүй: `transition-duration: 0.01ms` гэсэн
+     хүртээмжийн ерөнхий дүрэмд баригдаж, гулсалт алга болохоос сэргийлнэ. */
+  will-change: transform;
+}
+
+/* Кузов + дугуйн НЭГДСЭН хайрцаг.
+   Хайрцгийн харьцаа = эх зургийн харьцаа тул зураг яг дүүрнэ; улмаар дугуйн
+   хувиар өгсөн байрлал (`--wx/--wy`) машины зурган дээрх бодит дугуйтай
+   дэлгэцийн ямар ч хэмжээнд таарна. Доогуураа тэгшилсэн тул машин бүр нэг
+   шугам дээр зогсоно — солиход дээш/доош үсрэхгүй. */
+.mdlsel__carbox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Дээгүүр аваачихад маш даруухан томрох — "энэ дарагдана" гэдгийг
+     ойлгуулах хэмжээнд л. `.mdlsel__car`-ын WAAPI шилжилттэй мөргөлдөхгүй:
+     өөр элемент дээр байна. */
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .mdlsel__car:hover .mdlsel__carbox {
+    transform: scale(1.015);
+  }
+}
+
+/* Машиныг бүхэлд нь дэлгэрэнгүй рүү хөтлөх холбоос (харагдах дүрсгүй) */
+.mdlsel__carlink {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.mdlsel__img {
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* --- Дугуй ---
+   Кузовын хайрцгийн ДОТОР байрлана: хэвтээ шилжилтийг эцгээсээ өвлөх тул
+   тусад нь зөөх шаардлагагүй — зөвхөн өөрийн эргэлт нэмэгдэнэ.
+   `translate(-50%, -50%)` нь төвийг нь `--wx/--wy` цэг дээр яг тавина,
+   `transform-origin: center center` нь тэнхлэгээрээ эргүүлнэ. */
+.mdlsel__wheel {
+  position: absolute;
+  left: var(--wx);
+  top: var(--wy);
+  width: var(--ww);
+  height: var(--wh);
+  /* `--roll` — чирэх явцын өнхрөлт (машинаас өвлөнө). Шилжилтийн үед
+     WAAPI өөрөө удирдах тул энэ утга нөлөөлөхгүй. */
+  transform: translate(-50%, -50%) rotate(var(--roll, 0deg));
+  transform-origin: center center;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* --- Доод сонгогч --- */
+.mdlsel__rail {
+  /* Заагч зураас нэмэгдсэн тул дээд зайг дахин хуваарилав — нийт зай
+     (margin + padding) хуучинтайгаа ойролцоо, секцийн өндөр өсөхгүй. */
+  margin-top: clamp(10px, 1.4vw, 20px);
+  padding-top: clamp(12px, 1.6vw, 20px);
+  border-top: 1px solid var(--mdl-line);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(8px, 1.4vw, 20px);
+}
+
+.mdlsel__arrow {
+  width: clamp(44px, 3.2vw, 52px);
+  height: clamp(44px, 3.2vw, 52px);
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--mdl-line);
+  border-radius: 999px;
+  /* Шал тонтой болсон тул бүрэн тунгалаг сум алга болно. Хагас тунгалаг
+     цагаан гадаргуу нь шалнаас ялгарах ч "карт" болохооргүй хөнгөн. */
+  background: var(--mdl-control);
+  color: var(--mdl-text);
+  cursor: pointer;
+  transition: border-color 250ms ease, background 250ms ease, color 250ms ease,
+    opacity 250ms ease, transform 150ms ease;
+}
+
+.mdlsel__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.mdlsel__arrow:hover:not(:disabled) {
+  border-color: var(--mdl-text);
+  background: var(--mdl-hover);
+  color: var(--mdl-text);
+}
+
+.mdlsel__arrow:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.mdlsel__arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.mdlsel__thumbs {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(6px, 1.4vw, 26px);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-block: 4px;
+}
+
+/* Карт/хүрээ/дэвсгэргүй — зөвхөн зураг, нэр, доогуур нимгэн заагч */
+.mdlsel__thumb {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  scroll-snap-align: center;
+}
+
+.mdlsel__thumb-img {
+  position: relative;
+  display: block;
+  width: clamp(76px, 7.4vw, 112px);
+  aspect-ratio: 2.55;
+  /* Идэвхтэй нь бага зэрэг том — зөвхөн transform, layout хөдлөхгүй */
+  transform: scale(0.92);
+  transform-origin: bottom center;
+  /* Бүдгэрэлт нь ЗӨВХӨН зурган дээр. Товч дээр тавибал нэр нь ч өвлөж
+     уншигдахаа больдог (тонтой бүс дээр 2.3:1 болж AA унана). */
+  opacity: 0.62;
+  transition: transform var(--mdl-dur) var(--mdl-ease),
+    opacity var(--mdl-dur) var(--mdl-ease);
+}
+
+.mdlsel__thumb:hover:not(:disabled) .mdlsel__thumb-img {
+  opacity: 0.88;
+}
+
+.mdlsel__thumb.is-active .mdlsel__thumb-img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.mdlsel__thumb-name {
+  position: relative;
+  padding-bottom: 7px;
+  font-size: clamp(11px, 0.8vw, 12px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--mdl-muted);
+  transition: color var(--mdl-dur) ease;
+}
+
+/* Идэвхтэй заагч — нимгэн 2px зураас. Pill/дэвсгэр/тэмдэг ашиглаагүй. */
+.mdlsel__thumb-name::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--mdl-text);
+  transform: translateX(-50%);
+  transition: width var(--mdl-dur) var(--mdl-ease);
+}
+
+.mdlsel__thumb.is-active .mdlsel__thumb-name {
+  font-weight: 800;
+  color: var(--mdl-text);
+}
+
+.mdlsel__thumb.is-active .mdlsel__thumb-name::after {
+  width: 100%;
+}
+
+/* Текстийн зөөлөн орох хөдөлгөөн — машинтай ижил чиглэлтэй, илүү даруухан.
+   Анимацийг ЗӨВХӨН хөдөлгөөн зөвшөөрөгдсөн үед зарлана: `reduce` үед дараа нь
+   дарж унтраахыг оролдвол `[data-dir]`-ын тодорхойлолт давж, текст `from`
+   төлөвтөө (opacity 0) гацах эрсдэлтэй (мөн минификатор тэр давхарга дүрмийг
+   нэгтгэж хаядаг). Ингэснээр `reduce` үед анимаци огт үүсэхгүй. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Текст 700мс — машины 920мс-ээс богино, 140мс хожуу эхэлнэ. Ингэснээр
+     машинаас түрүүлэхгүй, түүнээс арай эрт нам гүм суудаг (§12). */
+  .mdlsel__id {
+    animation: mdlsel-in-right 700ms cubic-bezier(0.22, 1, 0.36, 1) 140ms both;
+  }
+
+  .mdlsel__id[data-dir="-1"] {
+    animation-name: mdlsel-in-left;
+  }
+
+  .mdlsel__metrics {
+    animation: mdlsel-in-right 700ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+  }
+
+  .mdlsel__metrics[data-dir="-1"] {
+    animation-name: mdlsel-in-left;
+  }
+}
+
+/* Хөдөлгөөн багасгасан горим — текст ШУУД үсэрдэггүй байх (§13).
+   Дээрх ерөнхий `*` дарах блок бүх шилжилтийг 0.01мс болгодог тул энд
+   `!important`-оор зөвхөн ЭНЭ хэсгийн текстийг буцааж нээнэ. Хэвтээ шилжилт
+   нэмэхгүй — зөвхөн тунгалагшилт; энэ нь вестибуляр цочрол үүсгэхгүй атлаа
+   агуулга солигдсоныг зөөлөн ойлгуулна. */
+@media (prefers-reduced-motion: reduce) {
+  .mdlsel__id,
+  .mdlsel__metrics {
+    animation: mdlsel-fade 260ms linear both !important;
+  }
+}
+
+@keyframes mdlsel-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mdlsel-in-right {
+  from {
+    opacity: 0;
+    transform: translate3d(26px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mdlsel-in-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-26px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Таблет: үзүүлэлт нэрийн доор бүтэн мөр болно --- */
+@media (max-width: 900px) {
+  .mdlsel__head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(18px, 3vw, 26px);
+  }
+
+  .mdlsel__metrics {
+    width: 100%;
+    gap: 16px;
+  }
+
+  /* `--car-ar`-ыг энд СОЛИХГҮЙ: 2.55-аас өргөн болмогц G700 / T1 PHEV
+     (2.571) өндрөөрөө багтаж, бусдаасаа богино харагдана. */
+  .mdlsel {
+    --car-w: min(1120px, 92vw);
+  }
+}
+
+/* ============================================================
+   УТАС — тусдаа зохиомж (ширээний хувилбарыг шахсан хэлбэр БИШ)
+   ============================================================
+   Хэмжилтээс гарсан гол дүгнэлт: хажуу талын зураг 2.55 харьцаатай тул
+   390px өргөнтэй утсанд машин ердөө ~147px өндөр болно. Өргөнөөр нь цаашид
+   томруулах орон зай алга (аль хэдийн 94vw). Иймд машиныг "том" мэдрүүлэх
+   ганц бодит зам бол ТҮҮНИЙ ЭРГЭН ТОЙРНЫГ чөлөөлж, өрсөлдөгч элементүүдийг
+   тайван болгох — өөрөөр хэлбэл зохиомж, хэмжээ биш.
+
+   Секцийг нэг дэлгэцэнд шахахаа больж, 750–950px өндөр рүү тавьж өгнө (§4).
+   ============================================================ */
+/* Хязгаарыг `.98`-аар өгсний шалтгаан: `devicePixelRatio` бутархай (жишээ нь
+   2.00000003) үед цонхны CSS өргөн 390.00001px болж, `max-width: 390px` ЯГ
+   390px-ийн төхөөрөмж дээр ТААРАХГҮЙ. Хөтчийн zoom дээр ч мөн адил. */
+@media (max-width: 767.98px) {
+  .mdlsel {
+    /* Хажуугийн зай — §21-ийн шатлалын суурь утга */
+    --mdl-pad: 22px;
+    /* Машины эргэн тойрны амьсгал: тайз = машины өндөр + энэ зай */
+    --mdl-stage-air: 84px;
+    /* Машин шалнаас дээш хөвөх зай — доогуураа ч зай үлдэнэ (§11) */
+    --mdl-stage-floor: 44px;
+
+    --car-w: 94vw;
+    /* Нэг дэлгэцэнд багтаах svh хязгаарыг утсанд ХЭРЭГЛЭХГҮЙ (§4, §20) */
+    padding-block: 44px;
+    position: relative;
+  }
+
+  /* §24 — дараагийн секц рүү зөөлөн шилжилт.
+     Models нь #DCE0E6-ээр төгсөж, News нь цагаан тул огцом шат үүсдэг.
+     Заагч зураас нэмэхийн оронд сүүлийн 40px-ийг цагаан руу уусгана.
+     Агуулга 44px дээгүүр дуусдаг тул текст энэ бүсэд орохгүй. */
+  .mdlsel::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+    pointer-events: none;
+  }
+
+  .mdlsel__inner {
+    width: 100%;
+    padding-inline: var(--mdl-pad);
+  }
+
+  /* --- Толгой: нэр → дэд гарчиг → үзүүлэлт (§3) --- */
+  .mdlsel__head {
+    gap: 32px;
+  }
+
+  .mdlsel__name {
+    /* §8: 36–44px. Дэлгэц нарийсахад буурна, гэхдээ 36-аас доош биш. */
+    font-size: clamp(36px, 9.4vw, 44px);
+  }
+
+  .mdlsel__sub {
+    margin-top: 10px;
+    max-width: 30ch;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* --- Үзүүлэлт: гурван тэнцүү багана, уншигдахуйц (§9) --- */
+  .mdlsel__metrics {
+    width: 100%;
+    column-gap: 14px;
+  }
+
+  .mdlsel__metric-value {
+    font-size: clamp(24px, 6.6vw, 30px);
+  }
+
+  .mdlsel__metric-label {
+    margin-top: 9px;
+    padding-top: 9px;
+    /* Шошго нь §9-ийн дагуу 2 мөр болж болно — жижигрүүлж нэг мөрт
+       шахахгүй. subgrid тул гурван тоо нэг шугам дээр зогссон хэвээр. */
+    font-size: 11px;
+    letter-spacing: 0.07em;
+  }
+
+  /* --- Тайз: машиндаа зориулсан уужим орон зай (§6) --- */
+  .mdlsel__stage {
+    margin-top: 34px;
+    height: calc(var(--car-w) / var(--car-ar) + var(--mdl-stage-air));
+  }
+
+  /* Машин тайзныхаа доод хэсэгт, гэхдээ шалан дээр наалдалгүй зогсоно */
+  .mdlsel__car {
+    bottom: var(--mdl-stage-floor);
+  }
+
+  /* --- Сонгогч: тайзнаас тодорхой салсан бүс (§12) --- */
+  .mdlsel__rail {
+    margin-top: 38px;
+    padding-top: 22px;
+    padding-bottom: 4px;
+    gap: 10px;
+  }
+
+  .mdlsel__arrow {
+    /* §15: хүрэхэд тухтай, гэхдээ том хар товч биш */
+    width: 46px;
+    height: 46px;
+  }
+
+  .mdlsel__thumbs {
+    justify-content: flex-start;
+    gap: 18px;
+    /* Идэвхтэйг голлуулах үед хоёр захын элемент ч гол хүртэл гүйж чадна */
+    scroll-padding-inline: 50%;
+    padding-inline: 2px;
+  }
+
+  .mdlsel__thumb {
+    gap: 10px;
+    padding: 4px 2px 0;
+  }
+
+  .mdlsel__thumb-img {
+    /* §13: 85–110px */
+    width: clamp(88px, 24vw, 110px);
+    /* §13: идэвхгүй нь 0.45–0.60 — таних боломжтой хэвээр */
+    opacity: 0.55;
+  }
+
+  .mdlsel__thumb-name {
+    font-size: 11px;
+    padding-bottom: 8px;
+  }
+}
+
+/* §21 — нарийн утас: зөвхөн ХЭВТЭЭ зайг хумина.
+   Босоо амьсгалыг эндээс хасахгүй: §22-ын "бүгдийг жижигрүүл" алдаа руу
+   орох бөгөөд яг тэр нь одоогийн шахагдсан харагдацыг үүсгэсэн. */
+@media (max-width: 390.98px) {
+  .mdlsel {
+    --mdl-pad: 20px;
+    --mdl-stage-air: 76px;
+    /* 96vw дээр машин дэлгэцийн ирмэгээс ердөө ~7px зайтай болж, тайрагдсан
+       мэт харагдана. 93vw нь §5-ийн 85–95% мужид, ирмэг нь ч тодорхой. */
+    --car-w: 93vw;
+  }
+
+  .mdlsel__head {
+    gap: 28px;
+  }
+
+  .mdlsel__metrics {
+    column-gap: 11px;
+  }
+
+  .mdlsel__thumbs {
+    gap: 14px;
+  }
+}
+
+/* §21 — том утас / жижиг таблет: илүү уужим, машин арай том */
+@media (min-width: 431px) and (max-width: 767.98px) {
+  .mdlsel {
+    --mdl-pad: 24px;
+    --mdl-stage-air: 104px;
+    --mdl-stage-floor: 52px;
+    --car-w: 90vw;
+    padding-block: 50px;
+  }
+
+  .mdlsel__head {
+    gap: 36px;
+  }
+
+  .mdlsel__stage {
+    margin-top: 42px;
+  }
+
+  .mdlsel__rail {
+    margin-top: 46px;
+  }
+}
+
+
+/* ============================================================
+   Загваруудын хуудас — кино маягийн толгой + showroom каталог
+   ============================================================ */
+.mhero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  /* Fixed navbar (4rem) доор эхэлдэг тул түүнийг нэмж тооцов —
+     гарчиг цэсний доор орж таслагдахгүй.
+
+     ӨНДӨР: эталон брэндийн лайнап хуудсуудтай ижил НАМХАН баннер —
+     1920px дэлгэцэнд ~400px (өмнө 520px байсан нь дэлгэцийн 55%-ийг эзэлж,
+     загварын картууд эхний дэлгэцэнд бараг харагдахгүй байв). Одоо
+     баннерын дараа картууд шууд харагдана. */
+  height: clamp(240px, 22vw, 400px);
+  margin-top: 4rem;
+  overflow: hidden;
+  background: #0E0E10;
+}
+
+.mhero__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.15) 42%, transparent 68%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.38) 0%, transparent 52%);
+}
+
+.mhero__inner {
+  position: relative;
+  z-index: 2;
+  width: min(1280px, 94vw, 100vw - 40px);
+  padding-bottom: clamp(28px, 4vw, 56px);
+}
+
+.mhero__title {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.35);
+}
+
+.mhero__lead {
+  margin: clamp(8px, 1vw, 12px) 0 0;
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* --- Каталогийн карт --- */
+.vcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 16px;
+  background: #FFFFFF;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.vcard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -26px rgba(23, 24, 27, 0.35);
+}
+
+/* Бүх загварт ижил хэмжээст талбай — машины харагдац нормчлогдоно */
+.vcard__media {
+  position: relative;
+  aspect-ratio: 5 / 3;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  background: #F6F7F8;
+}
+
+.vcard__img {
+  padding: 6%;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vcard:hover .vcard__img {
+  transform: scale(1.035);
+}
+
+.vcard__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #E20A17;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(16px, 1.6vw, 20px) 4px clamp(6px, 0.8vw, 10px);
+}
+
+.vcard__name {
+  margin: 0;
+  font-size: clamp(18px, 1.5vw, 21px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #111111;
+}
+
+/* Stretched link — картын аль ч хэсгийг дарж болно, гэхдээ доторх
+   товчнууд (z-index 3) дээгүүр үлдэнэ. */
+.vcard__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 16px;
+}
+
+.vcard__series {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #6B6B6B;
+}
+
+.vcard__price {
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.vcard__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: clamp(12px, 1.4vw, 16px);
+  padding-top: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B6B6B;
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+
+.vcard:hover .vcard__cta {
+  gap: 10px;
+  color: #E20A17;
+}
+
+/* ============================================================
+   Premium Features — кинематик хэвтээ карусель (загварын хуудас)
+   Голд том актив зураг, хажуу талд хөрш зураг хэсэгчлэн.
+
+   Геометр нь бүхэлдээ `--pf-w` (актив слайдын өргөн, stage-ийн %) дээр
+   тулгуурлана. Слайд бүр stage-ийн голоос `--pf-offset × (100% + gap)`-аар
+   шилждэг тул хажуугийн зурвасын өргөн ((100% − --pf-w) / 2 − gap) өөрөө
+   гарна. Stage-ийн `aspect-ratio` = 1 / (--pf-w × 9/16) — ингэснээр актив
+   зураг яг 16:9 хэвээр, машин хэзээ ч тэлэхгүй/сунахгүй.
+   ============================================================ */
+.x50pf {
+  /* Актив зургийн өргөн. 88% → 94%: зураг мэдэгдэхүйц томорч, хажуугийн
+     зургийн цухуйлт (энэ хэсгийн ГОЛ онцлог) хэвээр үлдэнэ. */
+  --pf-w: 94%;
+  --pf-gap: 12px;
+  /* Хажуугийн зураг: 0.97 → 1 (актив болоход бага зэрэг "нээгдэнэ").
+     Хэмжээ нь голоосоо агшдаг тул харагдах зай = --pf-gap + шингэсэн хэсэг. */
+  --pf-scale: 0.97;
+  --pf-nav-size: 46px;
+  --pf-nav-x: 10px;
+  --pf-radius: 16px;
+  --pf-ink: #17181B;
+  --pf-body: #54585F;
+  --pf-kicker: #696F79;
+
+  background: #FFFFFF;
+  padding-block: clamp(56px, 7vw, 140px);
+  overflow: hidden;
+}
+
+/* --- Толгой --- */
+/* Толгой нь Технологийн хэсэгтэй НЭГ систем: голлосон, хөнгөн жинтэй.
+   Нэг хуудсан дээр хоёр өөр гарчгийн маяг байвал тогтворгүй харагдана. */
+.x50pf__head {
+  margin-inline: auto;
+  width: min(1560px, 94vw, 100vw - 40px);
+  margin-bottom: clamp(24px, 3.4vw, 48px);
+  text-align: center;
+}
+
+.x50pf__kicker {
+  margin: 0 0 clamp(10px, 1.1vw, 14px);
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pf-kicker);
+}
+
+.x50pf__title {
+  /* Мөрийн хязгаар нь ГАРЧИГТ өөрт нь: толгой элемент дээр `ch` тавибал
+     ЭЦГИЙН фонтоор (16px) тооцогдож, 52px гарчиг цаг бусаар хоёр мөр
+     болдог ("ДОТООД / ОРЧИН").  нь голлуулна. */
+  margin: 0 auto;
+  max-width: 22ch;
+  font-size: clamp(28px, 4.6vw, 52px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--pf-ink);
+  text-wrap: balance;
+}
+
+.x50pf__lead {
+  margin: clamp(10px, 1.2vw, 16px) auto 0;
+  max-width: 46ch;
+  font-size: clamp(15px, 1.35vw, 21px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--pf-body);
+}
+
+/* --- Карусель --- */
+.x50pf__carousel {
+  position: relative;
+}
+
+.x50pf__stage {
+  position: relative;
+  margin-inline: auto;
+  width: min(1560px, 94vw, 100vw - 40px);
+  /* Утас: зураг (16:9) + доорх текст.
+     Өмнө 116vw (375px-д 435px) байсан ч агуулгын хамгийн их нь 381px —
+     103px цагаан хоосон зай гардаг байв. Одоо 104vw (390px): хамгийн урт
+     слайдад 9px амьсгал үлдэнэ.
+
+     Мөрийн хязгаарлалт (line-clamp) ХЭРЭГЛЭХГҮЙ: тайлбар 119–175 тэмдэгт
+     тул 3 мөрөнд багтахгүй, "…" болж тасардаг байв. Агуулга бүтэн байх нь
+     хэдэн пиксел зайнаас чухал. */
+  height: clamp(370px, 104vw, 620px);
+  outline-offset: 6px;
+}
+
+.x50pf__slide {
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: var(--pf-w);
+  margin-left: calc(var(--pf-w) / -2);
+  display: flex;
+  flex-direction: column;
+  /* 100% нь слайдын өөрийн өргөн — offset тус бүр нэг слайд + gap */
+  /* `--pf-drag` — чирэх явцын px шилжилт (stage-ээс өвлөнө). Индекс биш тул
+     тусад нь нэмнэ: слайд хуруу дагаж хөдөлж, тавихад 0 болно. */
+  transform: translateX(
+      calc(var(--pf-offset) * (100% + var(--pf-gap)) + var(--pf-drag, 0px))
+    )
+    scale(var(--pf-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.x50pf__slide.is-near {
+  opacity: 0.62;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.x50pf__slide.is-near:hover {
+  opacity: 0.8;
+}
+
+.x50pf__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(calc(var(--pf-offset) * (100% + var(--pf-gap)))) scale(1);
+}
+
+.x50pf__media {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--pf-radius);
+  background: #F5F5F6;
+}
+
+.x50pf__img {
+  object-fit: cover;
+}
+
+/* Уншигдацын gradient — зөвхөн текст зураг дээр байх үед (≥640px) */
+.x50pf__scrim {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 62%;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(6, 7, 9, 0.74) 0%,
+    rgba(6, 7, 9, 0.46) 34%,
+    rgba(6, 7, 9, 0.12) 68%,
+    rgba(6, 7, 9, 0) 100%
+  );
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- Слайдын текст: утсанд зургийн доор, ≥640px-д зураг дээр ---
+   Зөвхөн актив слайдын текст харагдана: хажуугийн зурвасаас тасархай
+   өгүүлбэр цухуйхгүй. */
+.x50pf__copy {
+  min-height: 0;
+  padding: clamp(12px, 2.8vw, 18px) 2px 0;
+  opacity: 0;
+}
+
+/* Текстийн зөөлөн мандалт. `x50pf` (хөрш цухуйсан карусель) хэрэглэнэ.
+   `x50tech` нь зураг+текстийг НЭГ мөрөөр хамт шилжүүлдэг болсон тул
+   тэнд хэрэглэхээ больсон, гэхдээ нэрийг хөндөөгүй. */
+@keyframes x50tech-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Зураг сууж байх зуур текст нь дараа орж ирнэ: нэр → өгүүлбэр 70мс зөрүүтэй.
+   Технологийн хэсэгтэй ижил хэмнэл — хуудасны хөдөлгөөн нэг гартай болно. */
+.x50pf__slide.is-active .x50pf__copy {
+  opacity: 1;
+}
+
+.x50pf__slide.is-active .x50pf__feature-title,
+.x50pf__slide.is-active .x50pf__text {
+  animation: x50tech-copy-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.x50pf__slide.is-active .x50pf__feature-title {
+  animation-delay: 250ms;
+}
+
+.x50pf__slide.is-active .x50pf__text {
+  animation-delay: 320ms;
+}
+
+.x50pf__feature-title {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 44px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--pf-ink);
+}
+
+.x50pf__text {
+  margin: clamp(8px, 1vw, 14px) 0 0;
+  max-width: 650px;
+  font-size: clamp(15px, 1.15vw, 18px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--pf-body);
+}
+
+/* --- Сум — нимгэн цагаан сум, бараан нейтрал суурь --- */
+.x50pf__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  width: var(--pf-nav-size);
+  height: var(--pf-nav-size);
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 10px;
+  background: rgba(14, 15, 18, 0.62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Утсанд текст зургийн доор байдаг тул сумыг stage-ийн голд биш, зургийн
+   голд тааруулна. Зургийн өндөр = stage өргөн (94vw) × --pf-w (88%) × 9/16
+   = 46.5vw; түүний хагас нь 23.25vw. (<640px-д 94vw < 1560px тул тогтмол.) */
+.x50pf__nav {
+  top: 23.25vw;
+}
+
+.x50pf__nav svg {
+  width: calc(var(--pf-nav-size) * 0.46);
+  height: calc(var(--pf-nav-size) * 0.46);
+}
+
+.x50pf__nav--prev {
+  left: var(--pf-nav-x);
+}
+
+.x50pf__nav--next {
+  right: var(--pf-nav-x);
+}
+
+.x50pf__nav:hover {
+  background: rgba(14, 15, 18, 0.82);
+}
+
+.x50pf__nav--prev:hover {
+  transform: translate(-2px, -50%);
+}
+
+.x50pf__nav--next:hover {
+  transform: translate(2px, -50%);
+}
+
+/* --- Тоолуур --- */
+.x50pf__foot {
+  margin-inline: auto;
+  width: min(1560px, 94vw, 100vw - 40px);
+  margin-top: clamp(12px, 1.6vw, 22px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Тоолуур ("01 / 05") илүүц: зурвас өөрөө байрлалыг заана. Дэлгэц уншигчид
+   зориулсан мэдэгдэл нь доор `role="status"`-аар тусад нь гарна. */
+.x50pf__counter {
+  display: none;
+}
+
+.x50pf__counter {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  color: #696F79;
+  white-space: nowrap;
+}
+
+.x50pf__counter em {
+  font-style: normal;
+  margin: 0 5px;
+  color: #C5C8CC;
+}
+
+/* Технологийн хэсэгтэй ижил: зүүнээс дүүрдэг үргэлжилсэн зурвас.
+   Өргөн нь актив зургийн өргөнтэй (`--pf-w`) тэнцэнэ — зурвас нь тухайн
+   зургийн "хэр үзсэн" хэмжүүр гэдэг нь харцаар мэдэгдэнэ. */
+.x50pf__progress {
+  display: flex;
+  gap: 0;
+  width: var(--pf-w, 100%);
+  max-width: 100%;
+}
+
+.x50pf__seg {
+  flex: 1 1 0;
+  /* Товшилтын бай 44px, харагдах зузаан 6px (өмнө 17×14 — хуруунд жижиг) */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.x50pf__seg::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 6px;
+  background: #D9DADD;
+  transition: background-color 260ms ease;
+}
+
+/* Идэвхтэй ба түүнээс ӨМНӨХ бүх хэсэг өнгөтэй — "хэр үзсэн" нь харагдана.
+   Зөвхөн идэвхтэйг өнгөлбөл зурвас дундуур нүх шиг харагдана. */
+.x50pf__seg[aria-current="true"]::before,
+.x50pf__seg:has(~ .x50pf__seg[aria-current="true"])::before {
+  background: #E2231A;
+}
+
+/* --- ≥640px: текст зураг дээр, stage нь актив зургаас өндрөө авна --- */
+@media (min-width: 640px) {
+  .x50pf {
+    --pf-w: 84%;
+    --pf-gap: 10px;
+    --pf-nav-size: 52px;
+    --pf-radius: 18px;
+    --pf-ink: #FFFFFF;
+    --pf-body: rgba(255, 255, 255, 0.86);
+    --pf-kicker: rgba(255, 255, 255, 0.74);
+  }
+
+  /* Толгой нь секцийн цагаан дэвсгэр дээр — өнгө нь ink хэвээр */
+  .x50pf__head {
+    --pf-ink: #17181B;
+    --pf-body: #54585F;
+    --pf-kicker: #696F79;
+  }
+
+  .x50pf__stage {
+    /* 16 / (--pf-w × 9) — актив зураг яг 16:9 (0.84 → 2.116) */
+    height: auto;
+    aspect-ratio: 2.116;
+  }
+
+  .x50pf__media {
+    flex: 1 1 auto;
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+
+  .x50pf__scrim {
+    opacity: 1;
+  }
+
+  .x50pf__copy {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: clamp(20px, 3vw, 44px) clamp(20px, 3.4vw, 52px);
+    transform: translateY(10px);
+  }
+
+  .x50pf__slide.is-active .x50pf__copy {
+    transform: none;
+    transition-delay: 120ms;
+  }
+
+  .x50pf__nav {
+    /* Актив ба хажуугийн зургийн зааг дээр — бага зэрэг давхарлана */
+    top: 50%;
+    --pf-nav-x: calc(50% - var(--pf-w) / 2 - var(--pf-nav-size) / 2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .x50pf {
+    --pf-w: 76%;
+    --pf-gap: 12px;
+    --pf-nav-size: 60px;
+    --pf-radius: 20px;
+  }
+
+  .x50pf__stage {
+    /* 0.76 → 2.339 */
+    aspect-ratio: 2.339;
+  }
+}
+
+@media (min-width: 1280px) {
+  .x50pf {
+    --pf-w: 67%;
+    --pf-gap: 12px;
+    --pf-nav-size: clamp(60px, 4.4vw, 68px);
+  }
+
+  .x50pf__stage {
+    /* 0.67 → 2.654 (1560px өргөнд ≈ 588px өндөр) */
+    aspect-ratio: 2.654;
+  }
+}
+
+/* Хөдөлгөөн мэдрэмтгий хэрэглэгчид — масштаб/шилжилтгүй, зөвхөн солигдоно
+   (transition-ийг base layer дээр аль хэдийн 0.01ms болгосон). */
+@media (prefers-reduced-motion: reduce) {
+  .x50pf {
+    --pf-scale: 1;
+  }
+
+  .x50pf__nav--prev:hover,
+  .x50pf__nav--next:hover {
+    transform: translateY(-50%);
+  }
+
+  .x50pf__copy {
+    transform: none !important;
+  }
+}
+
+
+/* ============================================================
+   ТЕХНОЛОГИЙН ОНЦЛОХ — тайван editorial блок (каталог биш)
+   ============================================================
+   Зарчим: зураг давамгайлна, текст цөөн. Слайдер/товч/badge байхгүй тул
+   хуудсанд нэмэлт харилцан үйлдэл, JS ачаалал үүсгэхгүй. Хуудасны бусад
+   хэсэгтэй ижил цагаан суурь — шинэ визуал сэдэв нэмэхгүй.
+   ============================================================ */
+/* ============================================================
+   ТЕХНОЛОГИ — слайдер (десктоп ба утас нэг зохиомжтой)
+
+   Эталон: албан ёсны JETOUR сайтын "INTELLIGENT DRIVING" блок.
+    • Толгой ГОЛЛОНО: том том үсэг, ХӨНГӨН жин (400), доор нэг мөр тайлбар.
+    • Десктоп — зүүнд том зураг, баруунд нэр ба өгүүлбэр (тэнхлэгээр голлоно).
+    • Утас — зургийн карт, доор нь голлосон нэр/өгүүлбэр.
+    • Сум нь зургийн хажууд; байрлалыг зүүнээс дүүрдэг зурвас заана.
+
+   ХӨДӨЛГӨӨН (гол шаардлага):
+    1. Чиглэлтэй: баруун тийш дарвал шинэ зураг БАРУУН булангаас гүйж орж,
+       хуучин нь зүүн тийш гарна. Зүүн тийш дарвал эсрэгээр. Слайд бүр
+       идэвхтэйгээсээ хамгийн дөт талд байрладаг тул чиглэл нь үргэлж зөв
+       (`cyclicOffset`) — цикл эргэлтэд ч бүх слайдаар ухарч буцахгүй.
+    2. Гүн: зураг слайдаасаа удаан хөдөлнө (parallax) — хавтгай гулсалт биш.
+    3. Текст нь зурагтай ХОЛБООТОЙ: зураг ирж суусны дараа нэр → өгүүлбэр
+       жижиг зөрүүтэйгээр (0 / 70мс) дээшээ гарч ирнэ. Ингэснээр "зураг
+       ирлээ, дараа нь түүний тайлбар" гэсэн шалтгаан-үр дагаврын мэдрэмж
+       үүснэ.
+    4. Хугацаа: слайд 620мс (жинтэй, automotive хэмнэл), текст 460мс.
+       Хөдөлгөөн мэдрэмтгий үед зөвхөн чиглэл үлдэж, текстийн эффект унтарна.
+   ============================================================ */
+.x50tech {
+  --tech-ink: #17181B;
+  --tech-muted: #54585F;
+  --tech-line: #E7E7EA;
+  --tech-slide: 660ms;
+  --tech-ease: cubic-bezier(0.4, 0.01, 0.22, 1);
+  /* Кадрын харьцаа — ЭХ ЗУРГИЙНХ, компонентоос дамжина (тайралт 0%).
+     Анхдагч 1.89 нь X50-ийн эх зурагтай тохирно. */
+  --tech-aspect: 1.89;
+  background: #FFFFFF;
+  /* Editorial feature хэсэг — hero биш тул нягт (өмнө 56–116px байсан) */
+  padding-block: clamp(40px, 4.6vw, 76px);
+}
+
+/* --- Толгой: голлосон, хөнгөн жинтэй --- */
+.x50tech__head {
+  /* Гарчиг ба композицийн хооронд хяналттай зай (өмнө 24–44px) */
+  margin: 0 auto clamp(16px, 2.2vw, 30px);
+  text-align: center;
+}
+
+.x50tech__title {
+  /* Мөрийн хязгаар нь гарчигт өөрт нь (толгой дээр `ch` тавибал эцгийн
+     фонтоор тооцогдоно).  нь голлуулна. */
+  margin: 0 auto;
+  max-width: 22ch;
+  /* Хөнгөн жин + тэгш мөрийн зай = агаартай, тайван (эталонтой ижил) */
+  font-size: clamp(28px, 4.6vw, 52px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--tech-ink);
+  text-wrap: balance;
+}
+
+.x50tech__sub {
+  margin: clamp(10px, 1.2vw, 16px) auto 0;
+  max-width: 46ch;
+  font-size: clamp(15px, 1.35vw, 21px);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--tech-muted);
+}
+
+/* --- Тайз: слайд бүр дээр дээрээ, идэвхтэй нь голд --- */
+.x50tech__list {
+  position: relative;
+  overflow: hidden;
+  /* Өндөр = зургийн карт + текстийн зай (утас). Десктоп дээр доор дарагдана. */
+  min-height: calc((100vw - 40px) / var(--tech-aspect) + 150px);
+}
+
+.x50tech__row {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vw, 20px);
+  transition: transform var(--tech-slide) var(--tech-ease);
+  will-change: transform;
+}
+
+/* --- Зураг --- */
+.x50tech__media {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  /* Эх зургуудын харьцаа — тайрахгүй */
+  aspect-ratio: var(--tech-aspect);
+  overflow: hidden;
+  background: #F5F5F6;
+}
+
+/* Гүний давхарга: зураг слайдаасаа удаан хөдөлнө.
+   Хэвтээ 8%-ийн зөрүүг нөхөхийн тулд 116% өргөнтэй, зүүн -8%. */
+.x50tech__parallax {
+  position: absolute;
+  top: 0;
+  left: -8%;
+  width: 116%;
+  height: 100%;
+  transition: transform var(--tech-slide) var(--tech-ease);
+  will-change: transform;
+}
+
+.x50tech__img {
+  object-fit: cover;
+}
+
+/* --- Текст --- */
+.x50tech__copy {
+  min-width: 0;
+  text-align: center;
+}
+
+.x50tech__name {
+  margin: 0;
+  font-size: clamp(17px, 1.9vw, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--tech-ink);
+}
+
+.x50tech__text {
+  margin: clamp(6px, 0.8vw, 14px) 0 0;
+  font-size: clamp(13.5px, 1.1vw, 17px);
+  line-height: 1.6;
+  color: var(--tech-muted);
+}
+
+/* НЭГДСЭН ХӨДӨЛГӨӨН — зураг ба текст НЭГ editorial слайд болж хамт шилжинэ.
+   Өмнө нь текст 250/320мс сааталтай тусад нь мандаж, гарах текст нь шууд
+   алга болдог тул "зураг өөрчлөгдөхөд хуучин текст үлдсэн" мэдрэмж төрдөг
+   байв. Одоо мөр бүхэлдээ (зураг + текст) translate-ээр нүүнэ: гарах ба орох
+   нь ижил хэмнэлтэй, синхрон. Мөр нь ±100% тул хөрш слайдын текст кадраас
+   гадна байрлаж, харагдахгүй — тусад нь нуух шаардлагагүй. */
+
+/* --- Сум: зургийн хоёр захад --- */
+.x50tech__edge {
+  position: absolute;
+  /* Зургийн картын босоо голд */
+  top: calc((100vw - 40px) / var(--tech-aspect) / 2);
+  transform: translateY(-50%);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  /* Хөнгөн: нимгэн хүрээ, цайвар шилэн дэвсгэр, бараан сум.
+     Өмнө нь 44×56 хар тэгш дөрвөлжин зургийг дардаг байв. */
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(23, 24, 27, 0.14);
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--tech-ink);
+  cursor: pointer;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+/* Кадрын дотор талд суух — зургийн зах дээр дарагдахгүй */
+.x50tech__edge--prev {
+  left: clamp(8px, 1.2vw, 16px);
+}
+
+.x50tech__edge--next {
+  right: clamp(8px, 1.2vw, 16px);
+}
+
+.x50tech__edge:hover {
+  background: #FFFFFF;
+  border-color: rgba(23, 24, 27, 0.34);
+}
+
+.x50tech__edge:active {
+  border-color: #E2231A;
+  color: #E2231A;
+}
+
+.x50tech__edge:focus-visible {
+  outline: 2px solid var(--tech-ink);
+  outline-offset: 2px;
+}
+
+/* --- Прогресс: зүүнээс дүүрдэг үргэлжилсэн зурвас --- */
+.x50tech__progress {
+  display: flex;
+  gap: 0;
+  margin-top: clamp(10px, 1.2vw, 16px);
+}
+
+.x50tech__seg {
+  flex: 1 1 0;
+  /* Товшилтын бай 44px, харагдах зузаан 6px */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Нимгэн зурвас: 2px зам. Улаан нь ЗӨВХӨН идэвхтэй хэсэгт — өмнө нь
+   6px зузаан, идэвхтэйгээс өмнөх бүх хэсэг улаан байсан тул хэсгийн
+   хамгийн тод элемент болж, композицийг дарж байв. */
+.x50tech__seg::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--tech-line);
+  transition: background-color 260ms ease;
+}
+
+.x50tech__seg[aria-current="true"]::before {
+  background: #E2231A;
+}
+
+.x50tech__seg:hover::before {
+  background: #C9CACE;
+}
+
+.x50tech__seg[aria-current="true"]:hover::before {
+  background: #E2231A;
+}
+
+/* ============================================================
+   ДЕСКТОП (≥1024px): зүүнд зураг, баруунд текст
+   ============================================================ */
+@media (min-width: 1024px) {
+  .x50tech__list {
+    /* Зургийн өндөр (62% өргөний 1.89 харьцаа) — текст түүн дотор голлоно */
+    min-height: calc((min(1280px, 94vw) * 0.62) / var(--tech-aspect));
+  }
+
+  .x50tech__row {
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(32px, 4vw, 72px);
+  }
+
+  .x50tech__media {
+    width: 62%;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .x50tech__copy {
+    flex: 1 1 auto;
+    text-align: left;
+  }
+
+  .x50tech__text {
+    max-width: 40ch;
+  }
+
+  /* Сум нь зургийн ДОТОР талд, босоо голдоо. Хөнгөн хэвээр — өмнө нь
+     52×64 болж томроод зургийн захыг дардаг байв. */
+  .x50tech__edge {
+    top: 50%;
+    width: 48px;
+    height: 48px;
+  }
+
+  .x50tech__edge--prev {
+    left: 16px;
+  }
+
+  /* Дараагийн сум нь зургийн БАРУУН захад (текстийн хажууд биш) */
+  .x50tech__edge--next {
+    left: calc(62% - 48px - 16px);
+    right: auto;
+  }
+
+  .x50tech__progress {
+    width: 62%;
+  }
+}
+
+/* ============================================================
+   360° КОНФИГУРАТОР — дижитал шоурүүм
+   ============================================================
+   Зарчим: машин л агуулга, UI нь зөвхөн удирдлага. Гарчиг жижиг, сонголт
+   авсаархан, дэвсгэр бараг мэдэгдэхгүй. Чимэглэл нэмэхийн оронд шатлал
+   болон зайгаар харагдац бүрдүүлэв.
+   ============================================================ */
+.spin {
+  --spin-ink: #17181B;
+  --spin-muted: #696F79;
+  position: relative;
+  /* Эцэг контейнерээс мулталж, цонхны хоёр ирмэг хүртэл */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  /* Студийн гэрэлтүүлэг: голоос зөөлөн гэрэл, доошоо арай гүнзгий шал.
+     Хоёулаа маш бага ялгаатай — "градиент" гэж мэдрэгдэхгүй. */
+  background:
+    radial-gradient(70% 55% at 50% 42%, #FFFFFF 0%, rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #FAFAFB 0%, #F4F5F7 64%, #ECEEF1 100%);
+  padding-block: clamp(24px, 3vw, 44px) clamp(22px, 3vw, 40px);
+  /* Хэсэг ДЭЛГЭЦ ДҮҮРЭН: цэсний өндрийг хасаад үлдсэнийг бүхэлд нь эзэлнэ.
+     Өмнө нь агуулгын өндөр (473px) 669px цонхонд багтаж, дээр доор нь
+     196px хоосон зай үлдэж, хэсэг тал дундуур тасарсан мэт харагддаг байв. */
+  min-height: calc(100svh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --- Загварын таних тэмдэг (§5): тод, гэхдээ машинтай өрсөлдөхгүй --- */
+.spin__id {
+  width: min(1280px, 94vw, 100vw - 40px);
+  margin-inline: auto;
+  margin-bottom: clamp(10px, 1.6vw, 20px);
+}
+
+.spin__model-en {
+  margin: 4px 0 0;
+  font-size: clamp(11.5px, 0.95vw, 13.5px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--spin-muted);
+}
+
+.spin__model {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--spin-ink);
+}
+
+
+/* --- Тайз --- */
+.spin__stage {
+  position: relative;
+  width: 100%;
+  /* Гарчиг, өнгөний сонголтоос үлдсэн БҮХ зайг эзэлнэ. Зураг `contain` тул
+     машин өргөн/өндрийн алинд нь ч багтаж, хэзээ ч тайрагдахгүй. */
+  flex: 1 1 auto;
+  min-height: 0;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.spin__stage.is-ready { cursor: grab; }
+.spin__stage.is-ready:active { cursor: grabbing; }
+
+.spin__stage:focus-visible {
+  outline: 2px solid var(--spin-ink);
+  outline-offset: -3px;
+}
+
+/* Шалны нимгэн зууван шугам — тусдаа сүүдэр нэмэхгүй, эх зургийнхыг хадгална */
+/* Шал: 1px зууван ЗУРААС нь "зурсан дүрс" мэт уншигдаж, машин
+   цагаан дэвсгэр дээр "наасан PNG" мэт болгодог байв. Замын
+   оронд зөөлөн radial сүүдэр — дэвсгэртэй уусаж, машиныг газарт
+   байрлуулна (чимэг биш, grounding). */
+.spin__floor {
+  position: absolute;
+  left: 50%;
+  bottom: 13%;
+  width: min(52%, 780px);
+  aspect-ratio: 5.2;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(23, 24, 27, 0.10) 0%,
+    rgba(23, 24, 27, 0.055) 46%,
+    rgba(23, 24, 27, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.spin__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* === Будаг солих шилжилт ===
+   Хэмжсэн үндэслэл: хоёр өнгийн кадр нь СИЛУЭТЭЭРЭЭ 0.000% зөрүүтэй буюу
+   пиксел түвшинд яг давхцдаг; зөвхөн биеийн 30.8% нь өнгөөр ялгаатай.
+   Дугуй, шил, сараалж, сүүдэр нь ИЖИЛ ПИКСЕЛ тул уусгалт тэдгээрийг
+   хөдөлгөж, сүүмэлзүүлж чадахгүй — зөвхөн будаг солигдоно.
+
+   Гэвч ЖИГД уусгалт нь "зураг солигдлоо" мэт мэдрэгддэг: бүх талбар нэгэн
+   зэрэг өөрчлөгддөг. Бодит будаг тэгдэггүй. Иймд маскаар ЧИГЛЭЛТЭЙ урсгал
+   үүсгэв — шинэ будаг хамар талаас сүүл рүү нэвт гүйнэ. Машин огт хөдлөхгүй;
+   зөвхөн будгийн давхарга нээгдэнэ. */
+.spin__frame.is-painting {
+  animation: spin-paint-fade 700ms cubic-bezier(0.4, 0, 0.15, 1) both;
+}
+
+@keyframes spin-paint-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Маск дэмжигддэг хөтөчид уусгалтын оронд чиглэлтэй урсгал.
+   Ирмэг нь 30% өргөн зөөлрөлттэй тул шулуун шугам болж харагдахгүй. */
+@supports (mask-image: linear-gradient(#000, #000)) or (-webkit-mask-image: linear-gradient(#000, #000)) {
+  .spin__frame.is-painting {
+    animation: spin-paint-wipe 700ms cubic-bezier(0.4, 0, 0.15, 1) both;
+    -webkit-mask-image: linear-gradient(100deg, #000 0%, #000 22%, rgba(0,0,0,0) 52%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(100deg, #000 0%, #000 22%, rgba(0,0,0,0) 52%, rgba(0,0,0,0) 100%);
+    -webkit-mask-size: 260% 100%;
+    mask-size: 260% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  @keyframes spin-paint-wipe {
+    from {
+      opacity: 1;
+      -webkit-mask-position: 165% 0;
+      mask-position: 165% 0;
+    }
+    to {
+      opacity: 1;
+      -webkit-mask-position: -65% 0;
+      mask-position: -65% 0;
+    }
+  }
+}
+
+/* --- Анхны ачаалалт: тоо, зураас биш — нам гүм эргэлт --- */
+.spin__loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+}
+
+.spin__spinner {
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(23, 24, 27, 0.14);
+  border-top-color: rgba(23, 24, 27, 0.55);
+  border-radius: 50%;
+  animation: spin-rotate 800ms linear infinite;
+}
+
+@keyframes spin-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Эхний удаагийн сэжүүр --- */
+.spin__hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(14px, 4vh, 30px);
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--spin-muted);
+  white-space: nowrap;
+  pointer-events: none;
+  /* Ҹмнө ±4px байсан — анхаарал татах шиг байв. ±2px нь чирэх боломжтойг
+     мэдэгдэх төдий — gimmick болохгүй. */
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  animation: spin-hint 3.4s ease-in-out infinite;
+}
+
+.spin__hint-glyph {
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+@keyframes spin-hint {
+  0%, 100% { transform: translateX(-50%) translateX(-2px); }
+  50%      { transform: translateX(-50%) translateX(2px); }
+}
+
+/* --- Өнгөний сонголт: хүрээ, дэвсгэр, картгүй --- */
+.spin__colors {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: clamp(18px, 2.6vw, 34px);
+}
+
+.spin__swatches {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+/* Товч нь ≥44px хүрэлцэх талбай; харагдах цэг нь дотроо жижиг */
+.spin__swatch {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.spin__chip {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  /* Будгийн гадаргуу: дээрээс нимгэн гэрэл, доороос сүүдэр. Хавтгай нэг өнгө
+     биш, металлик будаг мэт мэдрэгдэнэ. Гаднаа маш нимгэн зураас — цагаан
+     будаг цагаан дэвсгэр дээр алга болохгүй. */
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.14),
+    0 0 0 1px rgba(23, 24, 27, 0.14);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms ease;
+}
+
+@media (hover: hover) {
+  .spin__swatch:hover .spin__chip {
+    transform: scale(1.12);
+  }
+}
+
+/* Сонгогдсон: цэг арай томорч, зайтай нимгэн цагираг гарна.
+   Цагираг нь `box-shadow` тул зай эзлэхгүй — эгнээ хөдлөхгүй. */
+.spin__swatch[aria-pressed="true"] .spin__chip {
+  transform: scale(1.16);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.14),
+    0 0 0 1px rgba(23, 24, 27, 0.18),
+    0 0 0 4px rgba(255, 255, 255, 0.9),
+    0 0 0 5.5px var(--spin-ink);
+}
+
+.spin__swatch:focus-visible {
+  outline: 2px solid var(--spin-ink);
+  outline-offset: 1px;
+}
+
+.spin__colorname {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--spin-muted);
+  animation: spin-name 300ms ease both;
+}
+
+/* Ачаалж байх үед нэр нь бага зэрэг бүдгэрч, "бэлдэж байна" гэдгийг
+   өнгөнөөс ГАДНА мэдрүүлнэ (§24 — зөвхөн өнгөөр мэдээлэхгүй) */
+.spin__colorname.is-pending {
+  opacity: 0.5;
+}
+
+@keyframes spin-name {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin__hint,
+  .spin__colorname,
+  .spin__frame.is-painting { animation: none !important; }
+}
+
+/* --- Утас --- */
+@media (max-width: 767.98px) {
+  .spin {
+    padding-block: 26px 24px;
+  }
+
+  .spin__id {
+    width: 100%;
+    padding-inline: 20px;
+  }
+
+  .spin__stage {
+    /* Утсанд ч flex-ээр үлдсэн зайг эзэлнэ, гэхдээ хамгийн багадаа энэ
+       өндөртэй байна — эс бөгөөс намхан дэлгэц дээр машин хэт жижгэрнэ. */
+    min-height: min(42svh, 100vw * 0.72);
+  }
+
+  .spin__swatches {
+    gap: 12px;
+  }
+
+  .spin__hint {
+    bottom: 10px;
+  }
+
+  .spin__floor {
+    bottom: 17%;
+    width: 72%;
+  }
+}
+
+/* utas-v99 */
+/* ============================================================
+   Загварын хуудасны УТАСНЫ харагдац
+
+   Хоёр асуудал:
+    1) 16:9 толгойн зураг 375px өргөнд ердөө ~250px өндөр — анхны дэлгэцийн
+       31% л дүүрч, нэр/үнэ/CTA нь харагдахгүй байв.
+    2) Хуудас ~9 дэлгэцийн урт боловч утсан дээр хаана байгааг заах юу ч
+       байхгүй.
+
+   Шийдэл: зургийг ТАЙРАХГҮЙГЭЭР харуулж, танилцуулгыг ЗУРГИЙН ДЭЭР
+   давхарлана (десктоптой ижил зарчим). Доор нь тогтдог нарийн хэсгийн
+   зурвас. Хоёулаа ≥1024px-д хамаарахгүй тул десктоп хөндөгдөхгүй.
+
+   Өмнө нь зургийн ДООР тусдаа хар панел байсан: тэр нь толгойг хоёр хар
+   зурвас болгож, хуудсыг сунгаж, дэлгэцэнд багтахгүй байв.
+   ============================================================ */
+
+@media (max-width: 1023.98px) {
+  [data-model="t2"] .vhero {
+    background: #17181B;
+  }
+
+  /* Зураг өөрийн харьцаагаа хадгална (тайрахгүй). Харьцааг JSX-ээс
+     `--vhero-ar`-аар өгнө — зураг тус бүрийн эх харьцаанд тааруулна. */
+  [data-model="t2"] .vhero__stage {
+    aspect-ratio: var(--vhero-ar, 9 / 16);
+  }
+
+  /* `fill` — эх зураг дэлгэцээс өндөр харьцаатай үед (T2: 9:19) кадрын
+     харьцааны оронд дэлгэцийг бүтэн эзэлнэ. Тайралт 6% — толгой хагас
+     харагдах, дараагийн цагаан хэсэг цухуйхаас хамаагүй дээр. */
+  [data-model="t2"] .vhero__stage--fill {
+    aspect-ratio: auto;
+    height: calc(100svh - 64px);
+    min-height: 460px;
+  }
+
+  /* Зураг дээрх танилцуулга — дээд ба доод хоёр давхарга.
+     Албан ёсны JETOUR утасны зохиомж: гарчиг дээр голлож, үйлдэл доор.
+     Scrim нь ЗӨВХӨН текстийн байранд хүчтэй, дараа нь 0 хүртэл унана —
+     ингэснээр зургийн дунд хэсэг (машин) цэвэр хэвээрээ. */
+  [data-model="t2"] .vhero__overlay {
+    position: absolute;
+    inset-inline: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    color: #FFFFFF;
+    pointer-events: none;
+  }
+
+  /* Зөвхөн НЭГ давхарга: нэр ба тайлбар, дээд хэсэгт голлоно.
+     Үнэ/товч зургийн дээр гарахгүй — доод хэсгүүдэд байна. */
+  [data-model="t2"] .vhero__overlay {
+    top: 0;
+    gap: 8px;
+    padding: clamp(26px, 8vw, 44px) 20px clamp(52px, 15vw, 84px);
+    text-align: center;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.52) 44%,
+      rgba(0, 0, 0, 0.2) 76%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+}
+
+/* Толгойн зураг дээрх танилцуулга нь ЗӨВХӨН зориулсан загварт гарна
+   (доорх `[data-model="…"]` блок нээнэ). Анхдагчаар далд: бусад загварын
+   толгой нь өмнөх шигээ цэвэр зураг хэвээр байх ёстой. */
+.vhero__overlay {
+  display: none;
+}
+
+.vhero__name {
+  margin: 0;
+  font-size: clamp(24px, 7.4vw, 34px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.028em;
+  color: #FFFFFF;
+  /* Зураг дээр байрлах тул нягт сүүдэр — цайвар кадрт ч уншигдана */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 12px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.vhero__tagline {
+  margin: -6px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  /* Зураг дээр тул бүрэн цагаанаас арай зөөлөн, гэхдээ 0.86 — тод */
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 1px 12px rgba(0, 0, 0, 0.75);
+}
+
+
+/* ============================================================
+   Утасны техникийн үзүүлэлт — бүтэн өргөний мөрүүд
+
+   2 баганат тор нь 160px нарийн болж, монгол шошгууд ("Газраас тэнхлэг
+   хүртэлх зай") хоёр мөр болж тасардаг байв. Бүтэн өргөний мөр нь шошго
+   зүүн, утга баруун — албан ёсны техникийн хуудасны маяг.
+   ============================================================ */
+@media (max-width: 639.98px) {
+  [data-model="t2"] .spec-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  [data-model="t2"] .spec-grid > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    /* Торны хувилбарын хүрээг тэглэж, зөвхөн доод зураас үлдэнэ */
+    padding: 12px 0 !important;
+    border-left: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid #E7E7EA;
+  }
+
+  [data-model="t2"] .spec-grid > div:last-child {
+    border-bottom: 0;
+  }
+
+  [data-model="t2"] .spec-grid dt {
+    /* Хоёр мөр болохоо болино — өргөн хүрэлцэнэ */
+    margin: 0 !important;
+    max-width: 62%;
+  }
+
+  [data-model="t2"] .spec-grid dd {
+    margin: 0 !important;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ============================================================
+   Showcase — УТАСНЫ тухтай харагдац
+
+   Албан ёсны JETOUR сайтуудын утасны хэв маяг:
+    • Гарчиг том, ГОЛЛОСОН, дараа нь нэг мөр дэд гарчиг.
+    • Зургийн хоёр захад дөрвөлжин сум (босоо голдоо) — хуруу зургаас
+      гаралгүй шилжүүлнэ.
+    • Тайлбар зургийн доор голлоно.
+    • Байрлалыг нэг ҮРГЭЛЖИЛСЭН зурвас заана (жижиг цэг/зураасууд биш).
+
+   Бүх дүрэм ≤1023.98px-д хамаарна — десктопын харагдац хөндөгдөхгүй.
+   ============================================================ */
+
+/* Зургийн захын сум — десктоп дээр хэрэглэхгүй (толгойн сумнууд ажиллана) */
+.ex-showcase__edge {
+  display: none;
+}
+
+/* Гарчгийн доорх нэг мөр тайлбар */
+.ex-showcase__label-sub {
+  margin: 10px 0 0;
+  font-size: clamp(15px, 1.3vw, 20px);
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 1023.98px) {
+  /* --- Гарчиг ба тайлбар нь ЗУРГИЙН ДЭЭР --- 
+     Өмнө нь тэд зургийн дээр/доор тусдаа хар зурвас байсан: гурван зэрэгцээ
+     блок болж, толгой нь зургаас салж, хуудас сунадаг байв. Bahrain-ий
+     утасны зохиомжид текст нь зурган дээрээ давхарладаг — зураг нь бүтэн
+     кадр болж, блок нь нэг л бүтэн зураг шиг уншигдана.
+
+     Тайз нь урсгалд үлдэж блокийн өндрийг тодорхойлно; гарчиг/доод хэсэг нь
+     absolute болж түүн дээр хэвтэнэ. DOM-ын дараалал хөндөгдөхгүй тул
+     дэлгэц уншигчийн унших дараалал зөв хэвээрээ. --- */
+  [data-model="t2"] .ex-showcase__label {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 2;
+    padding: clamp(26px, 7.5vw, 40px) 20px clamp(52px, 14vw, 76px);
+    text-align: center;
+    /* Уншигдацын хамгийн бага хэмжээний scrim — зургийн дунд хэсэг цэвэр */
+    /* Scrim нь ТЭГШ хэсэггүй: дээрээс доош жигд унана. Өмнө нь 86% хүртэл
+       0.82 хэвээр байсан тул цайвар кадар дээр хар ХАЙРЦАГ шиг харагдаж,
+       доод зах нь мэдэгдэх зураас болж байв. Одоо зөөлөн бүрхүүл. */
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.52) 44%,
+      rgba(0, 0, 0, 0.2) 76%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Албан ёсны JETOUR утасны гарчгийн хэв маяг (хэмжсэн): 35px, жин 400,
+     мөрийн зай 1.0, ГАРЧИГ БҮХЭЛДЭЭ ТОМ. Хөнгөн жин нь агаартай, тухтай
+     мэдрэмж өгдөг — өмнөх 800 жин нь блок шиг бөөгнөрч харагдаж байв. */
+  [data-model="t2"] .ex-showcase__label-mn {
+    /* Бүрхүүл зөөлөрсөн тул уншигдацыг ТЕКСТИЙН эргэн тойронд нягтруулсан
+       сүүдрээр нөхнө: гэрэл нь зөвхөн үсгийн дэргэд бараансах тул хар
+       хайрцаг үүсэхгүй. */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 12px rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(0, 0, 0, 0.6);
+    font-size: clamp(26px, 9.3vw, 35px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+    /* Хоёр мөр болбол доод мөрөнд ганц үг үлдэхгүй */
+    text-wrap: balance;
+    margin-inline: auto;
+    max-width: 20ch;
+  }
+
+  /* Дэд гарчиг — 20px, жин 400 (хэмжсэн) */
+  [data-model="t2"] .ex-showcase__label-sub {
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+    margin-top: 12px;
+    font-size: clamp(17px, 5.3vw, 20px);
+    margin-inline: auto;
+    max-width: 30ch;
+  }
+
+  /* --- Тайз нь дэлгэц бүтэн дүүргэнэ ---
+     Өмнө нь 9:16 хайрцаг байсан (375px-д 667px): дэлгэцээс 145px дутаж,
+     дээрээс дараагийн цагаан хэсэг орж ирдэг тул блок хагас харагддаг байв.
+
+     Дэлгэц дүүргэхэд ТАЙРАЛТ БАГАСНА: эх зураг 750×1446 (0.519), дэлгэцийн
+     хайрцаг 375×748 (0.501) — зөрүү ердөө 3.3%. Харин 9:16 хайрцагт 19.9%
+     тайрагддаг байсан. Тиймээс энэ нь харагдац ба кадр хоёуланд илүү.
+
+     Зөвхөн  (утасны 9:16 хувилбартай) слайдерт: өргөн 16:9 зурагтай
+     слайдерыг дэлгэц дүүргэвэл өргөнөөс 66% тайрагдана. --- */
+  /* --- Тайз нь дэлгэцийг БҮТЭН дүүргэнэ ---
+     Өмнө нь 9:16 хайрцаг байсан (375px-д 667px): дэлгэцээс 145px дутаж,
+     дээрээс дараагийн цагаан хэсэг орж ирэх тул блок хагас харагддаг байв.
+
+     Дэлгэц дүүргэхэд ТАЙРАЛТ БАГАСНА: эх зураг 750×1446 (0.519), дэлгэцийн
+     хайрцаг 375×748 (0.501) — зөрүү ердөө 3.3%. Харин 9:16 хайрцагт 19.9%
+     тайрагдаж байсан. Тиймээс харагдац ба кадрын нарийвчлал хоёуланд илүү.
+
+     Зөвхөн утасны босоо хувилбартай слайдерт: өргөн 16:9 зурагтай слайдерыг
+     дэлгэц дүүргэвэл өргөнөөсөө 66% тайрагдана. --- */
+  [data-model="t2"] .ex-showcase__stage--tall,
+  [data-model="x50"] .ex-showcase__stage--tall {
+    aspect-ratio: auto;
+    height: calc(100svh - 64px);
+    /* Хэвтээ эргүүлсэн утсанд хэт хавтгай болохгүй */
+    min-height: 460px;
+  }
+
+  /* --- Захын сум --- */
+  [data-model="t2"] .ex-showcase__edge {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    /* 44×56 — WCAG-ийн 44px доод хязгаараас дээш, дөрвөлжин дүрстэй */
+    width: 44px;
+    height: 56px;
+    border: 0;
+    background: rgba(0, 0, 0, 0.55);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+  }
+
+  [data-model="t2"] .ex-showcase__edge--prev {
+    left: 0;
+  }
+
+  [data-model="t2"] .ex-showcase__edge--next {
+    right: 0;
+  }
+
+  [data-model="t2"] .ex-showcase__edge:active {
+    background: rgba(226, 35, 26, 0.9);
+  }
+
+  [data-model="t2"] .ex-showcase__edge:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: -4px;
+  }
+
+  /* --- Доод хэсэг: тайлбар + зурвас, мөн ЗУРГИЙН ДЭЭР --- */
+  [data-model="t2"] .ex-showcase__foot {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 2;
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(12px, 3.4vw, 18px);
+    padding: clamp(48px, 13vw, 72px) 20px clamp(14px, 4vw, 20px);
+    /* Доод scrim — ижил зарчим: тайлбар ба прогрессын байранд 0.82,
+       зөвхөн дээд 30%-д (текстээс дээш) 0 хүртэл унана. */
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.82) 70%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Scrim нь товшилтыг хааж болохгүй — прогрессын хэсгүүдэд эргүүлж нээнэ */
+  [data-model="t2"] .ex-showcase__seg {
+    pointer-events: auto;
+  }
+
+  [data-model="t2"] .ex-showcase__caption {
+    text-align: center;
+  }
+
+  /* Тайлбар — 14px, жин 400 (хэмжсэн). Гарчигтай өрсөлдөхгүй, тайван. */
+  [data-model="t2"] .ex-showcase__caption-mn {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 1px 12px rgba(0, 0, 0, 0.75);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    color: rgba(255, 255, 255, 0.9);
+    margin-inline: auto;
+    max-width: 36ch;
+  }
+
+  /* Толгойн сумнууд утсанд далд — захын сумнууд тэдний үүргийг авна */
+  [data-model="t2"] .ex-showcase__arrows {
+    display: none;
+  }
+
+  [data-model="t2"] .ex-showcase__controls {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  /* Тоолуур утсанд илүүц: зурвас өөрөө байрлалыг заана */
+  [data-model="t2"] .ex-showcase__counter {
+    display: none;
+  }
+
+  [data-model="t2"] .ex-showcase__meter {
+    width: 100%;
+  }
+
+  /* --- Үргэлжилсэн прогресс зурвас ---
+     Хэсгүүдийн хооронд зай байхгүй тул нэг л зурвас шиг харагдана. Товшилтын
+     талбай нь 44px өндөр (харагдах зузаан нь 3px) — өмнөх 17×14 хэмжээ нь
+     хуруунд хэтэрхий жижиг байв. */
+  [data-model="t2"] .ex-showcase__progress {
+    width: 100%;
+    gap: 0;
+  }
+
+  [data-model="t2"] .ex-showcase__seg {
+    flex: 1 1 0;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  /* Зузаан 6px, зай 0 — нэг үргэлжилсэн зурвас (хэмжсэн) */
+  [data-model="t2"] .ex-showcase__seg::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: #3A3C40;
+    transition: background-color 260ms ease;
+  }
+
+  /* Байрлалыг ЗҮҮНЭЭС дүүрэх прогрессоор заана: идэвхтэй нь ба түүнээс
+     ӨМНӨХ бүх хэсэг өнгөтэй болно (`:has(~ ...)` = дараа нь идэвхтэй
+     ах дүү байгаа хэсэг). Ингэснээр "хэр үзсэн" нь харцаар мэдэгдэнэ —
+     зөвхөн идэвхтэйг өнгөлбөл зурвас дундуур нүх шиг харагдана. */
+  [data-model="t2"] .ex-showcase__seg[aria-current="true"]::before,
+  [data-model="t2"] .ex-showcase__seg:has(~ .ex-showcase__seg[aria-current="true"])::before {
+    background: #E2231A;
+  }
+}
+
+
+
+/* Гэрлийн давхарга анхдагчаар унтраалттай — зөвхөн доор нээсэн загварт */
+.vhero-s__glow {
+  display: none;
+}
+
+/* ============================================================
+   X50 — толгойн зураг УТСАНД цэвэр, тодорхой
+
+   Хүсэлт: гарчиг ба хоёр товчийг хасаж, зургийг тодруулж, зөөлөн гэрэл
+   нэмэх. Зөвхөн X50-д (`[data-model="x50"]`) — бусад загварын толгой
+   өмнөх шигээ гарчиг/товчтой хэвээр.
+   ============================================================ */
+@media (max-width: 1023.98px) {
+  /* Гарчиг нь ХАРАГДАЦААС хасагдана, гэхдээ SEO ба дэлгэц уншигчид үлдэнэ
+     (`display: none` бол хоёуланд алга болно). */
+  [data-model="x50"] .vhero-s__title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Товчнууд БҮРЭН хасагдана: харагдахгүй холбоос дээр гарын хэрэглэгч табаар
+     буувал фокус "алга болно" (WCAG 2.4.7). Хоёр үйлдэл хуудсанд хэвээр —
+     "Хүсэлт илгээх" нь доод формд, "Үнийн жагсаалт" нь үзүүлэлтийн хэсэгт,
+     мөн хөвөгч утасны товч бүх дэлгэцэнд байна. */
+  [data-model="x50"] .vhero-s__cta {
+    display: none;
+  }
+
+  /* Агуулга нь харагдахгүй тул блок дарлага хүлээхгүй */
+  [data-model="x50"] .vhero-s__lede {
+    pointer-events: none;
+  }
+
+  /* Текст байхгүй тул бараансуулах scrim хэрэггүй — зураг ойролцоогоор
+     40% тод болно (доод хэсэгт 0.70 alpha хар хасагдана). */
+  [data-model="x50"] .vhero-s__scrim {
+    display: none;
+  }
+
+  /* Зургийн тодрол — маш бага, "боловсруулсан" мэт харагдахгүй хэмжээ.
+     brightness 1.06 + saturate 1.05: өнгө нь өөрчлөгдөхгүй, зөвхөн
+     нарны гэрэл арай тодорно. */
+  /* Зургууд нь scrim-ЭЭС ӨМНӨ байдаг тул `~ img` ажиллахгүй (CSS-д "өмнөх
+     ах дүү" сонгогч байхгүй). Тиймээс секцийг `:has()`-ээр танина. */
+  [data-model="x50"] section:has(> .vhero-s__glow) > img {
+    filter: brightness(1.06) saturate(1.05);
+  }
+
+  /* Зөөлөн гэрлийн урсгал — зургийн ДЭЭД ЗҮҮН хэсгээс (эх зургийн нарны
+     чиглэл тэндээс байна). Байхгүй гэрэл зохиохгүй, байгааг л дэмжинэ:
+     10% цагаан, өнцөгт радиал, товшилтыг хаахгүй. */
+  [data-model="x50"] .vhero-s__glow {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      120% 85% at 18% 8%,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.04) 34%,
+      rgba(255, 255, 255, 0) 62%
+    );
+  }
+}
+
+/* ============================================================
+   НЭМЭЛТ ХЭСГҮҮД — spread / band
+   (`ModelSections`, `src/components/jetour/model-sections.tsx`)
+
+   Эталон: албан ёсны JETOUR загварын хуудсуудын гурван зохиомж.
+   Гурвуулаа АГУУЛГЫН хэлбэрээр сонгогддог, гоёл биш — доорх тайлбарыг үз.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   SPREAD — "хос захын нээлт"
+
+   Санаа: хуудасны ХАЖУУ талыг зураг эзэлж, ГОЛ нь амьсгалдаг. Машиныг
+   хажуугаар өнгөрөхөд бүтнээр биш, нарийн зүйлсээр (гэрэл → бариул →
+   түлхүүр) анзаардаг мэдрэмжийг хуудсанд буулгасан.
+
+   Десктоп — 3 багана: 1fr | голын багана | 1fr. Хажуугийн хоёр зураг
+   дэлгэцийн ЗАХ хүртэл гарна (тиймээс хэсэгт хэвтээ padding БАЙХГҮЙ —
+   голын багана болон тайлбарууд өөрсдөө зайтай).
+   Утас — гурван карт доор доороо, зураг нь хэвтээ хувилбар.
+
+   Хөдөлгөөн: JS нь хажуугийн зурагт ±4% босоо шилжилт (эсрэг чиглэлд) өгнө.
+   Дотоод давхарга кадраас 12% өндөр учир ямар ч захад хоосон зай гарахгүй.
+   ------------------------------------------------------------ */
+.xspread {
+  --xs-ink: #17181b;
+  --xs-muted: #54585f;
+  background: #ffffff;
+  padding-block: clamp(48px, 6vw, 96px);
+  overflow: hidden;
+}
+
+.xspread__grid {
+  display: grid;
+  gap: clamp(28px, 4vw, 44px);
+}
+
+/* --- Толгой --- */
+.xspread__head {
+  padding-inline: clamp(20px, 3vw, 48px);
+  text-align: center;
+}
+
+.xspread__title {
+  margin: 0 auto;
+  max-width: 22ch;
+  font-size: clamp(28px, 4.6vw, 52px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--xs-ink);
+  text-wrap: balance;
+}
+
+.xspread__sub {
+  margin: clamp(10px, 1.2vw, 16px) auto 0;
+  max-width: 34ch;
+  font-size: clamp(14px, 1.2vw, 18px);
+  line-height: 1.5;
+  color: var(--xs-muted);
+}
+
+/* --- Зургууд --- */
+.xspread__side,
+.xspread__mid {
+  position: relative;
+  overflow: hidden;
+  background: #f2f2f4;
+}
+
+/* Утсанд гурвуулаа ижил хэвтээ кадр — эх зургийн харьцаа 1.70 */
+.xspread__side,
+.xspread__mid {
+  aspect-ratio: 1.7;
+}
+
+/* Хөвөх давхарга: кадраас 12% өндөр, дээрээсээ -6% */
+.xspread__drift {
+  position: absolute;
+  top: -6%;
+  left: 0;
+  width: 100%;
+  height: 112%;
+  will-change: transform;
+}
+
+.xspread__img {
+  object-fit: cover;
+}
+
+/* --- Тайлбар --- */
+.xspread__cap {
+  padding-inline: clamp(20px, 3vw, 48px);
+  text-align: center;
+}
+
+.xspread__name {
+  margin: 0;
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--xs-ink);
+}
+
+.xspread__text {
+  margin: 6px 0 0;
+  font-size: clamp(13.5px, 1.05vw, 16px);
+  line-height: 1.55;
+  color: var(--xs-muted);
+}
+
+/* Утсанд: гарчиг, дараа нь зураг+тайлбар гурван хосоороо.
+   DOM-ийн дараалал десктопын торд тохируулагдсан (хажуу → гол → тайлбарууд)
+   тул утсанд мөрийг ЗААВАЛ дахин эрэмбэлнэ, эс тэгвээс гурван тайлбар
+   зургуудын дараа цугларна. */
+@media (max-width: 1023.98px) {
+  .xspread__grid {
+    grid-template-columns: 100%;
+    gap: 0;
+  }
+
+  .xspread__head {
+    grid-row: 1;
+    margin-bottom: clamp(14px, 3.5vw, 24px);
+  }
+
+  .xspread__side--a {
+    grid-row: 2;
+  }
+
+  .xspread__cap--a {
+    grid-row: 3;
+  }
+
+  .xspread__mid {
+    grid-row: 4;
+  }
+
+  .xspread__cap--m {
+    grid-row: 5;
+  }
+
+  .xspread__side--b {
+    grid-row: 6;
+  }
+
+  .xspread__cap--b {
+    grid-row: 7;
+  }
+
+  /* Тайлбар нь зурагтаа "залгаа" — дараагийн зурагтай хооронд том зай */
+  .xspread__cap {
+    padding-top: clamp(10px, 2.6vw, 16px);
+    padding-bottom: clamp(22px, 5vw, 34px);
+  }
+
+  .xspread__cap--b {
+    padding-bottom: 0;
+  }
+}
+
+/* ------------------------------------------------------------
+   SPREAD — десктоп: хажуугийн зураг зах хүртэл, гарчиг голд
+   ------------------------------------------------------------ */
+@media (min-width: 1024px) {
+  .xspread__grid {
+    grid-template-columns: 1fr min(34%, 460px) 1fr;
+    grid-template-rows: auto auto auto;
+    column-gap: clamp(20px, 2.6vw, 48px);
+    row-gap: 0;
+    align-items: start;
+  }
+
+  /* Хажуугийн зураг 1–2 дугаар мөрийг эзэлнэ: өндөр нь гарчиг + голын
+     зургийн нийлбэрээр тодорхойлогдоно. */
+  .xspread__side {
+    grid-row: 1 / 3;
+    align-self: stretch;
+    aspect-ratio: auto;
+  }
+
+  .xspread__side--a {
+    grid-column: 1;
+  }
+
+  .xspread__side--b {
+    grid-column: 3;
+  }
+
+  .xspread__head {
+    grid-column: 2;
+    grid-row: 1;
+    padding-block: clamp(24px, 3vw, 52px) clamp(28px, 3.4vw, 56px);
+  }
+
+  /* Голын зураг — эх зургийн харьцаа 0.91 (босоо) */
+  .xspread__mid {
+    grid-column: 2;
+    grid-row: 2;
+    aspect-ratio: 0.91;
+  }
+
+  .xspread__cap {
+    grid-row: 3;
+    padding-top: clamp(14px, 1.6vw, 22px);
+  }
+
+  .xspread__cap--a {
+    grid-column: 1;
+    padding-inline: clamp(20px, 3vw, 48px);
+  }
+
+  .xspread__cap--m {
+    grid-column: 2;
+  }
+
+  .xspread__cap--b {
+    grid-column: 3;
+    padding-inline: clamp(20px, 3vw, 48px);
+  }
+}
+
+/* ------------------------------------------------------------
+   BAND — өргөн зураг, тайлбар нь зурган ДЭЭР
+
+   Нэг л том санааг (хөдөлгүүр) бүтэн өргөнөөр өгүүлнэ. Текст нь тусдаа
+   хар хайрцагт биш, зургийн доод зүүн хэсэгт — доороос дээш харанхуйлсан
+   хөшигтэй. Хөшгийн хүч нь эх зургийн доод хэсгийн гэрэлтэлтээс
+   хамаарч сонгогдсон (доод тал нь бараан элс — 0.62 хүрэлцээтэй).
+   ------------------------------------------------------------ */
+.xband {
+  position: relative;
+  background: #0e0e10;
+}
+
+.xband__media {
+  position: relative;
+  aspect-ratio: 2.13;
+  overflow: hidden;
+}
+
+.xband__img {
+  object-fit: cover;
+}
+
+.xband__title {
+  margin: 0;
+  font-size: clamp(24px, 3.6vw, 44px);
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.xband__text {
+  margin: clamp(6px, 0.9vw, 14px) 0 0;
+  max-width: 46ch;
+  font-size: clamp(14px, 1.15vw, 18px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* --- Утас: тайлбар зургийн ДООР, бараан дэвсгэр дээр (18:1 хүрэлцээ) --- */
+@media (max-width: 1023.98px) {
+  .xband__media {
+    /* Утасны кадр — эх зургийн харьцаа 1.61 */
+    aspect-ratio: 1.61;
+  }
+
+  /* Текст давхарлагдахгүй тул хөшиг хэрэггүй */
+  .xband__scrim {
+    display: none;
+  }
+
+  .xband__copy {
+    padding: clamp(16px, 4.5vw, 24px) clamp(20px, 5vw, 28px) clamp(22px, 6vw, 32px);
+  }
+}
+
+/* --- Десктоп: текст зургийн доод ЗҮҮН хэсэгт --- */
+@media (min-width: 1024px) {
+  .xband__scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.3) 22%,
+      rgba(0, 0, 0, 0) 46%
+    );
+  }
+
+  .xband__copy {
+    position: absolute;
+    left: clamp(28px, 4vw, 76px);
+    bottom: clamp(28px, 3.4vw, 56px);
+    /* Гэрэлтэй манхан баруун талд тул текст 56%-аас гарахгүй */
+    max-width: min(56%, 62ch);
+  }
+}
+
+/* ------------------------------------------------------------
+   STAGE — дэлгэц дүүрэн кино кадар, текст нь зурган ДЭЭР
+   (`ModelStage`; эталон: JETOUR-ын "PIONEERING CROSSOVER DESIGN" /
+   "INTELLIGENT CABIN FOR SEAMLESS COMFORT")
+
+   Байрлал нь эталонтой ижил: гарчиг дээд талд голлож, тайлбар доод зүүн.
+
+   УНШИГДАЦ — хайрцаг ба хөшиггүйгээр.
+   Эдгээр 14 кадрын гэрэлтэлтийг canvas-аар хэмжсэн: дээд зурвасын хамгийн
+   гэрэлтэй пиксел 1.000, доод зурвасынх 0.928. Тиймээс кадрыг бүрхэх
+   градиент ч, хар хавтан ч ХЭРЭГГҮЙ гэсэн шаардлагыг биелүүлэхийн тулд
+   сайтад аль хэдийн туршсан НЯГТ ГЛИФ СҮҮДРИЙГ хэрэглэв (`.vhero__name`
+   дээрх шийдэл: "цайвар кадрт ч уншигдана"). Сүүдэр нь зөвхөн үсгийн
+   тойронд тул гэрэл зураг бүрэн харагдана.
+   ------------------------------------------------------------ */
+.xstage {
+  --xg-slide: 620ms;
+  --xg-ease: cubic-bezier(0.5, 0.02, 0.32, 1);
+  /* Зурган дээрх текстийн нягт сүүдэр — сайтын бусад on-image тексттэй ижил */
+  --xg-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 12px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(0, 0, 0, 0.6);
+  background: #ffffff;
+  padding-block: 0 clamp(10px, 1.4vw, 18px);
+}
+
+/* --- Кадар: дэлгэцийн хоёр зах хүртэл --- */
+.xstage__frame {
+  position: relative;
+  /* Эх зургийн харьцаа — утас 9:17 (0.52), десктоп 1.85. Тайралт 0%. */
+  aspect-ratio: var(--xg-aspect-n, 0.52);
+  overflow: hidden;
+  background: #f2f2f4;
+}
+
+.xstage__frame:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: -4px;
+}
+
+/* --- `fitViewport` — кадрыг НЭГ ДЭЛГЭЦЭНД багтаах ---------------------
+   Кадар нь дэлгэцийн хоёр зах хүртэл (100vw) тул харьцаанаас гарах өндөр
+   нь өргөн мониторт харагдах хэсгээс хэтэрдэг: 1920px-д 1920/1.85 = 1038px,
+   гэтэл хөвөгч навигацын доор ~876px л байдаг. Улмаас ямар ч гүйлтийн
+   байрлалд дээд гарчиг ба доод тайлбар хоёр ЗЭРЭГ харагдахгүй — дээр нь
+   цагаан навигац/өмнөх секц шургадаг.
+
+   Тиймээс өндрийг харагдах зайгаар хязгаарлана. Хасагдах гурван бүрдэл:
+     64px — хөвөгч навигац (сайтад `calc(100svh - 64px)` гэж тогтсон)
+     44px — кадрын доорх зурвас (товшилтын бай; байхгүй бол хасахгүй)
+     12px — амьсгал, дараагийн секцийн зааг мэдрэгдэхийн тулд
+
+   `svh` — хөтчийн хэрэгслийн зурвас ХАРАГДАЖ байх үеийн хамгийн жижиг
+   дэлгэц. `dvh` бол гүйлгэх зуур өөрчлөгддөг тул кадар "хөвчирнө",
+   `vh` бол утсанд хэтэрдэг (ui-ux-pro-max §Layout/Viewport Units).
+
+   Хязгаарт хүрсэн үед `object-fit: cover` зургийг дээд/доод талаас ТЭНЦҮҮ
+   тайрна. Эх кадруудын гол объект голд, зах нь тэнгэр/шал тул хөндөгдөхгүй:
+   хамгийн хүнд тохиолдлуудыг зургаар шалгав — десктоп 1920×1080-д 20.4%
+   (1036px-ээс 105/105px), утас 375×667-д 24.1% (1448px-ээс 177/177px). */
+.xstage--fit {
+  position: relative;
+  /* Хөвөгч навигацын өндөр — 64px их бие + 1px доод зураас */
+  --xg-nav: 65px;
+  /* Доод захын нөөц. Анхдагчаар 0 — T2 PHEV-д "яг дэлгэц дүүрэн" гэж
+     батлагдсан харагдац хэвээр байна. Загвар тус бүр `--xg-air`-аар
+     амьсгал нэмж болно. */
+  --xg-air: 0px;
+  --xg-fit: calc(100svh - var(--xg-nav) - var(--xg-air));
+  padding-block: 0;
+}
+
+/* Зурвас нь кадрын ДООД ТАЛД давхарлана. Доор нь тавибал зураг тэр
+   хэмжээгээр дэлгэцээс гарч, цагаан зурвас үүсдэг. Ингэснээр зураг бүтэн
+   дэлгэц болж, багцын хэмжээ ба 44px товшилтын бай хадгалагдана. */
+.xstage--fit > .container-page {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 3;
+  /* Захаас зах. Цайвар дэвсгэр дээр 420px-ийн товч зурвас зөв харагддаг ч
+     зурган дээр голоос зөрсөн тасархай мэт болно — бүтэн дэлгэцийн
+     карусельд доод зах дагасан нэг зурвас нь зориудын шийдэл болж уншигдана. */
+  width: 100%;
+}
+
+.xstage--fit .xstage__progress {
+  width: 100%;
+}
+
+/* Доод захын амьсгал. Кадар нь бүтэн дэлгэц болсноор тайлбар (2 мөр хүртэл),
+   зурвас ба дэлгэцийн зах гурав хоорондоо шахагдаж байв: тайлбар 48px,
+   зурвасын зураас 20px — хооронд 24px л үлддэг. Шатлалыг тэлэв:
+   зураас ≈32px, тайлбар ≈84px → хооронд ≈52px. */
+.xstage--fit > .container-page {
+  bottom: clamp(4px, 0.6vw, 12px);
+}
+
+.xstage--fit .xstage__copy {
+  bottom: clamp(46px, 5.4vw, 84px);
+}
+
+/* Цайвар кадрын доод хэсэгт #d9dadd бараг харагдахгүй тул замыг цайвар
+   тунгалаг болгов — идэвхтэй хэсэг улаан хэвээр. */
+.xstage--fit .xstage__seg::before {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32);
+}
+
+.xstage--fit .xstage__frame {
+  /* `width` нь ЗААВАЛ тодорхой байх ёстой. `auto` үед `aspect-ratio` ба
+     `max-height` хоёр хамтдаа өргөнийг ч хумьдаг (өндөр × харьцаа), улмаас
+     кадар дэлгэцийн хоёр захаас салдаг: 1920px-д 1910 → 1443 болов. */
+  width: 100%;
+  max-height: var(--xg-fit);
+}
+
+.xstage__slide {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--xg-slide) var(--xg-ease);
+  will-change: transform;
+}
+
+.xstage__img {
+  object-fit: cover;
+}
+
+/* --- Гарчиг: кадрын дээд талд голлоно --- */
+.xstage__title {
+  position: absolute;
+  top: clamp(20px, 3.6vw, 52px);
+  left: clamp(16px, 4vw, 56px);
+  right: clamp(16px, 4vw, 56px);
+  z-index: 2;
+  margin: 0;
+  text-align: center;
+  font-size: clamp(26px, 4.2vw, 52px);
+  /* Зурган дээр тул бүдүүн — тодрол ба уншигдац хоёуланг өгнө */
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: var(--xg-shadow);
+  text-wrap: balance;
+}
+
+/* --- Тайлбар: доод зүүн --- */
+@keyframes xstage-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.xstage__copy {
+  position: absolute;
+  left: clamp(16px, 4vw, 56px);
+  bottom: clamp(18px, 3vw, 48px);
+  z-index: 2;
+  max-width: min(92%, 48ch);
+  animation: xstage-copy-in 440ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.xstage__name {
+  margin: 0;
+  font-size: clamp(19px, 2.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-shadow: var(--xg-shadow);
+  text-wrap: balance;
+}
+
+.xstage__text {
+  margin: clamp(5px, 0.7vw, 10px) 0 0;
+  font-size: clamp(13px, 1.05vw, 16.5px);
+  font-weight: 500;
+  line-height: 1.5;
+  color: #ffffff;
+  text-shadow: var(--xg-shadow);
+}
+
+/* --- Сум: кадрын хоёр захад, босоо голдоо --- */
+.xstage__edge {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  /* Товшилтын бай ≥44px */
+  width: 44px;
+  height: 64px;
+  border: 0;
+  background: rgba(0, 0, 0, 0.42);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 200ms ease;
+}
+
+.xstage__edge--prev {
+  left: 0;
+}
+
+.xstage__edge--next {
+  right: 0;
+}
+
+.xstage__edge:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.xstage__edge:active {
+  background: rgba(226, 35, 26, 0.92);
+}
+
+.xstage__edge:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: -4px;
+}
+
+/* --- Зурвас: кадрын доор, цагаан дэвсгэр дээр --- */
+.xstage__progress {
+  display: flex;
+  gap: 0;
+}
+
+.xstage__seg {
+  flex: 1 1 0;
+  /* Харагдах зузаан 4px, товшилтын бай 44px */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.xstage__seg::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 4px;
+  background: #d9dadd;
+  transition: background-color 260ms ease;
+}
+
+/* Идэвхтэй ба түүнээс ӨМНӨХ бүх хэсэг өнгөтэй — "хэр үзсэн" нь харагдана */
+.xstage__seg[aria-current="true"]::before,
+.xstage__seg:has(~ .xstage__seg[aria-current="true"])::before {
+  background: #e2231a;
+}
+
+.xstage__seg:focus-visible {
+  outline: 2px solid #17181b;
+  outline-offset: -6px;
+}
+
+@media (min-width: 1024px) {
+  .xstage__frame {
+    aspect-ratio: var(--xg-aspect-w, 1.85);
+  }
+
+  .xstage__edge {
+    width: 52px;
+    height: 76px;
+  }
+
+  .xstage__progress {
+    width: min(38%, 420px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xstage__slide {
+    transition: none;
+  }
+
+  .xstage__copy {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   ӨНГӨНИЙ СТУДИ — ДЭЛГЭРЭНГҮЙ хувилбар (`.color-studio--pro`)
+
+   Эталон: албан ёсны JETOUR конфигуратор — зүүн талд гурван гол үзүүлэлт
+   нимгэн зураастай, голд машин, баруун зах дагуу өнгөний нэр босоо.
+
+   Гурван ЗАСВАР эталонтой харьцуулбал:
+    1. Машин БҮТНЭЭР. Эх render 952×476 (2.00) байхад тайз 2.58 харьцаатай
+       `object-cover`-той байсан тул өндрийн 22% тайрагдаж дугуй хоёулаа
+       хасагдаж байв. Тайзыг эх харьцаанд нь тааруулж `contain` болгов.
+    2. Тоо нь ЗУРАГТАЙ ЗЭРЭГ харагдана — өнгө сонгож байхдаа "юу авч байгаа"
+       гэдэг нь мэдэгдэнэ (эталонд ч ийм, гэхдээ бидэнд брошюрын баталсан тоо).
+    3. Дэвсгэр нь сонгосон будгийн тонд ЗӨӨЛӨН орно (өмнөх кодоос) — өнгө
+       сонгоход бүтэн танхим өнгө авах мэдрэмж.
+   ------------------------------------------------------------ */
+.color-studio--pro .color-studio__row {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: clamp(14px, 2.4vw, 26px);
+  align-items: center;
+  /* Хуучин хувилбар нь `width: 100vw` + сөрөг margin-аар контейнерээс
+     гардаг байв. Дэлгэрэнгүй хувилбарт зохиомжийг тор удирдах тул
+     контейнер дотроо суух ёстой. */
+  width: 100%;
+  margin-left: 0;
+}
+
+/* `.color-studio` нь inner-ээ агуулгаараа хумиж (shrink-to-fit) голлуулдаг.
+   Хуучин хувилбарт row нь 100vw-аар гарч байсан тул inner-ийн өргөнийг
+   зөвхөн гарчиг тодорхойлж 784px болж байв. Тороор удирдахын тулд inner-т
+   тодорхой өргөн өгнө. */
+.color-studio--pro .color-studio__inner {
+  width: 100%;
+}
+
+/* --- Гол үзүүлэлтүүд: нимгэн зураастай мөрүүд --- */
+.color-studio__figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 clamp(12px, 2vw, 26px);
+  margin: 0;
+}
+
+.color-studio__figure {
+  padding-block: clamp(9px, 1.1vw, 14px);
+  border-top: 1px solid var(--cs-swatch-line);
+}
+
+/* Утсанд машин ТЭРГҮҮЛНЭ: тайз → өнгө сонгогч → үзүүлэлт.
+   (`stage` нь order:1, `swatches` нь order:2 — хуучин кодоос.) */
+.color-studio--pro .color-studio__figures {
+  order: 3;
+}
+
+.color-studio__figure-label {
+  margin: 0;
+  font-size: clamp(9.5px, 0.72vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+  line-height: 1.3;
+}
+
+.color-studio__figure-value {
+  margin: clamp(3px, 0.4vw, 6px) 0 0;
+  font-size: clamp(15px, 1.5vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--cs-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Машины тайз: эх харьцаа, тайралтгүй --- */
+.color-studio--pro .color-studio__stage {
+  /* Хуучин full-bleed дүрмийг (өргөн 100vw, өндөр 100svh-д тааруулсан)
+     тороор удирдахын тулд сэргээв — эс тэгвээс тайз нүднээсээ хальна. */
+  width: 100%;
+  max-width: 100%;
+  /* Эх render 952×476 → тайралт 0% */
+  aspect-ratio: 2;
+  height: auto;
+  min-height: 0;
+  margin-inline: 0;
+}
+
+/* Tailwind-ийн `object-cover` нь `@layer utilities`-д тул давхаргагүй
+   энэ дүрэм түүнийг дардаг — `!important` шаардлагагүй. */
+.color-studio--pro .color-studio__stage img {
+  object-fit: contain;
+}
+
+/* --- Босоо өнгөний нэр --- */
+.color-studio__vname {
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: clamp(10px, 0.78vw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+  white-space: nowrap;
+  /* Утсанд орон зай эзлэхгүй — зөвхөн десктоп дээр гарна */
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   ДЕСКТОП: зүүнд үзүүлэлт, голд машин, баруунд босоо нэр
+   ------------------------------------------------------------ */
+@media (min-width: 1024px) {
+  .color-studio--pro .color-studio__row {
+    grid-template-columns: minmax(170px, 21%) minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: clamp(26px, 3.4vw, 64px);
+    row-gap: clamp(14px, 1.8vw, 24px);
+    align-items: center;
+  }
+
+  .color-studio__figures {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    grid-template-columns: 100%;
+    align-self: center;
+  }
+
+  .color-studio--pro .color-studio__stage {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .color-studio__vname {
+    display: block;
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  .color-studio--pro .color-studio__swatches {
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   T1 PHEV — загварт зориулсан харагдац
+   ============================================================
+
+   Толгойн зураг нь СТУДИЙН ЦАЙВАР кадр (гэрэлтэлт 0.90+) тул t2-ын шийдэл
+   (цагаан текст + хар градиент) энд буруу: цайвар дэвсгэр дээр хар хөшиг
+   тавих нь зургийг бузарлаж, "хөшигтэй баннер" мэт болгоно. Оронд нь
+   БАРААН БЭХ, хөшиггүй — цайвар кадарт хамгийн уншигдац сайн, editorial
+   мэдрэмж өгнө. Тиймээс сүүдэр ч хэрэггүй.
+
+   Танилцуулга нь ДЕСКТОПТ ч гарна: тусгайлсан загварын хуудсанд машины нэр
+   ба төрөл нь толгой дээр байх нь албан ёсны автомашины сайтын хэм. */
+[data-model="t1-phev"] .vhero__overlay {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: clamp(22px, 5vw, 52px) 20px clamp(28px, 6vw, 56px);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* `lg:hidden` (display:none) -ийг дардаг — десктопт ч харагдана */
+@media (min-width: 1024px) {
+  [data-model="t1-phev"] .vhero__overlay {
+    display: flex;
+  }
+}
+
+[data-model="t1-phev"] .vhero__name {
+  color: #17181b;
+  text-shadow: none;
+  font-size: clamp(26px, 4.6vw, 54px);
+  letter-spacing: -0.03em;
+}
+
+/* Дэд гарчиг: өнгөө биш, TYPOGRAPHY-гаар шатлана.
+   Кадрын дэд гарчгийн байрны гэрэлтэлтийг canvas-аар хэмьсэн: L 0.246–0.521.
+   Тиймээс #54585F нь хамгийн бараан пикселд 2.09:1 л болж, WCAG AA (4.5:1)
+   унана. #1F2124 нь 4.63:1 — тэнцэнэ. Гарчигтай ижил бэхийн гэр бүлд байгаа
+   тул ялгаа нь хэмжээ, жин, сүлжээгээр гарна (хөшиг, сүүдэр нэмэхгүй). */
+[data-model="t1-phev"] .vhero__tagline {
+  margin-top: 4px;
+  color: #1f2124;
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+/* ============================================================
+   Дэлгэрэнгүй үзүүлэлт — бүлэглэсэн нээгддэг блок
+   ============================================================
+   Брошюр байхгүй загварт эх сурвалжаас баталгаажсан үзүүлэлтүүд
+   хаягдахгүй байх зам. `<details>` — JS-гүй, гараар нээгдэнэ. */
+.specgrp__sum {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #54585f;
+  transition: color 200ms ease;
+}
+
+.specgrp__sum::-webkit-details-marker {
+  display: none;
+}
+
+.specgrp__sum:hover {
+  color: #17181b;
+}
+
+.specgrp__chev {
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.specgrp[open] .specgrp__chev {
+  transform: rotate(180deg);
+}
+
+.specgrp__body {
+  display: grid;
+  gap: clamp(20px, 2.4vw, 32px);
+  padding-top: clamp(14px, 1.6vw, 22px);
+}
+
+@media (min-width: 768px) {
+  .specgrp__body {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(28px, 4vw, 56px);
+  }
+}
+
+.specgrp__title {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #696f79;
+}
+
+.specgrp__rows {
+  margin: 0;
+}
+
+.specgrp__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-top: 1px solid #ececef;
+}
+
+.specgrp__row dt {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #54585f;
+}
+
+.specgrp__row dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #17181b;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- T1 PHEV · утас: кадруудыг ЭХ ЗУРГИЙН харьцаанд тааруулна ---------
+   Хоёулаа өмнө нь бусад загварт тааруулсан тогтмол харьцаа хэрэглэж,
+   T1 PHEV-ийн 750×1624 (0.462) босоо кадруудыг хүчтэй тайрч байв. */
+@media (max-width: 1023.98px) {
+  /* `--vhero-ar` нь өмнө нь ЗӨВХӨН [data-model="t2"]-д хүчинтэй байсан тул
+     JSX-ээс өгсөн "750 / 1624" хэрэгсэхгүй, Tailwind-ийн `aspect-[9/16]`
+     (0.5625) хүчээ хадгалж, зураг 17.9% тайрагдаж байлаа. */
+  [data-model="t1-phev"] .vhero__stage {
+    aspect-ratio: var(--vhero-ar, 9 / 16);
+  }
+
+  /* `.xband__media`-ийн утасны харьцаа (1.61) нь X1-ийн хэвтээ кадарт
+     тааруулсан. T1 PHEV-ийн band нь босоо кадартай тул 71% тайрагдана. */
+  [data-model="t1-phev"] .xband__media {
+    aspect-ratio: 750 / 1624;
+  }
+}
+
+/* --- T1 · дэлгэц дүүрэн кадруудын доод захын амьсгал ------------------
+   Яг таруу (амьсгал 0) байхад секц харагдах зайг бүхэлд эзэлж, зураг
+   дээрээ навигацад, доороо дэлгэцийн зах хүртэл шахагддаг. Мөн хөтчийн
+   zoom (110/125%) эсвэл `scroll-mt-16` (64px) ба навигацын 65px хоорондын
+   1px зөрүүнээс болж хааяа хэдэн пикселээр хэтэрч, секц бүтнээрээ
+   харагдахаа больдог. 16px нөөц хоёуланг шийднэ. */
+[data-model="t1"] .xstage--fit {
+  --xg-air: 16px;
+}
+
+/* ============================================================
+   `strip` — НЭРТЭЙ сонгогч (зүйлд `label` байвал)
+   ============================================================
+   Анхдагч зурвас нь зүгээр нимгэн зам: тухайн зүйл юу болохыг зөвхөн зураг
+   сольсны дараа мэднэ. Шошго өгвөл сонгогч нь эталон автомашины сайтуудын
+   хэвээр НЭРТЭЙ болно — хэрэглэгч дарахаасаа өмнө юу харахаа мэднэ.
+
+   Хайрцаг, хүрээ, сүүдэр НЭМЭХГҮЙ: зөвхөн 2px зам + бичвэр. Улаан нь
+   зөвхөн идэвхтэй замд (өмнөхтэй ижил). */
+.x50tech__progress--named {
+  gap: clamp(14px, 2vw, 28px);
+  align-items: start;
+}
+
+.x50tech__progress--named .x50tech__seg {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  height: auto;
+  /* Товшилтын бай ≥44px. Нэг мөрт шошготой үед зам(2) +
+     зай(10) + бичвэр(≈20) + доод зай(12) = 44px боловч төгсгөлд 40px
+     болж байсан — `min-height` түүнийг баталгаажуулна. */
+  min-height: 44px;
+  padding-block: 0 12px;
+  text-align: left;
+}
+
+.x50tech__seg-label {
+  font-size: clamp(12px, 1.05vw, 14.5px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+  color: var(--tech-muted);
+  transition: color 260ms ease;
+  text-wrap: balance;
+}
+
+.x50tech__seg[aria-current="true"] .x50tech__seg-label {
+  color: var(--tech-ink);
+}
+
+.x50tech__seg:hover .x50tech__seg-label {
+  color: var(--tech-ink);
+}
+
+/* Байрлалын тоолуур — маш нам гүм. Зөвхөн одоогийн дугаар нь бараан. */
+.x50tech__counter {
+  margin: clamp(10px, 1.2vw, 16px) 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #9A9DA3;
+  font-variant-numeric: tabular-nums;
+}
+
+.x50tech__counter-now {
+  color: var(--tech-ink);
+}
+
+@media (min-width: 1024px) {
+  /* Сонгогч ба тоолуур нь зургийн өргөнтэй (62%) хэвээр — зохиомжийн
+     тэнхлэг текстийн баганад гарахгүй. */
+  .x50tech__progress--named {
+    width: 62%;
+  }
+
+  .x50tech__counter {
+    width: 62%;
+  }
+}
+
+/* --- `strip` утас: зураг дэлгэцийн хоёр зах хүртэл -------------------
+   Зураг нь `container-page` дотор тул 375px-д 335px болж, хоёр захад 20px
+   цагаан зай гарч "карт" мэт уншигдаж байв. Захаас зах болговол
+   зураг 12%-аар томорч, editorial мэдрэмж өгнө. Текст ба сонгогч
+   нь баганадаа хэвээр (уншигдац шаардана). */
+@media (max-width: 1023.98px) {
+  /* `:has()` — ЗӨВХӨН нэртэй сонгогчтой `strip`-д хамаарна.
+     Зураг нь зурваснаас ӨМНӨ байдаг тул ах дүүгийн selector-аар
+     сонгох боломжгүй — тиймээс секцийг шалгана. X50 ба T1 PHEV-ийн
+     `power` (шошгогүй) хөндөгдөхгүй. */
+  .x50tech:has(.x50tech__progress--named) .x50tech__media,
+  .x50tech--editorial .x50tech__media {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+  }
+}
+
+/* --- Нэртэй сонгогчтой `strip` — дэд гарчиггүй үеийн тэнцвэр -----------
+   Дэд гарчиг хасагдсанаар баруун баганад ЗӨВХӨН нэг мөр (онцлогийн нэр)
+   үлдэж, 62%-ийн том зурагтай харьцахад хэт хөнгөн болдог. Шинэ элемент
+   НЭМЭХГҮЙ — зөвхөн шатлал, хэмжээ, зайгаар тэнцвэржүүлэв:
+     · нэр томорч (30px → 40px хүртэл) баганаа барина
+     · `max-width` + `balance` — урт нэр хоёр тэнцүү мөр болно
+     · толгойн доод зай багасч, гарчиг композицийн хэсэг мэт уншигдана
+     · сонгогчийн бичвэр том, замаас зай нэмэгдэж уншигдац сайжирна */
+.x50tech:has(.x50tech__progress--named) .x50tech__head {
+  margin-bottom: clamp(14px, 1.7vw, 24px);
+}
+
+@media (min-width: 1024px) {
+  /* 40px үед хамгийн урт нэр ГУРАН мөр болж, бусад нь хоёр мөр
+     байсан — багана голлосон тул слайд солигдоход текст босоогоор
+     ~22px үсрдэг. 34px-д гурвуулан хоёр мөр болж, хэмнэл тогтоно. */
+  .x50tech:has(.x50tech__progress--named) .x50tech__name {
+    font-size: clamp(26px, 2.2vw, 34px);
+    line-height: 1.14;
+    max-width: 20ch;
+    text-wrap: balance;
+  }
+
+  .x50tech:has(.x50tech__progress--named) .x50tech__seg-label {
+    font-size: 15px;
+  }
+
+  .x50tech__progress--named .x50tech__seg {
+    gap: 12px;
+  }
+}
+
+/* ============================================================
+   `strip` · editorial — техникийн танилцуулгын зохиомж
+   ============================================================
+   Зорилго: зураг + мэдээлэл хоёр ТУСДАА блок мэт биш, нэг бүтээгдэхүүний
+   танилцуулга мэт нийлмэл харагдах. Гурван зарчим:
+
+     1. Зураг илүү том (62% → 68%), текст 32% — зураг өгүүлнэ.
+     2. Баруун баганад ШАТЛАЛ: «01 / 03» → нэр → нэг мөр үзүүлэлт.
+        Өмнө нь нэр ба тайлбар ижил жинтэй хоёр мөр байв.
+     3. Зурвас НАМ ГҮЙ: 1px нейтраль зам, идэвхтэй хэсэг л 2px улаан.
+        Өмнө нь 2px зам бүхэлдээ + улаан нь хэсгийн хамгийн тод элемент
+        болж, композицийг дарж байв.
+
+   Хөдөлгөөн: мөр (зураг+текст) хамт translate хийгдсэний ДАРАА текст 8px
+   мандана — зураг тэргүүлж, текст дагана. Сааталтай текст хуучин мэдээллийг
+   үлдээхгүйн тулд зөвхөн 120мс. */
+.x50tech--editorial .x50tech__index {
+  margin: 0 0 clamp(8px, 0.9vw, 12px);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #9A9DA3;
+  font-variant-numeric: tabular-nums;
+}
+
+.x50tech--editorial .x50tech__index-now {
+  color: var(--tech-ink);
+}
+
+/* Үзүүлэлт нь НЭГ мөр — «1499 см³ · 132 м.х. · 200 Н·м» хэлбэрээр */
+.x50tech--editorial .x50tech__text {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Зурвас: нам гүй --- */
+.x50tech--editorial .x50tech__seg::before {
+  height: 1px;
+  background: #E4E5E8;
+}
+
+.x50tech--editorial .x50tech__seg[aria-current="true"]::before {
+  height: 2px;
+  background: #E2231A;
+}
+
+.x50tech--editorial .x50tech__seg:hover::before {
+  background: #C9CACE;
+}
+
+.x50tech--editorial .x50tech__seg[aria-current="true"]:hover::before {
+  background: #E2231A;
+}
+
+/* --- Текстийн хөдөлгөөн: зургийн дараа 8px мандана --- */
+@keyframes tech-copy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.x50tech--editorial .x50tech__row.is-active .x50tech__copy {
+  animation: tech-copy-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .x50tech--editorial .x50tech__row.is-active .x50tech__copy {
+    animation: none;
+  }
+}
+
+/* --- Десктоп: зураг 68% --- */
+@media (min-width: 1024px) {
+  .x50tech--editorial .x50tech__list {
+    min-height: calc((min(1280px, 94vw) * 0.68) / var(--tech-aspect));
+  }
+
+  .x50tech--editorial .x50tech__media {
+    width: 68%;
+  }
+
+  .x50tech--editorial .x50tech__edge--next {
+    left: calc(68% - 48px - 16px);
+  }
+
+  .x50tech--editorial .x50tech__progress {
+    width: 68%;
+  }
+
+  .x50tech--editorial .x50tech__name {
+    font-size: clamp(24px, 2.1vw, 32px);
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+}
+
+/* Дэд гарчиг нь editorial хувилбарт LEDE биш, ЖИЖИГ дэмжих мөр: гарчиг
+   52px тул 21px нь хоёр дахь гарчиг мэт уншигдаж байв. Мөн үзүүлэлтийн
+   мөр 17px-д баганаас гарч хоёр мөр болдог тул 15.5px — шатлал ч тодорно
+   (нэр 32 → үзүүлэлт 15.5). */
+.x50tech--editorial .x50tech__sub {
+  font-size: clamp(13.5px, 1.05vw, 16.5px);
+  max-width: 52ch;
+}
+
+.x50tech--editorial .x50tech__text {
+  font-size: clamp(13px, 1vw, 15.5px);
+  line-height: 1.5;
+}
+
+/* --- T1 PHEV · 360° тайз: машинд илүү зай --------------------------------
+   Хэсэг нь `100svh - 64px` тул тайзны өндөр = үлдсэн зай. Толгой, өнгөний
+   сонголт, дээд/доод зайг нягтруулснаар тайз ~42px өндөрсөж, машин
+   тайралтгүйгээр (`contain`) томорно. Хоосон зайг БҮРЭН устгахгүй — зөвхөн
+   элементүүдийн хоорондын хэмнэлийг зорилготой болгов.
+
+   Зөвхөн T1 PHEV: T2 ч ижил компонент хэрэглэдэг тул түүний батлагдсан
+   харагдац хөндөгдөхгүй. */
+[data-model="t1-phev"] .spin {
+  padding-block: clamp(18px, 1.8vw, 28px) clamp(18px, 1.8vw, 28px);
+}
+
+[data-model="t1-phev"] .spin__id {
+  margin-bottom: clamp(8px, 1vw, 14px);
+}
+
+[data-model="t1-phev"] .spin__colors {
+  margin-top: clamp(14px, 1.8vw, 24px);
+}
+
+/* --- T1 PHEV · утас: тайзны хоосон зайг нягтруулав ---------------------
+   `.spin` нь `100svh - 64px` тул тайз үлдсэн зайг бүхэлд эзэлдэг (568px),
+   гэвч зураг 1073×610 харьцаагаар 375px өргөнд ердөө 213px өндөр — тайз
+   дотор 355px хоосон зай үүсч, машин том зайн дунд бага харагддаг байв.
+
+   Тайзыг зургийн харьцаанд тааруулж (амьсгалтай), хэсгийн албадсан бүтэн
+   өндрийг утсанд суллав: машин 67.5% өргөнөөр хэвээр, зай нь зорилготой
+   болно. Десктоп ба T2 хөндөгдөхгүй. */
+@media (max-width: 767.98px) {
+  [data-model="t1-phev"] .spin {
+    min-height: 0;
+  }
+
+  [data-model="t1-phev"] .spin__stage {
+    flex: 0 0 auto;
+    /* Зургийн харьцаа 1.759 + доорх hint-д зай */
+    min-height: 0;
+    aspect-ratio: 1.48;
+  }
+}
+
+/* === Баталгааны хуудасны редакцийн блок (.wrnt) ======================== */
+/* Зохиомж: зураг | текст, блок солигдон эргэнэ. Иерархи нь үзүүлэлт (жижиг,
+   бүдэг) → гарчиг (том, улаан) → догол мөр. Карт, сүүдэр байхгүй — зураг
+   өөрөө блокийн хил болно. */
+
+.wrnt__grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  padding-top: clamp(3rem, 6vw, 5.5rem);
+  padding-bottom: clamp(3rem, 6vw, 5.5rem);
+}
+
+.wrnt__media {
+  position: relative;
+  /* Эх зургийн харьцаа 960×650 — тайрахгүй */
+  aspect-ratio: 960 / 650;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #E7E7EA;
+}
+
+/* Улаан нь ЗӨВХӨН энэ жижиг accent мөрөнд. Бүхэл гарчгийг улаанаар бичихийн
+   оронд иерархи: үзүүлэлт (улаан, жижиг) → гарчиг (бараан, том). */
+.wrnt__stat {
+  font-family: var(--font-inter), sans-serif;
+  font-size: clamp(0.75rem, 0.95vw, 0.8125rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #E20A17;
+  margin-bottom: clamp(0.75rem, 1.2vw, 1rem);
+}
+
+.wrnt__title {
+  font-size: clamp(1.5rem, 2.9vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #17181B;
+  text-wrap: balance;
+}
+
+.wrnt__body {
+  margin-top: clamp(1rem, 1.8vw, 1.5rem);
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  line-height: 1.75;
+  color: #54585F;
+  max-width: 46ch;
+}
+
+@media (min-width: 1024px) {
+  .wrnt__grid {
+    grid-template-columns: 1.15fr 1fr;
+    gap: clamp(3rem, 5vw, 5rem);
+  }
+
+  /* Эргүүлсэн блок: зураг баруун талд. DOM дараалал хөндөгдөхгүй тул
+     дэлгэц уншигчид зураг → текст гэж хэвээр уншина. */
+  .wrnt--flip .wrnt__grid {
+    grid-template-columns: 1fr 1.15fr;
+  }
+  .wrnt--flip .wrnt__media {
+    order: 2;
+  }
+}
+
+/* === Баталгааны толгойн тезис (.wthesis) ================================ */
+/* Египетийн stock баннерын оронд: баталгааны хугацаа өөрөө толгой болно.
+   Тэдний ghost watermark-ийн хэлийг хадгалав. */
+
+.wthesis {
+  position: relative;
+  overflow: hidden;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E7E7EA;
+}
+
+.wthesis__inner {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(7rem, 12vw, 9.5rem);
+  padding-bottom: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+/* Хойд дэвсгэрийн сүүдэр үг — уншигдахаас илүү бүтэц. Доод талаас хэсэгчлэн
+   тайрагдаж, толгойн блокийг дүүжлэнэ. */
+.wthesis__ghost {
+  position: absolute;
+  right: -0.06em;
+  bottom: -0.3em;
+  z-index: 0;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 800;
+  font-size: clamp(5rem, 17vw, 15rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: #17181B;
+  opacity: 0.04;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.wthesis__h1 {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #17181B;
+}
+
+/* Гол объект: хугацаа + гүйлт, дундаа улаан зураас */
+.wthesis__lock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.875rem, 2vw, 1.75rem);
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.wthesis__num {
+  font-family: var(--font-inter), sans-serif;
+  font-size: clamp(2.25rem, 6.4vw, 4.75rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: #17181B;
+  font-variant-numeric: tabular-nums;
+}
+
+.wthesis__rule {
+  width: 2px;
+  height: clamp(2rem, 5vw, 3.75rem);
+  background: #E20A17;
+  flex-shrink: 0;
+}
+
+/* Нарийн дэлгэц: lockup хоёр мөр болоход босоо зураас дундаа тэнэг үлддэг —
+   хэвтээ болгож, дарааллыг зөв уншуулна. */
+/* 368px-ээс доош: нэг мөрөнд таарахаа болино (375px-д таарсаар тул хөндөхгүй) */
+@media (max-width: 23rem) {
+  .wthesis__lock {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .wthesis__rule {
+    width: 44px;
+    height: 2px;
+  }
+}

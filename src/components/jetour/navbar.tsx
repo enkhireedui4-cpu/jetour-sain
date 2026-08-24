@@ -2,25 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
-import { CONTACT, ALL_MODELS_FOR_GRID, MODEL_COLOR_IMAGES, MODEL_GALLERY_IMAGES } from "@/lib/jetour-data";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
+import { CONTACT } from "@/lib/jetour-data";
 
-type M = (typeof ALL_MODELS_FOR_GRID)[number];
-
-const imgOf = (m: M) =>
-  MODEL_COLOR_IMAGES[m.id]?.[0]?.image ?? MODEL_GALLERY_IMAGES[m.id]?.[0] ?? m.heroImage;
-
-const priceOf = (m: M) =>
-  m.startingPrice ? `${m.startingPrice}-с эхлэн` : m.priceNote ?? "Тун удахгүй";
-
-type NavItem =
-  | { label: string; href: string; type: "route" | "anchor" }
-  | {
-      label: string;
-      type: "dropdown";
-      items: { label: string; href: string; type: "route" | "anchor" }[];
-    };
+type RouteNavItem = { label: string; href: string; type: "route" };
+type AnchorNavItem = { label: string; href: string; type: "anchor" };
+type DropdownNavItem = {
+  label: string;
+  type: "dropdown";
+  items: Array<RouteNavItem | AnchorNavItem>;
+};
+type NavItem = RouteNavItem | AnchorNavItem | DropdownNavItem;
 
 const NAV_LINKS: NavItem[] = [
   { label: "Тусгай саналууд", href: "/special-offers", type: "route" },
@@ -33,24 +26,47 @@ const NAV_LINKS: NavItem[] = [
     ],
   },
   {
-    label: "Худалдан авагчдад зориулсан",
+    label: "Худалдан авагчдад",
     type: "dropdown",
     items: [
       { label: "Туршилтын жолоодлого", href: "/#dealer", type: "anchor" },
-      { label: "Зээлийн мэдээлэл", href: "/financing", type: "route" },
+      { label: "Үйлчилгээ ба баталгаа", href: "/owners", type: "route" },
     ],
   },
   { label: "Мэдээ", href: "/news", type: "route" },
 ];
 
+/** "Загварууд"-ын дэд цэсийг `openMenu`-д нэрлэх түлхүүр */
+const MODELS_MENU = "Загварууд";
+
+type NavModel = { id: string; name: string };
+
+/** Дэд цэсний идэвхтэй хуудсыг тодруулах — тухайн route дотор байгаа эсэх */
+const isActiveRoute = (pathname: string, href: string) =>
+  href !== "/" && !href.startsWith("/#") && pathname.startsWith(href);
+
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const megaRef = useRef<HTMLDivElement>(null);
+  /* "Загварууд"-ын дэд цэсний жагсаалт. `/api/public/models` нь яг nav/footer/
+     lead-форм гуравт зориулсан хөнгөн хариулт бөгөөд 10 минут кэштэй тул
+     footer-тэй ижил хүсэлт хөтчийн кэшээс шууд ирнэ. */
+  const [navModels, setNavModels] = useState<NavModel[]>([]);
+  // Гадна дарахад цэс хаахад ашиглана
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch("/api/public/models")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.ok) setNavModels(d.models);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -59,23 +75,43 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mega/dropdown on outside click
+  // Route солигдоход бүх цэсийг хаана. Effect дотор биш, render үед шууд тохируулна
+  // (React-ийн "prop солигдоход state-ээ зохицуулах" хэв маяг) — ингэснээр цэс
+  // хаагдсан хувилбар нь нэг ч удаа зурагдахгүй, cascading render гарахгүй.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+    setOpenMenu(null);
+  }
+
+  // Гадна дарахад — хаана
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
-        setMegaOpen(false);
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setOpenMenu(null);
       }
     };
-    if (megaOpen || openMenu) document.addEventListener("mousedown", handler);
+    if (openMenu) document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [megaOpen, openMenu]);
+  }, [openMenu]);
 
-  const overHero = isHome && !scrolled && !megaOpen;
+  // Escape дарахад — хаана (keyboard accessibility)
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+            setOpenMenu(null);
+        setOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, []);
+
+  const overHero = isHome && !scrolled && !open;
 
   const handleAnchor = (href: string) => {
     setOpen(false);
-    setMegaOpen(false);
     if (!href.startsWith("/#")) return;
     const hash = href.slice(1);
     if (window.location.pathname === "/") {
@@ -83,87 +119,165 @@ export function Navbar() {
       if (el) el.scrollIntoView({ behavior: "smooth" });
       else window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      window.location.href = href;
+      router.push(href);
     }
   };
 
+  const linkBase = overHero
+    ? "text-white/90 hover:text-white"
+    : "text-[#54585F] hover:text-[#17181B]";
+  const linkActive = overHero ? "text-white" : "text-[#17181B]";
+
   return (
     <header
-      ref={megaRef}
+      ref={navRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         overHero
           ? "bg-transparent"
           : "bg-white/95 backdrop-blur-xl border-b border-[#E7E7EA] shadow-[0_4px_20px_-14px_rgba(23,24,27,0.3)]"
       }`}
     >
-      <div className="mx-auto w-[min(1280px,94vw)] flex items-center justify-between h-16">
+      <div className="container-page flex items-center justify-between h-16 gap-4">
         {/* Logo */}
-        <Link href="/" onClick={() => { setOpen(false); setMegaOpen(false); }} className="shrink-0" aria-label="JETOUR — Sain Motors">
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
+          className="shrink-0"
+          aria-label="JETOUR — Sain Motors, нүүр хуудас"
+        >
           <JetourLogo overHero={overHero} />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {/* Models mega trigger */}
-          <button
-            onClick={() => { setMegaOpen(!megaOpen); setOpenMenu(null); }}
-            className={`flex items-center gap-1 text-sm font-medium transition-colors relative group ${
-              overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
-            } ${megaOpen ? (overHero ? "text-white" : "text-[#17181B]") : ""}`}
+        <nav className="hidden lg:flex items-center gap-7" aria-label="Үндсэн цэс">
+          {/* Загварууд — хүрэхэд загваруудын жагсаалт нээгдэнэ.
+              Товч нь ХОЛБООС хэвээр: дарвал /models руу очно, зөвхөн
+              хүрэхэд дэд цэс нэмж гарна (өмнөх зан үйл эвдэрэхгүй).
+              Зурагтай том цэс биш — навигацыг хүндрүүлдэг тул бусад дэд
+              цэстэй ижил хөнгөн текст жагсаалт. */}
+          <div
+            className="relative"
+            onMouseEnter={() => setOpenMenu(MODELS_MENU)}
+            onMouseLeave={() => setOpenMenu((v) => (v === MODELS_MENU ? null : v))}
           >
-            Загварууд
-            <ChevronDown
-              className={`w-3.5 h-3.5 transition-transform duration-200 ${megaOpen ? "rotate-180" : ""}`}
-            />
-            {megaOpen && (
-              <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17]" />
+            <Link
+              href="/models"
+              aria-current={pathname.startsWith("/models") ? "page" : undefined}
+              aria-expanded={openMenu === MODELS_MENU}
+              aria-haspopup="true"
+              className={`flex items-center gap-1 text-sm font-medium transition-colors relative group py-5 ${linkBase} ${
+                pathname.startsWith("/models") || openMenu === MODELS_MENU ? linkActive : ""
+              }`}
+            >
+              Загварууд
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                  openMenu === MODELS_MENU ? "rotate-180" : ""
+                }`}
+              />
+              <span
+                className={`absolute bottom-3.5 left-0 right-4 h-0.5 bg-[#E20A17] transition-transform origin-left ${
+                  pathname.startsWith("/models") || openMenu === MODELS_MENU
+                    ? "scale-x-100"
+                    : "scale-x-0 group-hover:scale-x-100"
+                }`}
+              />
+            </Link>
+
+            {openMenu === MODELS_MENU && navModels.length > 0 && (
+              <div className="absolute top-full left-0 -mt-2 min-w-[240px] bg-white rounded-xl border border-[#E7E7EA] shadow-[0_20px_50px_-20px_rgba(23,24,27,0.25)] py-2 z-50">
+                {navModels.map((m) => (
+                  <Link
+                    key={m.id}
+                    href={`/models/${m.id}`}
+                    onClick={() => setOpenMenu(null)}
+                    aria-current={pathname === `/models/${m.id}` ? "page" : undefined}
+                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                      pathname === `/models/${m.id}`
+                        ? "text-[#E20A17] bg-[#F5F5F6]"
+                        : "text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6]"
+                    }`}
+                  >
+                    {m.name.replace(/^JETOUR\s+/, "")}
+                  </Link>
+                ))}
+                <Link
+                  href="/models"
+                  onClick={() => setOpenMenu(null)}
+                  className="mt-1 flex items-center gap-1.5 border-t border-[#EDEDEF] px-4 pt-2.5 pb-1 text-[13px] font-semibold text-[#17181B] transition-colors hover:text-[#E20A17]"
+                >
+                  Бүх загвар
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             )}
-          </button>
+          </div>
 
           {NAV_LINKS.map((l) =>
             l.type === "route" ? (
               <Link
                 key={l.label}
                 href={l.href}
-                className={`text-sm font-medium transition-colors relative group ${
-                  overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
+                aria-current={isActiveRoute(pathname, l.href) ? "page" : undefined}
+                className={`text-sm font-medium transition-colors relative group py-5 ${linkBase} ${
+                  isActiveRoute(pathname, l.href) ? linkActive : ""
                 }`}
               >
                 {l.label}
-                <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                <span
+                  className={`absolute bottom-3.5 left-0 right-0 h-0.5 bg-[#E20A17] transition-transform origin-left ${
+                    isActiveRoute(pathname, l.href)
+                      ? "scale-x-100"
+                      : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                />
               </Link>
             ) : l.type === "anchor" ? (
               <button
                 key={l.label}
                 onClick={() => handleAnchor(l.href)}
-                className={`text-sm font-medium transition-colors relative group ${
-                  overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
-                }`}
+                className={`text-sm font-medium transition-colors relative group py-5 ${linkBase}`}
               >
                 {l.label}
-                <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                <span className="absolute bottom-3.5 left-0 right-0 h-0.5 bg-[#E20A17] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </button>
             ) : (
-              <div key={l.label} className="relative">
+              <div
+                key={l.label}
+                className="relative"
+                onMouseEnter={() => setOpenMenu(l.label)}
+                onMouseLeave={() => setOpenMenu((v) => (v === l.label ? null : v))}
+              >
                 <button
-                  onClick={() => { setOpenMenu((v) => (v === l.label ? null : l.label)); setMegaOpen(false); }}
-                  className={`flex items-center gap-1 text-sm font-medium transition-colors relative ${
-                    overHero ? "text-white/90 hover:text-white" : "text-[#54585F] hover:text-[#17181B]"
-                  } ${openMenu === l.label ? (overHero ? "text-white" : "text-[#17181B]") : ""}`}
+                  onClick={() => setOpenMenu((v) => (v === l.label ? null : l.label))}
+                  aria-expanded={openMenu === l.label}
+                  aria-haspopup="true"
+                  className={`flex items-center gap-1 text-sm font-medium transition-colors relative py-5 ${linkBase} ${
+                    openMenu === l.label || l.items.some((it) => isActiveRoute(pathname, it.href))
+                      ? linkActive
+                      : ""
+                  }`}
                 >
                   {l.label}
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openMenu === l.label ? "rotate-180" : ""}`} />
-                  {openMenu === l.label && <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-[#E20A17]" />}
+                  {(openMenu === l.label || l.items.some((it) => isActiveRoute(pathname, it.href))) && (
+                    <span className="absolute bottom-3.5 left-0 right-4 h-0.5 bg-[#E20A17]" />
+                  )}
                 </button>
                 {openMenu === l.label && (
-                  <div className="absolute top-full left-0 mt-3 min-w-[230px] bg-white rounded-xl border border-[#E7E7EA] shadow-xl py-2 z-50">
+                  <div className="absolute top-full left-0 -mt-2 min-w-[240px] bg-white rounded-xl border border-[#E7E7EA] shadow-[0_20px_50px_-20px_rgba(23,24,27,0.25)] py-2 z-50">
                     {l.items.map((it) =>
                       it.type === "route" ? (
                         <Link
                           key={it.label}
                           href={it.href}
                           onClick={() => setOpenMenu(null)}
-                          className="block px-4 py-2.5 text-sm font-medium text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6] transition-colors"
+                          aria-current={isActiveRoute(pathname, it.href) ? "page" : undefined}
+                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                            isActiveRoute(pathname, it.href)
+                              ? "text-[#E20A17] bg-[#F5F5F6]"
+                              : "text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6]"
+                          }`}
                         >
                           {it.label}
                         </Link>
@@ -184,91 +298,78 @@ export function Navbar() {
           )}
         </nav>
 
+        {/* Desktop CTA */}
+        <Link
+          href="/test-drive"
+          className={`hidden lg:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shrink-0 ${
+            overHero
+              ? "bg-white/10 border border-white/50 text-white backdrop-blur-sm hover:bg-white hover:text-[#17181B]"
+              : "bg-[#17181B] text-white hover:bg-[#E20A17]"
+          }`}
+        >
+          Тест драйв
+        </Link>
+
         {/* Mobile menu toggle */}
         <button
-          className={`lg:hidden p-2 ${overHero ? "text-white" : "text-[#17181B]"}`}
+          /* Хүрэлтийн бай 44×44 (WCAG 2.5.8) — өмнө 40px байв. `-mr-2.5` нь
+             нэмсэн зайг гадагш нөхөж, дүрсний оптик байрлалыг хөндөхгүй. */
+          className={`lg:hidden grid place-items-center h-11 w-11 -mr-2.5 ${
+            overHero ? "text-white" : "text-[#17181B]"
+          }`}
           onClick={() => setOpen(!open)}
+          aria-expanded={open}
           aria-label={open ? "Цэс хаах" : "Цэс нээх"}
         >
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* ── Mega menu — jetour.kz маягийн хэвтээ эгнээ ── */}
-      {megaOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-b border-[#E7E7EA] shadow-2xl">
-          <button
-            onClick={() => setMegaOpen(false)}
-            className="absolute top-4 right-5 z-10 p-1.5 rounded-lg hover:bg-[#F5F5F6] text-[#54585F] hover:text-[#17181B] transition-colors"
-            aria-label="Хаах"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <div className="mx-auto w-[min(1600px,96vw)] py-9">
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-8">
-              {ALL_MODELS_FOR_GRID.map((mm) => (
-                <Link
-                  key={mm.id}
-                  href={`/models/${mm.id}`}
-                  onClick={() => setMegaOpen(false)}
-                  className="group flex flex-col items-center text-center"
-                >
-                  <div className="relative w-full aspect-[5/3] mb-2.5">
-                    {mm.status === "coming-soon" && (
-                      <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[0.5rem] font-bold tracking-[0.14em] uppercase px-1.5 py-0.5 rounded bg-[#E20A17] text-white">
-                        Шинэ
-                      </span>
-                    )}
-                    <img
-                      src={imgOf(mm)}
-                      alt={mm.name}
-                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  </div>
-                  <p className="font-bold text-sm text-[#17181B] leading-tight group-hover:text-[#E20A17] transition-colors">
-                    {mm.name}
-                  </p>
-                  <p className="text-xs text-[#54585F] mt-1">{priceOf(mm)}</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* ── Mega menu — загваруудын хэвтээ эгнээ ── */}
       {/* Mobile drawer */}
       {open && (
-        <div className="lg:hidden bg-white border-t border-[#E7E7EA] shadow-lg">
-          <nav className="mx-auto w-[min(1280px,94vw)] py-3 flex flex-col">
-            <button
-              onClick={() => { setOpen(false); handleAnchor("/#models"); }}
-              className="text-left py-3.5 font-medium text-[15px] text-[#17181B] border-b border-[#F0F0F1] flex items-center justify-between"
+        <div className="lg:hidden bg-white border-t border-[#E7E7EA] shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <nav className="container-page py-3 flex flex-col" aria-label="Мобайл цэс">
+            {/* Загварууд — зурагтай жагсаалтын оронд энгийн холбоос.
+                Бүх машиныг мобайл цэс дотор дүүргэхээ болив. */}
+            <Link
+              href="/models"
+              onClick={() => setOpen(false)}
+              aria-current={pathname.startsWith("/models") ? "page" : undefined}
+              className={`py-3.5 font-medium text-[15px] border-b border-[#F0F0F1] flex items-center justify-between ${
+                pathname.startsWith("/models") ? "text-[#E20A17]" : "text-[#17181B]"
+              }`}
             >
               Загварууд
-              <ChevronDown className="w-4 h-4 text-[#8A8F98]" />
-            </button>
+              <ArrowRight className="w-4 h-4 text-[#6B7280]" />
+            </Link>
+
             {NAV_LINKS.map((l) =>
               l.type === "route" ? (
                 <Link
                   key={l.label}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="text-left py-3.5 font-medium text-[15px] text-[#17181B] border-b border-[#F0F0F1]"
+                  aria-current={isActiveRoute(pathname, l.href) ? "page" : undefined}
+                  className={`py-3.5 font-medium text-[15px] border-b border-[#F0F0F1] flex items-center justify-between ${
+                    isActiveRoute(pathname, l.href) ? "text-[#E20A17]" : "text-[#17181B]"
+                  }`}
                 >
                   {l.label}
+                  <ArrowRight className="w-4 h-4 text-[#C5C8CC]" />
                 </Link>
               ) : l.type === "anchor" ? (
                 <button
                   key={l.label}
                   onClick={() => handleAnchor(l.href)}
-                  className="text-left py-3.5 font-medium text-[15px] text-[#17181B] border-b border-[#F0F0F1]"
+                  className="text-left py-3.5 font-medium text-[15px] text-[#17181B] border-b border-[#F0F0F1] flex items-center justify-between"
                 >
                   {l.label}
+                  <ArrowRight className="w-4 h-4 text-[#C5C8CC]" />
                 </button>
               ) : (
                 <div key={l.label} className="py-3 border-b border-[#F0F0F1]">
-                  <p className="text-[13px] font-bold tracking-wide uppercase text-[#8A8F98] mb-1">
+                  <p className="text-[13px] font-bold tracking-wide uppercase text-[#6B7280] mb-1">
                     {l.label}
                   </p>
                   {l.items.map((it) =>
@@ -277,7 +378,9 @@ export function Navbar() {
                         key={it.label}
                         href={it.href}
                         onClick={() => setOpen(false)}
-                        className="block py-2 pl-3 font-medium text-[15px] text-[#17181B]"
+                        className={`block py-2 pl-3 font-medium text-[15px] ${
+                          isActiveRoute(pathname, it.href) ? "text-[#E20A17]" : "text-[#17181B]"
+                        }`}
                       >
                         {it.label}
                       </Link>
@@ -300,12 +403,13 @@ export function Navbar() {
             >
               <Phone className="w-4 h-4" /> {CONTACT.phone1}
             </a>
-            <button
-              onClick={() => handleAnchor("/#dealer")}
-              className="btn-electric-jetour mt-3 py-3.5 rounded-full text-center text-sm"
+            <Link
+              href="/test-drive"
+              onClick={() => setOpen(false)}
+              className="btn-electric-jetour mt-2 mb-4 py-3.5 rounded-full text-center text-sm"
             >
               Тест драйв захиалах
-            </button>
+            </Link>
           </nav>
         </div>
       )}

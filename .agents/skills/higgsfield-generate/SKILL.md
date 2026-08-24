@@ -1,5 +1,5 @@
 ---
-version: 0.3.0
+version: 0.12.0
 name: higgsfield-generate
 description: |
   Generate images/videos/3D assets/audio via Higgsfield AI. Defaults:
@@ -12,15 +12,14 @@ description: |
   sketch", "create a 3D model/GLB", "create a sound effect",
   "make music", "text-to-audio", "create an ad", "make a UGC
   video", "unboxing", "presenter video", "import product from
-  URL", or "analyze video virality". Supports image-to-3D
-  (`multi_image_to_3d`),
-  text-to-audio/music (`seed_audio`), workflow generation
-  (`draw_to_video`, `reframe`), Marketing Studio, and
-  Virality Predictor (`brain_activity`).
+  URL", or "analyze video virality". Supports generic generation,
+  workflows, Marketing Studio, and Virality Predictor.
   Chain with higgsfield-soul-id for face/identity consistency.
-  NOT for: Soul Character training (use higgsfield-soul-id),
-  product photoshoots, marketplace listing cards,
-  text/chat/TTS tasks.
+  NOT for: Soul training, brand systems/brandbooks (use
+  higgsfield-brandkit), photoshoots, cards, YouTube thumbnails
+  (use higgsfield-youtube-thumbnail), explainers (use
+  higgsfield-video-explainer), playable games/assets (use
+  higgsfield-game-generation), or TTS.
 argument-hint: "[prompt-or-analysis-request] [--model <name>] [--image|--video <path-or-id>]"
 allowed-tools: Bash
 ---
@@ -76,6 +75,8 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - **Seed Audio 1.0** → default audio model for text-to-audio, voice, sound effects, ambience, foley, and music-like audio unless the user names Sonilo/Mirelo.
 
    **Image:**
+   - Complete brand identity, logo system, palette, typography, brandbook, packaging system, signage, or coordinated branded asset suite → use `higgsfield-brandkit` instead.
+   - YouTube thumbnail, Shorts cover, or Instagram video cover → use `higgsfield-youtube-thumbnail` instead.
    - Brand product visual (Pinterest pin, lifestyle, hero banner, ad pack, virtual try-on) → use `higgsfield-product-photoshoot` instead. NOT this skill.
    - Generated product concept / packaging / can / bottle with brand name or label text → GPT Image 2.
    - Branded ad image with avatar + product (Marketing Studio shape) → Marketing Studio Image (see Marketing Studio below)
@@ -91,6 +92,7 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - **Default for everything else → GPT Image 2.** Graphic design, UI, banners, typography, and high-fidelity general generation.
 
    **Video:**
+   - Complete narrated explainer from a topic, story, or document → use `higgsfield-video-explainer`, not generic video generation.
    - All advertising / commercial / branded ad video → Marketing Studio (see Marketing Studio below)
    - Edit existing video from sketch/timestamp, or reframe to another aspect ratio → workflow (`draw_to_video` or `reframe`), not a model. See `references/workflows.md`.
    - **Default all-purpose serious video (multi-shot, consistent identity, motion-heavy, image-to-video, 4–15s requests) → Seedance 2.0.** SOTA. Do not downgrade to Seedance 1.5 just because its duration enum is easier to read; validate Seedance 2.0 first.
@@ -106,6 +108,7 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - Rate a finished video's hook, virality potential, attention, retention, or distraction risk → Virality Predictor (`brain_activity`). This is a video analysis model that returns a text score/report, not a generated media asset.
 
    **3D:**
+   - A 3D asset within a playable game or game-wide asset system → use `higgsfield-game-generation`.
    - Create an actual 3D mesh/model/GLB from one or more object/product reference images → Multi-Image to 3D (`multi_image_to_3d`). Pass 1–4 images with repeated `--image`; use `--should_texture true` when the asset needs texture. If the user only asks for a 3D-rendered picture, use an image model instead.
 
    **Audio:**

@@ -1,11 +1,21 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+  /**
+   * Хөгжүүлэлт Windows дээр, сервер ихэвчлэн Linux дээр байдаг. Зөвхөн `native`
+   * үед build нь `query_engine-windows.dll.node` л гаргадаг тул Linux сервер
+   * дээр Prisma ЭХЛЭХГҮЙ. Хоёуланг нь багцалснаар аль ч орчинд ажиллана.
+   *
+   * `debian-openssl-3.0.x` — Debian 12 / Ubuntu 22.04+ / орчин үеийн Node
+   * образуудад тохирно. Хэрэв Alpine (musl) образ сонговол
+   * `linux-musl-openssl-3.0.x` нэмнэ.
+   */
+  /* `rhel-openssl-3.0.x` — Vercel / AWS Lambda (Amazon Linux) дээр Prisma
+     ажиллахад ЗААВАЛ. Үүнгүйгээр deploy нь "Query engine not found" гэж унана.
+     `debian-openssl-3.0.x` нь VPS (Debian/Ubuntu) хувилбарт үлдэнэ. */
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -13,20 +23,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model AdminUser {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model CarModel {
+  id              String   @id
+  name            String
+  series          String
+  tagline         String
+  shortDesc       String
+  description     String
+  longDescription String
+  heroImage       String
+  price           String?
+  priceNote       String?
+  startingPrice   String?
+  status          String   @default("available")
+  accent          String   @default("red")
+  order           Int      @default(0)
+  detailsJson     String   @default("{}")
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model NewsArticle {
   id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+  slug      String   @unique
+  title     String
+  excerpt   String
+  content   String
+  date      String
+  dateIso   String
+  image     String
+  tag       String
+  type      String
+  accent    String
+  published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Post {
+model Promotion {
+  id         String   @id
+  modelId    String
+  modelName  String
+  poster     String
+  title      String
+  desc       String
+  date       String
+  body       String
+  tagline    String
+  price      String?
+  specsJson  String   @default("[]")
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Lead {
   id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
+  name      String?
+  phone     String?
+  email     String?
+  modelId   String?
+  modelName String?
+  message   String?
+  source    String?
+  status    String   @default("new")
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  // Админ leads жагсаалт: findMany(orderBy createdAt desc) — өсөн нэмэгддэг цорын
+  // ганц хүснэгт тул date-sort индекс filesort-оос сэргийлнэ.
+  @@index([createdAt])
+  // Админ dashboard: count(where status:"new") — статусаар шүүх count.
+  @@index([status])
 }

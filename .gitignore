@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# generated PostgreSQL schema (single source = prisma/schema.prisma)
+prisma/schema.postgres.prisma
 
 # vercel
 .vercel
@@ -52,3 +56,16 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# P3-1: pristine source-image backups (before Sharp optimization) — local rollback only
+/.image-originals/
+# Firecrawl CLI-ийн татсан агуулга — репод оруулахгүй
+.firecrawl/
+
+# SQLite өгөгдлийн сан — хэзээ ч git-д оруулахгүй.
+# Дотор нь Lead (үйлчлүүлэгчийн нэр/утас) ба AdminUser (bcrypt hash) байдаг.
+# Агуулгыг `npm run db:export` → db/content.json-оор дамжуулна (хувийн өгөгдөлгүй).
+db/*.db
+db/*.db-journal
+db/*.db-wal
+db/*.db-shm

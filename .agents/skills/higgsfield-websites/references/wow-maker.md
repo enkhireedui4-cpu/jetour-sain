@@ -5,24 +5,31 @@ pick and fill — you **compose** a distinctive, award-tier site from the direct
 below: bespoke AI-generated assets, signature animation patterns, motion/3D
 libraries, and copy-paste component/block registries.
 
-**Every site must ship a real wow moment.** A flat page of text and default
-components is a failure. Open this file on every build (marketing site, app,
-dashboard, the simplest landing — all of them), pick ingredients that fit the brief,
-and build something that feels expensive and alive. Do not search the skill library
-for other design guidance — everything is here. Use `design-taste-frontend.md` (or
-`minimalist-ui.md` for Higgsfield-SDK apps) for HOW to execute with taste; this file
-is WHAT to build with.
+**The mandatory wow on a website is the ANIMATED WEBSITE.** On every
+`--type website` build the Tier-1 wow is fixed by the brief's `Animation mode`
+(`references/website-flow.md` Phase 0): the DEFAULT is the **animated website** —
+the seam-locked scroll-scrub camera journey in `references/scroll-scrub.md` — and
+that is what "ships a real wow moment" MEANS here. This file is the ingredient
+directory you build the SURROUNDING craft with (bespoke assets, section motion,
+component registries); it is NOT a menu of alternatives to the animated website.
+Use `design-recipe.md` for HOW to execute with taste; this file is WHAT to build
+the supporting layer with.
 
-## The minimum wow bar (every site — before it is "done")
+## What counts as "done" (every site)
 
-Wow is part of DONE, not optional polish. Treat these as a checklist the site must
-hit before you call it finished — doing one cheap thing (e.g. "generated one image,
-done") is NOT enough:
+Wow is part of DONE, not optional polish. The bar is the `Animation mode` the
+brief committed to — nothing lighter:
 
-1. **≥1 bespoke generated asset**, downloaded into `app/public/` and actually
+1. **The Tier-1 wow matches `Animation mode`.** Default `animated-website` → the
+   scroll-scrub camera journey is built (component + scene media), per
+   `references/scroll-scrub.md` and enforced by the Phase 5 gate item 9f. The
+   items below are the craft AROUND it, not a substitute: a ticker, hover motion,
+   entrance transitions, animated numbers, a shader gradient, or any single §2
+   effect DO NOT satisfy the animated-website requirement. Only when the brief
+   records `Animation mode: non-animated` (the user picked Non-animated at intake)
+   does a §2 signature effect / lighter technique become the Tier-1 wow.
+2. **≥1 bespoke generated asset**, downloaded into `app/public/` and actually
    referenced — never stock, picsum, an icon-font hero, or a CSS-only hero. (§1)
-2. **≥1 signature/hero effect** beyond a static image — a §2 pattern, a shader
-   gradient, a particle field, a scrub, a cursor reveal. The hero must do something.
 3. **Motivated entrance motion** (scroll reveals / spring transitions via
    `motion/react`, GSAP, or a registry reveal), `prefers-reduced-motion`-gated. Not a
    dead static page.
@@ -33,16 +40,18 @@ done") is NOT enough:
    `morphing-text`/`aurora-text`) and animated numbers (`@number-flow/react`) instead
    of static text.
 
-**Order of work — do the wow pass FIRST.** Decide the wow moment and generate the hero
-asset BEFORE you build the page, so wow drives the design. Do not ship the structure
-first and plan to "add polish later" — you won't.
+**Order of work — the camera journey FIRST.** On the animated-website default,
+decide the journey and generate the scene media BEFORE you build the page, so the
+scroll-scrub spine drives the design. Do not ship a generic static structure and
+plan to "add the animation later" — you won't, and the gate will fail it.
 
-**Restraint is NOT an excuse to skip wow.** "Clean", "minimal", "trustworthy",
-"Linear-like", "Notion-like" briefs STILL require a real wow moment — restraint means
-the wow is *precise and deliberate*, not absent. Linear has a deliberate gradient +
-smooth scroll; Notion has crisp motion; a children's clinic can have animated stats +
-a soft signature effect. Never use a minimal/serious brief as cover to ship a plain
-page.
+**Restraint is NOT an escape hatch from the animated website.** "Clean",
+"minimal", "trustworthy", "Linear-like", "Notion-like" briefs are STILL
+`Animation mode: animated-website` — restraint means the journey is *calm and
+deliberate* (slower camera, quieter scenes), not absent. A minimal or serious
+brief does NOT make it `non-animated`; only the user's own Non-animated choice
+does. Never use "it's minimal" as cover to ship a plain page or downgrade
+the animated website to a soft effect.
 
 ## Rules (short)
 
@@ -56,7 +65,7 @@ page.
   top. `[W]` webgl/canvas = `[C]` **plus** `React.lazy` + code-split so it never
   enters the SSR render path. See the SSR pattern at the bottom.
 - **Motion budget:** one signature/hero effect per page (don't stack two). Motion must
-  be motivated (`design-taste-frontend.md` §4/§6). Honor `prefers-reduced-motion`:
+  be motivated (`design-recipe.md` §6). Honor `prefers-reduced-motion`:
   every animated effect needs a static fallback.
 
 ---
@@ -69,16 +78,20 @@ product's superpower**. Treat bespoke asset generation as a **default step on ev
 build**, not an afterthought. A hero with a generated image / video / 3D subject is
 often the single biggest wow upgrade available.
 
-**Tools** (load the Higgsfield generation toolset via `tool_search`; also
-`skill_view(name='image-generation')` if present). They are async — **submit → poll
-`higgsfield_job_status` → use the result**. If a param/model is rejected, call
-`higgsfield_generate_models_explore` and use what it reports.
+**Commands** (`higgsfield generate create <job_type> --prompt "…" [flags]`).
+Jobs are async — **submit (no `--wait` when batching; each prints a job id) →
+poll `higgsfield generate wait <id>` / `higgsfield generate get <id>` → use the
+result** (a single job can pass `--wait` to block and print the result URL). If
+a param/model is rejected, run `higgsfield model list` +
+`higgsfield model get <job_type>` and use what they report.
 
-- `higgsfield_generate_image` — `gpt_image_2` (general / art-directed), `nano_banana_pro`
+- Images — `gpt_image_2` (general / art-directed), `nano_banana_pro`
   (photoreal + reference-image driven, e.g. try-ons / product normalization).
-- `higgsfield_generate_video` — `seedance_2_0` (seamless loops + short films).
-- `remove_background` — turn a product/subject shot into a transparent PNG cutout.
-- `image_to_3d` — turn an approved image into a textured `.glb` (no rigging).
+- Video — `seedance_2_0` (seamless loops + short films).
+- `image_background_remover` — turn a product/subject shot into a transparent
+  PNG cutout.
+- `multi_image_to_3d` — turn 1-4 approved images into a textured `.glb`
+  (repeated `--image`, `--should_texture true`; no rigging).
 
 **Pipeline:** generate → poll → **download into `app/public/`** (e.g. `assets/`,
 `media/`, `frames/`) → reference **same-origin** (`/assets/...`). The Worker serves
@@ -89,15 +102,16 @@ stock/picsum as the final asset.
 - **Hero image / background** — the centerpiece visual (full-bleed or behind glass).
 - **Section textures / atmospheric plates** — backdrops that crossfade per section.
 - **Video loop / showreel** — a seamless `seedance_2_0` clip for a hero or band.
-- **Product cutouts** — `generate_image` → `remove_background` → transparent PNG.
-- **3D subject** — approved image → `image_to_3d` → `.glb` for an R3F scene.
+- **Product cutouts** — generate the image → `image_background_remover` →
+  transparent PNG.
+- **3D subject** — approved image → `multi_image_to_3d` → `.glb` for an R3F scene.
 - **OG image + favicon** — generate, wire into `<head>` / `app-meta`.
 - **People / avatars / testimonial faces, icon & logo glyphs** — bespoke, not stock.
 
 **Rules:** prompt for "no text, no logos, no watermark" (IP-safe + lets you set type
 in HTML); match the palette/mood to the brief; downscale large outputs (hero ≤2k,
-cutouts ~800px); **verify an image before the expensive `image_to_3d` step**; for a
-monochrome look force grayscale in the prompt AND on export.
+cutouts ~800px); **verify an image before the expensive `multi_image_to_3d`
+step**; for a monochrome look force grayscale in the prompt AND on export.
 
 ---
 

@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { NEWS_ARTICLES } from "@/lib/jetour-data";
+import Image from "next/image";
+import { getAllNews } from "@/lib/cms";
 import { Navbar } from "@/components/jetour/navbar";
-import { Calendar, Tag, ArrowRight, ArrowLeft } from "lucide-react";
+
+// ISR — 10 мин (600 сек). Next-ийн segment config нь literal байх ёстой,
+// import хийсэн тогтмол ажиллахгүй тул тоог шууд бичнэ.
+export const revalidate = 600;
+import { Footer } from "@/components/jetour/contact";
+import { PageHeader } from "@/components/jetour/page-header";
+import { Calendar, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Мэдээ, сурталчилгаа — JETOUR",
@@ -16,88 +23,57 @@ export const metadata: Metadata = {
   },
 };
 
-export default function NewsListPage() {
+export default async function NewsListPage() {
+  const NEWS_ARTICLES = await getAllNews();
   return (
-    <div className="min-h-screen bg-white text-[#17181B]">
+    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
-      <div className="h-16" />
 
-      {/* Hero */}
-      <section className="relative py-20 lg:py-28 bg-[#17181B] overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "radial-gradient(50% 60% at 50% 0%, rgba(226,35,26,0.15), transparent 70%)",
-          }}
-        />
-        <div className="relative mx-auto w-[min(1280px,94vw)]">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-[#E20A17] transition-colors text-sm font-display font-bold tracking-wider mb-6"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            НҮҮР
-          </Link>
-          <p className="eyebrow text-[#E20A17] mb-3">Мэдээ · Сурталчилгаа</p>
-          <h1 className="font-display font-extrabold italic leading-[0.95] text-white text-5xl lg:text-7xl">
-            Шинэ <span className="text-gradient-electric">мэдээлэл</span>
-          </h1>
-        </div>
-      </section>
+      <PageHeader
+        title="Шинэ мэдээлэл"
+        lead="JETOUR-ын шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт, үйл явдлууд."
+      />
 
       {/* Articles grid */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="mx-auto w-[min(1280px,94vw)]">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="section-pad">
+        <div className="container-page">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {NEWS_ARTICLES.map((article) => (
               <Link
                 key={article.slug}
                 href={`/news/${article.slug}`}
-                className="group block bg-white rounded-2xl overflow-hidden border border-[#E7E7EA] card-lift"
+                className="group block rounded-2xl overflow-hidden card-lift"
               >
-                <div className="relative aspect-[16/10] overflow-hidden bg-[#F5F5F6]">
-                  <img
+                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-[#F5F5F6]">
+                  <Image
                     src={article.image}
                     alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-110"
-                    loading="lazy"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background: "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.5) 100%)",
-                    }}
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span
-                      className={`font-display text-[0.6rem] font-bold tracking-[0.18em] uppercase px-3 py-1.5 rounded-full text-white ${
-                        article.accent === "electric" ? "bg-[#E20A17]" : "bg-[#17181B]"
-                      }`}
-                    >
-                      {article.tag}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 text-white text-xs">
-                    <Calendar className="w-3 h-3" />
-                    <span className="font-display tracking-wide">{article.date}</span>
-                  </div>
+                  <span
+                    className={`absolute top-4 left-4 eyebrow px-3 py-1.5 rounded-full text-white ${
+                      article.accent === "electric" ? "bg-[#E20A17]" : "bg-[#17181B]"
+                    }`}
+                  >
+                    {article.tag}
+                  </span>
                 </div>
 
-                <div className="p-6">
-                  <p className="text-[0.65rem] tracking-[0.22em] uppercase text-[#E20A17] font-display mb-2 flex items-center gap-1.5">
-                    <Tag className="w-3 h-3" />
-                    {article.type}
+                <div className="pt-5">
+                  <p className="type-small text-[#6B7280] flex items-center gap-1.5 mb-3">
+                    <Calendar className="w-3.5 h-3.5" />
+                    {article.date}
                   </p>
-                  <h2 className="font-display font-extrabold italic text-xl text-[#17181B] mb-3 leading-tight">
-                    {article.title}
-                  </h2>
-                  <p className="text-sm text-[#6B7280] leading-relaxed mb-4 line-clamp-2">
+                  <h2 className="type-h3 text-[#17181B] mb-3">{article.title}</h2>
+                  <p className="text-[#54585F] leading-relaxed line-clamp-2 mb-4">
                     {article.excerpt}
                   </p>
-                  <div className="flex items-center gap-1.5 text-[#E20A17] font-display font-bold text-sm group-hover:gap-2.5 transition-all">
+                  <span className="inline-flex items-center gap-1.5 text-[#E20A17] font-semibold text-sm group-hover:gap-2.5 transition-all">
                     Цааш унших
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
                 </div>
               </Link>
             ))}
@@ -105,14 +81,7 @@ export default function NewsListPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#17181B] text-white py-10">
-        <div className="mx-auto w-[min(1280px,94vw)] text-center">
-          <p className="text-xs text-white/50">
-            © {new Date().getFullYear()} JETOUR · Сайн Моторс ХХК.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

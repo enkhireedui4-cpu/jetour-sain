@@ -1,38 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
-import { SPECIAL_OFFERS } from "@/lib/jetour-data";
+import { ArrowLeft, ArrowRight, Calendar, Download } from "lucide-react";
+import type { SpecialOffer } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 import { EnhancedLeadForm } from "@/components/jetour/enhanced-lead-form";
 
-export default function OfferDetailClient({ id }: { id: string }) {
-  const offer = SPECIAL_OFFERS.find((o) => o.id === id);
-
-  if (!offer) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white text-[#17181B]">
-        <div className="text-center">
-          <h1 className="font-extrabold text-3xl mb-4">Санал олдсонгүй</h1>
-          <Link href="/special-offers" className="text-[#E20A17] font-semibold">
-            Бүх санал руу буцах
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
+export default function OfferDetailClient({
+  offer,
+  brochure,
+}: {
+  offer: SpecialOffer;
+  brochure?: string | null;
+}) {
   return (
-    <div className="min-h-screen bg-white text-[#17181B]">
+    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
       <div className="h-16" />
 
       {/* Back link */}
-      <div className="mx-auto w-[min(1280px,94vw)] pt-6">
+      <div className="container-page pt-8">
         <Link
           href="/special-offers"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[#54585F] hover:text-[#E20A17] transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[#6B7280] hover:text-[#E20A17] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Тусгай саналууд
@@ -40,98 +31,103 @@ export default function OfferDetailClient({ id }: { id: string }) {
       </div>
 
       {/* Hero poster — бүтэн постер, том, таслалгүй */}
-      <section className="pt-4 pb-10">
+      <section className="pt-6 pb-12 lg:pb-16">
         <div className="mx-auto w-[min(1100px,94vw)]">
           <img
             src={offer.poster}
             alt={offer.title}
-            className="w-full h-auto rounded-2xl shadow-sm"
+            className="w-full h-auto rounded-2xl"
           />
         </div>
       </section>
 
       {/* Detail body */}
-      <section className="pb-14">
-        <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16">
+      <section className="pb-16 lg:pb-20">
+        <div className="container-page grid lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-20">
           <div>
-            <h1 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-4xl leading-tight mb-3">
-              {offer.title}
-            </h1>
-            <p className="flex items-center gap-1.5 text-sm text-[#8A8F98] mb-5">
+            <h1 className="type-h1 text-[#17181B] mb-4">{offer.title}</h1>
+            <p className="flex items-center gap-1.5 type-small text-[#6B7280] mb-6">
               <Calendar className="w-4 h-4" />
               {offer.date}
             </p>
             {offer.price && (
-              <div className="mb-8">
-                <span className="block text-xs font-bold tracking-[0.18em] uppercase text-[#8A8F98] mb-1">
-                  Үндсэн үнэ
-                </span>
-                <span className="text-2xl lg:text-3xl font-extrabold text-[#E20A17]">
+              <div className="mb-10">
+                <span className="eyebrow block mb-2">Үндсэн үнэ</span>
+                <span className="text-3xl lg:text-4xl font-extrabold text-[#E20A17]">
                   {offer.price}
                 </span>
               </div>
             )}
-            <div className="space-y-4">
+            <div className="space-y-5">
               {offer.body.map((p, i) => (
-                <p key={i} className="text-[#54585F] text-base leading-relaxed">
+                <p key={i} className="text-[#54585F] text-base leading-[1.8]">
                   {p}
                 </p>
               ))}
             </div>
-            <button
-              onClick={() =>
-                document.querySelector("#lead-form")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="inline-flex items-center gap-2 bg-[#E20A17] text-white px-7 py-3.5 rounded-lg text-sm font-bold hover:bg-[#17181B] transition-colors mt-8"
-            >
-              Хүсэлт үлдээх
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex flex-wrap items-center gap-3 mt-10">
+              <button
+                onClick={() =>
+                  document.querySelector("#lead-form")?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="btn-electric-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
+              >
+                Хүсэлт үлдээх
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              {brochure && (
+                <a
+                  href={brochure}
+                  download={`JETOUR ${offer.modelName.replace("JETOUR ", "").replace("Jetour ", "")}.pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-ink-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
+                >
+                  <Download className="w-4 h-4" />
+                  Брошюр татах
+                </a>
+              )}
+            </div>
           </div>
           <div className="lg:pt-2">
-            <p className="text-[#17181B] text-lg leading-relaxed font-medium">{offer.tagline}</p>
+            <p className="type-lead text-[#17181B]">{offer.tagline}</p>
           </div>
         </div>
       </section>
 
       {/* Spec table */}
       {offer.specs && offer.specs.length > 0 && (
-        <section className="pb-14">
-          <div className="mx-auto w-[min(1280px,94vw)]">
-            <h2 className="font-extrabold tracking-tight text-[#17181B] text-2xl lg:text-3xl mb-6">
-              Техникийн үзүүлэлт
-            </h2>
-            <div className="overflow-hidden rounded-2xl border border-[#E7E7EA]">
-              <table className="w-full text-sm">
-                <tbody>
-                  {offer.specs.map((s, i) => (
-                    <tr
-                      key={s.label}
-                      className={i % 2 === 0 ? "bg-[#F5F5F6]" : "bg-white"}
-                    >
-                      <td className="px-5 py-3.5 font-semibold text-[#17181B] align-top w-[42%] sm:w-[32%] border-b border-[#E7E7EA]">
-                        {s.label}
-                      </td>
-                      <td className="px-5 py-3.5 text-[#54585F] border-b border-[#E7E7EA]">
-                        {s.value}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <section className="pb-16 lg:pb-20">
+          <div className="container-page">
+            <h2 className="type-h2 text-[#17181B] mb-8">Техникийн үзүүлэлт</h2>
+            <div className="max-w-3xl divide-y divide-[#E7E7EA] border-t border-b border-[#E7E7EA]">
+              {offer.specs.map((s) => (
+                <div
+                  key={s.label}
+                  className="flex items-start justify-between gap-6 py-4"
+                >
+                  <span className="text-[#54585F] w-[42%] sm:w-[38%] shrink-0">
+                    {s.label}
+                  </span>
+                  <span className="font-semibold text-[#17181B] text-right">
+                    {s.value}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </section>
       )}
 
       {/* Lead form */}
-      <section id="lead-form" className="bg-[#F5F5F6] py-16 lg:py-20 border-t border-[#E7E7EA] scroll-mt-20">
-        <div className="mx-auto w-[min(1280px,94vw)] grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-14 items-start">
+      <section
+        id="lead-form"
+        className="section-pad bg-[#F5F5F6] border-t border-[#E7E7EA] scroll-mt-20"
+      >
+        <div className="container-page grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-16 items-start">
           <div>
-            <h2 className="font-extrabold tracking-tight text-[#17181B] text-3xl lg:text-4xl mb-4">
-              Санал хүсэлт
-            </h2>
-            <p className="text-[#54585F] text-base leading-relaxed max-w-sm">
+            <h2 className="type-h2 text-[#17181B] mb-4">Санал хүсэлт</h2>
+            <p className="type-lead max-w-sm">
               Маягтыг илгээхийн тулд мэдээллээ бөглөж, зааврыг дагана уу. Манай баг тантай
               удахгүй холбогдоно.
             </p>
@@ -142,6 +138,10 @@ export default function OfferDetailClient({ id }: { id: string }) {
             title="Санал хүсэлт"
             subtitle={`${offer.modelName} — таатай нөхцөлөөр`}
             modelName={offer.modelName}
+            /* Салбар/огноо — хасав. Загварын хуудасны "Санал хүсэлт"-тэй ижил:
+               анхны хүсэлтэд нэр, утас, загвар хангалттай; салбар/цагийг
+               оператор залгахдаа тохирно. */
+            showBranchField={false}
             showDateField={false}
             showTimeField={false}
             showEmailField={false}
