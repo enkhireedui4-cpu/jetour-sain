@@ -18,6 +18,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/`, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
     { url: `${baseUrl}/models`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/special-offers`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    // Нэгдсэн лийд маягт — сайтын гол хөрвөлтийн хуудас (/test-drive-ыг сольсон)
+    { url: `${baseUrl}/info-request`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/owners`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/brand`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/dealer`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },

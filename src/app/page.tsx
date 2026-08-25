@@ -2,6 +2,7 @@ import { Navbar } from "@/components/jetour/navbar";
 import { Hero } from "@/components/jetour/hero";
 import { Models } from "@/components/jetour/models";
 import { News } from "@/components/jetour/news";
+import { QuickLinks } from "@/components/jetour/quick-links";
 import { Footer } from "@/components/jetour/contact";
 import { getAllCarModels, getAllNews } from "@/lib/cms";
 
@@ -22,6 +23,7 @@ export default async function Home() {
         <Hero />
         <Models models={availableModels} />
         <News articles={news} />
+        <QuickLinks />
       </main>
       <Footer />
     </div>

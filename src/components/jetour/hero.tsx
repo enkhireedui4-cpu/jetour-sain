@@ -257,8 +257,8 @@ export function Hero() {
               Дэлгэрэнгүй үзэх
               <ArrowRight size={15} />
             </Link>
-            <Link href="/test-drive" className="hero__btn hero__btn--ghost">
-              Тест драйв захиалах
+            <Link href="/info-request" className="hero__btn hero__btn--ghost">
+              Мэдээлэл авах
             </Link>
           </motion.div>
         </div>

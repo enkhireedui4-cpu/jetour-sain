@@ -58,6 +58,21 @@ export function modelCutout(m: MediaModel): string {
   return MODEL_CUTOUT[m.id] ?? m.heroImage;
 }
 
+/**
+ * Навигацийн mega цэсэнд тавих зураг — нүүр хуудасны сонгогчийнхтой ИЖИЛ.
+ *
+ * `/menu/*.webp` биш `side.png`-ийг сонгосон шалтгаан:
+ *   · Өнгө нь нүүртэй таарна (X70 Plus улаан, X1 саарал) — цэс, нүүр хоёр
+ *     өөр машин үзүүлэхээ болино.
+ *   · Машин кадраа ~93% эзэлдэг (menu-д ~55%). Цэсэнд зураг жижиг тул энэ нь
+ *     чухал: ижил нүдэнд машин мэдэгдэхүйц том, тод харагдана.
+ *   · Найман загвар БҮГД нэг гэр бүлийн асет болж, эгнээнд жигд сууна.
+ *     Хоёрыг нь сольчихвол тэр хоёр нь бусдаасаа өөр өндөртэй болно.
+ */
+export function modelMenuImage(m: MediaModel): string {
+  return MODEL_SIDE[m.id] ?? modelCutout(m);
+}
+
 /** Загвар сонгогчийн том хажуу зураг. Байхгүй бол цэсний cutout руу унана. */
 export function modelSideImage(m: MediaModel): string {
   return MODEL_SIDE[m.id] ?? modelCutout(m);

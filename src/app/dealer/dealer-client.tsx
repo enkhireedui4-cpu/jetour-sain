@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { CONTACT, SHOWROOM_HOURS, BRANCHES } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
-import { PageHeader } from "@/components/jetour/page-header";
 import { Footer } from "@/components/jetour/contact";
 import { useDragSwipe } from "@/hooks/use-drag";
 import { cyclicOffset, slideJumped } from "@/lib/slider";
@@ -50,13 +49,23 @@ export function DealerClient() {
     <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
 
-      <PageHeader
-        title="Бидний showroom"
-        lead={`${branch.name} — ${branch.city}. Showroom, үйлчилгээ, тест драйв нэг дор. Доорх газрын зургаар замаа төлөвлөж, өдөр бүр тавтай морилно уу.`}
-      />
+      {/* Толгойн блок бүхэлдээ хасагдав — гарчиг ба тайлбар хоёулаа доорх
+          картад давхардаж байв. Хуудас шууд агуулгаараа эхэлнэ.
+
+          `sr-only` h1: хуудсанд ЯМАР Ч ҮЕД нэг h1 байх ёстой — хайлтын
+          систем ба дэлгэц уншигчид бүтцийг үүнээс уншина. Харагдахгүй ч
+          баримтын бүтэц бүтэн үлдэнэ.
+
+          `pt-28` нь `PageHeader`-ийн эзэлж байсан зайг нөхнө: navbar нь
+          `fixed` 64px тул `section-pad-sm` (36–52px) дангаараа хүрэлцэхгүй,
+          агуулга түүний доор шургана. */}
+      <h1 className="sr-only">Бидний шоурум — SAIN MOTORS, JETOUR-ийн албан ёсны дистрибьютор</h1>
 
       {/* Info + Enlarged Google Map */}
-      <section className="section-pad-sm bg-white">
+      {/* `section-pad-sm` хэрэглэхгүй: түүний `padding-block` нь Tailwind-ийн
+          `pt-*`-ыг дийлж, агуулга дүүжин navbar-ын доор шургаж байв.
+          Дээд/доод зайг тодорхой өгнө. */}
+      <section className="bg-white pt-24 lg:pt-32 pb-9 lg:pb-12">
         <div className="container-page grid lg:grid-cols-[0.9fr_1.4fr] gap-6 lg:gap-8 items-stretch">
           {/* Info card */}
           <motion.div
@@ -87,7 +96,7 @@ export function DealerClient() {
 
             <div className="space-y-4 flex-1">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#E20A17] mt-0.5 shrink-0" />
+                <MapPin className="w-5 h-5 text-[#6B7280] mt-0.5 shrink-0" />
                 <div>
                   <p className="text-[11px] tracking-[0.18em] uppercase text-[#6B7280] mb-0.5">
                     Showroom хаяг
@@ -105,42 +114,37 @@ export function DealerClient() {
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-3">
-                <a
-                  href={CONTACT.phone1Href}
-                  className="flex items-center gap-3 bg-white rounded-xl p-3.5 border border-[#E7E7EA] hover:border-[#E20A17] transition-colors"
-                >
-                  <span className="w-9 h-9 grid place-items-center rounded-lg bg-[#F5F5F6] text-[#E20A17]">
-                    <Phone className="w-4 h-4" />
-                  </span>
-                  <div>
-                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#6B7280]">
-                      Борлуулалтын ажилтан 1
-                    </p>
-                    <p className="font-bold text-[#17181B] text-sm">{CONTACT.phone1}</p>
-                  </div>
-                </a>
-                <a
-                  href={CONTACT.phone2Href}
-                  className="flex items-center gap-3 bg-white rounded-xl p-3.5 border border-[#E7E7EA] hover:border-[#E20A17] transition-colors"
-                >
-                  <span className="w-9 h-9 grid place-items-center rounded-lg bg-[#F5F5F6] text-[#E20A17]">
-                    <Phone className="w-4 h-4" />
-                  </span>
-                  <div>
-                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#6B7280]">
-                      Борлуулалтын ажилтан 2
-                    </p>
-                    <p className="font-bold text-[#17181B] text-sm">{CONTACT.phone2}</p>
-                  </div>
-                </a>
+              {/* Утаснууд — картан дотор карт болохоо болив. Хүрээ, дэвсгэр,
+                  дүрсний хайрцаг хасагдаж, hairline-аар зааглагдсан хоёр мөр
+                  болов. Шошго 8.8px байсныг 11px болгов (уншигдахгүй байв). */}
+              <div className="grid sm:grid-cols-2 gap-x-6 border-t border-[#E7E7EA] pt-4">
+                {[
+                  { label: "Борлуулалтын ажилтан", num: CONTACT.phone1, href: CONTACT.phone1Href },
+                  { label: "Борлуулалтын ажилтан", num: CONTACT.phone2, href: CONTACT.phone2Href },
+                ].map((p) => (
+                  <a
+                    key={p.href}
+                    href={p.href}
+                    className="group flex items-center gap-2.5 py-2 px-1.5 rounded-lg transition-colors hover:bg-white/70"
+                  >
+                    <Phone className="w-4 h-4 text-[#6B7280] shrink-0 transition-colors group-hover:text-[#E20A17]" />
+                    <span className="min-w-0">
+                      <span className="block text-[11px] tracking-[0.14em] uppercase text-[#6B7280] leading-tight">
+                        {p.label}
+                      </span>
+                      <span className="block font-bold text-[#17181B] text-sm tabular-nums">
+                        {p.num}
+                      </span>
+                    </span>
+                  </a>
+                ))}
               </div>
 
               <a
                 href={`mailto:${CONTACT.email}`}
                 className="flex items-center gap-3 hover:text-[#E20A17] transition-colors"
               >
-                <Mail className="w-5 h-5 text-[#E20A17] shrink-0" />
+                <Mail className="w-5 h-5 text-[#6B7280] shrink-0" />
                 <span className="text-[#17181B] text-sm">{CONTACT.email}</span>
               </a>
 
@@ -184,14 +188,21 @@ export function DealerClient() {
       {/* Showroom image carousel */}
       <section className="section-pad bg-[#F5F5F6]">
         <div className="container-page">
-          <div className="mb-10">
+          {/* Eyebrow → гарчиг → зураг гэсэн шатлал. Зай 40px → 36px. */}
+          <div className="mb-9">
+            <p className="eyebrow mb-3">Шоурум</p>
             <h2 className="type-h2 text-[#17181B]">Манай танхимаар зочлоорой</h2>
           </div>
 
           {/* Main image — зураг бүр идэвхтэйгээсээ хамгийн дөт талд зогсож,
               солигдоход хажуугаасаа гүйж орно. Чирэхэд хуруу дагана. */}
           <div
-            className={`relative rounded-2xl overflow-hidden bg-[#121316] aspect-[16/9] ${swipe.className}`}
+            /* 16:9 (1280px өргөнд 720px) байсныг кино маягийн 2.4:1 (533px)
+               болгов — хэсгийн өндрөөс 187px хасагдана. Showroom зураг нь 4:3
+               тул `object-cover` илүү тайрна, гэхдээ машин ба JETOUR хаяг тод
+               хэвээр (тайралтыг зургаар шалгасан). Утсанд 2.4:1 хэт нарийхан
+               болох тул тэнд 16:10. */
+            className={`relative rounded-2xl overflow-hidden bg-[#121316] aspect-[16/10] md:aspect-[2.4/1] ${swipe.className}`}
             style={swipe.style}
             {...swipe.handlers}
           >
@@ -225,16 +236,16 @@ export function DealerClient() {
             <button
               onClick={prev}
               aria-label="Өмнөх зураг"
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 grid place-items-center rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+              className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-10 md:h-10 grid place-items-center rounded-full bg-black/30 text-white transition-[background-color,transform] duration-200 hover:bg-black/55 hover:scale-105 active:scale-95"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={next}
               aria-label="Дараагийн зураг"
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 grid place-items-center rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-[#17181B] transition-colors"
+              className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-10 md:h-10 grid place-items-center rounded-full bg-black/30 text-white transition-[background-color,transform] duration-200 hover:bg-black/55 hover:scale-105 active:scale-95"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-5 h-5" />
             </button>
 
             {/* Counter */}

@@ -3,7 +3,7 @@ import { getAllCarModels } from "@/lib/cms";
 import { modelCutout } from "@/lib/model-media";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
-import { ModelsHero } from "@/components/jetour/models-hero";
+import { PageHeader } from "@/components/jetour/page-header";
 import { ModelsListingClient } from "./models-listing-client";
 import type { VehicleCardModel } from "@/components/jetour/vehicle-card";
 
@@ -58,7 +58,10 @@ export default async function ModelsPage() {
   return (
     <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
-      <ModelsHero />
+      <PageHeader
+        title="Загварууд"
+        lead="JETOUR-ийн бүх лайнапыг нэг дороос"
+      />
       <ModelsListingClient models={cards} />
       <Footer />
     </div>

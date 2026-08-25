@@ -13,7 +13,9 @@ export type Branch = {
   hoursWeekday: string;
   hoursSaturday: string;
   hoursSunday: string;
-  // Google Maps embed URL (Holiday Inn Chingeltei coordinates)
+  // Google Maps — «Sain Motors-Сайн Моторс-Jetour» бодит бүртгэл рүү.
+  // Өмнө нь «Holiday Inn» гэж хайдаг байсан нь ЗӨВХӨН хаягийн чиглүүлэг тул
+  // зүүг буудал дээр тавьдаг байв. Хуучин rb.gy богино холбоос 403 буцаадаг.
   mapEmbed: string;
   mapLink: string;
   city: string;
@@ -31,13 +33,13 @@ export const BRANCHES: Branch[] = [
     phone1Href: "tel:+97672778855",
     phone2: "8910-0274",
     phone2Href: "tel:+97689100274",
-    email: "info@sainmotors.mn",
+    email: "marketing2@esain.mn",
     hoursWeekday: "09:00 – 20:00",
     hoursSaturday: "10:00 – 18:00",
     hoursSunday: "11:00 – 16:00",
     mapEmbed:
-      "https://www.google.com/maps?q=Holiday+Inn+Ulaanbaatar+Chingeltei&output=embed",
-    mapLink: "https://rb.gy/xji02i",
+      "https://www.google.com/maps?q=Sain+Motors+Jetour+Ulaanbaatar&output=embed",
+    mapLink: "https://www.google.com/maps/search/?api=1&query=Sain+Motors+Jetour+Ulaanbaatar",
     city: "Улаанбаатар",
     isPrimary: true,
   },

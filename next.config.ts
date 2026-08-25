@@ -44,6 +44,17 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 420, 640, 768, 1024, 1280, 1600, 1920],
     imageSizes: [64, 96, 128, 256, 384],
   },
+  /**
+   * `/test-drive` → `/info-request`.
+   *
+   * Тест драйвын тусдаа хуудсыг хассан (нэгдсэн нэг маягт болов). Гэхдээ
+   * ЗҮГЭЭР УСТГАЖ БОЛОХГҮЙ: Meta реклам, хуучин линк, bookmark, гадаад сайтын
+   * холбоос тэр хаяг руу заасан байж магадгүй — 404 болбол реклам эргэлт
+   * тасарна. 308 (permanent) нь хайлтын системд ч шинэ хаягийг өвлүүлнэ.
+   */
+  async redirects() {
+    return [{ source: "/test-drive", destination: "/info-request", permanent: true }];
+  },
 };
 
 export default nextConfig;

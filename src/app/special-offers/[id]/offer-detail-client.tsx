@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Calendar, Download } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, FileText } from "lucide-react";
 import type { SpecialOffer } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
@@ -75,16 +75,17 @@ export default function OfferDetailClient({
                 Хүсэлт үлдээх
                 <ArrowRight className="w-4 h-4" />
               </button>
+              {/* `download` атрибутгүй: PDF шинэ табд НЭЭГДЭНЭ, шууд татагдахгүй.
+                  Хэрэглэгч эхлээд үзээд, хүсвэл тэндээсээ татна. */}
               {brochure && (
                 <a
                   href={brochure}
-                  download={`JETOUR ${offer.modelName.replace("JETOUR ", "").replace("Jetour ", "")}.pdf`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-ink-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
                 >
-                  <Download className="w-4 h-4" />
-                  Брошюр татах
+                  <FileText className="w-4 h-4" />
+                  Брошюр
                 </a>
               )}
             </div>
@@ -126,7 +127,7 @@ export default function OfferDetailClient({
       >
         <div className="container-page grid lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-16 items-start">
           <div>
-            <h2 className="type-h2 text-[#17181B] mb-4">Санал хүсэлт</h2>
+            <h2 className="type-h2 text-[#17181B] mb-4">Холбогдох хүсэлт</h2>
             <p className="type-lead max-w-sm">
               Маягтыг илгээхийн тулд мэдээллээ бөглөж, зааврыг дагана уу. Манай баг тантай
               удахгүй холбогдоно.
@@ -135,17 +136,18 @@ export default function OfferDetailClient({
           <EnhancedLeadForm
             type="info-request"
             variant="white"
-            title="Санал хүсэлт"
+            title="Холбогдох хүсэлт"
             subtitle={`${offer.modelName} — таатай нөхцөлөөр`}
             modelName={offer.modelName}
-            /* Салбар/огноо — хасав. Загварын хуудасны "Санал хүсэлт"-тэй ижил:
+            /* Салбар/огноо — хасав. Загварын хуудасны "Холбогдох хүсэлт"-тэй ижил:
                анхны хүсэлтэд нэр, утас, загвар хангалттай; салбар/цагийг
                оператор залгахдаа тохирно. */
             showBranchField={false}
             showDateField={false}
             showTimeField={false}
+            showContactMethod={false}
             showEmailField={false}
-            submitLabel="Илгээх"
+            submitLabel="Хүсэлт илгээх"
           />
         </div>
       </section>

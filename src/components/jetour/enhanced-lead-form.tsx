@@ -48,17 +48,26 @@ const TIME_OF_DAY = [
   { value: "Хэзээ ч болно", label: "Хэзээ ч болно" },
 ];
 
+/**
+ * Салбар · огноо · өдрийн хэсэг · харилцах хэрэгсэл (Messenger/WhatsApp) —
+ * анхдагчаар ХААЛТТАЙ.
+ *
+ * Тест драйвын тусдаа хуудсыг хассан (нэгдсэн нэг маягт болов) тул эдгээр
+ * талбарыг ямар ч дуудалт асаадаггүй. Анхдагчийг `true` орхивол шинэ хуудас
+ * нэмэхэд санамсаргүйгээр дахин гарч ирэх урхи болно. Оператор залгахдаа
+ * салбар, цагийг тодруулна.
+ */
 export function EnhancedLeadForm({
-  type = "test-drive",
-  title = "Тест драйв бүртгэх",
+  type = "info-request",
+  title = "Мэдээлэл авах",
   subtitle = "Манай борлуулалтын баг тантай холбогдоно",
   modelName,
   variant = "white",
   showModelField = true,
-  showBranchField = true,
-  showDateField = true,
-  showTimeField = true,
-  showContactMethod = true,
+  showBranchField = false,
+  showDateField = false,
+  showTimeField = false,
+  showContactMethod = false,
   showEmailField = false,
   showMessageField = true,
   submitLabel,
@@ -251,8 +260,19 @@ export function EnhancedLeadForm({
           {title}
         </h3>
       </div>
+      {/* Дэд гарчиг: 12px (`text-xs`) байсныг 13px + уужим мөрийн зайтай
+          болгов. Тэр хэмжээ нь «X50 — тест драйв» гэсэн нэг мөрийн шошгод
+          тохирч байсан ч дэд гарчиг нь одоо үнэ цэнийг тайлбарлах бүтэн догол
+          мөр болсон: утсан дээр 12px-ээр 5 мөр болж, уншихад хүндэрч байв.
+          Өнгө нь #6B7280 → #54585F (4.83:1 → 7.15:1). */}
       {subtitle && (
-        <p className={`text-xs ${isDark ? "text-white/60" : "text-[#6B7280]"}`}>{subtitle}</p>
+        <p
+          className={`text-[13px] leading-relaxed ${
+            isDark ? "text-white/65" : "text-[#54585F]"
+          }`}
+        >
+          {subtitle}
+        </p>
       )}
 
       {/* Хариу өгөх амлалт — илгээхээс ӨМНӨ харагдана (санаа зовнилыг бууруулна) */}
@@ -263,7 +283,7 @@ export function EnhancedLeadForm({
       >
         <ShieldCheck className="w-4 h-4 text-[#E20A17] shrink-0" />
         <p className={`text-xs leading-snug ${isDark ? "text-white/75" : "text-[#54585F]"}`}>
-          Манай баг <span className="font-bold text-[#E20A17]">24 цагийн дотор</span> тантай холбогдоно.
+          Манай борлуулалтын зөвлөх тантай <span className="font-bold text-[#E20A17]">24 цагийн дотор</span> холбогдоно.
         </p>
       </div>
 
@@ -281,7 +301,7 @@ export function EnhancedLeadForm({
               autoComplete="name"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="Нэрээ оруулна уу"
+              placeholder="Таны нэр"
               required
               className={`w-full bg-transparent text-sm focus:outline-none ${inputText}`}
             />
@@ -298,7 +318,7 @@ export function EnhancedLeadForm({
               inputMode="numeric"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              placeholder="8 оронтой"
+              placeholder="Утасны дугаар (8811xxxx)"
               required
               className={`w-full bg-transparent text-sm focus:outline-none ${inputText}`}
             />
@@ -326,7 +346,7 @@ export function EnhancedLeadForm({
 
       {/* Model */}
       {showModelField && (
-        <Field label="Сонирхсон загвар" labelClass={labelClass}>
+        <Field label="Сонирхож буй загвар" labelClass={labelClass}>
           <div className={`flex items-center gap-2.5 rounded-xl px-4 py-3 transition-all ${inputBg}`}>
             <Car className={`w-3.5 h-3.5 ${iconColor}`} />
             <select
@@ -334,7 +354,7 @@ export function EnhancedLeadForm({
               onChange={(e) => setForm({ ...form, model: e.target.value })}
               className={`w-full bg-transparent text-sm focus:outline-none ${inputText} [&>option]:bg-white [&>option]:text-[#17181B]`}
             >
-              <option value="">{modelName ?? "Загвар сонгох (заавал биш)"}</option>
+              <option value="">{modelName ?? "Загвар сонгох (Заавал биш)"}</option>
               {models.map((m) => (
                 <option key={m.id} value={m.name}>
                   {m.name} {m.status === "coming-soon" ? "(тун удахгүй)" : ""}
@@ -482,7 +502,7 @@ export function EnhancedLeadForm({
       </button>
 
       <p className={`text-[11px] text-center leading-relaxed pt-1 ${isDark ? "text-white/50" : "text-[#6B7280]"}`}>
-        Таны мэдээлэл зөвхөн JETOUR-той холбоотой зорилгоор ашиглагдана.{" "}
+        Таны мэдээллийг зөвхөн тантай холбогдох зорилгоор ашиглах бөгөөд гуравдагч талд задруулахгүй.{" "}
         <a href="/privacy" className="underline text-[#E20A17]">
           Нууцлалын бодлого
         </a>

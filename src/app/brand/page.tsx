@@ -273,10 +273,10 @@ export default function BrandPage() {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/test-drive"
+              href="/info-request"
               className="btn-ink-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
             >
-              Тест драйв захиалах
+              Мэдээлэл авах
             </Link>
           </div>
         </div>

@@ -8,7 +8,8 @@ import {
   ChevronRight,
   ChevronDown,
   Phone,
-  Download,
+  FileText,
+  ArrowUpRight,
   Play,
   Volume2,
   VolumeX,
@@ -31,6 +32,7 @@ import { InteriorStory } from "@/components/jetour/interior-story";
 import { PremiumFeatures } from "@/components/jetour/premium-features";
 import { Spin360 } from "@/components/jetour/spin-360";
 import { ModelSections } from "@/components/jetour/model-sections";
+import { ModelSubnav } from "@/components/jetour/model-subnav";
 
 
 export default function ModelDetailClient({ model }: { model: CmsCarModel }) {
@@ -199,6 +201,28 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
     (h): h is FeatureItem => Boolean(h?.image && h?.title)
   );
 
+  /* Наалдамхай дэд цэсний зангуу — хуудас юуг БОДИТООР рендерлэдэгтэй яг ижил
+     нөхцлөөр тооцно. Загвар бүр өөр хэсэгтэй (T1-д `exterior`/`interior`
+     байхгүй — тэдгээр нь ерөнхий `sections` бүтээгчээр гардаг); хатуу жагсаалт
+     бичвэл байхгүй хэсэг рүү заасан эвдэрсэн холбоос үлдэнэ. */
+  const subnavItems = useMemo(() => [
+    colorImages.length > 0 && { id: "colors", label: "Өнгө" },
+    // `showcase.exterior` нь ХООСОН МАССИВ бол хэсгийг зориуд хассан гэсэн үг
+    !(showcase?.exterior && showcase.exterior.length === 0) && {
+      id: "exterior",
+      label: "Гадна",
+    },
+    /* Салон: аль ч салаа (PremiumFeatures / InteriorStory / слайдер /
+       ердийн галерей) `id="interior"`-ыг өөрөө рендерлэдэг. Тиймээс зөвхөн
+       ХООСОН МАССИВ буюу «зориуд хассан» тохиолдолд л зангуу байхгүй. */
+    !(showcase?.interior && showcase.interior.length === 0) && {
+      id: "interior",
+      label: "Салон",
+    },
+    primarySpecs.length > 0 && { id: "specs", label: "Үзүүлэлт" },
+  ].filter((x): x is { id: string; label: string } => Boolean(x)),
+  [colorImages.length, showcase, primarySpecs.length]);
+
   return (
     /* `data-model` — загварт зориулсан ХАРАГДАЦЫН дүрмүүдийг тусгаарлана.
        Зан үйл (чирэлт, слайдын шилжилт) бүх загварт нийтлэг хэвээр; зөвхөн
@@ -210,6 +234,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
     >
       {/* === Энгийн үндсэн цэс (kz маяг — хуудас солигдоход цэс өөрчлөгдөхгүй) === */}
       <Navbar />
+      <ModelSubnav modelName={model.name} items={subnavItems} />
       <div className="h-16" />
 
       {/* === Vehicle Hero === */}
@@ -903,31 +928,9 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               </details>
             ) : null}
 
-            {/* Брошюр — байвал бүрэн үзүүлэлтийн албан ёсны PDF */}
-            {/* Бүрэн үзүүлэлт нь БРОШЮРТ. Өмнө нь энд "Дэлгэрэнгүй үзүүлэлт"
-                нээгддэг блок байсан; түүний оронд албан ёсны PDF-ийг шууд
-                татах болов — агуулга нь бүтнээр, албан ёсны хэлбэрээр. */}
-            {d.brochure && (
-              <a
-                href={d.brochure}
-                download={`JETOUR ${model.name.replace("JETOUR ", "")}.pdf`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-6 border-t border-[#E7E7EA] pt-4 flex items-center gap-3 text-[#54585F] hover:text-[#17181B] transition-colors"
-              >
-                <span className="grid place-items-center w-10 h-10 rounded-full border border-[#D9DADE] shrink-0 transition-colors group-hover:border-[#17181B]">
-                  <Download className="w-4 h-4" />
-                </span>
-                <span className="flex flex-col">
-                  <span className="text-sm font-semibold">Брошюр татах</span>
-                  <span className="text-[12px] text-[#6B7280]">
-                    PDF · бүрэн техникийн үзүүлэлт
-                  </span>
-                </span>
-              </a>
-            )}
-
-            {/* Үнэ + CTA — тодорхой шатлал: улаан → тунгалаг → нам гүм линк */}
+            {/* Үнэ + CTA — тодорхой шатлал: улаан → тунгалаг → нам гүм линк.
+                Брошюрын ӨМНӨ байрлана: шийдвэр гаргах үйлдэл (тест драйв,
+                мэдээлэл авах) эхэнд, лавлах материал нь араас. */}
             <div className="mt-6 lg:mt-8 pt-5 border-t border-[#E7E7EA] flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
               {(model.startingPrice ?? model.price ?? model.priceNote) && (
                 <div>
@@ -955,6 +958,36 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                 </a>
               </div>
             </div>
+
+            {/* Брошюр — тусдаа зогсох мөр, блокийн ХАМГИЙН СҮҮЛД.
+                Өмнө нь үзүүлэлтийн доор жижиг холбоос болж шигдсэн байв;
+                jetouregypt-ийн хэв нь брошюрыг агуулгын төгсгөлд бие даасан
+                товч болгодог — уншсаны дараа авах материал гэсэн дараалал.
+
+                `download` атрибут ЗОРИУДААР байхгүй: түүнтэй бол хөтөч файлыг
+                шууд диск рүү татдаг тул хэрэглэгч эхлээд харах боломжгүй.
+                Түүнгүйгээр PDF нь шинэ табд нээгдэж, хүсвэл тэндээсээ татна. */}
+            {d.brochure && (
+              <a
+                href={d.brochure}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-4 flex items-center justify-between gap-4 rounded-xl border border-[#E7E7EA] px-5 py-4 transition-colors hover:border-[#17181B] hover:bg-[#FAFAFB]"
+              >
+                <span className="flex items-center gap-3 min-w-0">
+                  <span className="grid place-items-center w-10 h-10 rounded-full border border-[#D9DADE] shrink-0 text-[#54585F] transition-colors group-hover:border-[#17181B] group-hover:text-[#17181B]">
+                    <FileText className="w-4 h-4" />
+                  </span>
+                  <span className="flex flex-col min-w-0">
+                    <span className="text-sm font-bold text-[#17181B]">Брошюр</span>
+                    <span className="text-[12px] text-[#6B7280] truncate">
+                      PDF · бүрэн техникийн үзүүлэлт
+                    </span>
+                  </span>
+                </span>
+                <ArrowUpRight className="w-4 h-4 text-[#A9ADB2] shrink-0 transition-colors group-hover:text-[#17181B]" />
+              </a>
+            )}
           </div>
         </section>
       )}
@@ -987,7 +1020,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               <EnhancedLeadForm
                 type="test-drive"
                 variant="white"
-                title="Санал хүсэлт"
+                title="JETOUR-ийн талаар дэлгэрэнгүй мэдээлэл авах"
                 subtitle={`${model.name} — мэдээлэл авах, тест драйв`}
                 modelName={activeVariant ? `${model.name} (${activeVariant.powertrain})` : model.name}
                 showModelField
@@ -1001,7 +1034,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                 showContactMethod={false}
                 showEmailField={false}
                 showMessageField
-                submitLabel="Илгээх"
+                submitLabel="Хүсэлт илгээх"
               />
             )}
           </div>

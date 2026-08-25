@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
 import { CONTACT } from "@/lib/jetour-data";
+import { modelMenuImage } from "@/lib/model-media";
 
 type RouteNavItem = { label: string; href: string; type: "route" };
 type AnchorNavItem = { label: string; href: string; type: "anchor" };
@@ -39,7 +41,9 @@ const NAV_LINKS: NavItem[] = [
 /** "Загварууд"-ын дэд цэсийг `openMenu`-д нэрлэх түлхүүр */
 const MODELS_MENU = "Загварууд";
 
-type NavModel = { id: string; name: string };
+/* `heroImage` нь `modelMenuImage`-ын нөөц зам — тусгай cutout байхгүй загварт
+   hero рүү унана, зураггүй нүх үлдэхгүй. */
+type NavModel = { id: string; name: string; heroImage: string };
 
 /** Дэд цэсний идэвхтэй хуудсыг тодруулах — тухайн route дотор байгаа эсэх */
 const isActiveRoute = (pathname: string, href: string) =>
@@ -108,7 +112,10 @@ export function Navbar() {
     return () => document.removeEventListener("keydown", handler);
   }, []);
 
-  const overHero = isHome && !scrolled && !open;
+  /* Hero дээрх тунгалаг төрх — дэд цэс НЭЭГДЭХЭД цуцлагдана.
+     Үгүй бол цагаан үсэгтэй тунгалаг navbar-ын доор цагаан самбар нээгдэж,
+     хоёр давхарга зөрчилдөж, цэсний нэрс уншигдахаа больдог байв. */
+  const overHero = isHome && !scrolled && !open && !openMenu;
 
   const handleAnchor = (href: string) => {
     setOpen(false);
@@ -131,6 +138,7 @@ export function Navbar() {
   return (
     <header
       ref={navRef}
+      onMouseLeave={() => setOpenMenu(null)}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         overHero
           ? "bg-transparent"
@@ -150,16 +158,15 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-7" aria-label="Үндсэн цэс">
-          {/* Загварууд — хүрэхэд загваруудын жагсаалт нээгдэнэ.
-              Товч нь ХОЛБООС хэвээр: дарвал /models руу очно, зөвхөн
-              хүрэхэд дэд цэс нэмж гарна (өмнөх зан үйл эвдэрэхгүй).
-              Зурагтай том цэс биш — навигацыг хүндрүүлдэг тул бусад дэд
-              цэстэй ижил хөнгөн текст жагсаалт. */}
-          <div
-            className="relative"
-            onMouseEnter={() => setOpenMenu(MODELS_MENU)}
-            onMouseLeave={() => setOpenMenu((v) => (v === MODELS_MENU ? null : v))}
-          >
+          {/* Загварууд — хүрэхэд бүтэн өргөнтэй самбар нээгдэж, загвар бүр
+              зураг + нэрээрээ гарна (үнэ, тайлбар байхгүй — зөвхөн таних).
+              Товч нь ХОЛБООС хэвээр: дарвал /models руу очно.
+
+              Самбар нь энэ жижиг блокийн ДОТОР биш, `<header>`-ийн шууд хүүхэд
+              болж доор рендерлэгдэнэ — үгүй бол бүтэн өргөн авч чадахгүй.
+              Хаах нь `<header>`-ийн `onMouseLeave` дээр: самбар нь header-ийн
+              DOM удам тул түүн рүү орох үед mouseleave АСАХГҮЙ. */}
+          <div className="relative" onMouseEnter={() => setOpenMenu(MODELS_MENU)}>
             <Link
               href="/models"
               aria-current={pathname.startsWith("/models") ? "page" : undefined}
@@ -184,33 +191,6 @@ export function Navbar() {
               />
             </Link>
 
-            {openMenu === MODELS_MENU && navModels.length > 0 && (
-              <div className="absolute top-full left-0 -mt-2 min-w-[240px] bg-white rounded-xl border border-[#E7E7EA] shadow-[0_20px_50px_-20px_rgba(23,24,27,0.25)] py-2 z-50">
-                {navModels.map((m) => (
-                  <Link
-                    key={m.id}
-                    href={`/models/${m.id}`}
-                    onClick={() => setOpenMenu(null)}
-                    aria-current={pathname === `/models/${m.id}` ? "page" : undefined}
-                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
-                      pathname === `/models/${m.id}`
-                        ? "text-[#E20A17] bg-[#F5F5F6]"
-                        : "text-[#54585F] hover:text-[#E20A17] hover:bg-[#F5F5F6]"
-                    }`}
-                  >
-                    {m.name.replace(/^JETOUR\s+/, "")}
-                  </Link>
-                ))}
-                <Link
-                  href="/models"
-                  onClick={() => setOpenMenu(null)}
-                  className="mt-1 flex items-center gap-1.5 border-t border-[#EDEDEF] px-4 pt-2.5 pb-1 text-[13px] font-semibold text-[#17181B] transition-colors hover:text-[#E20A17]"
-                >
-                  Бүх загвар
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
           </div>
 
           {NAV_LINKS.map((l) =>
@@ -298,16 +278,16 @@ export function Navbar() {
           )}
         </nav>
 
-        {/* Desktop CTA */}
+        {/* Desktop CTA — нэгдсэн лийд маягт руу (/info-request) */}
         <Link
-          href="/test-drive"
+          href="/info-request"
           className={`hidden lg:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shrink-0 ${
             overHero
               ? "bg-white/10 border border-white/50 text-white backdrop-blur-sm hover:bg-white hover:text-[#17181B]"
               : "bg-[#17181B] text-white hover:bg-[#E20A17]"
           }`}
         >
-          Тест драйв
+          Мэдээлэл авах
         </Link>
 
         {/* Mobile menu toggle */}
@@ -325,24 +305,121 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* ── Mega menu — загваруудын хэвтээ эгнээ ── */}
+      {/* ── Mega menu — загваруудын хэвтээ эгнээ ──
+          Зөвхөн зураг + нэр. Үнэ, тайлбар байхгүй: энэ нь навигаци, каталог биш.
+          `<header>`-ийн шууд хүүхэд тул бүтэн өргөн авна. */}
+      {openMenu === MODELS_MENU && navModels.length > 0 && (
+        <div className="hidden lg:block absolute top-full left-0 right-0 bg-white border-t border-[#E7E7EA] shadow-[0_24px_50px_-24px_rgba(23,24,27,0.28)]">
+          {/* Цомхон: найман загвар ҮРГЭЛЖ нэг эгнээнд. Самбар нь `lg`-ээс дээш л
+              гарах тул хамгийн нарийн тохиолдол 1024px — тэнд ч нэг нүд ~120px
+              болж, нэр (11px) багтана. Хоёр эгнээ болговол өндөр 305px хүрч,
+              нүүр рүү харах замыг бөглөж эхэлдэг. */}
+          <div className="container-page py-5">
+            <ul className="grid grid-cols-8 gap-x-3 gap-y-4">
+              {navModels.map((m) => {
+                const active = pathname === `/models/${m.id}`;
+                return (
+                  <li key={m.id}>
+                    <Link
+                      href={`/models/${m.id}`}
+                      onClick={() => setOpenMenu(null)}
+                      aria-current={active ? "page" : undefined}
+                      className="group flex flex-col items-center gap-1.5 rounded-lg px-1 py-1.5 transition-colors hover:bg-[#F5F5F6]"
+                    >
+                      {/* `side.png` нь ~2.6–3.2 харьцаатай. Нүдийг 3:1 болгосон нь
+                          хамгийн өргөн машиныг багтаах ба доогуур нь хоосон зай
+                          үлдээхгүй — самбар нам, цомхон болно. */}
+                      <span className="relative block w-full aspect-[3/1]">
+                        <Image
+                          src={modelMenuImage(m)}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1280px) 12vw, (min-width: 1024px) 24vw, 0px"
+                          className="object-contain transition-transform duration-300 group-hover:scale-[1.06]"
+                        />
+                      </span>
+                      <span
+                        className={`text-[11px] font-bold uppercase tracking-[0.06em] whitespace-nowrap transition-colors ${
+                          active ? "text-[#E20A17]" : "text-[#17181B] group-hover:text-[#E20A17]"
+                        }`}
+                      >
+                        {m.name.replace(/^JETOUR\s+/, "")}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      )}
+
       {/* Mobile drawer */}
       {open && (
         <div className="lg:hidden bg-white border-t border-[#E7E7EA] shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
           <nav className="container-page py-3 flex flex-col" aria-label="Мобайл цэс">
-            {/* Загварууд — зурагтай жагсаалтын оронд энгийн холбоос.
-                Бүх машиныг мобайл цэс дотор дүүргэхээ болив. */}
-            <Link
-              href="/models"
-              onClick={() => setOpen(false)}
-              aria-current={pathname.startsWith("/models") ? "page" : undefined}
-              className={`py-3.5 font-medium text-[15px] border-b border-[#F0F0F1] flex items-center justify-between ${
-                pathname.startsWith("/models") ? "text-[#E20A17]" : "text-[#17181B]"
+            {/* Загварууд — дарахад ЭНД задарч, машинууд хоёр баганаар гарна.
+                Хуудас руу үсрэхийн оронд цэсэн дотроо сонгоно: хэрэглэгч нэг
+                товшилтоор хүссэн загвар руугаа шууд очно.
+
+                Хүрэлтийн бай: нүд бүр ~90×160px (≥48dp), хооронд 12px зай —
+                мобайлын хүрэлтийн шаардлагаас дээгүүр. */}
+            <button
+              type="button"
+              onClick={() => setOpenMenu((v) => (v === MODELS_MENU ? null : MODELS_MENU))}
+              aria-expanded={openMenu === MODELS_MENU}
+              aria-controls="mobile-models"
+              className={`py-3.5 font-medium text-[15px] border-b border-[#F0F0F1] flex items-center justify-between w-full text-left ${
+                pathname.startsWith("/models") || openMenu === MODELS_MENU
+                  ? "text-[#E20A17]"
+                  : "text-[#17181B]"
               }`}
             >
               Загварууд
-              <ArrowRight className="w-4 h-4 text-[#6B7280]" />
-            </Link>
+              <ChevronDown
+                className={`w-4 h-4 text-[#6B7280] transition-transform duration-200 ${
+                  openMenu === MODELS_MENU ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {openMenu === MODELS_MENU && navModels.length > 0 && (
+              <ul id="mobile-models" className="grid grid-cols-2 gap-3 py-4 border-b border-[#F0F0F1]">
+                {navModels.map((m) => {
+                  const active = pathname === `/models/${m.id}`;
+                  return (
+                    <li key={m.id}>
+                      <Link
+                        href={`/models/${m.id}`}
+                        onClick={() => {
+                          setOpen(false);
+                          setOpenMenu(null);
+                        }}
+                        aria-current={active ? "page" : undefined}
+                        className="flex flex-col items-center gap-1.5 rounded-lg px-2 py-3 active:bg-[#F5F5F6]"
+                      >
+                        <span className="relative block w-full aspect-[3/1]">
+                          <Image
+                            src={modelMenuImage(m)}
+                            alt=""
+                            fill
+                            sizes="(max-width: 1023px) 44vw, 0px"
+                            className="object-contain"
+                          />
+                        </span>
+                        <span
+                          className={`text-[12px] font-bold uppercase tracking-[0.06em] whitespace-nowrap ${
+                            active ? "text-[#E20A17]" : "text-[#17181B]"
+                          }`}
+                        >
+                          {m.name.replace(/^JETOUR\s+/, "")}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
 
             {NAV_LINKS.map((l) =>
               l.type === "route" ? (
@@ -404,11 +481,11 @@ export function Navbar() {
               <Phone className="w-4 h-4" /> {CONTACT.phone1}
             </a>
             <Link
-              href="/test-drive"
+              href="/info-request"
               onClick={() => setOpen(false)}
               className="btn-electric-jetour mt-2 mb-4 py-3.5 rounded-full text-center text-sm"
             >
-              Тест драйв захиалах
+              Мэдээлэл авах
             </Link>
           </nav>
         </div>
@@ -425,14 +502,19 @@ function JetourLogo({ overHero }: { overHero: boolean }) {
         alt="JETOUR"
         className="h-7 w-auto"
       />
+      {/* Хуваах зураас — өмнө нь хэт бүдэг байв (#E7E7EA нь цагаан дээр бараг
+          үзэгдэхгүй, hero дээр 0.25 alpha ч мөн). Хоёр брэндийг тусгаарлах
+          үүргээ биелүүлэхийн тулд тодруулав. */}
       <span
         className="w-px self-stretch"
-        style={{ background: overHero ? "rgba(255,255,255,0.25)" : "#E7E7EA" }}
+        style={{ background: overHero ? "rgba(255,255,255,0.45)" : "#C9CCD1" }}
       />
+      {/* SAIN нь 24px байсныг 26px болгов. JETOUR-ийн 28px-тай ТЭНЦҮҮ болгосонгүй:
+          JETOUR нь брэнд, SAIN нь дистрибьютор тул бага зэргийн шатлал үлдэнэ. */}
       <img
         src={overHero ? "/logos/sain-motors-logo.png" : "/logos/sain-motors-black.png"}
         alt="Sain Motors"
-        className="h-6 w-auto"
+        className="h-[26px] w-auto"
       />
     </div>
   );

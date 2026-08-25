@@ -61,12 +61,34 @@
   --color-success-bg: #F0FDF4;
   --color-destructive-bg: #FEF2F2;
 
-  /* Motion tokens — one easing curve, four durations */
-  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 450ms;
-  --duration-slower: 800ms;
+  /* === Хөдөлгөөний token — ХЭМЖИЛТЭЭР тогтоосон ======================
+     Өмнөх утгууд (150/250/450/800 + cubic-bezier(0.16,1,0.3,1)) нь бодит
+     кодтой НИЙЦЭХГҮЙ байсан: `--duration-base` 0 удаа, `--duration-slower`
+     0 удаа хэрэглэгдсэн бөгөөд давамгайлах муруй нь өөр байв. Иймд token-ыг
+     кодоос хэмжсэн бодит утгаар дахин суурилуулав — ингэснээр token нь хэн ч
+     дагадаггүй систем биш, жинхэнэ хэв маягийг тодорхойлно.
+
+     Хэмжилт (globals.css дахь `transition` заалтууд):
+       200ms ×9 · 260ms ×7 · 420ms ×3 · 900ms ×2
+       cubic-bezier(0.22, 1, 0.36, 1) ×16  ← давамгай
+       cubic-bezier(0.5, 0.02, 0.32, 1) ×5 ← том, кино маягийн шилжилт     */
+
+  /* Үндсэн муруй — хурдан гараад зөөлөн зогсоно (UI-ийн 90%) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Урт зам туулах объектод — эхлэл нь ажиглагдахуйц удаан */
+  --ease-cinema: cubic-bezier(0.5, 0.02, 0.32, 1);
+
+  --mo-fast: 200ms;    /* өнгө, хүрээ, hover — байрлал хөдөлдөггүй */
+  --mo-base: 260ms;    /* энгийн UI: нээх/хаах, тодрол */
+  --mo-slow: 420ms;    /* байрлал/хэмжээ өөрчлөгдөх */
+  --mo-cinema: 900ms;  /* машин тайз дамжих зэрэг том зам */
+
+  /* Хуучин нэрс — өмнөх кодыг эвдэхгүйн тулд шинэ утга руу заана */
+  --ease-premium: var(--ease-out);
+  --duration-fast: var(--mo-fast);
+  --duration-base: var(--mo-base);
+  --duration-slow: var(--mo-slow);
+  --duration-slower: var(--mo-cinema);
 }
 
 :root {
@@ -154,7 +176,7 @@
      сүүлд бичсэн байсан тул огт ажиллаагүй. */
   @media (prefers-reduced-motion: reduce) {
     .ex-showcase__slide {
-      transition-duration: 420ms !important;
+      transition-duration: var(--mo-slow) !important;
     }
 
     /* Гүний parallax нь зөвхөн гоо сайхны давхарга — бүрэн хасна */
@@ -169,7 +191,7 @@
     .hero__slide,
     .cin__slide,
     .x50tech__row {
-      transition-duration: 420ms !important;
+      transition-duration: var(--mo-slow) !important;
     }
 
     /* Технологийн текстийн гарц ба гүний давхарга нь чимэглэл — бүрэн хасна:
@@ -1070,7 +1092,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  transition: transform 780ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  transition: transform 780ms var(--ease-cinema);
   will-change: transform;
 }
 
@@ -1086,7 +1108,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   left: -12%;
   width: 124%;
   height: 100%;
-  transition: transform 780ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  transition: transform 780ms var(--ease-cinema);
   will-change: transform;
 }
 
@@ -1355,7 +1377,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 800ms var(--ease-out);
   will-change: transform;
 }
 
@@ -1387,7 +1409,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  transition: transform 900ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  transition: transform var(--mo-cinema) var(--ease-cinema);
   will-change: transform;
 }
 
@@ -1398,7 +1420,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   left: -10%;
   width: 120%;
   height: 100%;
-  transition: transform 900ms cubic-bezier(0.5, 0.02, 0.32, 1);
+  transition: transform var(--mo-cinema) var(--ease-cinema);
   will-change: transform;
 }
 
@@ -1780,7 +1802,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   /* Дээгүүр аваачихад маш даруухан томрох — "энэ дарагдана" гэдгийг
      ойлгуулах хэмжээнд л. `.mdlsel__car`-ын WAAPI шилжилттэй мөргөлдөхгүй:
      өөр элемент дээр байна. */
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--mo-slow) var(--ease-out);
 }
 
 @media (hover: hover) {
@@ -2229,59 +2251,6 @@ input[type="range"].range-jetour::-moz-range-thumb {
 }
 
 
-/* ============================================================
-   Загваруудын хуудас — кино маягийн толгой + showroom каталог
-   ============================================================ */
-.mhero {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  /* Fixed navbar (4rem) доор эхэлдэг тул түүнийг нэмж тооцов —
-     гарчиг цэсний доор орж таслагдахгүй.
-
-     ӨНДӨР: эталон брэндийн лайнап хуудсуудтай ижил НАМХАН баннер —
-     1920px дэлгэцэнд ~400px (өмнө 520px байсан нь дэлгэцийн 55%-ийг эзэлж,
-     загварын картууд эхний дэлгэцэнд бараг харагдахгүй байв). Одоо
-     баннерын дараа картууд шууд харагдана. */
-  height: clamp(240px, 22vw, 400px);
-  margin-top: 4rem;
-  overflow: hidden;
-  background: #0E0E10;
-}
-
-.mhero__scrim {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(0deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.15) 42%, transparent 68%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.38) 0%, transparent 52%);
-}
-
-.mhero__inner {
-  position: relative;
-  z-index: 2;
-  width: min(1280px, 94vw, 100vw - 40px);
-  padding-bottom: clamp(28px, 4vw, 56px);
-}
-
-.mhero__title {
-  margin: 0;
-  font-size: clamp(30px, 4vw, 52px);
-  font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.025em;
-  color: #FFFFFF;
-  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.35);
-}
-
-.mhero__lead {
-  margin: clamp(8px, 1vw, 12px) 0 0;
-  font-size: clamp(14px, 1.1vw, 17px);
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.82);
-}
-
 /* --- Каталогийн карт --- */
 .vcard {
   position: relative;
@@ -2500,7 +2469,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     scale(var(--pf-scale));
   opacity: 0;
   pointer-events: none;
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+  transition: transform 600ms var(--ease-out),
     opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, opacity;
 }
@@ -2550,7 +2519,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     rgba(6, 7, 9, 0.12) 68%,
     rgba(6, 7, 9, 0) 100%
   );
-  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 500ms var(--ease-out);
 }
 
 /* --- Слайдын текст: утсанд зургийн доор, ≥640px-д зураг дээр ---
@@ -2630,7 +2599,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   backdrop-filter: blur(6px);
   color: #FFFFFF;
   cursor: pointer;
-  transition: background 300ms cubic-bezier(0.22, 1, 0.36, 1),
+  transition: background 300ms var(--ease-out),
     transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -2726,7 +2695,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   width: 100%;
   height: 6px;
   background: #D9DADD;
-  transition: background-color 260ms ease;
+  transition: background-color var(--mo-base) ease;
 }
 
 /* Идэвхтэй ба түүнээс ӨМНӨХ бүх хэсэг өнгөтэй — "хэр үзсэн" нь харагдана.
@@ -3004,7 +2973,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   backdrop-filter: blur(6px);
   color: var(--tech-ink);
   cursor: pointer;
-  transition: background-color 200ms ease, border-color 200ms ease;
+  transition: background-color var(--mo-fast) ease, border-color var(--mo-fast) ease;
 }
 
 /* Кадрын дотор талд суух — зургийн зах дээр дарагдахгүй */
@@ -3059,7 +3028,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   width: 100%;
   height: 2px;
   background: var(--tech-line);
-  transition: background-color 260ms ease;
+  transition: background-color var(--mo-base) ease;
 }
 
 .x50tech__seg[aria-current="true"]::before {
@@ -3375,7 +3344,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     inset 0 1px 1px rgba(255, 255, 255, 0.55),
     inset 0 -2px 3px rgba(0, 0, 0, 0.14),
     0 0 0 1px rgba(23, 24, 27, 0.14);
-  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+  transition: transform var(--mo-base) var(--ease-out),
     box-shadow 260ms ease;
 }
 
@@ -3460,7 +3429,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   }
 }
 
-/* utas-v99 */
+/* utas-v110 */
 /* ============================================================
    Загварын хуудасны УТАСНЫ харагдац
 
@@ -3731,7 +3700,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     backdrop-filter: blur(2px);
     color: #FFFFFF;
     cursor: pointer;
-    transition: background-color 200ms ease;
+    transition: background-color var(--mo-fast) ease;
   }
 
   [data-model="t2"] .ex-showcase__edge--prev {
@@ -3839,7 +3808,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     width: 100%;
     height: 6px;
     background: #3A3C40;
-    transition: background-color 260ms ease;
+    transition: background-color var(--mo-base) ease;
   }
 
   /* Байрлалыг ЗҮҮНЭЭС дүүрэх прогрессоор заана: идэвхтэй нь ба түүнээс
@@ -4434,7 +4403,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   backdrop-filter: blur(3px);
   color: #ffffff;
   cursor: pointer;
-  transition: background-color 200ms ease;
+  transition: background-color var(--mo-fast) ease;
 }
 
 .xstage__edge--prev {
@@ -4482,7 +4451,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   width: 100%;
   height: 4px;
   background: #d9dadd;
-  transition: background-color 260ms ease;
+  transition: background-color var(--mo-base) ease;
 }
 
 /* Идэвхтэй ба түүнээс ӨМНӨХ бүх хэсэг өнгөтэй — "хэр үзсэн" нь харагдана */
@@ -4736,7 +4705,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   font-size: 14px;
   font-weight: 600;
   color: #54585f;
-  transition: color 200ms ease;
+  transition: color var(--mo-fast) ease;
 }
 
 .specgrp__sum::-webkit-details-marker {
@@ -4748,7 +4717,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
 }
 
 .specgrp__chev {
-  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 240ms var(--ease-out);
 }
 
 .specgrp[open] .specgrp__chev {
@@ -4867,7 +4836,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   line-height: 1.35;
   letter-spacing: 0.005em;
   color: var(--tech-muted);
-  transition: color 260ms ease;
+  transition: color var(--mo-base) ease;
   text-wrap: balance;
 }
 
@@ -5131,20 +5100,9 @@ input[type="range"].range-jetour::-moz-range-thumb {
   background: #E7E7EA;
 }
 
-/* Улаан нь ЗӨВХӨН энэ жижиг accent мөрөнд. Бүхэл гарчгийг улаанаар бичихийн
-   оронд иерархи: үзүүлэлт (улаан, жижиг) → гарчиг (бараан, том). */
-.wrnt__stat {
-  font-family: var(--font-inter), sans-serif;
-  font-size: clamp(0.75rem, 0.95vw, 0.8125rem);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #E20A17;
-  margin-bottom: clamp(0.75rem, 1.2vw, 1rem);
-}
-
 .wrnt__title {
-  font-size: clamp(1.5rem, 2.9vw, 2.25rem);
+  margin-top: clamp(0.875rem, 1.4vw, 1.125rem);
+  font-size: clamp(1.375rem, 2.5vw, 1.9375rem);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -5176,63 +5134,375 @@ input[type="range"].range-jetour::-moz-range-thumb {
   }
 }
 
-/* === Баталгааны толгойн тезис (.wthesis) ================================ */
-/* Египетийн stock баннерын оронд: баталгааны хугацаа өөрөө толгой болно.
-   Тэдний ghost watermark-ийн хэлийг хадгалав. */
 
-.wthesis {
-  position: relative;
-  overflow: hidden;
-  background: #FFFFFF;
+/* === Загварын хуудасны наалдамхай дэд цэс (.msub) ====================== */
+/* Толгой нь `fixed` (64px) тул энэ нь түүний доор наалдана. Scroll listener
+   байхгүй — наалдалт цэвэр CSS. */
+
+.msub {
+  /* Толгойн ОРОНД солигдоно — доор нь нэмэгддэггүй тул зохиомж түлхэгдэхгүй.
+     z-index нь толгойныхоос (50) дээгүүр. */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 51;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid #E7E7EA;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--mo-base) var(--ease-out), opacity var(--mo-fast) ease;
 }
 
-.wthesis__inner {
+.msub.is-on {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Дэд цэс идэвхжихэд ерөнхий толгой дээшээ гулсана */
+.msub-on header.fixed {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.msub__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 52px;
+}
+
+.msub__name {
+  font-weight: 800;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  color: #17181B;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Хэсгүүдийн холбоос — нарийн дэлгэцэд хэвтээ гүйнэ */
+.msub__links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.msub__links::-webkit-scrollbar {
+  display: none;
+}
+
+.msub__link {
+  position: relative;
+  padding: 0.375rem 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #6B7280;
+  white-space: nowrap;
+  transition: color var(--mo-fast) ease;
+}
+.msub__link:hover {
+  color: #17181B;
+}
+
+/* Идэвхтэй хэсэг — 2px улаан доогуур зураас */
+.msub__link.is-active {
+  color: #17181B;
+}
+.msub__link.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: #E20A17;
+}
+
+.msub__cta {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.msub__phone {
+  display: none;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #17181B;
+  white-space: nowrap;
+  transition: color var(--mo-fast) ease;
+}
+.msub__phone:hover {
+  color: #E20A17;
+}
+
+.msub__book {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background: #E20A17;
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color var(--mo-fast) ease;
+}
+.msub__book:hover {
+  background: #C00913;
+}
+
+/* Нарийн дэлгэц: загварын нэрийг хасаж, холбоосуудад зай өгнө */
+@media (max-width: 47.9375rem) {
+  .msub__name {
+    display: none;
+  }
+  .msub__inner {
+    gap: 0.75rem;
+  }
+  .msub__links {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .msub__phone {
+    display: inline-flex;
+  }
+  .msub__links {
+    gap: 1.75rem;
+  }
+}
+/* utas-v110 */
+
+/* === Мэдээний доорх гурван хавтан (.qlink) ============================== */
+/* Дэлгэц дүүрэн, зайгүй зэрэгцсэн гурван зураг. Утсан дээр босоо эгнэнэ. */
+
+.qlink__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.qlink__tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.qlink__img {
+  object-fit: cover;
+  transition: transform 600ms var(--ease-out);
+}
+.qlink__tile:hover .qlink__img {
+  transform: scale(1.05);
+}
+
+/* Хөшиг — доод талаас гэрэлтэй, дээшээ сарних. Текст ямар ч зураг дээр
+   уншигдана (доод хэсэгт 0.62 нягтрал → цагаан үсэгт 7:1-ээс дээш). */
+.qlink__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 17, 21, 0.15) 0%,
+    rgba(15, 17, 21, 0.42) 55%,
+    rgba(15, 17, 21, 0.62) 100%
+  );
+  transition: background-color 400ms ease;
+}
+
+.qlink__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(1.5rem, 3vw, 2.5rem);
+  padding-inline: 1.25rem;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Гар аргаар хүрэх боломжтой төхөөрөмжид л томруулна */
+@media (hover: hover) {
+  .qlink__tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(226, 10, 23, 0);
+    transition: background-color 400ms ease;
+  }
+  .qlink__tile:hover::after {
+    background: rgba(226, 10, 23, 0.14);
+  }
+}
+
+@media (min-width: 48rem) {
+  .qlink__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .qlink__tile {
+    aspect-ratio: 16 / 11;
+  }
+}
+/* utas-v110 */
+
+/* === Дэлгэрэнгүй мэдээлэл авах — толгой (.irq-hero) ==================== */
+
+.irq-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #17181B;
+  /* Эх зургийн харьцаа 1920×400 (4.8). Утсанд 4.8 нь хэт нарийхан тул
+     доод хязгаартай: банд нам хэвээр, гэхдээ машин танигдана. */
+  height: clamp(200px, 22vw, 400px);
+}
+
+.irq-hero__scrim {
+  position: absolute;
+  inset: 0;
+  /* Доод тал 0.70 — ХЭМЖИЛТЭЭР тогтоов. Шинэ hero зурган дээр машины бие
+     цэвэр цагаан (rgb 255,255,255) байдаг тул 0.55 үед цагаан гарчиг ердөө
+     3.32:1 болж, ердийн AA (4.5) унадаг байв. Сүүдэр бичгийн 0.13 цайруулалт
+     ч нэмэгддэг. 0.70 нь 5.10:1 өгнө. */
+  background: linear-gradient(
+    180deg,
+    rgba(15, 17, 21, 0.28) 0%,
+    rgba(15, 17, 21, 0.70) 100%
+  );
+}
+
+.irq-hero__inner {
   position: relative;
   z-index: 1;
-  padding-top: clamp(7rem, 12vw, 9.5rem);
-  padding-bottom: clamp(3.5rem, 7vw, 5.5rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.75rem);
+  width: 100%;
 }
 
-/* Хойд дэвсгэрийн сүүдэр үг — уншигдахаас илүү бүтэц. Доод талаас хэсэгчлэн
-   тайрагдаж, толгойн блокийг дүүжлэнэ. */
-.wthesis__ghost {
+.irq-hero__title {
+  color: #FFFFFF;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+/* utas-v110 */
+
+/* Сүүдэр бичиг — jetouregypt-ийн баннерын хэв (тэдний нь зураг, бидний нь текст).
+   Баруун доод булангаас хэсэгчлэн тайрагдаж, гарчгийг дүүжлэнэ. */
+.irq-hero__ghost {
   position: absolute;
-  right: -0.06em;
-  bottom: -0.3em;
-  z-index: 0;
+  right: -0.04em;
+  bottom: -0.26em;
+  z-index: 1;
   font-family: var(--font-inter), sans-serif;
   font-weight: 800;
-  font-size: clamp(5rem, 17vw, 15rem);
+  font-size: clamp(4rem, 15vw, 12rem);
   line-height: 0.8;
   letter-spacing: -0.04em;
-  color: #17181B;
-  opacity: 0.04;
+  color: #FFFFFF;
+  opacity: 0.13;
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
 }
+/* utas-v110 */
 
-.wthesis__h1 {
-  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+/* === Үйлчилгээ ба баталгаа — танилцуулга + метрик (.wsvc / .wmetric) ====
+   Зарчим: гол үзүүлэлт «3 жил / 100,000 км» ХУУДСАНД ЗӨВХӨН НЭГ УДАА, метрик
+   блокт гарна. Дараагийн блокууд тоог давтахгүй, баталгааг тайлбарлана.
+   Улаан нь зөвхөн accent — метрикийн дээрх нарийн зураас, eyebrow-ийн хэрчим.
+   Гарчиг, тайлбар бүгд хар/саарал: корпорацийн автомашины сайтын хэв. */
+
+.wsvc {
+  padding-top: clamp(6.5rem, 11vw, 9rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  background: #FFFFFF;
+}
+
+/* Eyebrow — саарал текст, дээр нь 2px улаан хэрчим */
+.wsvc__eyebrow,
+.wrnt__eyebrow {
+  position: relative;
+  display: block;
+  padding-top: 0.875rem;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6B7280;
+}
+.wsvc__eyebrow::before,
+.wrnt__eyebrow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 2px;
+  background: #E20A17;
+}
+
+.wsvc__h1 {
+  margin-top: clamp(1.125rem, 2vw, 1.625rem);
+  font-size: clamp(1.75rem, 3.6vw, 2.875rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.12;
   letter-spacing: -0.025em;
   color: #17181B;
+  max-width: 22ch;
+  text-wrap: balance;
 }
 
-/* Гол объект: хугацаа + гүйлт, дундаа улаан зураас */
-.wthesis__lock {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: clamp(0.875rem, 2vw, 1.75rem);
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+.wsvc__lead {
+  margin-top: clamp(1rem, 1.8vw, 1.375rem);
+  font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+  line-height: 1.75;
+  color: #54585F;
+  max-width: 56ch;
 }
 
-.wthesis__num {
+/* --- Гол үзүүлэлт: хоёр багана, зураасаар зааглахгүй --- */
+.wmetric {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+  padding-top: clamp(1.75rem, 3vw, 2.5rem);
+  border-top: 1px solid #E7E7EA;
+  max-width: 640px;
+}
+
+.wmetric__item {
+  min-width: 0;
+}
+
+.wmetric__value {
+  margin: 0;
   font-family: var(--font-inter), sans-serif;
-  font-size: clamp(2.25rem, 6.4vw, 4.75rem);
+  font-size: clamp(1.875rem, 4.4vw, 3rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.035em;
@@ -5240,24 +5510,254 @@ input[type="range"].range-jetour::-moz-range-thumb {
   font-variant-numeric: tabular-nums;
 }
 
-.wthesis__rule {
-  width: 2px;
-  height: clamp(2rem, 5vw, 3.75rem);
+.wmetric__label {
+  margin-top: 0.625rem;
+  font-size: clamp(0.75rem, 0.9vw, 0.8125rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6B7280;
+}
+
+/* --- Нам гүм гарч ирэх — ЗӨВХӨН зөвшөөрөгдсөн үед зарлана.
+   `landmines.md` §4: дарж бичих гэж specificity-ийн тэмцээн зохиовол minifier
+   selector-уудыг нэгтгэж хаядаг. Мөн агуулга анхнаасаа ХАРАГДАНА: scroll
+   timeline дэмжигдэхгүй хөтөчид ч хоосон зай үлдэхгүй. --- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .wmetric__item,
+    .wrnt__copy {
+      animation: wsvc-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 26%;
+    }
+    @keyframes wsvc-rise {
+      from {
+        opacity: 0.45;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+}
+/* utas-v110 */
+
+/* === Мэдээ ба үйл явдал (.nws) ==========================================
+   Редакцийн хэсэг: зураг гол, бичвэр цэгцтэй, гоёл байхгүй. Улаан нь
+   ЗӨВХӨН «Дэлгэрэнгүй» холбоост. Карусель хасагдсан тул цэг, сум, тоолуур
+   ч байхгүй — grid өөрөө мэдээ нэмэгдэхэд бууна. */
+
+.nws {
+  padding-block: clamp(3rem, 5vw, 4.5rem);
+  background: #FFFFFF;
+}
+
+.nws__head {
+  margin-bottom: clamp(2.25rem, 4vw, 3.25rem);
+}
+
+.nws__title {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: #17181B;
+}
+
+.nws__lead {
+  margin-top: 0.75rem;
+  font-size: clamp(0.875rem, 1.05vw, 1rem);
+  line-height: 1.7;
+  color: #6B7280;
+  max-width: 52ch;
+}
+
+.nws__track {
+  /* Гүйлгэлт нь ТӨРӨЛХ: хуруу, trackpad, чирэлт, Tab — бүгд өөрөө ажиллана.
+     Мэдээ багтаж байвал энгийн эгнээ шиг харагдана. */
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.nws__track::-webkit-scrollbar {
+  display: none;
+}
+
+.nws__track > li {
+  /* Утсанд 86% — дараагийн карт ирмэгээр харагдаж, гүйлгэх боломжийг мэдэгдүүлнэ */
+  flex: 0 0 86%;
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+.nws__card {
+  display: block;
+}
+
+/* Зураг — бүх картад ижил харьцаа, нам гүм радиус */
+.nws__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #EDEEF0;
+}
+
+.nws__img {
+  object-fit: cover;
+  transition: transform 420ms var(--ease-out);
+}
+.nws__card:hover .nws__img {
+  transform: scale(1.03);
+}
+
+/* Категори — зураг дээрх pill байсныг гарчгийн дээрх шошго болгов */
+.nws__cat {
+  display: block;
+  margin-top: clamp(1.125rem, 1.8vw, 1.5rem);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9CA3AF;
+}
+
+.nws__h3 {
+  margin-top: 0.5rem;
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: #17181B;
+  /* Хоёр мөрөөр таслана — карт бүр ижил өндөртэй болно */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 200ms var(--ease-out);
+}
+.nws__card:hover .nws__h3 {
+  color: #E20A17;
+}
+
+.nws__foot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.875rem;
+}
+
+.nws__date {
+  font-size: 0.8125rem;
+  color: #9CA3AF;
+  font-variant-numeric: tabular-nums;
+}
+
+.nws__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-left: auto;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #E20A17;
+}
+
+.nws__arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 300ms var(--ease-out);
+}
+.nws__card:hover .nws__arrow {
+  transform: translateX(3px);
+}
+
+/* --- «Бүх мэдээг үзэх» — хэт том pill байсныг тайван болгов --- */
+.nws__all {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.nws__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 46px;
+  padding-inline: 1.625rem;
+  border-radius: 10px;
+  background: #17181B;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: background-color 200ms var(--ease-out);
+}
+.nws__btn:hover {
   background: #E20A17;
+}
+
+@media (min-width: 48rem) {
+  .nws__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* utas-v110 */
+
+/* --- Мэдээний толгой: гарчиг зүүн, сум баруун --- */
+.nws__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.nws__headText {
+  min-width: 0;
+}
+
+.nws__nav {
+  display: none;
+  gap: 0.5rem;
   flex-shrink: 0;
 }
 
-/* Нарийн дэлгэц: lockup хоёр мөр болоход босоо зураас дундаа тэнэг үлддэг —
-   хэвтээ болгож, дарааллыг зөв уншуулна. */
-/* 368px-ээс доош: нэг мөрөнд таарахаа болино (375px-д таарсаар тул хөндөхгүй) */
-@media (max-width: 23rem) {
-  .wthesis__lock {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+.nws__navBtn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid #E7E7EA;
+  color: #54585F;
+  background: #FFFFFF;
+  transition: border-color 200ms var(--ease-out), color 200ms var(--ease-out);
+}
+.nws__navBtn:hover {
+  border-color: #17181B;
+  color: #17181B;
+}
+
+@media (min-width: 48rem) {
+  /* Хоёр карт нэг дор — зайг нь хасаж тооцно */
+  .nws__track > li {
+    flex: 0 0 calc((100% - 1.75rem) / 2);
   }
-  .wthesis__rule {
-    width: 44px;
-    height: 2px;
+  /* Рендерлэгдсэн үед л харагдана — нөхцөлийг React шийднэ */
+  .nws__head .nws__nav {
+    display: flex;
   }
 }
+/* utas-v110 */
