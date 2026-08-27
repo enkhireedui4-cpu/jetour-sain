@@ -7,7 +7,7 @@ import { Footer } from "@/components/jetour/contact";
 import { CONTACT } from "@/lib/jetour-data";
 
 export const metadata: Metadata = {
-  title: "Бидний тухай — JETOUR",
+  title: "Бидний тухай",
   description:
     "JETOUR — Хятадад төвтэй, 23 гаруй жилийн туршлагатай автомашины группийн SUV брэнд. 2018 онд Бээжин хотноо танилцуулсан. Монголд SAIN MOTORS-оор дамжин албан ёсоор.",
   alternates: { canonical: "/brand" },

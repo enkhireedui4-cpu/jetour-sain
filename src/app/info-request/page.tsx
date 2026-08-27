@@ -8,7 +8,7 @@ import { EnhancedLeadForm } from "@/components/jetour/enhanced-lead-form";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "Дэлгэрэнгүй мэдээлэл авах — JETOUR",
+  title: "Дэлгэрэнгүй мэдээлэл авах",
   description:
     "Сонирхож буй JETOUR загварын үнэ, үзүүлэлт, хувилбар болон тест драйвын талаар дэлгэрэнгүй мэдээлэл авах хүсэлт.",
   alternates: { canonical: "/info-request" },

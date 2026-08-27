@@ -31,3 +31,34 @@ export function cyclicOffset(i: number, base: number, total: number): number {
 export function slideJumped(i: number, from: number, to: number, total: number): boolean {
   return Math.abs(cyclicOffset(i, to, total) - cyclicOffset(i, from, total)) > 1;
 }
+
+/**
+ * Сумны товчлуурын жолоодлого — слайдер бүрт ижилхэн бичигдэж байсныг нэгтгэв.
+ *
+ * `model-sections`, `models`, `technology-highlights` гурав нь ижил
+ * if-хэлхээг давтаж байв (`models` дээр нэмээд `Home`/`End`). Газрын зураг
+ * хэлбэрт шилжүүлснээр хэлхээ богиносч, шинэ товчлуур нэмэхэд нэг мөр л
+ * нэмнэ.
+ *
+ * `first`/`last` өгөөгүй бол `Home`/`End` нь өмнөх зан төлөвтэй адил
+ * ЮУ Ч ХИЙХГҮЙ — хөтчийн анхдагч үйлдэл ч хэвээр үлдэнэ.
+ */
+export function arrowKeyNav(handlers: {
+  next: () => void;
+  prev: () => void;
+  first?: () => void;
+  last?: () => void;
+}) {
+  const byKey: Record<string, (() => void) | undefined> = {
+    ArrowRight: handlers.next,
+    ArrowLeft: handlers.prev,
+    Home: handlers.first,
+    End: handlers.last,
+  };
+  return (e: { key: string; preventDefault: () => void }) => {
+    const run = byKey[e.key];
+    if (!run) return;
+    e.preventDefault();
+    run();
+  };
+}

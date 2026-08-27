@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Field, SaveButton } from "../_ui/form";
 
 type OfferData = {
   id: string;
@@ -152,36 +153,8 @@ export default function OfferForm({ initial }: { initial?: OfferData }) {
         </select>
       </Field>
 
-      <button
-        type="submit"
-        disabled={saving}
-        className="bg-[#E20A17] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#17181B] transition-colors disabled:opacity-60"
-      >
-        {saving ? "Хадгалж байна..." : "Хадгалах"}
-      </button>
-
-      <style jsx global>{`
-        .input {
-          width: 100%;
-          border: 1px solid #e7e7ea;
-          border-radius: 0.5rem;
-          padding: 0.5rem 0.75rem;
-          font-size: 0.875rem;
-        }
-        .input:focus {
-          outline: none;
-          box-shadow: 0 0 0 2px rgba(226, 10, 23, 0.25);
-        }
-      `}</style>
+      <SaveButton saving={saving} />
     </form>
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="block text-xs font-semibold text-[#6B7280] mb-1.5">{label}</span>
-      {children}
-    </label>
-  );
-}

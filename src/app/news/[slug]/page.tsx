@@ -28,12 +28,16 @@ export async function generateMetadata({
   const article = await getNewsBySlug(slug);
   if (!article) {
     return {
-      title: "Мэдээ олдсонгүй — JETOUR",
+      title: "Мэдээ олдсонгүй",
     };
   }
   return {
-    title: `${article.title} — JETOUR`,
+    title: article.title,
     description: article.excerpt,
+    /* Өөрийгөө заасан canonical. Байхгүй бол Next `metadataBase` буюу
+       НҮҮР рүү унаж, Google уг мэдээг нүүрийн хуулбар гэж үзээд
+       индексээс хасдаг. */
+    alternates: { canonical: `/news/${slug}` },
     openGraph: {
       title: article.title,
       description: article.excerpt,

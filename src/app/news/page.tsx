@@ -12,9 +12,15 @@ import { PageHeader } from "@/components/jetour/page-header";
 import { Calendar, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Мэдээ, сурталчилгаа — JETOUR",
+  /* «— JETOUR» дагавар хасав: layout-ын template аль хэдийн
+     «| JETOUR» нэмдэг тул брэнд хоёр удаа гарч байв. */
+  title: "Мэдээ, сурталчилгаа",
   description:
     "JETOUR -ын шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт, үйл явдал — бүгд энд.",
+  /* Өөрийгөө заасан canonical. Байхгүй бол Next `metadataBase`
+     буюу НҮҮР рүү унаж, Google энэ хуудсыг нүүрийн хуулбар гэж
+     үзээд индексээс хасдаг. */
+  alternates: { canonical: "/news" },
   openGraph: {
     title: "Мэдээ, сурталчилгаа — JETOUR",
     description: "JETOUR-ын шинэ загвар, брэндийн мэдээ, үйлчилгээ.",

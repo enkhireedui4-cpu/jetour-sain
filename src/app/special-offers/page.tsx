@@ -7,8 +7,12 @@ import SpecialOffersClient from "./offers-client";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "Тусгай саналууд — JETOUR",
+  title: "Тусгай саналууд",
   description: "JETOUR загваруудын хамгийн сүүлийн үеийн тусгай санал, зээлийн хөнгөлөлт.",
+  /* Өөрийгөө заасан canonical. Байхгүй бол Next `metadataBase`
+     буюу НҮҮР рүү унаж, Google энэ хуудсыг нүүрийн хуулбар гэж
+     үзээд индексээс хасдаг. */
+  alternates: { canonical: "/special-offers" },
 };
 
 export default async function SpecialOffersPage() {

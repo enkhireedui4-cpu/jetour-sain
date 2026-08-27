@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BLUR_DATA_URL } from "@/lib/image";
 import { useDragSwipe } from "@/hooks/use-drag";
-import { cyclicOffset, slideJumped } from "@/lib/slider";
+import { cyclicOffset, slideJumped, arrowKeyNav } from "@/lib/slider";
 
 export type TechnologyHighlight = {
   id: string;
@@ -89,15 +89,7 @@ export function TechnologyHighlights({
   const swipe = useDragSwipe({ onNext: next, onPrev: prev, threshold: 48, onMove: setDragDx });
 
   /* Гарын сумаар удирдах — тайз фокустай үед */
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      next();
-    } else if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      prev();
-    }
-  };
+  const onKeyDown = arrowKeyNav({ next, prev });
 
   /* Дараагийн зургийг урьдчилан татна — гүйж орж ирэхэд хоосон гарахгүй */
   const preloaded = useRef(new Set<string>());

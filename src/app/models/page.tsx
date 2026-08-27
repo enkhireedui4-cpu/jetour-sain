@@ -4,7 +4,7 @@ import { modelCutout } from "@/lib/model-media";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 import { PageHeader } from "@/components/jetour/page-header";
-import { ModelsListingClient } from "./models-listing-client";
+import { ModelsListing } from "./models-listing";
 import type { VehicleCardModel } from "@/components/jetour/vehicle-card";
 
 // ISR — 10 мин (600 сек). Next-ийн segment config нь literal байх ёстой,
@@ -62,7 +62,7 @@ export default async function ModelsPage() {
         title="Загварууд"
         lead="JETOUR-ийн бүх лайнапыг нэг дороос"
       />
-      <ModelsListingClient models={cards} />
+      <ModelsListing models={cards} />
       <Footer />
     </div>
   );

@@ -12,6 +12,7 @@ import {
 } from "@/lib/model-media";
 import { useDragSwipe } from "@/hooks/use-drag";
 import { WHEEL_ANCHORS, CAR_IMAGE_RATIO } from "@/lib/wheel-anchors";
+import { arrowKeyNav } from "@/lib/slider";
 
 type M = CmsCarModel;
 
@@ -298,21 +299,12 @@ export function Models({ models: allModels }: { models: M[] }) {
       e.preventDefault();
   };
 
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      next();
-    } else if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      prev();
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      go(0, -1);
-    } else if (e.key === "End") {
-      e.preventDefault();
-      go(models.length - 1, 1);
-    }
-  };
+  const onKeyDown = arrowKeyNav({
+    next,
+    prev,
+    first: () => go(0, -1),
+    last: () => go(models.length - 1, 1),
+  });
 
   if (total === 0) return null;
 
