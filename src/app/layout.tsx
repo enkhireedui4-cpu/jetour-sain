@@ -22,12 +22,15 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "JETOUR — Албан ёсны дистрибьютор SAIN MOTORS",
-    template: "%s | JETOUR Mongolia",
+    template: "%s | JETOUR",
   },
   description:
     "JETOUR — албан ёсны дистрибьютор Сайн Моторс. X70 Plus, X1, X50, T1 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 7277-8855, 8910-0274",
   keywords: [
+    /* Хайлтын түлхүүр үг — ХАРАГДАХ бичиг биш. Хүмүүс яг «JETOUR
+       Mongolia» гэж хайдаг тул үүнийг хасахгүй. */
     "JETOUR Mongolia",
+    "JETOUR",
     "Jetour Монгол",
     "Сайн Моторс",
     "Sain Motors",
@@ -44,10 +47,10 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
   openGraph: {
-    title: "JETOUR Mongolia — Албан ёсны дистрибьютор SAIN MOTORS",
+    title: "JETOUR — Албан ёсны дистрибьютор SAIN MOTORS",
     description:
       "JETOUR Travel+ загварууд — Монголд албан ёсоор. Тест драйв, борлуулалт, үйлчилгээ.",
-    siteName: "JETOUR Mongolia",
+    siteName: "JETOUR",
     type: "website",
     locale: "mn_MN",
     url: "/",
@@ -62,7 +65,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "JETOUR Mongolia — SAIN MOTORS",
+    title: "JETOUR — SAIN MOTORS",
     description: "JETOUR Travel+ загварууд — Монголд албан ёсоор.",
     images: ["/models-hero/x70-plus.jpg"],
   },
@@ -72,7 +75,7 @@ export const metadata: Metadata = {
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "AutoDealer",
-  name: "SAIN MOTORS — JETOUR Mongolia",
+  name: "SAIN MOTORS — JETOUR",
   legalName: "Сайн Моторс ХХК",
   url: SITE_URL,
   logo: `${SITE_URL}/logos/sain-motors-black.png`,

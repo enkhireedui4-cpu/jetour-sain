@@ -19,12 +19,12 @@ import { useDragSwipe } from "@/hooks/use-drag";
 import { cyclicOffset, slideJumped } from "@/lib/slider";
 
 const SHOWROOM_IMAGES = [
-  "/showroom/showroom-1.jfif",
-  "/showroom/showroom-2.jfif",
-  "/showroom/showroom-3.jfif",
-  "/showroom/showroom-4.jfif",
-  "/showroom/showroom-5.jfif",
-  "/showroom/showroom-6.jfif",
+  "/showroom/showroom-1.webp",
+  "/showroom/showroom-2.webp",
+  "/showroom/showroom-3.webp",
+  "/showroom/showroom-4.webp",
+  "/showroom/showroom-5.webp",
+  "/showroom/showroom-6.webp",
 ];
 
 export function DealerClient() {

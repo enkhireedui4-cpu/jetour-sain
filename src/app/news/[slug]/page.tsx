@@ -74,7 +74,7 @@ export default async function NewsDetailPage({
     dateModified: article.dateIso,
     author: {
       "@type": "Organization",
-      name: "JETOUR Mongolia · Sain Motors",
+      name: "JETOUR · Sain Motors",
     },
     publisher: {
       "@type": "Organization",

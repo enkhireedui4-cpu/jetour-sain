@@ -20,7 +20,7 @@ export default function AdminShell({ children, username }: { children: React.Rea
     <div className="min-h-screen bg-[#F5F5F6] flex">
       <aside className="w-64 bg-[#17181B] text-white flex flex-col shrink-0">
         <div className="px-5 py-6 border-b border-white/10">
-          <p className="font-extrabold text-lg leading-tight">JETOUR Mongolia</p>
+          <p className="font-extrabold text-lg leading-tight">JETOUR</p>
           <p className="text-xs text-white/50">Удирдлагын самбар</p>
         </div>
         <nav className="flex-1 py-4">

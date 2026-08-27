@@ -1,4 +1,4 @@
-// JETOUR Mongolia — албан ёсны брэндийн вэбсайт
+// JETOUR — албан ёсны брэндийн вэбсайт
 // Мэдээллийн эх сурвалж:
 // - Sain Motors Facebook хуудас (Sainmotors.mn)
 // - Jetour Kazakhstan (jetour-auto.kz)
@@ -63,8 +63,8 @@ export type JetourModel = {
 const IMG = {
   x70_aerial: "/jetour-cars/712583730_921064490993111_3963637079716035790_n.jpg",
   x70_rear: "/jetour-cars/712803544_921064480993112_1706989833314110976_n.jpg",
-  x70_front_dark: "/jetour-cars/728664206_1496351285107979_4890402185645234812_n.jfif",
-  x70_night: "/jetour-cars/729089543_1340059197564783_8512743044015312546_n.jfif",
+  x70_front_dark: "/jetour-cars/728664206_1496351285107979_4890402185645234812_n.webp",
+  x70_night: "/jetour-cars/729089543_1340059197564783_8512743044015312546_n.webp",
   x1_front: "/jetour-cars/714599471_921057417660485_8056177143950755889_n.jpg",
   x1_rear_side: "/jetour-cars/712430733_921057444327149_8958675274380949451_n.jpg",
   x1_rear: "/jetour-cars/713844126_921057440993816_7361683212998011935_n.jpg",
@@ -72,8 +72,8 @@ const IMG = {
   x50_front_family: "/jetour-cars/711906105_921061610993399_8049625632775256600_n.jpg",
   x50_camping: "/jetour-cars/714204588_921061650993395_1098145828660312850_n.jpg",
   x50_rear: "/jetour-cars/714244033_921061647660062_8766989467164421896_n.jpg",
-  t1_phev: "/jetour-cars/724894424_1972867063376374_6712646349117792876_n.jfif",
-  travel_interior: "/jetour-cars/728653558_1906599580038472_5850227596044427037_n.jfif",
+  t1_phev: "/jetour-cars/724894424_1972867063376374_6712646349117792876_n.webp",
+  travel_interior: "/jetour-cars/728653558_1906599580038472_5850227596044427037_n.webp",
 };
 
 // === Тусгай саналууд (Special Offers) ===

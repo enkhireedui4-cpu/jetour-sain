@@ -7,7 +7,7 @@ import { CONTACT } from "@/lib/jetour-data";
 export const metadata: Metadata = {
   title: "Нууцлалын бодлого",
   description:
-    "JETOUR Mongolia — вэбсайтаар цуглуулах хувийн мэдээлэл, түүнийг ашиглах, хамгаалах талаарх нууцлалын бодлого.",
+    "JETOUR — вэбсайтаар цуглуулах хувийн мэдээлэл, түүнийг ашиглах, хамгаалах талаарх нууцлалын бодлого.",
   alternates: { canonical: "/privacy" },
   robots: { index: true, follow: true },
 };

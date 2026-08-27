@@ -148,7 +148,7 @@ export function Contact() {
           >
             <div className="relative rounded-2xl overflow-hidden border border-[#E7E7EA] aspect-[16/10]">
               <Image
-                src="/showroom/showroom-1.jfif"
+                src="/showroom/showroom-1.webp"
                 alt={`${BRANCHES[0].name} — Showroom`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 45vw"

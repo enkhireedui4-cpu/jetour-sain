@@ -40,7 +40,7 @@ function LoginForm() {
         className="w-full max-w-sm bg-white rounded-2xl border border-[#E7E7EA] shadow-lg p-8"
       >
         <h1 className="text-2xl font-extrabold text-[#17181B] mb-1">Админ нэвтрэх</h1>
-        <p className="text-sm text-[#6B7280] mb-6">JETOUR Mongolia удирдлагын самбар</p>
+        <p className="text-sm text-[#6B7280] mb-6">JETOUR удирдлагын самбар</p>
 
         <div className="mb-4">
           <label className="block text-xs font-semibold text-[#6B7280] mb-1.5">Нэвтрэх нэр</label>

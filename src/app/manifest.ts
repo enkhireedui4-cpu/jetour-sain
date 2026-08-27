@@ -6,7 +6,7 @@ import type { MetadataRoute } from "next";
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "JETOUR Mongolia — SAIN MOTORS",
+    name: "JETOUR — SAIN MOTORS",
     short_name: "JETOUR",
     description:
       "JETOUR-ын SUV загварууд Монголд — албан ёсны дистрибьютор SAIN MOTORS. Тест драйв захиалах, үнэ, санхүүжилт.",

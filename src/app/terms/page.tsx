@@ -7,7 +7,7 @@ import { CONTACT } from "@/lib/jetour-data";
 export const metadata: Metadata = {
   title: "Үйлчилгээний нөхцөл",
   description:
-    "JETOUR Mongolia вэбсайтыг ашиглах нөхцөл, агуулгын хэрэглээ, хариуцлагын хязгаарлалт.",
+    "JETOUR вэбсайтыг ашиглах нөхцөл, агуулгын хэрэглээ, хариуцлагын хязгаарлалт.",
   alternates: { canonical: "/terms" },
   robots: { index: true, follow: true },
 };

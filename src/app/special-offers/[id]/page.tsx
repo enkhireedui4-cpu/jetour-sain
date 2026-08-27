@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: offer.desc,
     alternates: { canonical: `/special-offers/${offer.id}` },
     openGraph: {
-      title: `${offer.title} | JETOUR Mongolia`,
+      title: `${offer.title} | JETOUR`,
       description: offer.desc,
       images: [{ url: offer.poster, alt: offer.title }],
       type: "website",

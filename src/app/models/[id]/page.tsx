@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical: `/models/${model.id}` },
     openGraph: {
-      title: `${model.name} | JETOUR Mongolia`,
+      title: `${model.name} | JETOUR`,
       description,
       images: img ? [{ url: img, alt: model.name }] : undefined,
       type: "website",
