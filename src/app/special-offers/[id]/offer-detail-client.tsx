@@ -18,8 +18,10 @@ export default function OfferDetailClient({
   posterSize?: { width: number; height: number } | null;
 }) {
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
       <div className="h-16" />
 
       {/* Back link */}
@@ -169,6 +171,8 @@ export default function OfferDetailClient({
           />
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

@@ -43,6 +43,7 @@ export async function generateMetadata({
       title: article.title,
       description: article.excerpt,
       type: "article",
+      url: `/news/${slug}`,
       locale: "mn_MN",
       images: [{ url: article.image, alt: article.title }],
       publishedTime: article.dateIso,
@@ -100,7 +101,7 @@ export default async function NewsDetailPage({
   const related = allNews.filter((a) => a.slug !== article.slug).slice(0, 2);
 
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
@@ -108,6 +109,8 @@ export default async function NewsDetailPage({
       />
 
       <Navbar />
+
+      <main id="main-content">
       <div className="h-16" />
 
       {/* Article header — editorial: гарчиг цагаан дэвсгэр дээр, зураг бүтнээрээ (тайралтгүй) */}
@@ -179,7 +182,7 @@ export default async function NewsDetailPage({
 
             {/* Contact CTA */}
             <div className="mt-14 p-8 bg-[#F5F5F6] rounded-2xl">
-              <h3 className="type-h3 text-[#17181B] mb-3">Холбоо барих</h3>
+              <h2 className="type-h3 text-[#17181B] mb-3">Холбоо барих</h2>
               <p className="text-[#54585F] leading-relaxed mb-6">
                 Энэ мэдээнд холбоотой асуулт байвал манай багтай холбогдоорой.
               </p>
@@ -243,6 +246,8 @@ export default async function NewsDetailPage({
           </div>
         </section>
       )}
+
+      </main>
 
       <Footer />
     </div>

@@ -37,8 +37,10 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
       <PageHeader
         title="Нууцлалын бодлого"
         lead="Танаас цуглуулах мэдээлэл, түүнийг хэрхэн ашиглаж, хамгаалдаг талаар."
@@ -68,6 +70,8 @@ export default function PrivacyPage() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

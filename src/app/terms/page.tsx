@@ -7,7 +7,7 @@ import { CONTACT } from "@/lib/jetour-data";
 export const metadata: Metadata = {
   title: "Үйлчилгээний нөхцөл",
   description:
-    "JETOUR вэбсайтыг ашиглах нөхцөл, агуулгын хэрэглээ, хариуцлагын хязгаарлалт.",
+    "JETOUR Mongolia вэбсайтыг ашиглах нөхцөл: агуулгын хэрэглээ, оюуны өмч, хариуцлагын хязгаарлалт, үнэ болон үзүүлэлтийн өөрчлөлтийн талаарх мэдэгдэл.",
   alternates: { canonical: "/terms" },
   robots: { index: true, follow: true },
 };
@@ -37,8 +37,10 @@ const SECTIONS = [
 
 export default function TermsPage() {
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
       <PageHeader
         title="Үйлчилгээний нөхцөл"
         lead="Вэбсайтыг ашиглах ерөнхий нөхцөл, хариуцлагын хязгаарлалт."
@@ -68,6 +70,8 @@ export default function TermsPage() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

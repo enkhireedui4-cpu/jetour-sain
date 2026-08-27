@@ -26,8 +26,10 @@ export const metadata: Metadata = {
  */
 export default function InfoRequestPage() {
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
 
       {/* Толгой — өргөн, нам банд. Зохиомжийн санаа нь
           jetouregypt.com/shopping-tools/test-drive: зогсож байгаа машин биш,
@@ -73,6 +75,8 @@ export default function InfoRequestPage() {
           />
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

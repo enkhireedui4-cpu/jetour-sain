@@ -46,8 +46,10 @@ export function DealerClient() {
   const swipe = useDragSwipe({ onNext: next, onPrev: prev, onMove: setDragDx });
 
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
 
       {/* Толгойн блок бүхэлдээ хасагдав — гарчиг ба тайлбар хоёулаа доорх
           картад давхардаж байв. Хуудас шууд агуулгаараа эхэлнэ.
@@ -271,6 +273,8 @@ export function DealerClient() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

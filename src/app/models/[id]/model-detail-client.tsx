@@ -228,12 +228,13 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
        Зан үйл (чирэлт, слайдын шилжилт) бүх загварт нийтлэг хэвээр; зөвхөн
        дүрслэл (жишээ T2-ын утасны зохиомж) ийм хамрах хүрээтэй болно. */
     <div
-      id="main-content"
       data-model={model.id}
       className="min-h-screen bg-white text-[#17181B]"
     >
       {/* === Энгийн үндсэн цэс (kz маяг — хуудас солигдоход цэс өөрчлөгдөхгүй) === */}
       <Navbar />
+
+      <main id="main-content">
       <ModelSubnav modelName={model.name} items={subnavItems} />
       <div className="h-16" />
 
@@ -1044,6 +1045,8 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
 
 
       {/* Footer */}
+      </main>
+
       <Footer />
     </div>
   );

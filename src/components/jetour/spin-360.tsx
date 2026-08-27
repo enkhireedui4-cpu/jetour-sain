@@ -297,7 +297,7 @@ export function Spin360({
     <div className={`spin ${className}`}>
       {heading && (
         <div className="spin__id">
-          <h3 className="spin__model">{heading}</h3>
+          <h2 className="spin__model">{heading}</h2>
           {headingEn && <p className="spin__model-en">{headingEn}</p>}
         </div>
       )}

@@ -8,7 +8,8 @@ export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "Тусгай саналууд",
-  description: "JETOUR загваруудын хамгийн сүүлийн үеийн тусгай санал, зээлийн хөнгөлөлт.",
+  description:
+    "JETOUR загваруудын үйлчлэх хугацаатай тусгай санал, зээлийн хөнгөлөлттэй нөхцөл, урамшуулал. X70 Plus, X50, X1, T1 — SAIN MOTORS-ийн албан ёсны саналууд.",
   /* Өөрийгөө заасан canonical. Байхгүй бол Next `metadataBase`
      буюу НҮҮР рүү унаж, Google энэ хуудсыг нүүрийн хуулбар гэж
      үзээд индексээс хасдаг. */

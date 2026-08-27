@@ -226,9 +226,9 @@ export function EnhancedLeadForm({
         >
           <CheckCircle2 className="w-10 h-10 text-white" />
         </motion.div>
-        <h3 className={`font-display font-extrabold italic text-2xl mb-2 ${headingColor}`}>
+        <h2 className={`font-display font-extrabold italic text-2xl mb-2 ${headingColor}`}>
           Баярлалаа!
-        </h3>
+        </h2>
         <p className={`text-sm leading-relaxed mb-6 max-w-sm mx-auto ${isDark ? "text-white/70" : "text-[#6B7280]"}`}>
           Таны хүсэлт амжилттай хүлээн авлаа. Манай борлуулалтын баг 24 цагийн дотор холбогдож
           баталгаажуулна.
@@ -256,9 +256,9 @@ export function EnhancedLeadForm({
     >
       <div className="flex items-center gap-2 mb-2">
         <div className="w-1.5 h-6 bg-[#E20A17] rounded-full" />
-        <h3 className={`font-display font-extrabold italic text-xl lg:text-2xl ${headingColor}`}>
+        <h2 className={`font-display font-extrabold italic text-xl lg:text-2xl ${headingColor}`}>
           {title}
-        </h3>
+        </h2>
       </div>
       {/* Дэд гарчиг: 12px (`text-xs`) байсныг 13px + уужим мөрийн зайтай
           болгов. Тэр хэмжээ нь «X50 — тест драйв» гэсэн нэг мөрийн шошгод

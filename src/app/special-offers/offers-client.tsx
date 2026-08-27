@@ -52,18 +52,24 @@ export default function SpecialOffersClient({ offers: OFFERS }: { offers: Specia
 
   if (OFFERS.length === 0) {
     return (
-      <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+      <div className="min-h-screen bg-white text-[#17181B]">
         <Navbar />
+
+        <main id="main-content">
         <div className="h-16" />
         <div className="py-32 text-center text-[#54585F]">Одоогоор тусгай санал байхгүй байна.</div>
+        </main>
+
         <Footer />
       </div>
     );
   }
 
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
       <div className="h-16" />
 
       {/* ── Featured slider ── */}
@@ -224,6 +230,8 @@ export default function SpecialOffersClient({ offers: OFFERS }: { offers: Specia
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

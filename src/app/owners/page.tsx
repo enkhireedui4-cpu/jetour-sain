@@ -60,8 +60,10 @@ const METRICS = [
 
 export default function OwnersPage() {
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
 
       {/* === Хэсгийн танилцуулга + гол үзүүлэлт ========================== */}
       <section className="wsvc">
@@ -115,6 +117,8 @@ export default function OwnersPage() {
           </div>
         </section>
       ))}
+
+      </main>
 
       <Footer />
     </div>

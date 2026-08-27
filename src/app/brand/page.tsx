@@ -63,8 +63,10 @@ const FACTS = [
 
 export default function BrandPage() {
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
 
       {/* === 1. Толгой — хонгилын банд ================================== */}
       <section className="brnd-hero">
@@ -202,6 +204,8 @@ export default function BrandPage() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>

@@ -56,13 +56,17 @@ export default async function ModelsPage() {
   }));
 
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
       <PageHeader
         title="Загварууд"
         lead="JETOUR-ийн бүх лайнапыг нэг дороос"
       />
       <ModelsListing models={cards} />
+      </main>
+
       <Footer />
     </div>
   );

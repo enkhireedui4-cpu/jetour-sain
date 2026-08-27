@@ -55,12 +55,12 @@ export function VehicleCard({ model }: { model: VehicleCardModel }) {
 
       {/* Мэдээлэл — нэр, нэг богино тодорхойлолт, үнэ */}
       <div className="vcard__body">
-        <h3 className="vcard__name">
+        <h2 className="vcard__name">
           {/* Картын бүх талбайг холбоос болгоно (stretched link) */}
           <Link href={href} className="vcard__link">
             {model.name.replace("JETOUR ", "")}
           </Link>
-        </h3>
+        </h2>
         {model.series && <p className="vcard__series">{model.series}</p>}
         <p className="vcard__price">{priceOf(model)}</p>
 

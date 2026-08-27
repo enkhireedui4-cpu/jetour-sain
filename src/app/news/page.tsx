@@ -16,7 +16,7 @@ export const metadata: Metadata = {
      «| JETOUR» нэмдэг тул брэнд хоёр удаа гарч байв. */
   title: "Мэдээ, сурталчилгаа",
   description:
-    "JETOUR -ын шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт, үйл явдал — бүгд энд.",
+    "JETOUR-ийн шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт, олон улсын амжилт болон Монгол дахь үйл явдал — бүгд нэг дор. SAIN MOTORS-ийн албан ёсны мэдээлэл.",
   /* Өөрийгөө заасан canonical. Байхгүй бол Next `metadataBase`
      буюу НҮҮР рүү унаж, Google энэ хуудсыг нүүрийн хуулбар гэж
      үзээд индексээс хасдаг. */
@@ -26,14 +26,25 @@ export const metadata: Metadata = {
     description: "JETOUR-ын шинэ загвар, брэндийн мэдээ, үйлчилгээ.",
     type: "website",
     locale: "mn_MN",
+    url: "/news",
+    images: [
+      {
+        url: "/models-hero/x70-plus.jpg",
+        width: 1772,
+        height: 1772,
+        alt: "JETOUR X70 Plus — SAIN MOTORS",
+      },
+    ],
   },
 };
 
 export default async function NewsListPage() {
   const NEWS_ARTICLES = await getAllNews();
   return (
-    <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
+    <div className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
+
+      <main id="main-content">
 
       <PageHeader
         title="Шинэ мэдээлэл"
@@ -86,6 +97,8 @@ export default async function NewsListPage() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </div>
