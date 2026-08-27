@@ -1,21 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Phone, X, Gauge } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Phone, X } from "lucide-react";
 import { CONTACT } from "@/lib/jetour-data";
 import { trackMetaEvent } from "./meta-pixel";
+import { openQuickLead } from "./quick-lead";
 
-function WhatsAppIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.999-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-    </svg>
-  );
-}
-
+/**
+ * Хөвөгч холбоо барих товч — сайтын ТОГТМОЛ холбогдох цэг.
+ *
+ * ӨМНӨ НЬ энэ товч дарахад гурван дугуй товч задарч байв: залгах, тест
+ * драйв, WhatsApp. Гурав нь адил жинтэй харагдаж, хэрэглэгч алийг нь
+ * дарахаа бодох хэрэгтэй болдог. Одоо ХОЁР л сонголт:
+ *
+ *   · Шууд залгах   — одоо ярихад бэлэн хүнд
+ *   · Дугаар үлдээх — ярих боломжгүй, эсвэл ярихыг хүсэхгүй хүнд
+ *
+ * WhatsApp хасагдсан ч хаагдаагүй — хөл хэсэгт хэвээр байна (`contact.tsx`).
+ * Тест драйв нь `/info-request`-ээр дамжина.
+ */
 export function FloatingCTA() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const firstItemRef = useRef<HTMLAnchorElement>(null);
 
   /**
    * Доош гүйлгэхэд далд болж, дээш гүйлгэхэд эргэн гарна — контент уншиж
@@ -35,74 +43,78 @@ export function FloatingCTA() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleTestDrive = () => {
-    setOpen(false);
-    const el =
-      document.querySelector("#test-drive") ?? document.querySelector("#dealer");
-    el?.scrollIntoView({ behavior: "smooth" });
-  };
+  const close = useCallback(() => setOpen(false), []);
+
+  /* Esc болон гадуур дарахад хаана — жижиг цонх тул хялбар байх ёстой */
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    const onDown = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) close();
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDown);
+    const t = window.setTimeout(() => firstItemRef.current?.focus(), 40);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDown);
+      window.clearTimeout(t);
+    };
+  }, [open, close]);
 
   return (
     <div
+      ref={wrapRef}
       /* Хэсгүүдийн хооронд "үсрэхгүй" — fixed, дэлгэцийн ирмэгээс тогтмол зайд.
-         Утасны safe-area (iOS home indicator) -г тооцно: доод зай = 20px +
-         safe-area. Баруун зай ч мөн адил (landscape дээр notch-ийн зүүн/баруун). */
+         Утасны safe-area (iOS home indicator) -г тооцно. */
       style={{
         bottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))",
         right: "calc(1.25rem + env(safe-area-inset-right, 0px))",
       }}
-      className={`fixed z-50 flex flex-col items-end gap-2 transition-all duration-300 ${
-        hidden && !open
-          ? "translate-y-24 opacity-0 pointer-events-none"
-          : "translate-y-0 opacity-100"
+      className={`fcta ${
+        hidden && !open ? "fcta--away" : ""
       }`}
     >
       {open && (
-        <>
-          {/* Залгах */}
+        <div className="fcta__menu" role="menu" aria-label="Холбоо барих">
           <a
+            ref={firstItemRef}
+            role="menuitem"
             href={CONTACT.phone1Href}
-            aria-label="Залгах"
-            onClick={() => trackMetaEvent("Contact", { method: "phone" })}
-            className="w-12 h-12 rounded-full bg-[#E20A17] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
+            onClick={() => {
+              trackMetaEvent("Contact", { method: "phone" });
+              close();
+            }}
+            className="fcta__item"
           >
-            <Phone className="w-5 h-5" />
+            <span className="fcta__itemLabel">Шууд залгах</span>
+            <span className="fcta__itemMeta">{CONTACT.phone1}</span>
           </a>
 
-          {/* Тест драйв */}
           <button
-            onClick={handleTestDrive}
-            aria-label="Тест драйв"
-            className="w-12 h-12 rounded-full bg-[#17181B] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
+            role="menuitem"
+            type="button"
+            onClick={() => {
+              close();
+              openQuickLead();
+            }}
+            className="fcta__item fcta__item--ghost"
           >
-            <Gauge className="w-5 h-5" />
+            <span className="fcta__itemLabel">Дугаар үлдээх</span>
+            <span className="fcta__itemMeta">Бид тантай холбогдоно</span>
           </button>
-
-          {/* WhatsApp */}
-          <a
-            href={CONTACT.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp"
-            onClick={() => trackMetaEvent("Contact", { method: "whatsapp" })}
-            className="w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
-          >
-            <WhatsAppIcon className="w-6 h-6" />
-          </a>
-        </>
+        </div>
       )}
 
-      {/* Main trigger */}
       <button
         onClick={() => setOpen(!open)}
         aria-label={open ? "Хаах" : "Холбоо барих"}
-        className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${
-          open
-            ? "bg-[#17181B] text-white rotate-90"
-            : "bg-[#E20A17] text-white hover:bg-[#C00813]"
-        }`}
+        aria-expanded={open}
+        className={`fcta__btn ${open ? "fcta__btn--open" : ""}`}
       >
-        {open ? <X className="w-6 h-6" /> : <Phone className="w-6 h-6" />}
+        {open ? <X className="w-6 h-6" aria-hidden /> : <Phone className="w-6 h-6" aria-hidden />}
       </button>
     </div>
   );

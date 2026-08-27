@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { FloatingCTA } from "@/components/jetour/floating-cta";
+import { QuickLead } from "@/components/jetour/quick-lead";
 import { MetaPixel } from "@/components/jetour/meta-pixel";
 import { GoogleAnalytics } from "@/components/jetour/google-analytics";
 
@@ -120,6 +121,9 @@ export default function RootLayout({
         <GoogleAnalytics />
         {children}
         <FloatingCTA />
+        {/* Хурдан хүсэлтийн цонх — сайтын аль ч товч `openQuickLead()`-оор
+            дуудна. НЭГ л удаа холбогдоно. */}
+        <QuickLead />
         <Toaster />
       </body>
     </html>

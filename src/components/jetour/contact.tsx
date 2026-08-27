@@ -205,12 +205,8 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-1">
             <img src="/logos/jetour-white.png" alt="JETOUR" className="h-11 lg:h-12 w-auto" />
             <div className="mt-6 space-y-4 text-sm">
-              <div>
-                <p className="text-white/45 mb-1">Дуудлагын төв:</p>
-                <a href={CONTACT.phone1Href} className="text-white font-bold text-lg hover:text-[#E20A17] transition-colors">
-                  {CONTACT.phone1}
-                </a>
-              </div>
+              {/* «Дуудлагын төв» + дугаар хасав — яг тэр дугаар дээрх
+                  холбоо барих картад бий, мөн хөвөгч улаан товчинд бий. */}
               <div>
                 <p className="text-white/45 mb-1">Ажиллах цаг:</p>
                 <p className="text-white font-bold">{SHOWROOM_HOURS[0].day}: {SHOWROOM_HOURS[0].hours}</p>

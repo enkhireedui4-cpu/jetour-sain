@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
 import { CONTACT } from "@/lib/jetour-data";
 import { modelMenuImage } from "@/lib/model-media";
+import { openQuickLead } from "@/components/jetour/quick-lead";
 
 type RouteNavItem = { label: string; href: string; type: "route" };
 type AnchorNavItem = { label: string; href: string; type: "anchor" };
@@ -278,17 +279,19 @@ export function Navbar() {
           )}
         </nav>
 
-        {/* Desktop CTA — нэгдсэн лийд маягт руу (/info-request) */}
-        <Link
-          href="/info-request"
+        {/* Desktop CTA — хурдан хүсэлтийн цонх нээнэ. Бүтэн маягт
+            /info-request-д хэвээр байгаа; энд зөвхөн нэр, утас асууна. */}
+        <button
+          type="button"
+          onClick={openQuickLead}
           className={`hidden lg:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shrink-0 ${
             overHero
               ? "bg-white/10 border border-white/50 text-white backdrop-blur-sm hover:bg-white hover:text-[#17181B]"
-              : "bg-[#17181B] text-white hover:bg-[#E20A17]"
+              : "bg-[#E20A17] text-white hover:bg-[#C00813]"
           }`}
         >
-          Мэдээлэл авах
-        </Link>
+          Хүсэлт үлдээх
+        </button>
 
         {/* Mobile menu toggle */}
         <button
@@ -474,19 +477,18 @@ export function Navbar() {
                 </div>
               )
             )}
-            <a
-              href={CONTACT.phone1Href}
-              className="text-left py-3.5 font-medium text-[15px] text-[#E20A17] flex items-center gap-2"
-            >
-              <Phone className="w-4 h-4" /> {CONTACT.phone1}
-            </a>
-            <Link
-              href="/info-request"
-              onClick={() => setOpen(false)}
+            {/* Утасны дугаар энд БАЙХГҮЙ: хөвөгч улаан товч нь сайтын тогтмол
+                холбогдох цэг тул цэсэнд давтахгүй. Энэ товч нь хурдан хүсэлт. */}
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openQuickLead();
+              }}
               className="btn-electric-jetour mt-2 mb-4 py-3.5 rounded-full text-center text-sm"
             >
-              Мэдээлэл авах
-            </Link>
+              Хүсэлт үлдээх
+            </button>
           </nav>
         </div>
       )}

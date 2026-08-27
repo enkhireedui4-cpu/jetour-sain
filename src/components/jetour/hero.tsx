@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, ArrowRight, ChevronDown } from "lucide-react
 import { BLUR_DATA_URL } from "@/lib/image";
 import { useDragSwipe } from "@/hooks/use-drag";
 import { cyclicOffset, slideJumped } from "@/lib/slider";
+import { openQuickLead } from "@/components/jetour/quick-lead";
 
 /**
  * `imageMobile` — босоо (9:16) хувилбар. Слайд дэлгэц дүүрэн `object-cover`
@@ -253,12 +254,20 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="hero__cta"
           >
-            <Link href={`/models/${slide.id}`} className="hero__btn hero__btn--primary">
+            {/* Шатлал: НЭГ үндсэн үйлдэл. Өмнө нь «Дэлгэрэнгүй үзэх» ба
+                «Мэдээлэл авах» хоёр ижил жинтэй зэрэгцэж, аль нь гол болох нь
+                мэдэгдэхгүй байв. Одоо хүсэлт үлдээх нь дүүргэсэн улаан, загвар
+                үзэх нь зөвхөн тойрогтой. */}
+            <button
+              type="button"
+              onClick={openQuickLead}
+              className="hero__btn hero__btn--red"
+            >
+              Хүсэлт үлдээх
+              <ArrowRight size={15} aria-hidden />
+            </button>
+            <Link href={`/models/${slide.id}`} className="hero__btn hero__btn--ghost">
               Дэлгэрэнгүй үзэх
-              <ArrowRight size={15} />
-            </Link>
-            <Link href="/info-request" className="hero__btn hero__btn--ghost">
-              Мэдээлэл авах
             </Link>
           </motion.div>
         </div>

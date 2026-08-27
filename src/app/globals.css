@@ -1506,6 +1506,18 @@ input[type="range"].range-jetour::-moz-range-thumb {
   color: #FFFFFF;
 }
 
+/* Үндсэн үйлдэл — дүүргэсэн JETOUR улаан. Цагаан текст #E20A17 дээр
+   4.90:1 (14px/600 — AA-гийн 4.5 босгыг давна). Хоёрдогч нь зөвхөн
+   тойрогтой: хоёр товч ижил жинтэй өрсөлдөхгүй. */
+.hero__btn--red {
+  background: #E20A17;
+  color: #FFFFFF;
+}
+
+.hero__btn--red:hover {
+  background: #C00813;
+}
+
 .hero__btn--ghost {
   border: 1px solid rgba(255, 255, 255, 0.38);
   color: rgba(255, 255, 255, 0.92);
@@ -3429,7 +3441,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   }
 }
 
-/* utas-v110 */
+/* utas-v111 */
 /* ============================================================
    Загварын хуудасны УТАСНЫ харагдац
 
@@ -5234,18 +5246,6 @@ input[type="range"].range-jetour::-moz-range-thumb {
   flex-shrink: 0;
 }
 
-.msub__phone {
-  display: none;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: #17181B;
-  white-space: nowrap;
-  transition: color var(--mo-fast) ease;
-}
-.msub__phone:hover {
-  color: #E20A17;
-}
-
 .msub__book {
   display: inline-flex;
   align-items: center;
@@ -5277,14 +5277,11 @@ input[type="range"].range-jetour::-moz-range-thumb {
 }
 
 @media (min-width: 64rem) {
-  .msub__phone {
-    display: inline-flex;
-  }
   .msub__links {
     gap: 1.75rem;
   }
 }
-/* utas-v110 */
+/* utas-v111 */
 
 /* === Мэдээний доорх гурван хавтан (.qlink) ============================== */
 /* Дэлгэц дүүрэн, зайгүй зэрэгцсэн гурван зураг. Утсан дээр босоо эгнэнэ. */
@@ -5363,7 +5360,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     aspect-ratio: 16 / 11;
   }
 }
-/* utas-v110 */
+/* utas-v111 */
 
 /* === Дэлгэрэнгүй мэдээлэл авах — толгой (.irq-hero) ==================== */
 
@@ -5407,7 +5404,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   letter-spacing: -0.025em;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
 }
-/* utas-v110 */
+/* utas-v111 */
 
 /* Сүүдэр бичиг — jetouregypt-ийн баннерын хэв (тэдний нь зураг, бидний нь текст).
    Баруун доод булангаас хэсэгчлэн тайрагдаж, гарчгийг дүүжлэнэ. */
@@ -5427,7 +5424,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   pointer-events: none;
   user-select: none;
 }
-/* utas-v110 */
+/* utas-v111 */
 
 /* === Үйлчилгээ ба баталгаа — танилцуулга + метрик (.wsvc / .wmetric) ====
    Зарчим: гол үзүүлэлт «3 жил / 100,000 км» ХУУДСАНД ЗӨВХӨН НЭГ УДАА, метрик
@@ -5543,7 +5540,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     }
   }
 }
-/* utas-v110 */
+/* utas-v111 */
 
 /* === Мэдээ ба үйл явдал (.nws) ==========================================
    Редакцийн хэсэг: зураг гол, бичвэр цэгцтэй, гоёл байхгүй. Улаан нь
@@ -5714,7 +5711,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-/* utas-v110 */
+/* utas-v111 */
 
 /* --- Мэдээний толгой: гарчиг зүүн, сум баруун --- */
 .nws__head {
@@ -5760,4 +5757,611 @@ input[type="range"].range-jetour::-moz-range-thumb {
     display: flex;
   }
 }
-/* utas-v110 */
+/* utas-v111 */
+
+/* ============================================================
+   БРЭНДИЙН ТУХАЙ (/brand) — редакцийн хуудас
+   ------------------------------------------------------------
+   Карт, хүрээ, сүүдэр, градиент, икон — БАЙХГҮЙ. Зохиомжийг
+   зураг, зай, үсгийн хэмжээ гурав л барина. Улаан өнгө ганцхан
+   газар: нэрийн диаграмын хоёр зураас.
+   ============================================================ */
+
+/* --- 1. Тезис — зураг өөрөө «аялал» гэдгийг хэлнэ --------------- */
+.brnd-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Эх зураг 1920×400 (4.8:1). Утсанд тэр харьцаа ердөө 78px өндөр болох
+     тул 2.4:1 — машин бүтэн үлдэж, текстэд зай гарна (тайралт шалгасан). */
+  aspect-ratio: 2.4 / 1;
+  background: #17181B;
+}
+@media (min-width: 48rem) {
+  /* Ширээнд төрөлх харьцаагаараа — огт тайрагдахгүй */
+  .brnd-hero {
+    aspect-ratio: 4.8 / 1;
+  }
+}
+.brnd-hero__img {
+  object-fit: cover;
+  object-position: center;
+}
+/* Доороос дээш харлуулалт — текст зогсох хэсэгт л хүчтэй, тэнгэрт хүрэхгүй */
+.brnd-hero__scrim {
+  position: absolute;
+  inset: 0;
+  /* Хүч нь хэмжилтээр тогтоов. .74/.42/58% үед гарчгийн БАРУУН үзүүрт
+     (өргөний 81–99%) замын цагаан зураас өнгөрч, тэнд 2.35:1 болж
+     AA-гийн 3:1 босгоос унаж байв. Одоогийн утгаар 3.75:1, унасан
+     пиксел 0%. Машин кадрын дунд байрлах тул бүдгэрэхгүй. */
+  background: linear-gradient(
+    to top,
+    rgba(10, 11, 13, 0.86) 0%,
+    rgba(10, 11, 13, 0.60) 26%,
+    rgba(10, 11, 13, 0) 62%
+  );
+}
+.brnd-hero__inner {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: clamp(1.5rem, 4vw, 3.25rem);
+  z-index: 1;
+}
+.brnd-hero__title {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  font-size: clamp(2rem, 5.2vw, 4rem);
+  color: #FFFFFF;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+/* --- 2. Брэндийн тухай — зураг | текст --------------------------
+   Egypt-ийн хуудсанд догол мөрүүд саарал хайрцагт нягт хураагдсан.
+   Энд: зураг бүтэн талыг эзэлж, текст тайван баганад сууна. */
+.brnd-split {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+.brnd-split__grid {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  align-items: center;
+}
+@media (min-width: 64rem) {
+  .brnd-split__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+}
+.brnd-split__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #E9EAEC;
+}
+@media (min-width: 64rem) {
+  .brnd-split__media {
+    aspect-ratio: 1.15 / 1;
+  }
+}
+.brnd-split__eyebrow {
+  margin-bottom: 0.875rem;
+}
+.brnd-split__text {
+  font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+  line-height: 1.72;
+  color: #54585F;
+  max-width: 46ch;
+}
+.brnd-split__text + .brnd-split__text {
+  margin-top: 0.875rem;
+}
+
+/* --- 3. Гарын үсэг — нэрийн бүтэц ------------------------------- */
+.brnd-name {
+  padding-block: clamp(3rem, 7vw, 6rem);
+  border-top: 1px solid #EDEEF0;
+}
+.brnd-name__eyebrow {
+  margin-bottom: clamp(1.75rem, 4.5vw, 3.25rem);
+}
+.brnd-name__figure {
+  margin: 0;
+}
+/* Зургаан тэнцүү багана: үсэг бүр нэг нүдэнд. Зураасууд баганын ЗАХААР
+   таарах тул үсгийн өргөн харилцан адилгүй ч байрлал нь яг тохирно. */
+.brnd-name__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: end;
+  max-width: 60rem;
+  margin-inline: auto;
+}
+.brnd-name__ch {
+  grid-row: 1;
+  text-align: center;
+  font-size: clamp(2.25rem, 10.5vw, 7rem);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  color: #17181B;
+}
+.brnd-name__rule {
+  height: 2px;
+  background: #E20A17;
+}
+/* JET — 1–3-р багана. Баруун захаасаа буюу T-ээс зүүн тийш сунана. */
+.brnd-name__rule--jet {
+  grid-row: 2;
+  grid-column: 1 / 4;
+  margin-top: clamp(0.75rem, 1.8vw, 1.25rem);
+  transform-origin: right center;
+}
+/* TOUR — 3–6-р багана. Зүүн захаасаа буюу МӨН T-ээс баруун тийш. */
+.brnd-name__rule--tour {
+  grid-row: 3;
+  grid-column: 3 / 7;
+  margin-top: 7px;
+  transform-origin: left center;
+}
+.brnd-name__tag {
+  grid-row: 4;
+  margin-top: clamp(0.5rem, 1.2vw, 0.75rem);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6B7280;
+}
+/* Нэг мөрөнд боловч нэг нь зүүн, нөгөө нь баруун тийш — мөргөлдөхгүй */
+.brnd-name__tag--jet {
+  grid-column: 1 / 4;
+  text-align: left;
+}
+.brnd-name__tag--tour {
+  grid-column: 3 / 7;
+  text-align: right;
+}
+.brnd-name__note {
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #54585F;
+  max-width: 42ch;
+}
+
+/* --- 4. Баримт — карт биш, нэг нарийн зураас -------------------- */
+/* Зорилго ба баримт НЭГ хэсэгт — хоёулаа брэндийн гарал, зорилгыг хэлнэ */
+.brnd-about {
+  padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+.brnd-facts__row {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  border-top: 1px solid #EDEEF0;
+  padding-top: clamp(1.75rem, 4vw, 2.5rem);
+  /* <dl>-ийн анхдагч догол тэглээд дээд зайг ЭНД өгнө. Тусад нь
+     `margin-top` бичвэл доорх `margin: 0` товчлол түүнийг цуцалдаг —
+     хэмжихэд зай 0px гарч байсан. */
+  margin: clamp(2rem, 5vw, 3rem) 0 0;
+}
+@media (min-width: 40rem) {
+  .brnd-facts__row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.brnd-facts__value {
+  margin: 0; /* <dd>-ийн анхдагч 40px догол */
+  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: #17181B;
+}
+.brnd-facts__label {
+  margin-top: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6B7280;
+}
+.brnd-facts__note {
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #54585F;
+}
+
+
+/* --- 6. Үргэлжлэл ---------------------------------------------- */
+.brnd-end {
+  padding-block: clamp(3.5rem, 8vw, 6.5rem);
+  border-top: 1px solid #EDEEF0;
+  text-align: center;
+}
+.brnd-end__title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  font-size: clamp(1.625rem, 3.4vw, 2.5rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  text-wrap: balance;
+}
+.brnd-end__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* --- Хөдөлгөөн -------------------------------------------------
+   `landmines.md` §4: анимацийг ЗӨВХӨН зөвшөөрөгдсөн үед зарлана.
+   Дарж бичих гэж specificity-ийн тэмцээн зохиовол minifier ижил
+   declaration-тай selector-уудыг нэгтгэж хаядаг. Анхдагч төлөв нь
+   БҮРЭН ХАРАГДАХ — scroll timeline дэмжигдэхгүй хөтөчид ч хоосон
+   зай, харагдахгүй текст үлдэхгүй.
+
+   Үсгүүд өөрсдөө хөдлөхгүй. Санаагаа НЭГ газар зарцуулна: зөвхөн
+   хоёр зураас дундах T-ээсээ гадагш сунаж, нэр задарч харагдана. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .brnd-split__text,
+    .brnd-facts__item {
+      animation: brnd-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 24%;
+    }
+    .brnd-name__rule {
+      animation: brnd-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 16% cover 36%;
+    }
+    .brnd-split__media img {
+      animation: brnd-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 70%;
+    }
+    @keyframes brnd-rise {
+      from {
+        opacity: 0.4;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    @keyframes brnd-draw {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+    @keyframes brnd-settle {
+      from {
+        transform: scale(1.06);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+/* --- Hero-гийн сүүдэр бичиг ------------------------------------
+   `.irq-hero__ghost`-той ИЖИЛ хэв — сайт даяар нэг идиом байлгана.
+   Үг нь «JETOUR»: энд том, бүдэг өнгөрч, доор нэрийн диаграмд задарна.
+   Гоёл биш, санаатай давталт. `aria-hidden` тул уншигчид давхардахгүй. */
+.brnd-hero__ghost {
+  /* Утсанд НУУНА. 375px дээр hero ердөө 281px өндөр бөгөөд сүүдэр бичиг
+     гарчгийн сүүлийн мөрөнд давхцаж байв (x 178..244, y 241..260 — хэмжсэн).
+     Жижигрүүлж шахвал уншигдахгүй чимэглэл болно. Зай байхгүй бол хасна. */
+  display: none;
+  position: absolute;
+  right: -0.04em;
+  bottom: -0.24em;
+  z-index: 1;
+  font-weight: 800;
+  font-size: clamp(3rem, 10vw, 8rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+  opacity: 0.12;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+@media (min-width: 48rem) {
+  .brnd-hero__ghost {
+    display: block;
+  }
+}
+
+/* --- Зорилго — шошго | мэдэгдэл --------------------------------
+   Догол мөр биш. Зүүн талд жижиг шошго, баруун талд НЭГ өгүүлбэр.
+   Албан ёсны танилцуулгын найман догол мөрийг ингэж хураав. */
+.brnd-mv__row {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+.brnd-mv__item {
+  display: grid;
+  gap: 0.5rem 2.5rem;
+  border-top: 1px solid #EDEEF0;
+  padding-block: clamp(1.25rem, 3vw, 1.75rem);
+}
+@media (min-width: 48rem) {
+  .brnd-mv__item {
+    grid-template-columns: 13rem 1fr;
+    align-items: baseline;
+  }
+}
+.brnd-mv__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6B7280;
+}
+.brnd-mv__text {
+  margin: 0; /* <dd>-ийн анхдагч 40px догол */
+  font-size: clamp(1.0625rem, 1.7vw, 1.375rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: #17181B;
+  max-width: 34ch;
+}
+
+/* Зорилгын мөрүүд ч нам гүм гарч ирнэ — бусадтай ижил дүрмээр */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .brnd-mv__item {
+      animation: brnd-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 24%;
+    }
+  }
+}
+
+
+/* ============================================================
+   ХОЛБОО БАРИХ — хөвөгч товч ба хурдан хүсэлт
+   ------------------------------------------------------------
+   Нэг хэсэгт нэг үйлдэл. Хөвөгч улаан товч нь сайтын ТОГТМОЛ
+   холбогдох цэг; түүнээс хоёр л зам гарна: залгах, дугаар үлдээх.
+   ============================================================ */
+
+/* --- Хөвөгч товч ------------------------------------------------ */
+.fcta {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.625rem;
+  transition: transform var(--mo-base) var(--ease-out),
+    opacity var(--mo-base) var(--ease-out);
+}
+.fcta--away {
+  transform: translateY(6rem);
+  opacity: 0;
+  pointer-events: none;
+}
+.fcta__btn {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #FFFFFF;
+  background: #E20A17;
+  box-shadow: 0 10px 28px -10px rgba(226, 10, 23, 0.55);
+  transition: background-color var(--mo-fast) var(--ease-out),
+    transform var(--mo-fast) var(--ease-out);
+}
+.fcta__btn:hover {
+  background: #C00813;
+}
+.fcta__btn:active {
+  transform: scale(0.95);
+}
+.fcta__btn--open {
+  background: #17181B;
+  box-shadow: 0 10px 28px -12px rgba(23, 24, 27, 0.5);
+}
+.fcta__btn--open:hover {
+  background: #17181B;
+}
+
+/* Хоёр сонголт — карт биш, hairline-аар зааглагдсан хоёр мөр */
+.fcta__menu {
+  width: min(17rem, calc(100vw - 2.5rem));
+  background: #FFFFFF;
+  border: 1px solid #E7E7EA;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 18px 44px -22px rgba(23, 24, 27, 0.32);
+}
+.fcta__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.8125rem 1rem;
+  transition: background-color var(--mo-fast) var(--ease-out);
+}
+.fcta__item:hover {
+  background: #F5F5F6;
+}
+.fcta__item + .fcta__item {
+  border-top: 1px solid #EDEEF0;
+}
+.fcta__itemLabel {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  color: #17181B;
+}
+.fcta__item--ghost .fcta__itemLabel {
+  color: #17181B;
+}
+.fcta__itemMeta {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #54585F;
+}
+
+/* --- Хурдан хүсэлтийн цонх -------------------------------------- */
+.qlead {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(17, 18, 20, 0.58);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .qlead {
+    animation: qlead-fade var(--mo-base) var(--ease-out) both;
+  }
+  .qlead__card {
+    animation: qlead-rise var(--mo-slow) var(--ease-out) both;
+  }
+  @keyframes qlead-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes qlead-rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+.qlead__card {
+  position: relative;
+  width: min(25rem, 100%);
+  background: #FFFFFF;
+  border-radius: 0.875rem;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  box-shadow: 0 30px 70px -30px rgba(23, 24, 27, 0.5);
+}
+.qlead__x {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: #6B7280;
+  transition: background-color var(--mo-fast) var(--ease-out),
+    color var(--mo-fast) var(--ease-out);
+}
+.qlead__x:hover {
+  background: #F5F5F6;
+  color: #17181B;
+}
+.qlead__title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: #17181B;
+}
+.qlead__lead {
+  margin-top: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #54585F;
+}
+.qlead__label {
+  display: block;
+  margin-top: 1.125rem;
+  margin-bottom: 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6B7280;
+}
+.qlead__input {
+  width: 100%;
+  height: 2.875rem;
+  padding-inline: 0.875rem;
+  font-size: 0.9375rem;
+  color: #17181B;
+  background: #FFFFFF;
+  border: 1px solid #D9DBDF;
+  border-radius: 0.5rem;
+  transition: border-color var(--mo-fast) var(--ease-out),
+    box-shadow var(--mo-fast) var(--ease-out);
+}
+.qlead__input::placeholder {
+  color: #9AA0A6;
+}
+.qlead__input:focus {
+  outline: none;
+  border-color: #17181B;
+  box-shadow: 0 0 0 3px rgba(23, 24, 27, 0.08);
+}
+.qlead__err {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #C00813;
+}
+.qlead__submit {
+  width: 100%;
+  margin-top: 1.25rem;
+  height: 3rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: #FFFFFF;
+  background: #E20A17;
+  transition: background-color var(--mo-fast) var(--ease-out),
+    transform var(--mo-fast) var(--ease-out);
+}
+.qlead__submit:hover:not(:disabled) {
+  background: #C00813;
+}
+.qlead__submit:active:not(:disabled) {
+  transform: scale(0.99);
+}
+.qlead__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.qlead__note {
+  margin-top: 0.875rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #6B7280;
+}
+.qlead__done {
+  text-align: center;
+  padding-block: 0.5rem;
+}

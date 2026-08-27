@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CONTACT } from "@/lib/jetour-data";
 
 /**
  * Загварын хуудасны наалдамхай дэд цэс.
@@ -103,9 +102,8 @@ export function ModelSubnav({
         </nav>
 
         <div className="msub__cta">
-          <a href={CONTACT.phone1Href} className="msub__phone">
-            {CONTACT.phone1}
-          </a>
+          {/* Утас энд БАЙХГҮЙ: дэд цэс нь толгойг орлодог тул хөвөгч
+              улаан товчтой нэг зайд хоёр залгах CTA зэрэгцэж байв. */}
           <a href="#request-info" className="msub__book">
             Тест драйв
           </a>

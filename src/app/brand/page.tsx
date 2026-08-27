@@ -1,276 +1,197 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ArrowRight,
-  Compass,
-  Cpu,
-  Route,
-  Zap,
-  ShieldCheck,
-  Package,
-  Wrench,
-  Award,
-  Snowflake,
-  BadgeCheck,
-  Gauge,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 import { CONTACT } from "@/lib/jetour-data";
-import { BLUR_DATA_URL } from "@/lib/image";
 
 export const metadata: Metadata = {
-  title: "Брэндийн тухай — JETOUR",
+  title: "Бидний тухай — JETOUR",
   description:
-    "JETOUR — Chery Group-ийн Travel+ SUV брэнд. Монголд SAIN MOTORS-оор дамжин албан ёсоор.",
+    "JETOUR — Хятадад төвтэй, 23 гаруй жилийн туршлагатай автомашины группийн SUV брэнд. 2018 онд Бээжин хотноо танилцуулсан. Монголд SAIN MOTORS-оор дамжин албан ёсоор.",
   alternates: { canonical: "/brand" },
 };
 
-// Server Component — клиент JavaScript ачаалахгүй.
-// Анимаци нь globals.css-ийн CSS-only `.reveal` / `.stagger` утилитаар хийгдэнэ.
+/**
+ * Бидний тухай.
+ *
+ * группийн туршлага, 2018 оны Бээжингийн танилцуулга,
+ * эрхэм зорилго, алсын хараа, нэрийн утга. Зохиомж нь тэдний хуудсы
+ * ХУУЛААГҮЙ — тэнд догол мөрүүд саарал хайрцагт нягт хураагдсан, хажуудаа
+ * хөвөгч дүрсний багана бий. Энд: том зураг, тайван багана, шошготой мөр.
+ *
+ * ГАРЫН ҮСЭГ нь нэрийн бүтэц. JETOUR = JET + TOUR бөгөөд дундах «T» үсэг
+ * ХОЁУЛАНД нь хамаардаг. Хоёр улаан зураас тэр давхцлыг харуулна — гүйлгэхэд
+ * зураасууд яг тэр T-ээс гадагш сунаж, нэр өөрөө задарч харагдана.
+ *
+ * ШОШГЫГ АНХААР: JET нь «хурд» БИШ. Албан ёсны тайлбар нь
+ * «JET + TOUR = тохиромжтой + аялал», өөрөөр хэлбэл «Тохиромжтой аялал».
+ *
+ * Интерактив зүйлгүй тул бүхэлдээ server component. Анимаци нь CSS-only
+ * (`animation-timeline: view()`), тиймээс клиент JavaScript нэмэгдэхгүй.
+ */
 
+/** Нэрийг үсэг тус бүрээр — доорх зураасууд 6 баганад яг таарна */
+const LETTERS = ["J", "E", "T", "O", "U", "R"];
+
+/** Брэндийн танилцуулга — догол мөр тус бүр нэг санаа */
 const STORY = [
-  { icon: Award, title: "2018 онд байгуулагдсан", text: "Chery Group-ийн шинэлэг, эрч хүчтэй SUV брэнд." },
-  { icon: Gauge, title: "20+ жилийн туршлага", text: "Автомашины салбарын гүн туршлага дээр бүтээгдсэн." },
-  { icon: Cpu, title: "Дэлхийн R&D", text: "Судалгаа, хөгжүүлэлтийн дэлхийн түвшний бааз." },
-  { icon: Compass, title: "Олон улсын дизайны баг", text: "Загвар бүр олон улсын дизайны хэлээр яригдана." },
+  "JETOUR нь Хятад улсад төвтэй, автомашин үйлдвэрлэлийн салбарт 23 гаруй жилийн туршлагатай, дэлхийн хэмжээний автомашины группийн нэг хэсэг юм.",
+  "Тус брэнд нь Хятадын шилдэг SUV брэндүүдийн нэг болох зорилгын хүрээнд олон жилийн турш хуримтлуулсан инженерчлэл, технологийн туршлага дээр үндэслэн хөгжсөн.",
+  "JETOUR брэндийг 2018 онд Бээжин хотноо албан ёсоор танилцуулсан. Ухаалаг технологи, үзэмж, өргөн зай, олон талт хэрэглээ болон олон суудлын шийдлийг хослуулж, аялал болон өдөр тутмын хэрэглээнд зориулсан шинэ үеийн аяллын хэв маягийг бий болгох нь брэндийн үндсэн зорилго.",
 ];
 
-const PHILOSOPHY = [
+/** Эрхэм зорилго ба алсын хараа — шошго | нэг өгүүлбэр */
+const PURPOSE = [
   {
-    icon: Compass,
-    label: "Travel+",
-    title: "Аяллын концепц",
-    items: ["Гэр бүлийн тав тух", "Адал явдал", "Өдөр тутмын хэрэглээ"],
+    label: "Эрхэм зорилго",
+    text: "Илүү олон гэр бүлд зориулсан ухаалаг, хүртээмжтэй, оновчтой аяллын шийдлийг бий болгох.",
   },
   {
-    icon: Zap,
-    label: "JET + TOUR",
-    title: "Нэрийн утга",
-    items: ["JET — түргэн шуурхай", "TOUR — аялал", "Таатай, хялбар аялал"],
-  },
-  {
-    icon: Route,
-    label: "Vision",
-    title: "Алсын хараа",
-    items: ["Ухаалаг технологи", "Тав тух, орчин үеийн дизайн", "Дэлхийн SUV брэнд"],
+    label: "Алсын хараа",
+    text: "Дэлхий даяар хүлээн зөвшөөрөгдсөн, нэр хүндтэй автомашины брэнд болох.",
   },
 ];
 
-const SAIN_FEATURES = [
-  { icon: BadgeCheck, title: "Албан ёсны дистрибьютор", text: "JETOUR брэндийн Монгол дахь албан ёсны төлөөлөгч." },
-  { icon: ShieldCheck, title: "Албан ёсны баталгаа", text: "Баталгаат хугацаа, стандартын дагуух үйлчилгээ." },
-  { icon: Package, title: "Оригинал сэлбэг", text: "Албан ёсны, чанарын шаардлага хангасан сэлбэг." },
-  { icon: Wrench, title: "Мэргэжлийн үйлчилгээ", text: "Борлуулалтын дараах засвар үйлчилгээ." },
-  { icon: Gauge, title: "Найдвартай ашиглалт", text: "Тогтмол засвар, техник хяналтын дэмжлэг." },
-  { icon: Snowflake, title: "Монголд зохицсон", text: "Цаг уур, замын нөхцөлд тохирсон загварууд." },
-];
-
-const WHY = [
-  { icon: Cpu, title: "Дэлхийн инженерчлэл" },
-  { icon: Compass, title: "Олон улсын дизайн" },
-  { icon: BadgeCheck, title: "Албан ёсны дистрибьютор" },
-  { icon: ShieldCheck, title: "Баталгаа ба сэлбэг" },
-  { icon: Zap, title: "Ухаалаг технологи" },
-  { icon: Snowflake, title: "Монголд зохицсон" },
-];
-
-const TIMELINE = [
-  { year: "2018", title: "Брэнд байгуулагдсан" },
-  { year: "—", title: "Зах зээлд тэлэлт" },
-  { year: "—", title: "Дэлхийн хэмжээнд өсөлт" },
-  { year: CONTACT.brandSince, title: "Монголд албан ёсоор" },
+/** Зөвхөн эх сурвалжтай баримт — тоо зохиохгүй */
+const FACTS = [
+  { value: "2018", label: "Бээжин хотноо танилцуулсан" },
+  { value: "23+ жил", label: "Группийн инженерчлэлийн туршлага" },
+  { value: CONTACT.brandSince, label: "Монголд албан ёсоор" },
 ];
 
 export default function BrandPage() {
   return (
     <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
       <Navbar />
-      <div className="h-16" />
 
-      {/* ===== 1. HERO ===== */}
-      <section className="border-b border-[#E7E7EA]">
-        <div className="container-page grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-16 lg:py-24 min-h-[70vh]">
-          <div className="reveal">
-            <h1 className="type-h1 mb-6">Аялахын тулд бүтээгдсэн брэнд</h1>
-            <p className="text-[17px] lg:text-lg leading-[1.7] text-[#54585F] max-w-md mb-9">
-              JETOUR бол Chery Group-ийн шинэлэг SUV брэнд. Travel+ концепцээр гэр бүлийн тав тух,
-              адал явдал, өдөр тутмын хэрэглээг нэг дор цогцлуулна.
-            </p>
-            <Link
-              href="/models"
-              className="btn-electric-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
-            >
-              Загварууд үзэх
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+      {/* === 1. Толгой — хонгилын банд ================================== */}
+      <section className="brnd-hero">
+        <Image
+          src="/brand/tunnel.webp"
+          alt="JETOUR — хотын хонгилд"
+          fill
+          priority
+          sizes="100vw"
+          className="brnd-hero__img"
+        />
+        <span className="brnd-hero__scrim" aria-hidden />
+        {/* Сүүдэр бичиг нь ХУУДАСНЫ ГАРЧИГ, брэндийн нэр биш. «JETOUR»
+            байсныг сольсон шалтгаан: толгойд JETOUR лого аль хэдийн бий,
+            доор нэрийн диаграм бий — машины зураг дээр гурав дахь удаа
+            давтах нь илүүдэл. Эх сурвалж дээр ч гарчиг нь давтагддаг. */}
+        <span className="brnd-hero__ghost" aria-hidden>
+          Бидний тухай
+        </span>
+        <div className="container-page brnd-hero__inner">
+          <h1 className="brnd-hero__title">Бидний тухай</h1>
+        </div>
+      </section>
 
-          <div className="reveal relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#F5F5F6]">
+      {/* === 2. Брэндийн тухай — зураг | текст ========================== */}
+      <section className="brnd-split">
+        <div className="container-page brnd-split__grid">
+          <div className="brnd-split__media">
             <Image
-              src="/models-hero/x70-plus-hero.png"
-              alt="JETOUR SUV"
+              src="/brand/journey.webp"
+              alt="JETOUR T2 — уулын шороон замд"
               fill
-              priority
-              sizes="(max-width: 1024px) 94vw, 46vw"
-              placeholder="blur"
-              blurDataURL={BLUR_DATA_URL}
+              sizes="(min-width: 64rem) 52vw, 100vw"
               className="object-cover"
             />
+          </div>
+
+          <div className="brnd-split__copy">
+            <p className="eyebrow brnd-split__eyebrow">Брэндийн тухай</p>
+            {STORY.map((p, i) => (
+              <p key={i} className="brnd-split__text">
+                {p}
+              </p>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ===== 2. WHO IS JETOUR ===== */}
-      <section className="py-20 lg:py-36">
-        <div className="container-page grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="reveal relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#F5F5F6]">
-            <Image
-              src="/models-hero/t1.jpg"
-              alt="JETOUR"
-              fill
-              sizes="(max-width: 1024px) 94vw, 46vw"
-              placeholder="blur"
-              blurDataURL={BLUR_DATA_URL}
-              className="object-cover"
-            />
-          </div>
+      {/* === 3. Нэрийн утга — гарын үсэг ================================ */}
+      <section className="brnd-name">
+        <div className="container-page">
+          <p className="eyebrow brnd-name__eyebrow">Нэрийн утга</p>
 
-          <div>
-            <div className="reveal mb-10">
-              <h2 className="type-h2">Chery Group-ийн SUV брэнд</h2>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {STORY.map((s, i) => (
-                <div
-                  key={s.title}
-                  className="stagger rounded-3xl border border-[#E7E7EA] bg-white p-6 card-lift"
-                  style={{ "--index": i } as React.CSSProperties}
-                >
-                  <s.icon className="w-5 h-5 text-[#E20A17] mb-4" />
-                  <h3 className="font-bold text-base mb-1.5">{s.title}</h3>
-                  <p className="text-sm text-[#54585F] leading-[1.7]">{s.text}</p>
-                </div>
+          <figure className="brnd-name__figure">
+            {/* Дэлгэц уншигчид нэрийг үсэгчлэн бус, утгаар нь сонсоно */}
+            <figcaption className="sr-only">
+              JETOUR нэр нь JET (тохиромжтой) ба TOUR (аялал) хоёр үгээс
+              бүрдэж, «Тохиромжтой аялал» гэсэн санааг илэрхийлнэ. Дундах «T»
+              үсэг хоёуланд нь хамаарна.
+            </figcaption>
+
+            <span className="brnd-name__grid" aria-hidden>
+              {LETTERS.map((ch, i) => (
+                <span key={i} className="brnd-name__ch">
+                  {ch}
+                </span>
               ))}
-            </div>
-          </div>
+
+              {/* Зураасууд тусдаа мөрөнд — давхцал нь ХАРАГДАХ ёстой.
+                  Нэг мөрөнд тавибал хоёр улаан шугам нийлж, нэг тасралтгүй
+                  зураас мэт харагдаад санаа нь алдагдана. */}
+              <span className="brnd-name__rule brnd-name__rule--jet" />
+              <span className="brnd-name__rule brnd-name__rule--tour" />
+
+              <span className="brnd-name__tag brnd-name__tag--jet">
+                Тохиромжтой
+              </span>
+              <span className="brnd-name__tag brnd-name__tag--tour">Аялал</span>
+            </span>
+          </figure>
+
+          <p className="brnd-name__note">
+            JET + TOUR — «Тохиромжтой аялал». Дундах «T» хоёуланд нь хамаарна.
+          </p>
         </div>
       </section>
 
-      {/* ===== 3. TRAVEL+ PHILOSOPHY ===== */}
-      <section className="py-20 lg:py-36 bg-[#F5F5F6] border-y border-[#E7E7EA]">
+      {/* === 4. Зорилго ба баримт — нэг хэсэг, нэг хэмнэл =============== */}
+      <section className="brnd-about">
         <div className="container-page">
-          <div className="reveal max-w-xl mb-12 lg:mb-16">
-            <h2 className="type-h2">Travel+ — аялахын философи</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {PHILOSOPHY.map((p, i) => (
-              <div
-                key={p.label}
-                className="stagger rounded-3xl border border-[#E7E7EA] bg-white p-8 lg:p-9 card-lift"
-                style={{ "--index": i } as React.CSSProperties}
-              >
-                <p.icon className="w-6 h-6 text-[#E20A17] mb-6" />
-                <p className="eyebrow text-[#6B7280] mb-2">{p.label}</p>
-                <h3 className="text-xl font-bold mb-5">{p.title}</h3>
-                <ul className="space-y-2.5">
-                  {p.items.map((it) => (
-                    <li key={it} className="text-[15px] text-[#54585F] leading-[1.7]">
-                      {it}
-                    </li>
-                  ))}
-                </ul>
+          <dl className="brnd-mv__row">
+            {PURPOSE.map((p) => (
+              <div key={p.label} className="brnd-mv__item">
+                <dt className="brnd-mv__label">{p.label}</dt>
+                <dd className="brnd-mv__text">{p.text}</dd>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
+          </dl>
 
-      {/* ===== 4. ABOUT SAIN MOTORS ===== */}
-      <section className="py-20 lg:py-36">
-        <div className="container-page grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-16">
-          <div className="reveal lg:sticky lg:top-24 self-start">
-            <h2 className="type-h2 mb-6">Итгэлтэй түнш</h2>
-            <p className="text-[17px] lg:text-lg leading-[1.7] text-[#54585F] max-w-sm">
-              {CONTACT.brandFullName} нь дэлхийн жишигт нийцсэн JETOUR брэндийг Монголын
-              хэрэглэгчиддээ албан ёсоор хүргэж байна.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            {SAIN_FEATURES.map((f, i) => (
-              <div
-                key={f.title}
-                className="stagger rounded-3xl border border-[#E7E7EA] bg-white p-6 card-lift"
-                style={{ "--index": i } as React.CSSProperties}
-              >
-                <f.icon className="w-5 h-5 text-[#E20A17] mb-4" />
-                <h3 className="font-bold text-base mb-1.5">{f.title}</h3>
-                <p className="text-sm text-[#54585F] leading-[1.7]">{f.text}</p>
+          <dl className="brnd-facts__row">
+            {FACTS.map((f) => (
+              <div key={f.label} className="brnd-facts__item">
+                <dd className="brnd-facts__value">{f.value}</dd>
+                <dt className="brnd-facts__label">{f.label}</dt>
               </div>
             ))}
-          </div>
+          </dl>
+
+          <p className="brnd-facts__note">
+            Монгол дахь албан ёсны дистрибьютор — {CONTACT.brandFullName}.
+          </p>
         </div>
       </section>
 
-      {/* ===== 5. WHY CHOOSE JETOUR ===== */}
-      <section className="py-20 lg:py-36 bg-[#F5F5F6] border-y border-[#E7E7EA]">
+      {/* === 5. Үргэлжлэл — байгаа холбоосууд хэвээр ==================== */}
+      <section className="brnd-end">
         <div className="container-page">
-          <div className="reveal max-w-xl mb-12 lg:mb-14">
-            <h2 className="type-h2">Сонголтын үндэслэл</h2>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {WHY.map((w, i) => (
-              <div
-                key={w.title}
-                className="stagger flex items-center gap-4 rounded-3xl border border-[#E7E7EA] bg-white px-6 py-7 card-lift"
-                style={{ "--index": i } as React.CSSProperties}
-              >
-                <w.icon className="w-5 h-5 text-[#E20A17] shrink-0" />
-                <h3 className="font-bold text-[15px] lg:text-base leading-snug">{w.title}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== 6. TIMELINE ===== */}
-      <section className="py-20 lg:py-36">
-        <div className="container-page">
-          <div className="reveal max-w-xl mb-12 lg:mb-14">
-            <h2 className="type-h2">Брэндийн аялал</h2>
-          </div>
-          <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6 border-t border-[#E7E7EA] pt-12">
-            {TIMELINE.map((t, i) => (
-              <li
-                key={t.title}
-                className="stagger relative"
-                style={{ "--index": i } as React.CSSProperties}
-              >
-                <span
-                  className="absolute -top-[54px] left-0 w-2 h-2 rounded-full bg-[#E20A17]"
-                  aria-hidden
-                />
-                <p className="text-2xl lg:text-3xl font-extrabold tracking-tight mb-2">{t.year}</p>
-                <p className="text-[15px] text-[#54585F] leading-[1.7]">{t.title}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* ===== 7. FINAL CTA ===== */}
-      <section className="py-20 lg:py-32 bg-[#F5F5F6] border-t border-[#E7E7EA]">
-        <div className="container-page reveal text-center">
-          <h2 className="type-h2 mb-8">Дараагийн аялалдаа бэлэн үү?</h2>
-          <div className="flex flex-wrap gap-3 justify-center">
+          <h2 className="brnd-end__title">
+            Аялал, эрх чөлөө, ухаалаг хэрэглээ — нэг машинд
+          </h2>
+          <div className="brnd-end__actions">
             <Link
               href="/models"
               className="btn-electric-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
             >
               Загварууд үзэх
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden />
             </Link>
             <Link
               href="/info-request"
