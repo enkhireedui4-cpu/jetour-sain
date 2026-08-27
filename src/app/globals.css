@@ -1496,16 +1496,6 @@ input[type="range"].range-jetour::-moz-range-thumb {
   transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.hero__btn--primary {
-  background: #FFFFFF;
-  color: #17181B;
-}
-
-.hero__btn--primary:hover {
-  background: #E20A17;
-  color: #FFFFFF;
-}
-
 /* Үндсэн үйлдэл — дүүргэсэн JETOUR улаан. Цагаан текст #E20A17 дээр
    4.90:1 (14px/600 — AA-гийн 4.5 босгыг давна). Хоёрдогч нь зөвхөн
    тойрогтой: хоёр товч ижил жинтэй өрсөлдөхгүй. */
@@ -5706,11 +5696,6 @@ input[type="range"].range-jetour::-moz-range-thumb {
   background: #E20A17;
 }
 
-@media (min-width: 48rem) {
-  .nws__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 /* utas-v111 */
 
 /* --- Мэдээний толгой: гарчиг зүүн, сум баруун --- */
