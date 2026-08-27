@@ -27,21 +27,21 @@ export type WheelAnchor = {
 
 export const WHEEL_ANCHORS: Record<string, WheelAnchor> = {
   "x70-plus": {
-    image: "/models/x70-plus/wheel.png",
+    image: "/models/x70-plus/wheel.webp",
     wPct: 12.668,
     hPct: 41.284,
     front: { xPct: 25.624, yPct: 71.101 },
     rear: { xPct: 71.689, yPct: 72.018 },
   },
   x50: {
-    image: "/models/x50/wheel.png",
+    image: "/models/x50/wheel.webp",
     wPct: 13.532,
     hPct: 40,
     front: { xPct: 26.344, yPct: 72.174 },
     rear: { xPct: 75, yPct: 72.174 },
   },
   x1: {
-    image: "/models/x1/wheel.png",
+    image: "/models/x1/wheel.webp",
     wPct: 13.244,
     hPct: 41.566,
     front: { xPct: 27.063, yPct: 68.675 },
@@ -56,21 +56,21 @@ export const WHEEL_ANCHORS: Record<string, WheelAnchor> = {
      Диаметрийг ижил кузовтой T1 PHEV-ийн d/тэнхлэг-зай харьцаагаар (0.2775)
      тооцов — газрын шугам хэрэглээгүй (дугуйгүй машинд тэр нь хүчингүй). */
   t1: {
-    image: "/models/t1/wheel.png",
+    image: "/models/t1/wheel.webp",
     wPct: 13.38,
     hPct: 39.274,
     front: { xPct: 23.992, yPct: 72.676 },
     rear: { xPct: 72.217, yPct: 72.676 },
   },
   t2: {
-    image: "/models/t2/wheel.png",
+    image: "/models/t2/wheel.webp",
     wPct: 12.668,
     hPct: 37.183,
     front: { xPct: 23.896, yPct: 72.676 },
     rear: { xPct: 71.113, yPct: 72.676 },
   },
   "t1-phev": {
-    image: "/models/t1-phev/wheel.png",
+    image: "/models/t1-phev/wheel.webp",
     wPct: 13.333,
     hPct: 34.286,
     front: { xPct: 25.278, yPct: 76.429 },
@@ -82,7 +82,7 @@ export const WHEEL_ANCHORS: Record<string, WheelAnchor> = {
      Хоёр дугуй ижил өндөрт (y=321px). d нь 144px — ижил 1080x420 рендер
      бүхий T1 PHEV-тэй яг тэнцэв (хөндлөн батламж). */
   g700: {
-    image: "/models/g700/wheel.png",
+    image: "/models/g700/wheel.webp",
     wPct: 13.333,
     hPct: 34.286,
     front: { xPct: 23.102, yPct: 76.31 },
@@ -92,7 +92,7 @@ export const WHEEL_ANCHORS: Record<string, WheelAnchor> = {
      зангуужуулав (диск 48x45px, бөөрөнхий 0.94, хоёулаа y=254px).
      Диаметр нь ижил кузовтой T2-ийн харьцаагаар (0.2683). */
   "t2-phev": {
-    image: "/models/t2-phev/wheel.png",
+    image: "/models/t2-phev/wheel.webp",
     wPct: 12.797,
     hPct: 37.561,
     front: { xPct: 22.697, yPct: 71.549 },

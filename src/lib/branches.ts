@@ -147,7 +147,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
       "Сайн Моторс ХХК Mega Test Drive өдөрлөг зохион байгуулна. Бүх JETOUR загварыг үнэгүй туршиж, өөрөө жолоодон үзэх боломжтой.\n\nБямба гарагт JETOUR Showroom-д (Чингэлтэй, Holiday Inn-ийн урд) 10:00 – 18:00 цагийн хооронд.\n\nГэр бүл, найзуудаараа ирж туршиж үзээрэй. Мэргэжлийн зөвлөгөө үнэгүй.\n\nБүртгэл: 7277-8855, 8910-0274.",
     date: "2026.03.28",
     dateIso: "2026-03-28",
-    image: "/jetour-cars/0de60c67e26e.png",
+    image: "/jetour-cars/0de60c67e26e.webp",
     tag: "Үйл явдал",
     type: "Үйл явдал",
     accent: "deep",

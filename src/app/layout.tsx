@@ -6,6 +6,7 @@ import { FloatingCTA } from "@/components/jetour/floating-cta";
 import { QuickLead } from "@/components/jetour/quick-lead";
 import { MetaPixel } from "@/components/jetour/meta-pixel";
 import { GoogleAnalytics } from "@/components/jetour/google-analytics";
+import { SITE_URL } from "@/lib/site";
 
 // Нэг font family — Inter. Монгол кирилл (ө, ү, ё) цэвэр, цэгтэй, уншигдахуйц.
 const inter = Inter({
@@ -15,8 +16,6 @@ const inter = Inter({
   display: "swap",
 });
 
-// Deploy үед .env-д NEXT_PUBLIC_SITE_URL=https://танай-домэйн.mn гэж тохируулна
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jetour.mn";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

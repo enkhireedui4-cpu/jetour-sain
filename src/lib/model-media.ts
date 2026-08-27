@@ -35,14 +35,14 @@ const MODEL_CUTOUT: Record<string, string> = {
  * `scripts/normalize-x1-side.mjs`) оруулдаг.
  */
 const MODEL_SIDE: Record<string, string> = {
-  "x70-plus": "/models/x70-plus/side.png",
-  x50: "/models/x50/side.png",
-  x1: "/models/x1/side.png",
-  t1: "/models/t1/side.png",
-  t2: "/models/t2/side.png",
-  g700: "/models/g700/side.png",
-  "t1-phev": "/models/t1-phev/side.png",
-  "t2-phev": "/models/t2-phev/side.png",
+  "x70-plus": "/models/x70-plus/side.webp",
+  x50: "/models/x50/side.webp",
+  x1: "/models/x1/side.webp",
+  t1: "/models/t1/side.webp",
+  t2: "/models/t2/side.webp",
+  g700: "/models/g700/side.webp",
+  "t1-phev": "/models/t1-phev/side.webp",
+  "t2-phev": "/models/t2-phev/side.webp",
 };
 
 /** Тухайн загварт зориулсан хажуу талын зураг байгаа эсэх */

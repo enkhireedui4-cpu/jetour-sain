@@ -20,7 +20,7 @@ type Slide = { id: string; name: string; image: string; imageMobile?: string };
 // Кино маягийн бүтэн дэлгэцийн зургууд. Зураг нь тухайн загварын хуудасны
 // толгойн зурагтай нэг — нүүр ба дэлгэрэнгүй хуудас хоорондоо тасрахгүй.
 const SLIDES: Slide[] = [
-  { id: "x70-plus", name: "JETOUR X70 Plus", image: "/models-hero/x70-plus-hero.png" },
+  { id: "x70-plus", name: "JETOUR X70 Plus", image: "/models-hero/x70-plus-hero.webp" },
   {
     id: "t2-phev",
     name: "JETOUR T2 PHEV",

@@ -11,6 +11,7 @@ export const revalidate = 600;
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 import { Calendar, ArrowLeft, ArrowRight, Phone } from "lucide-react";
+import { absoluteUrl } from "@/lib/site";
 
 // === Static params for all news slugs ===
 export async function generateStaticParams() {
@@ -85,12 +86,12 @@ export default async function NewsDetailPage({
       name: "Sain Motors LLC",
       logo: {
         "@type": "ImageObject",
-        url: "https://jetour-sain.mn/logos/sain-motors-black.png",
+        url: absoluteUrl("/logos/sain-motors-black.png"),
       },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://jetour-sain.mn/news/${article.slug}`,
+      "@id": absoluteUrl(`/news/${article.slug}`),
     },
   };
 
