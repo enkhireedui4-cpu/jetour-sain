@@ -262,7 +262,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="text-white/60 hover:text-white transition-colors hover:scale-110"
+                className="foot-social text-white/60 hover:text-white transition-colors hover:scale-110"
               >
                 <Icon className="w-5 h-5" />
               </a>

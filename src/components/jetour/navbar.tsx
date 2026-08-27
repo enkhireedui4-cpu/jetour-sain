@@ -297,7 +297,7 @@ export function Navbar() {
         <button
           /* Хүрэлтийн бай 44×44 (WCAG 2.5.8) — өмнө 40px байв. `-mr-2.5` нь
              нэмсэн зайг гадагш нөхөж, дүрсний оптик байрлалыг хөндөхгүй. */
-          className={`lg:hidden grid place-items-center h-11 w-11 -mr-2.5 ${
+          className={`lg:hidden shrink-0 grid place-items-center h-11 w-11 -mr-2.5 ${
             overHero ? "text-white" : "text-[#17181B]"
           }`}
           onClick={() => setOpen(!open)}
