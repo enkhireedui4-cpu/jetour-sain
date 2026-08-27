@@ -12,7 +12,9 @@ import { SITE_URL } from "@/lib/site";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  /* 300 (light) хасав — кодод 0 удаа хэрэглэгдсэн (font-light ч,
+     font-weight: 300 ч алга). Хоёр фонтын файл дэмий татагдаж байв. */
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
