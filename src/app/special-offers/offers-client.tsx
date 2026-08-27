@@ -148,11 +148,19 @@ export default function SpecialOffersClient({ offers: OFFERS }: { offers: Specia
                       }}
                       aria-hidden={off !== 0}
                     >
-                      <img
+                      {/* `fill` + `object-contain` нь өмнөх
+                          `max-w-full max-h-full w-auto h-auto object-contain`-той ЯГ ижил
+                          үр дүн өгнө: слайд нь `absolute inset-0` тул байрлалтай эцэг,
+                          зураг төвдөө багтана. Ялгаа нь Next responsive srcset үүсгэж,
+                          утсанд 1920px биш ~670px хувилбар очих явдал. */}
+                      <Image
                         src={o.poster}
                         alt={o.title}
+                        fill
+                        sizes="(min-width: 1024px) 60vw, 95vw"
+                        priority={i === 0}
                         draggable={false}
-                        className="max-w-full max-h-full w-auto h-auto object-contain"
+                        className="object-contain"
                       />
                     </div>
                   );

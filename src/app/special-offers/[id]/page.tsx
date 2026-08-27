@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPromotionById, getAllPromotions, getCarModelById } from "@/lib/cms";
+import { localImageSize } from "@/lib/image-size";
 import OfferDetailClient from "./offer-detail-client";
 
 // ISR — 10 мин (600 сек). Next-ийн segment config нь literal байх ёстой,
@@ -42,5 +43,11 @@ export default async function OfferDetailPage({ params }: Props) {
   const model = offer.modelId ? await getCarModelById(offer.modelId) : null;
   const brochure = model?.details.brochure ?? null;
 
-  return <OfferDetailClient offer={offer} brochure={brochure} />;
+  /* Постерын харьцаа — `next/image`-д хэрэгтэй. Постерууд өөр өөр
+     харьцаатай тул тоог хатуу бичихгүй, файлаас уншина. */
+  const posterSize = await localImageSize(offer.poster);
+
+  return (
+    <OfferDetailClient offer={offer} brochure={brochure} posterSize={posterSize} />
+  );
 }

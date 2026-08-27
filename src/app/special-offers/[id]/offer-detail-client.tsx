@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight, Calendar, FileText } from "lucide-react";
 import type { SpecialOffer } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
@@ -10,9 +11,11 @@ import { EnhancedLeadForm } from "@/components/jetour/enhanced-lead-form";
 export default function OfferDetailClient({
   offer,
   brochure,
+  posterSize,
 }: {
   offer: SpecialOffer;
   brochure?: string | null;
+  posterSize?: { width: number; height: number } | null;
 }) {
   return (
     <div id="main-content" className="min-h-screen bg-white text-[#17181B]">
@@ -33,11 +36,26 @@ export default function OfferDetailClient({
       {/* Hero poster — бүтэн постер, том, таслалгүй */}
       <section className="pt-6 pb-12 lg:pb-16">
         <div className="mx-auto w-[min(1100px,94vw)]">
-          <img
-            src={offer.poster}
-            alt={offer.title}
-            className="w-full h-auto rounded-2xl"
-          />
+          {/* Хэмжээ мэдэгдэж байвал `next/image` — responsive srcset үүсгэж,
+              утсанд 1920px биш ~700px хувилбар очно. Мэдэгдэхгүй бол (шинэ
+              постер, файл олдоогүй г.м.) энгийн <img> рүү аюулгүй буцна. */}
+          {posterSize ? (
+            <Image
+              src={offer.poster}
+              alt={offer.title}
+              width={posterSize.width}
+              height={posterSize.height}
+              sizes="(min-width: 1180px) 1100px, 94vw"
+              priority
+              className="w-full h-auto rounded-2xl"
+            />
+          ) : (
+            <img
+              src={offer.poster}
+              alt={offer.title}
+              className="w-full h-auto rounded-2xl"
+            />
+          )}
         </div>
       </section>
 
