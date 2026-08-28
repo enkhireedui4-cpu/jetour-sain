@@ -21,7 +21,8 @@
     "build:pg": "node scripts/prisma-pg.mjs && prisma generate --schema prisma/schema.postgres.prisma && next build && node scripts/copy-standalone-assets.mjs",
     "start:standalone": "node .next/standalone/server.js",
     "db:export": "node scripts/db-export.mjs",
-    "db:import": "node scripts/db-import.mjs"
+    "db:import": "node scripts/db-import.mjs",
+    "db:verify": "node scripts/db-verify.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",
