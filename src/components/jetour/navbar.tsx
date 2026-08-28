@@ -172,7 +172,11 @@ export function Navbar() {
               href="/models"
               aria-current={pathname.startsWith("/models") ? "page" : undefined}
               aria-expanded={openMenu === MODELS_MENU}
-              aria-haspopup="true"
+              /* `aria-haspopup` ХАСАВ. Тэр нь "цэс нээгдэнэ" гэж мэдэгддэг ба
+                 дэлгэц уншигч цэсний навигаци (сумны товчлуур, role="menuitem")
+                 хүлээдэг. Гэтэл самбар нь role-гүй энгийн <ul>, дотор нь 8
+                 энгийн холбоос — menuitem тэг (хэмжсэн). Худал мэдэгдэл байв.
+                 `aria-expanded` дангаараа disclosure хэвийг зөв илэрхийлнэ. */
               className={`flex items-center gap-1 text-sm font-medium transition-colors relative group py-5 ${linkBase} ${
                 pathname.startsWith("/models") || openMenu === MODELS_MENU ? linkActive : ""
               }`}
@@ -232,7 +236,11 @@ export function Navbar() {
                 <button
                   onClick={() => setOpenMenu((v) => (v === l.label ? null : l.label))}
                   aria-expanded={openMenu === l.label}
-                  aria-haspopup="true"
+                  /* `aria-haspopup` ХАСАВ. Тэр нь "цэс нээгдэнэ" гэж мэдэгддэг ба
+                     дэлгэц уншигч цэсний навигаци (сумны товчлуур, role="menuitem")
+                     хүлээдэг. Гэтэл самбар нь role-гүй энгийн <ul>, дотор нь 8
+                     энгийн холбоос — menuitem тэг (хэмжсэн). Худал мэдэгдэл байв.
+                     `aria-expanded` дангаараа disclosure хэвийг зөв илэрхийлнэ. */
                   className={`flex items-center gap-1 text-sm font-medium transition-colors relative py-5 ${linkBase} ${
                     openMenu === l.label || l.items.some((it) => isActiveRoute(pathname, it.href))
                       ? linkActive
