@@ -112,6 +112,52 @@ framer-motion гурав хүрэлцэхгүй болохыг **баталсн�
 
 ---
 
+## Neon (production Postgres) — урхинууд
+
+Агуулга нь `db/content.json`-оор дамжина. `db/*.db` нь **хэзээ ч** git-д орохгүй
+(Lead-ийн нэр/утас, admin-ы bcrypt hash байдаг).
+
+**`build:pg` нь өгөгдөл импортлодоггүй** — зөвхөн `prisma generate` + `next build`.
+Тиймээс Neon-ыг **гараар нэг удаа** дүүргэнэ:
+
+```powershell
+$env:DATABASE_URL="<neon-pooled-url>"; npm run db:generate:pg; npm run db:verify
+npm run db:import          # дутуу гарвал
+Remove-Item Env:\DATABASE_URL; npm run db:generate   # ЗААВАЛ буцааж эдгээ
+```
+
+`.env`-ийг гараар засахгүй — inline `$env:` нь `.env`-ийг дардаг (туршиж
+баталсан), салгамагц `.env` дахин хүчинтэй болно. Ингэснээр буцааж эдгээхээ
+мартах урх үүсэхгүй.
+
+**Урх 1 — EPERM нь ХУУРАМЧ бүтэлгүйтэл.** Dev server ажиллаж байвал
+`prisma generate` нь `query_engine-windows.dll.node`-ыг сольж чадахгүй:
+
+```
+EPERM: operation not permitted, rename '…query_engine-windows.dll.node.tmp…'
+```
+
+Гэвч **provider нь СОЛИГДСОН байдаг** — зөвхөн DLL солигдоогүй (тэр нь бүх
+provider-ыг дэмждэг тул ажилласаар байна). Өөрөөр хэлбэл «алдаа гарлаа, юу ч
+болоогүй» гэж бодох нь буруу. Тодорхой болгохын тулд **dev server-ыг зогсоож**
+generate хий.
+
+**Урх 2 — `node_modules/.prisma/client/schema.prisma`-д итгэхгүй.** Тэр файл
+хуучирсан байж болно. Бодит режимийг **зан үйлээр** шалга:
+
+```powershell
+$env:DATABASE_URL="postgresql://u:p@example.invalid/db"; npm run db:verify
+```
+
+provider-ын алдаа → client нь SQLite режимд. Сүлжээний алдаа → Postgres режимд.
+
+**Урх 3 — дараалал.** Загвар/мэдээ/саналын хуудас `generateStaticParams` +
+`revalidate = 600`-аар статикаар бэлтгэгддэг. Хоосон Neon дээр build хийвэл
+хуудсууд **хоосон хөшинө**. Тиймээс: Neon дүүргэ → **дараа нь** Redeploy.
+
+**`db:import`-ыг build-д НЭМЭХГҮЙ.** Admin панель Neon руу шууд бичдэг тул
+deploy тутам импорт хийвэл admin-ы засварыг `content.json`-оор дарж арчна.
+
 ## Шалгах соёл
 
 Browser pane нуугдсан үед: `rAF` ажиллахгүй, `setTimeout` throttle болно,
