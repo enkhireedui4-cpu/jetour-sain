@@ -45,8 +45,11 @@ for (const [model, key, label] of TABLES) {
     console.log(`${label}: ⚠ уншиж чадсангүй`);
     if (/must start with the protocol `postgresql/.test(msg)) {
       console.log(`   Prisma client нь POSTGRES режимд, харин DATABASE_URL нь SQLite.`);
-      console.log(`   → Neon шалгах бол:  DATABASE_URL-ээ Neon руу заа`);
-      console.log(`   → Локал ажиллах бол: npm run db:generate`);
+      console.log(`   → Локал ажиллах бол:  npm run db:generate`);
+    } else if (/must start with the protocol `file:/.test(msg)) {
+      console.log(`   Prisma client нь SQLITE режимд, харин DATABASE_URL нь Postgres.`);
+      console.log(`   → Neon шалгах бол:  npm run db:generate:pg  (дараа нь дахин ажиллуул)`);
+      console.log(`   → Дуусаад БУЦААЖ эдгээ:  npm run db:generate`);
     } else if (/does not exist|relation .* does not exist|P1001|P1017/.test(msg)) {
       console.log(`   Схем/холболт бэлэн биш.`);
       console.log(`   → npm run db:push:pg`);
