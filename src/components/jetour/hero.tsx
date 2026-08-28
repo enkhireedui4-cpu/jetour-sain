@@ -119,9 +119,16 @@ export function Hero() {
   const next = useCallback(() => step(1), [step]);
   const prev = () => step(-1);
 
-  // Авто-солигдол
+  // Авто-солигдол. WCAG 2.2.2: хөдөлгөөн мэдрэмтгий хэрэглэгчид огт
+  // эхлүүлэхгүй — тэдэнд зогсоох хяналт хайх шаардлага үүсэхгүй.
   useEffect(() => {
     if (paused) return;
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     const t = setInterval(next, SLIDE_MS);
     return () => clearInterval(t);
   }, [next, paused, active]);
@@ -164,6 +171,11 @@ export function Hero() {
       {...swipe.handlers}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      /* Гарын хэрэглэгч Tab-аар дотогш ормогц зогсоно. Өмнө нь зөвхөн
+         хулганы hover зогсоодог байсан тул гарын хэрэглэгч 6 секунд
+         тутам солигдох слайдыг зогсоох ямар ч арга байгаагүй. */
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
     >
       {/* === Slides — хажуу булангаас гүйж орно, дотор нь зөөлөн Ken Burns ===
           Зурвас хуруу дагаж хөдөлдөг тул чирэлт зогсонги биш; тавихад
