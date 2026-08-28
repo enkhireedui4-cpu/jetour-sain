@@ -230,7 +230,7 @@ export function Footer() {
           {/* Эзэмшигчдэд */}
           <FooterCol title="Эзэмшигчдэд">
             <FooterLink href="/owners">Үйлчилгээ ба баталгаа</FooterLink>
-            <FooterLink href="/special-offers">Тусгай саналууд</FooterLink>
+            <FooterLink href="/special-offers">Тусгай санал</FooterLink>
           </FooterCol>
 
           {/* Худалдан авахад туслах */}

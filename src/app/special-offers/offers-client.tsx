@@ -81,7 +81,7 @@ export default function SpecialOffersClient({ offers: OFFERS }: { offers: Specia
         >
           {/* Left — text */}
           <div className="order-2 lg:order-1">
-            <p className="eyebrow mb-6">Тусгай саналууд</p>
+            <p className="eyebrow mb-6">Тусгай санал</p>
             <div key={offer.id}>
               <h1 className="type-h1 text-[#17181B] mb-5">{offer.title}</h1>
               <p className="type-lead max-w-md mb-8">{offer.desc}</p>

@@ -257,7 +257,7 @@ export function Hero() {
           </motion.h1>
 
           {/* Туслах мөр — утсанд нуугдана (машины доод хэсэгтэй давхцахгүй) */}
-          <p className="hero__sub hidden sm:block">Таны аяллыг илүү эрхэм болгоно.</p>
+          <p className="hero__sub hidden sm:block">Аялал бүрийг тань эрхэмсэг болгоно</p>
 
           <motion.div
             key={`cta-${active}`}

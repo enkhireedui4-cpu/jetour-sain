@@ -31,7 +31,7 @@ export default function OfferDetailClient({
           className="inline-flex items-center gap-2 text-sm font-semibold text-[#666C77] hover:text-[#E20A17] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Тусгай саналууд
+          Тусгай санал
         </Link>
       </div>
 

@@ -19,7 +19,7 @@ type DropdownNavItem = {
 type NavItem = RouteNavItem | AnchorNavItem | DropdownNavItem;
 
 const NAV_LINKS: NavItem[] = [
-  { label: "Тусгай саналууд", href: "/special-offers", type: "route" },
+  { label: "Тусгай санал", href: "/special-offers", type: "route" },
   {
     label: "Бидний тухай",
     type: "dropdown",
@@ -288,7 +288,11 @@ export function Navbar() {
         </nav>
 
         {/* Desktop CTA — хурдан хүсэлтийн цонх нээнэ. Бүтэн маягт
-            /info-request-д хэвээр байгаа; энд зөвхөн нэр, утас асууна. */}
+            /info-request-д хэвээр байгаа; энд зөвхөн нэр, утас асууна.
+
+            Шошго нь hero-ийнхтэй ЗӨРҮҮТЭЙ байх ёстой: хоёулаа ижил цонх
+            нээдэг тул нэг дэлгэцэнд «Хүсэлт үлдээх» хоёр удаа гарч,
+            аль нь ялгаатай юм бол гэсэн эргэлзээ төрүүлж байв. */}
         <button
           type="button"
           onClick={openQuickLead}
@@ -298,7 +302,7 @@ export function Navbar() {
               : "bg-[#E20A17] text-white hover:bg-[#C00813]"
           }`}
         >
-          Хүсэлт үлдээх
+          Зөвлөгөө авах
         </button>
 
         {/* Mobile menu toggle */}
@@ -495,7 +499,7 @@ export function Navbar() {
               }}
               className="btn-electric-jetour mt-2 mb-4 py-3.5 rounded-full text-center text-sm"
             >
-              Хүсэлт үлдээх
+              Зөвлөгөө авах
             </button>
           </nav>
         </div>

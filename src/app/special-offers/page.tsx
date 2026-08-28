@@ -7,7 +7,7 @@ import SpecialOffersClient from "./offers-client";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "Тусгай саналууд",
+  title: "Тусгай санал",
   description:
     "JETOUR загваруудын үйлчлэх хугацаатай тусгай санал, зээлийн хөнгөлөлттэй нөхцөл, урамшуулал. X70 Plus, X50, X1, T1 — SAIN MOTORS-ийн албан ёсны саналууд.",
   /* Өөрийгөө заасан canonical. Байхгүй бол Next `metadataBase`
