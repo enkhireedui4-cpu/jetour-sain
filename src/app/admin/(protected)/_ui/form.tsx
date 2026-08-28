@@ -19,7 +19,7 @@ export function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-xs font-semibold text-[#6B7280] mb-1.5">
+      <span className="block text-xs font-semibold text-[#666C77] mb-1.5">
         {label}
       </span>
       {children}

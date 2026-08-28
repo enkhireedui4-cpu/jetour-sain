@@ -33,7 +33,7 @@ export default function ModelsTable({ models }: { models: Model[] }) {
   return (
     <div className="bg-white rounded-2xl border border-[#E7E7EA] overflow-hidden">
       <table className="w-full text-sm">
-        <thead className="bg-[#F5F5F6] text-[#6B7280] text-xs uppercase tracking-wide">
+        <thead className="bg-[#F5F5F6] text-[#666C77] text-xs uppercase tracking-wide">
           <tr>
             <th className="text-left px-4 py-3">Дараалал</th>
             <th className="text-left px-4 py-3">Нэр</th>
@@ -46,7 +46,7 @@ export default function ModelsTable({ models }: { models: Model[] }) {
         <tbody>
           {models.map((m) => (
             <tr key={m.id} className="border-t border-[#E7E7EA]">
-              <td className="px-4 py-3 text-[#6B7280]">{m.order}</td>
+              <td className="px-4 py-3 text-[#666C77]">{m.order}</td>
               <td className="px-4 py-3 font-semibold text-[#17181B]">{m.name}</td>
               <td className="px-4 py-3">{m.price ?? "—"}</td>
               <td className="px-4 py-3">
@@ -82,7 +82,7 @@ export default function ModelsTable({ models }: { models: Model[] }) {
           ))}
           {models.length === 0 && (
             <tr>
-              <td colSpan={6} className="px-4 py-8 text-center text-[#6B7280]">
+              <td colSpan={6} className="px-4 py-8 text-center text-[#666C77]">
                 Одоогоор загвар бүртгэгдээгүй байна.
               </td>
             </tr>

@@ -23,7 +23,7 @@ export default function NewsTable({ news }: { news: News[] }) {
   return (
     <div className="bg-white rounded-2xl border border-[#E7E7EA] overflow-hidden">
       <table className="w-full text-sm">
-        <thead className="bg-[#F5F5F6] text-[#6B7280] text-xs uppercase tracking-wide">
+        <thead className="bg-[#F5F5F6] text-[#666C77] text-xs uppercase tracking-wide">
           <tr>
             <th className="text-left px-4 py-3">Гарчиг</th>
             <th className="text-left px-4 py-3">Огноо</th>
@@ -57,7 +57,7 @@ export default function NewsTable({ news }: { news: News[] }) {
           ))}
           {news.length === 0 && (
             <tr>
-              <td colSpan={5} className="px-4 py-8 text-center text-[#6B7280]">
+              <td colSpan={5} className="px-4 py-8 text-center text-[#666C77]">
                 Одоогоор мэдээ бүртгэгдээгүй байна.
               </td>
             </tr>

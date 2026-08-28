@@ -416,7 +416,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                     <div className="flex items-center gap-2 mb-1.5">
                       <span
                         className={`text-xs font-bold tracking-[0.12em] uppercase ${
-                          active ? "text-[#E20A17]" : "text-[#6B7280]"
+                          active ? "text-[#E20A17]" : "text-[#666C77]"
                         }`}
                       >
                         {v.powertrain}
@@ -450,7 +450,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                       {variants.map((v) => (
                         <th key={v.id} className="text-left px-5 py-4">
                           <span className="block font-bold text-[#17181B]">{v.powertrain}</span>
-                          <span className="block text-xs font-normal text-[#6B7280]">{v.name}</span>
+                          <span className="block text-xs font-normal text-[#666C77]">{v.name}</span>
                         </th>
                       ))}
                     </tr>
@@ -981,7 +981,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                   </span>
                   <span className="flex flex-col min-w-0">
                     <span className="text-sm font-bold text-[#17181B]">Брошюр</span>
-                    <span className="text-[12px] text-[#6B7280] truncate">
+                    <span className="text-[12px] text-[#666C77] truncate">
                       PDF · бүрэн техникийн үзүүлэлт
                     </span>
                   </span>

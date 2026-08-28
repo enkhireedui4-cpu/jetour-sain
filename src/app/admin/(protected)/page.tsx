@@ -32,7 +32,7 @@ export default async function AdminDashboardPage() {
             >
               <Icon className="w-6 h-6 text-[#E20A17] mb-3" />
               <p className="text-3xl font-extrabold text-[#17181B]">{c.value}</p>
-              <p className="text-sm text-[#6B7280] mt-1">{c.label}</p>
+              <p className="text-sm text-[#666C77] mt-1">{c.label}</p>
             </Link>
           );
         })}

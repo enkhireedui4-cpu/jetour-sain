@@ -53,7 +53,7 @@ export function Contact() {
                 <div>
                   <p className="eyebrow mb-1">Албан ёсны дистрибьютор</p>
                   <SainMotorsMark className="text-2xl" />
-                  <p className="text-xs text-[#6B7280] mt-2">
+                  <p className="text-xs text-[#666C77] mt-2">
                     {CONTACT.brandFullName} · {CONTACT.brandSince} оноос хойш Монголд
                   </p>
                 </div>
@@ -65,7 +65,7 @@ export function Contact() {
                     <Phone className="w-4 h-4" />
                   </span>
                   <div>
-                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#6B7280] font-display">Борлуулалтын ажилтан 1</p>
+                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#666C77] font-display">Борлуулалтын ажилтан 1</p>
                     <p className="font-display font-bold text-[#17181B] text-sm">{CONTACT.phone1}</p>
                   </div>
                 </a>
@@ -74,7 +74,7 @@ export function Contact() {
                     <Phone className="w-4 h-4" />
                   </span>
                   <div>
-                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#6B7280] font-display">Борлуулалтын ажилтан 2</p>
+                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#666C77] font-display">Борлуулалтын ажилтан 2</p>
                     <p className="font-display font-bold text-[#17181B] text-sm">{CONTACT.phone2}</p>
                   </div>
                 </a>
@@ -84,7 +84,7 @@ export function Contact() {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-[#E20A17] mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#6B7280] font-display">Showroom хаяг</p>
+                    <p className="text-[0.55rem] tracking-[0.18em] uppercase text-[#666C77] font-display">Showroom хаяг</p>
                     <p className="text-[#17181B] text-sm leading-snug">{CONTACT.address}</p>
                     <a
                       href={CONTACT.googleMap}
@@ -105,14 +105,14 @@ export function Contact() {
 
               {/* Working hours */}
               <div className="pt-5 border-t border-[#E7E7EA]">
-                <p className="text-[0.55rem] tracking-[0.22em] uppercase text-[#6B7280] font-display mb-3 flex items-center gap-1.5">
+                <p className="text-[0.55rem] tracking-[0.22em] uppercase text-[#666C77] font-display mb-3 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   Ажлын цаг
                 </p>
                 <div className="space-y-1.5">
                   {SHOWROOM_HOURS.map((h) => (
                     <div key={h.day} className="flex items-center justify-between text-sm">
-                      <span className="text-[#6B7280]">{h.day}</span>
+                      <span className="text-[#666C77]">{h.day}</span>
                       <span className="font-display font-bold text-[#17181B]">{h.hours}</span>
                     </div>
                   ))}
@@ -121,7 +121,7 @@ export function Contact() {
 
               {/* Social */}
               <div className="flex items-center gap-2 mt-5 pt-5 border-t border-[#E7E7EA]">
-                <span className="text-[11px] tracking-[0.18em] uppercase text-[#6B7280] font-display mr-2">Биднийг дага:</span>
+                <span className="text-[11px] tracking-[0.18em] uppercase text-[#666C77] font-display mr-2">Биднийг дага:</span>
                 <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 grid place-items-center rounded-lg bg-[#F5F5F6] text-[#17181B] hover:bg-[#17181B] hover:text-white transition-colors">
                   <Facebook className="w-4 h-4" />
                 </a>
@@ -208,11 +208,11 @@ export function Footer() {
               {/* «Дуудлагын төв» + дугаар хасав — яг тэр дугаар дээрх
                   холбоо барих картад бий, мөн хөвөгч улаан товчинд бий. */}
               <div>
-                <p className="text-white/45 mb-1">Ажиллах цаг:</p>
+                <p className="text-white/55 mb-1">Ажиллах цаг:</p>
                 <p className="text-white font-bold">{SHOWROOM_HOURS[0].day}: {SHOWROOM_HOURS[0].hours}</p>
               </div>
               <div>
-                <p className="text-white/45 mb-1">И-мэйл:</p>
+                <p className="text-white/55 mb-1">И-мэйл:</p>
                 <a href={`mailto:${CONTACT.email}`} className="text-white font-bold hover:text-[#E20A17] transition-colors break-all">
                   {CONTACT.email}
                 </a>
@@ -277,7 +277,7 @@ export function Footer() {
                 Үйлчилгээний нөхцөл
               </a>
             </div>
-            <p className="text-xs text-white/40">
+            <p className="text-xs text-white/55">
               © {new Date().getFullYear()} JETOUR. Бүх эрх хуулиар хамгаалагдсан.
             </p>
           </div>

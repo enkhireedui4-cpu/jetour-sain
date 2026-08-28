@@ -70,7 +70,7 @@ export default async function NewsListPage() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <span
-                    className={`absolute top-4 left-4 eyebrow px-3 py-1.5 rounded-full text-white ${
+                    className={`absolute top-4 left-4 eyebrow eyebrow-invert px-3 py-1.5 rounded-full ${
                       article.accent === "electric" ? "bg-[#E20A17]" : "bg-[#17181B]"
                     }`}
                   >
@@ -79,7 +79,7 @@ export default async function NewsListPage() {
                 </div>
 
                 <div className="pt-5">
-                  <p className="type-small text-[#6B7280] flex items-center gap-1.5 mb-3">
+                  <p className="type-small text-[#666C77] flex items-center gap-1.5 mb-3">
                     <Calendar className="w-3.5 h-3.5" />
                     {article.date}
                   </p>

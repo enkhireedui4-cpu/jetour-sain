@@ -40,10 +40,10 @@ function LoginForm() {
         className="w-full max-w-sm bg-white rounded-2xl border border-[#E7E7EA] shadow-lg p-8"
       >
         <h1 className="text-2xl font-extrabold text-[#17181B] mb-1">Админ нэвтрэх</h1>
-        <p className="text-sm text-[#6B7280] mb-6">JETOUR удирдлагын самбар</p>
+        <p className="text-sm text-[#666C77] mb-6">JETOUR удирдлагын самбар</p>
 
         <div className="mb-4">
-          <label className="block text-xs font-semibold text-[#6B7280] mb-1.5">Нэвтрэх нэр</label>
+          <label className="block text-xs font-semibold text-[#666C77] mb-1.5">Нэвтрэх нэр</label>
           <input
             type="text"
             value={username}
@@ -54,7 +54,7 @@ function LoginForm() {
         </div>
 
         <div className="mb-5">
-          <label className="block text-xs font-semibold text-[#6B7280] mb-1.5">Нууц үг</label>
+          <label className="block text-xs font-semibold text-[#666C77] mb-1.5">Нууц үг</label>
           <input
             type="password"
             value={password}

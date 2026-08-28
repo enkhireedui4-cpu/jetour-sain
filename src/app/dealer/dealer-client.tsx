@@ -90,7 +90,7 @@ export function DealerClient() {
               <div>
                 <p className="eyebrow mb-1">Албан ёсны дистрибьютор</p>
                 <p className="font-extrabold text-xl text-[#17181B]">SAIN MOTORS</p>
-                <p className="text-xs text-[#6B7280] mt-1">
+                <p className="text-xs text-[#666C77] mt-1">
                   {CONTACT.brandFullName} · {CONTACT.brandSince} оноос хойш
                 </p>
               </div>
@@ -98,9 +98,9 @@ export function DealerClient() {
 
             <div className="space-y-4 flex-1">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#6B7280] mt-0.5 shrink-0" />
+                <MapPin className="w-5 h-5 text-[#666C77] mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-[11px] tracking-[0.18em] uppercase text-[#6B7280] mb-0.5">
+                  <p className="text-[11px] tracking-[0.18em] uppercase text-[#666C77] mb-0.5">
                     Showroom хаяг
                   </p>
                   <p className="text-[#17181B] text-sm leading-snug">{branch.address}</p>
@@ -108,7 +108,7 @@ export function DealerClient() {
                     href={branch.mapLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-[#E20A17] hover:text-[#17181B] transition-colors mt-1.5 font-semibold"
+                    className="inline-flex items-center gap-1.5 text-xs text-brand-on-grey hover:text-[#17181B] transition-colors mt-1.5 font-semibold"
                   >
                     Google Map-аар үзэх
                     <ExternalLink className="w-3 h-3" />
@@ -129,9 +129,9 @@ export function DealerClient() {
                     href={p.href}
                     className="group flex items-center gap-2.5 py-2 px-1.5 rounded-lg transition-colors hover:bg-white/70"
                   >
-                    <Phone className="w-4 h-4 text-[#6B7280] shrink-0 transition-colors group-hover:text-[#E20A17]" />
+                    <Phone className="w-4 h-4 text-[#666C77] shrink-0 transition-colors group-hover:text-[#E20A17]" />
                     <span className="min-w-0">
-                      <span className="block text-[11px] tracking-[0.14em] uppercase text-[#6B7280] leading-tight">
+                      <span className="block text-[11px] tracking-[0.14em] uppercase text-[#666C77] leading-tight">
                         {p.label}
                       </span>
                       <span className="block font-bold text-[#17181B] text-sm tabular-nums">
@@ -146,12 +146,12 @@ export function DealerClient() {
                 href={`mailto:${CONTACT.email}`}
                 className="flex items-center gap-3 hover:text-[#E20A17] transition-colors"
               >
-                <Mail className="w-5 h-5 text-[#6B7280] shrink-0" />
+                <Mail className="w-5 h-5 text-[#666C77] shrink-0" />
                 <span className="text-[#17181B] text-sm">{CONTACT.email}</span>
               </a>
 
               <div className="pt-4 border-t border-[#E7E7EA]">
-                <p className="text-[11px] tracking-[0.22em] uppercase text-[#6B7280] mb-3 flex items-center gap-1.5">
+                <p className="text-[11px] tracking-[0.22em] uppercase text-[#666C77] mb-3 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   Ажлын цаг
                 </p>

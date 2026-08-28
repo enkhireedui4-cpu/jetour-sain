@@ -118,7 +118,7 @@ export default async function NewsDetailPage({
         <div className="container-page max-w-[900px]">
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 text-[#6B7280] hover:text-[#E20A17] transition-colors text-sm font-semibold mb-6"
+            className="inline-flex items-center gap-2 text-[#666C77] hover:text-[#E20A17] transition-colors text-sm font-semibold mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
             Мэдээ
@@ -133,7 +133,7 @@ export default async function NewsDetailPage({
             >
               {article.tag}
             </span>
-            <span className="flex items-center gap-1.5 text-[#6B7280] text-sm">
+            <span className="flex items-center gap-1.5 text-[#666C77] text-sm">
               <Calendar className="w-4 h-4" />
               {article.date}
             </span>

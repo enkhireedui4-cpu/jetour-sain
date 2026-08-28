@@ -35,7 +35,7 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
   return (
     <div className="bg-white rounded-2xl border border-[#E7E7EA] overflow-hidden overflow-x-auto">
       <table className="w-full text-sm">
-        <thead className="bg-[#F5F5F6] text-[#6B7280] text-xs uppercase tracking-wide">
+        <thead className="bg-[#F5F5F6] text-[#666C77] text-xs uppercase tracking-wide">
           <tr>
             <th className="text-left px-4 py-3">Огноо</th>
             <th className="text-left px-4 py-3">Нэр</th>
@@ -48,7 +48,7 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
         <tbody>
           {leads.map((l) => (
             <tr key={l.id} className="border-t border-[#E7E7EA] align-top">
-              <td className="px-4 py-3 whitespace-nowrap text-[#6B7280]">
+              <td className="px-4 py-3 whitespace-nowrap text-[#666C77]">
                 {new Date(l.createdAt).toLocaleString("mn-MN")}
               </td>
               <td className="px-4 py-3 font-semibold text-[#17181B]">{l.name ?? "—"}</td>
@@ -71,7 +71,7 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
           ))}
           {leads.length === 0 && (
             <tr>
-              <td colSpan={6} className="px-4 py-8 text-center text-[#6B7280]">
+              <td colSpan={6} className="px-4 py-8 text-center text-[#666C77]">
                 Одоогоор хүсэлт ирээгүй байна.
               </td>
             </tr>

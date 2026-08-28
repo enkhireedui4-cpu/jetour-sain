@@ -380,7 +380,7 @@ export function Navbar() {
             >
               Загварууд
               <ChevronDown
-                className={`w-4 h-4 text-[#6B7280] transition-transform duration-200 ${
+                className={`w-4 h-4 text-[#666C77] transition-transform duration-200 ${
                   openMenu === MODELS_MENU ? "rotate-180" : ""
                 }`}
               />
@@ -449,7 +449,7 @@ export function Navbar() {
                 </button>
               ) : (
                 <div key={l.label} className="py-3 border-b border-[#F0F0F1]">
-                  <p className="text-[13px] font-bold tracking-wide uppercase text-[#6B7280] mb-1">
+                  <p className="text-[13px] font-bold tracking-wide uppercase text-[#666C77] mb-1">
                     {l.label}
                   </p>
                   {l.items.map((it) =>

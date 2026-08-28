@@ -28,7 +28,7 @@ export default function OfferDetailClient({
       <div className="container-page pt-8">
         <Link
           href="/special-offers"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[#6B7280] hover:text-[#E20A17] transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[#666C77] hover:text-[#E20A17] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Тусгай саналууд
@@ -66,7 +66,7 @@ export default function OfferDetailClient({
         <div className="container-page grid lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-20">
           <div>
             <h1 className="type-h1 text-[#17181B] mb-4">{offer.title}</h1>
-            <p className="flex items-center gap-1.5 type-small text-[#6B7280] mb-6">
+            <p className="flex items-center gap-1.5 type-small text-[#666C77] mb-6">
               <Calendar className="w-4 h-4" />
               {offer.date}
             </p>

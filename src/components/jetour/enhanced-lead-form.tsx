@@ -103,12 +103,12 @@ export function EnhancedLeadForm({
     : "bg-[#F5F5F6] border-[#E7E7EA] focus-within:border-[#E20A17] focus-within:ring-2 focus-within:ring-[#E20A17]/15";
   const inputText = isDark
     ? "text-white placeholder:text-white/50"
-    : "text-[#17181B] placeholder:text-[#9CA3AF]";
+    : "text-[#17181B] placeholder:text-[#666C77]";
   const labelClass = isDark
     ? "text-[11px] tracking-[0.18em] uppercase text-white/70 font-display"
-    : "text-[11px] tracking-[0.18em] uppercase text-[#6B7280] font-display";
+    : "text-[11px] tracking-[0.18em] uppercase text-[#666C77] font-display";
   const headingColor = isDark ? "text-white" : "text-[#17181B]";
-  const iconColor = isDark ? "text-white/50" : "text-[#6B7280]";
+  const iconColor = isDark ? "text-white/50" : "text-[#666C77]";
 
   const submitLabelFinal =
     submitLabel ??
@@ -229,7 +229,7 @@ export function EnhancedLeadForm({
         <h2 className={`font-display font-extrabold italic text-2xl mb-2 ${headingColor}`}>
           Баярлалаа!
         </h2>
-        <p className={`text-sm leading-relaxed mb-6 max-w-sm mx-auto ${isDark ? "text-white/70" : "text-[#6B7280]"}`}>
+        <p className={`text-sm leading-relaxed mb-6 max-w-sm mx-auto ${isDark ? "text-white/70" : "text-[#666C77]"}`}>
           Таны хүсэлт амжилттай хүлээн авлаа. Манай борлуулалтын баг 24 цагийн дотор холбогдож
           баталгаажуулна.
         </p>
@@ -264,7 +264,7 @@ export function EnhancedLeadForm({
           болгов. Тэр хэмжээ нь «X50 — тест драйв» гэсэн нэг мөрийн шошгод
           тохирч байсан ч дэд гарчиг нь одоо үнэ цэнийг тайлбарлах бүтэн догол
           мөр болсон: утсан дээр 12px-ээр 5 мөр болж, уншихад хүндэрч байв.
-          Өнгө нь #6B7280 → #54585F (4.83:1 → 7.15:1). */}
+          Өнгө нь #666C77 → #54585F (4.83:1 → 7.15:1). */}
       {subtitle && (
         <p
           className={`text-[13px] leading-relaxed ${
@@ -283,7 +283,7 @@ export function EnhancedLeadForm({
       >
         <ShieldCheck className="w-4 h-4 text-[#E20A17] shrink-0" />
         <p className={`text-xs leading-snug ${isDark ? "text-white/75" : "text-[#54585F]"}`}>
-          Манай борлуулалтын зөвлөх тантай <span className="font-bold text-[#E20A17]">24 цагийн дотор</span> холбогдоно.
+          Манай борлуулалтын зөвлөх тантай <span className="font-bold text-brand-on-grey">24 цагийн дотор</span> холбогдоно.
         </p>
       </div>
 
@@ -501,7 +501,7 @@ export function EnhancedLeadForm({
         )}
       </button>
 
-      <p className={`text-[11px] text-center leading-relaxed pt-1 ${isDark ? "text-white/50" : "text-[#6B7280]"}`}>
+      <p className={`text-[11px] text-center leading-relaxed pt-1 ${isDark ? "text-white/50" : "text-[#666C77]"}`}>
         Таны мэдээллийг зөвхөн тантай холбогдох зорилгоор ашиглах бөгөөд гуравдагч талд задруулахгүй.{" "}
         <a href="/privacy" className="underline text-[#E20A17]">
           Нууцлалын бодлого
@@ -552,7 +552,7 @@ function ContactMethodBtn({
           ? "border-[#E20A17] bg-[#E20A17]/10 text-[#E20A17]"
           : isDark
           ? "border-white/15 text-white/60 hover:border-white/30"
-          : "border-[#E7E7EA] text-[#6B7280] hover:border-[#17181B]/20"
+          : "border-[#E7E7EA] text-[#666C77] hover:border-[#17181B]/20"
       }`}
     >
       {icon}
