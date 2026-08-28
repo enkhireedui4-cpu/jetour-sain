@@ -306,7 +306,7 @@ export function Spin360({
         ref={hostRef}
         className={`spin__stage ${ready ? "is-ready" : ""}`}
         role="img"
-        aria-label={`${alt}, ${labelOf(requested ?? shown)} — 360 градус эргүүлж үзэх`}
+        aria-label={`${alt}, ${labelOf(requested ?? shown)} — 360 градус эргүүлж үзэх. Зүүн, баруун сумны товчлуураар эргүүлнэ`}
         tabIndex={0}
         onKeyDown={onKeyDown}
         onPointerDown={onPointerDown}

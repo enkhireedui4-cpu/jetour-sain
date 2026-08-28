@@ -32,6 +32,14 @@ export function Gallery({ images, alt, accent }: Props) {
 
   useEffect(() => {
     if (paused || images.length <= 1) return;
+    // WCAG 2.2.2. Hero-той ижил бодлого: хөдөлгөөн мэдрэмтгий
+    // хэрэглэгчид огт эхлүүлэхгүй — зогсоох хяналт хайх хэрэггүй болно.
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     const t = setInterval(next, 4500);
     return () => clearInterval(t);
   }, [next, paused, images.length]);
@@ -60,6 +68,17 @@ export function Gallery({ images, alt, accent }: Props) {
       {...(images.length > 1 ? swipe.handlers : {})}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      /* Гарын хэрэглэгч Tab-аар сум/цэг рүү ормогц зогсоно. Өмнө нь зөвхөн
+         хулгана зогсоодог байсан тул гараар явж буй хүн 4.5 секунд тутам
+         доороосоо зураг солигдох нөхцөлд үлддэг байв (WCAG 2.2.2). */
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+      /* `aria-roledescription` нь ГЭНЕРИК бус role шаарддаг. Энэ нь энгийн
+         <div> тул `role="group"` + нэргүйгээр бол уг атрибут зүгээр л
+         үл тоомсорлогдоно — тиймээс гурвыг хамт өгөв. */
+      role="group"
+      aria-roledescription="carousel"
+      aria-label={`${alt} — зургийн цомог`}
     >
       {/* Хэвтээ гулсалт: зураг бүр идэвхтэйгээсээ хамгийн дөт талд зогсож,
           солигдоход хажуугаасаа гүйж орно (fade биш). Циклээр эргэхэд ч
@@ -146,6 +165,13 @@ export function Gallery({ images, alt, accent }: Props) {
           ))}
         </div>
       )}
+
+      {/* Зогссон үед л зарлана. Байнга "polite" байвал авто-солилт нь
+          4.5 секунд тутам уншигчийг тасалж, хуудсыг ашиглах боломжгүй
+          болгоно — зарлахгүй байснаас дор. */}
+      <p className="sr-only" aria-live={paused ? "polite" : "off"}>
+        {active + 1} / {images.length}
+      </p>
     </div>
   );
 }
