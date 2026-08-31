@@ -195,7 +195,7 @@ export default async function NewsDetailPage({
                   {CONTACT.phone1}
                 </a>
                 <Link
-                  href="/#dealer"
+                  href="/info-request?type=test-drive"
                   className="btn-outline-jetour inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm"
                 >
                   Тест драйв

@@ -28,7 +28,7 @@ const TILES = [
     alt: "Засварын төвд хөдөлгүүрт үйлчилж буй мэргэжилтэн",
   },
   {
-    href: "/info-request",
+    href: "/info-request?type=test-drive",
     label: "Туршилтын жолоодлого",
     image: "/tiles/testdrive-v2.webp",
     alt: "JETOUR SUV — замд, ард талаас",

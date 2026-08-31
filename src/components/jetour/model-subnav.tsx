@@ -103,8 +103,13 @@ export function ModelSubnav({
 
         <div className="msub__cta">
           {/* Утас энд БАЙХГҮЙ: дэд цэс нь толгойг орлодог тул хөвөгч
-              улаан товчтой нэг зайд хоёр залгах CTA зэрэгцэж байв. */}
-          <a href="#request-info" className="msub__book">
+              улаан товчтой нэг зайд хоёр залгах CTA зэрэгцэж байв.
+              Тест драйв нь тусгай type-той зам руу очно — hub-д "test-drive"
+              болж зөв ялгагдана (хуудасны ерөнхий форм нь info-request). */}
+          <a
+            href={`/info-request?type=test-drive&model=${encodeURIComponent(modelName)}`}
+            className="msub__book"
+          >
             Тест драйв
           </a>
         </div>

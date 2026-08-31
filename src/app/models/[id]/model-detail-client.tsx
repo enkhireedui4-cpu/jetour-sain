@@ -190,6 +190,17 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
     </p>
   );
 
+  /* Дэлгэц уншигчид сонгосон өнгийг мэдэгдэх амьд хэсэг.
+     Swatch дарахад нэрс солигдоно (aria-pressed) ч уншигч ямар өнгө идэвхжсэнийг
+     сонсдоггүй байв. Энэ бол ТОГТВОРТОЙ aria-live хэсэг — key солихгүй, зөвхөн
+     ТЕКСТ нь шинэчлэгдэнэ; ингэснээр өөрчлөлт найдвартай зарлагдана. */
+  const colorLiveRegion =
+    colorImages.length > 0 ? (
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {activeColor ? `Сонгосон өнгө: ${activeColor.name}` : ""}
+      </p>
+    ) : null;
+
   // Урьдчилсан захиалгатай загвар — CTA болон доод талын формын горим
   const preOrder = d.preOrder === true;
   const ctaLabel = preOrder ? "Урьдчилсан захиалга" : "Тест драйв захиалах";
@@ -295,7 +306,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
           </section>
         </div>
       ) : (
-        <section className="relative h-[calc(100vh-4rem)] min-h-[520px] overflow-hidden bg-[#17181B]">
+        <section className="relative h-[calc(100svh-4rem)] min-h-[520px] overflow-hidden bg-[#17181B]">
           {/* heroImageMobile байвал утсанд 9:16 босоо кадрыг, lg-ээс хойш өргөн
               hero-г харуулна. sizes-д нөгөө талын зургийг 1px гэж зарласнаар
               браузер далдалсан хувилбарыг бүтнээр татахгүй (hero LCP хамгаална). */}
@@ -361,12 +372,8 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                 transition={{ duration: 0.8 }}
               >
                 <h1
-                  className="vhero-s__title font-extrabold tracking-tight text-white mb-7"
-                  style={{
-                    fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
-                    lineHeight: 1.05,
-                    textShadow: "0 4px 24px rgba(0,0,0,0.5)",
-                  }}
+                  className="vhero-s__title type-h1 text-white mb-7"
+                  style={{ textShadow: "0 4px 24px rgba(0,0,0,0.5)" }}
                 >
                   {model.name}
                 </h1>
@@ -489,6 +496,10 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
              зөөлөн солигдоно; текст/ring нь дэвсгэрийн гэрэлтүүлгээс хамаарч
              цагаан ↔ ink болж эргэнэ. Ард нь том сүүдэрлэсэн англи үг,
              зүүн талд босоо swatch, машин голдоо (зургууд crossfade). === */}
+      {/* Өнгө сонголтын нэг л амьд хэсэг — доорх хоёр студи хувилбар аль нь
+          гарсан ч энэ мэдэгдэл идэвхтэй байна (colorIdx нь хуваалцсан төлөв). */}
+      {colorLiveRegion}
+
       {colorImages.length > 0 && d.colorTransparent && (
         <section
           id="colors"
@@ -567,11 +578,12 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                     alt={`${model.name} — ${c.name}`}
                     fill
                     sizes="100vw"
-                    priority={i === 0}
-                    /* Бүх өнгийг урьдчилан татна: opacity:0 зургийг браузер lazy-гээр
+                    /* Бүх өнгийг eager татна: opacity:0 зургийг браузер lazy-гээр
                        татдаггүй тул өнгө дарахад хоосон харагдах эрсдэлтэй байв.
-                       Эхнийх priority, бусад eager (hall хувилбартай ижил зан). */
-                    loading={i === 0 ? undefined : "eager"}
+                       `priority` ХАСАВ — энэ хэсэг нүүрнээс доогуур тул preload
+                       нь hero-гийн LCP-тэй өрсөлдөнө; eager дангаараа flash-гүйг
+                       хангахад хангалттай (hall хувилбартай ижил зан). */
+                    loading="eager"
                     /* cover — тунгалаг PNG-ийн дээд/доод хоосон зайг тайрч
                        машиныг stage-ийн өргөнөөр бүтэн эзлүүлнэ. */
                     className="object-cover"
@@ -639,7 +651,6 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               key={`ext-${model.id}`}
               images={exteriorImgs}
               alt={model.name}
-              accent={model.accent}
             />
           </div>
         </section>
@@ -795,11 +806,11 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                   alt={`${model.name} — ${c.name}`}
                   fill
                   sizes="(max-width: 1360px) 94vw, 1280px"
-                  priority={i === 0}
-                  /* Бүх өнгийг урьдчилан татна — эс тэгвээс өнгө дарахад зураг
+                  /* Бүх өнгийг eager татна — эс тэгвээс өнгө дарахад зураг
                      ачаалагдаж амжаагүй хоосон харагдана (opacity:0 зургийг браузер
-                     lazy-гээр татдаггүй). Эхнийх нь priority, бусад нь eager. */
-                  loading={i === 0 ? undefined : "eager"}
+                     lazy-гээр татдаггүй). `priority` ХАСАВ: хэсэг нүүрнээс доогуур
+                     тул preload нь hero LCP-тэй өрсөлдөнө; eager хангалттай. */
+                  loading="eager"
                   className="object-cover rounded-2xl shadow-[0_24px_50px_-32px_rgba(23,24,27,0.22)]"
                   /* opacity-г Tailwind класс биш inline style-аар — next/image өөрөө
                      ачаалагдах хүртэл inline opacity тавьдаг тул класс дийлэгддэг. */
@@ -863,7 +874,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               <p className="text-[11px] font-semibold tracking-[0.28em] uppercase text-[#696F79] mb-2">
                 {model.name}
               </p>
-              <h2 className="font-extrabold tracking-[-0.02em] leading-[1.1] text-[#17181B] text-[clamp(24px,2.6vw,36px)]">
+              <h2 className="type-h2 text-[#17181B]">
                 Үндсэн техникийн үзүүлэлт
               </h2>
             </div>
@@ -945,17 +956,26 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               )}
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 lg:shrink-0">
+                {/* Тест драйвын CTA нь тусгай type-той зам руу очно (hub-д
+                    зөв ялгагдана). Урьдчилсан захиалгатай загварт доорх
+                    хуудасны формд гулсана (нэр/утас хангалттай). */}
                 <a
-                  href="#request-info"
+                  href={
+                    preOrder
+                      ? "#request-info"
+                      : `/info-request?type=test-drive&model=${encodeURIComponent(model.name)}`
+                  }
                   className="btn-electric-jetour inline-flex items-center justify-center min-h-[46px] px-6 rounded-xl text-sm font-bold whitespace-nowrap"
                 >
                   {ctaLabel}
                 </a>
+                {/* Хоёрдогч — шууд залгах (tel:). Шошго нь үйлдлийг тодорхой
+                    хэлнэ: өмнө нь "Мэдээлэл авах" гэж дугаар руу залгадаг байв. */}
                 <a
                   href={CONTACT.phone1Href}
                   className="inline-flex items-center justify-center min-h-[46px] px-6 rounded-xl border border-[#D9DADE] text-[#17181B] text-sm font-semibold whitespace-nowrap transition-colors hover:border-[#17181B] hover:bg-[#F5F5F6]"
                 >
-                  Мэдээлэл авах
+                  Залгах {CONTACT.phone1}
                 </a>
               </div>
             </div>
@@ -1019,16 +1039,20 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               />
             ) : (
               <EnhancedLeadForm
-                type="test-drive"
+                type="info-request"
                 variant="white"
                 title="JETOUR-ийн талаар дэлгэрэнгүй мэдээлэл авах"
-                subtitle={`${model.name} — мэдээлэл авах, тест драйв`}
+                subtitle={`${model.name} — үнэ, үзүүлэлт, дэлгэрэнгүй мэдээлэл`}
                 modelName={activeVariant ? `${model.name} (${activeVariant.powertrain})` : model.name}
                 showModelField
-                /* Салбар, огноо, харилцах хэрэгсэл — хасав. Энэ форм нь мэдээлэл
-                   авах/тест драйвын анхны хүсэлт тул нэр, утас, загвар, зурвас
-                   хангалттай; цаг/салбарыг оператор дуудахдаа тохирно.
-                   (Тест драйв, засвар захиалгын формуудад эдгээр хэвээр.) */
+                /* type="info-request": энэ бол хуудасны ЕРӨНХИЙ хүсэлтийн форм
+                   (гарчиг нь "мэдээлэл авах"). Өмнө нь "test-drive" байсан тул
+                   хуудасны БҮХ лийд hub-д "test-drive" болж, төрлийн ялгаа
+                   алдагдаж байв. Жинхэнэ тест драйвын CTA нь тусад нь
+                   /info-request?type=test-drive руу очно (доорх specs CTA,
+                   subnav) — ингэснээр hub хоёр төрлийг зөв ялгана.
+                   Салбар, огноо, харилцах хэрэгсэл — хасав: нэр, утас, загвар,
+                   зурвас хангалттай; цаг/салбарыг оператор дуудахдаа тохирно. */
                 showBranchField={false}
                 showDateField={false}
                 showTimeField={false}
@@ -1288,9 +1312,9 @@ function ResponsiveSlideImage({
 }) {
   // alt-ыг spread дотор биш, тус тусад нь бичнэ — a11y linter spread-ийг тандаж
   // чаддаггүй тул ингэснээр "alt байхгүй" гэсэн хуурамч дуудлага гарахгүй.
+  // `sizes` нь common-д БАЙХГҮЙ: хос зурагт салаа тус бүр өөр `sizes` авна.
   const common = {
     fill: true as const,
-    sizes: "100vw",
     placeholder: "blur" as const,
     blurDataURL: BLUR_DATA_URL,
   };
@@ -1301,20 +1325,25 @@ function ResponsiveSlideImage({
         src={src}
         alt={alt}
         {...common}
+        sizes="100vw"
         priority={priority}
         className={containMobile ? "object-contain lg:object-cover" : "object-cover"}
       />
     );
   }
 
-  // Хоёр хувилбар — CSS-ээр нэг нь л харагдана. Далдалсан нь lazy тул браузер
-  // татахгүй; зөвхөн эхний слайд (priority) хоёуланг татна (~30 KB илүү).
+  // Хоёр хувилбар — CSS-ээр нэг нь л харагдана. Next нь `display:none`-ыг
+  // мэдэхгүй тул хоёуланг татах эрсдэлтэй байв (priority слайд дээр ~30 KB
+  // илүү). Нуугдсан салаанд `sizes`-ыг `1px` болгосноор браузер тухайн
+  // breakpoint-т ЗӨВХӨН харагдах хувилбарыг татна (Hero-гийн SlideImage-тэй
+  // ижил заль). `lg` = 1024px тул media query түүнтэй яг таарна.
   return (
     <>
       <Image
         src={srcMobile}
         alt={alt}
         {...common}
+        sizes="(min-width: 1024px) 1px, 100vw"
         priority={priority}
         className="lg:hidden object-cover"
       />
@@ -1322,6 +1351,7 @@ function ResponsiveSlideImage({
         src={src}
         alt={alt}
         {...common}
+        sizes="(min-width: 1024px) 100vw, 1px"
         priority={priority}
         className="hidden lg:block object-cover"
       />
