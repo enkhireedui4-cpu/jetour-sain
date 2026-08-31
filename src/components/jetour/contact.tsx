@@ -236,7 +236,7 @@ export function Footer() {
           {/* Худалдан авахад туслах */}
           <FooterCol title="Худалдан авахад туслах">
             <FooterLink href="/dealer">Дилер олох</FooterLink>
-            <FooterLink href="/#dealer">Туршилтын жолоодлого</FooterLink>
+            <FooterLink href="/info-request?type=test-drive">Туршилтын жолоодлого</FooterLink>
           </FooterCol>
 
           {/* JETOUR-ийн тухай */}

@@ -32,7 +32,7 @@ const NAV_LINKS: NavItem[] = [
     label: "Худалдан авагчдад",
     type: "dropdown",
     items: [
-      { label: "Туршилтын жолоодлого", href: "/#dealer", type: "anchor" },
+      { label: "Туршилтын жолоодлого", href: "/info-request?type=test-drive", type: "route" },
       { label: "Үйлчилгээ ба баталгаа", href: "/owners", type: "route" },
     ],
   },

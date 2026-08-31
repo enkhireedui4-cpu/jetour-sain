@@ -5,15 +5,14 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BLUR_DATA_URL } from "@/lib/image";
 import { useDragSwipe } from "@/hooks/use-drag";
-import { cyclicOffset, slideJumped } from "@/lib/slider";
+import { arrowKeyNav, cyclicOffset, slideJumped } from "@/lib/slider";
 
 type Props = {
   images: string[];
   alt: string;
-  accent: "red" | "blue";
 };
 
-export function Gallery({ images, alt, accent }: Props) {
+export function Gallery({ images, alt }: Props) {
   /** Одоогийн ба өмнөх зураг — өмнөхийг циклийн "үсрэлт"-ийг илрүүлэхэд хэрэглэнэ */
   const [nav, setNav] = useState({ active: 0, from: 0 });
   const { active, from } = nav;
@@ -44,7 +43,7 @@ export function Gallery({ images, alt, accent }: Props) {
     return () => clearInterval(t);
   }, [next, paused, images.length]);
 
-  const accentColor = accent === "red" ? "#E20A17" : "#E20A17";
+  const accentColor = "#E20A17";
 
   /* Чирэх явцын шилжилт — зураг хуруу дагаж хөдөлнө, тавихад байрандаа суана */
   const [dragDx, setDragDx] = useState(0);
@@ -59,6 +58,17 @@ export function Gallery({ images, alt, accent }: Props) {
     onMove: setDragDx,
   });
 
+  /* Гарын жолоодлого — сум/цэг рүү фокуслаад ←/→ дарахад зураг солигдоно,
+     Home/End нь эхний/сүүлийн зураг руу үсэрнэ (Hero, Models слайдертай
+     ижил хэв). Товчлуурын keydown нь энэ саванд бөмбөрч дээрх зохицуулагчид
+     хүрнэ — глобал сумыг булаахгүй (зөвхөн энэ галерейд фокустай үед). */
+  const onKeyDown = arrowKeyNav({
+    next,
+    prev,
+    first: () => setNav((s) => ({ active: 0, from: s.active })),
+    last: () => setNav((s) => ({ active: images.length - 1, from: s.active })),
+  });
+
   return (
     <div
       className={`relative aspect-[16/10] rounded-2xl overflow-hidden bg-white border border-[#E7E7EA] ${
@@ -66,6 +76,7 @@ export function Gallery({ images, alt, accent }: Props) {
       }`}
       style={images.length > 1 ? swipe.style : undefined}
       {...(images.length > 1 ? swipe.handlers : {})}
+      onKeyDown={images.length > 1 ? onKeyDown : undefined}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       /* Гарын хэрэглэгч Tab-аар сум/цэг рүү ормогц зогсоно. Өмнө нь зөвхөн
@@ -148,20 +159,28 @@ export function Gallery({ images, alt, accent }: Props) {
         </>
       )}
 
-      {/* Bottom progress dots */}
+      {/* Bottom progress dots — харагдах зурвас нимгэн ч ХҮРЭЛТИЙН бай нь
+          ≥24px (WCAG 2.5.8). Товч нь тунгалаг hit-area, дотор нь өнгөт зурвас —
+          padding нь өнгийг тархаахгүйгээр байг томсгоно. */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-0.5 z-10">
           {images.map((_, i) => (
             <button
               key={i}
+              type="button"
               onClick={() => setNav((s) => ({ active: i, from: s.active }))}
-              className="h-1.5 rounded-full transition-all"
-              style={{
-                width: i === active ? "28px" : "8px",
-                background: i === active ? accentColor : "rgba(255,255,255,0.5)",
-              }}
+              className="grid place-items-center h-6 w-7"
               aria-label={`Зураг ${i + 1}`}
-            />
+              aria-current={i === active ? "true" : undefined}
+            >
+              <span
+                className="block h-1.5 rounded-full transition-[width,background-color] duration-300"
+                style={{
+                  width: i === active ? "24px" : "8px",
+                  background: i === active ? accentColor : "rgba(255,255,255,0.5)",
+                }}
+              />
+            </button>
           ))}
         </div>
       )}
