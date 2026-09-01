@@ -15,7 +15,7 @@ import { openQuickLead } from "@/components/jetour/quick-lead";
  * тул утсан дээр 16:9 зураг өргөнөөсөө 3/4 тайрагддаг. Босоо хувилбартай
  * загварт түүнийг үзүүлнэ; байхгүй бол wide зураг л хэрэглэгдэнэ.
  */
-type Slide = { id: string; name: string; image: string; imageMobile?: string };
+type Slide = { id: string; name: string; image: string; imageMobile?: string; tagline?: string };
 
 // Кино маягийн бүтэн дэлгэцийн зургууд. Зураг нь тухайн загварын хуудасны
 // толгойн зурагтай нэг — нүүр ба дэлгэрэнгүй хуудас хоорондоо тасрахгүй.
@@ -26,12 +26,14 @@ const SLIDES: Slide[] = [
     name: "JETOUR T2 PHEV",
     image: "/models-hero/t2/1.jpg",
     imageMobile: "/models-hero/t2/1-hero.webp",
+    tagline: "Зам бүрд бэлэн. Зардал бүрд ухаалаг.",
   },
   {
     id: "g700",
     name: "JETOUR G700",
     image: "/models/g700/wide/cover.webp",
     imageMobile: "/models/g700/tall/cover.webp",
+    tagline: "Ямар ч зам таныг хязгаарлахгүй.",
   },
 ];
 
@@ -259,7 +261,7 @@ export function Hero() {
           {/* Туслах мөр — доод scrim дээр, гарчиг ба CTA-ийн хооронд. Бүх
               хэмжээнд харагдана: брэндийн уриаг хамгийн олон хэрэглэгчтэй
               утсан дээр ч үзүүлнэ (scrim нь уншигдацыг хангана). */}
-          <p className="hero__sub">Аялал бүрийг тань эрхэмсэг болгоно</p>
+          <p className="hero__sub">{slide.tagline ?? "Аялал бүрийг тань эрхэмсэг болгоно"}</p>
 
           <motion.div
             key={`cta-${active}`}

@@ -51,7 +51,6 @@ export function hasModelSideImage(m: { id: string }): boolean {
 }
 
 type MediaModel = { id: string; heroImage: string };
-type PriceModel = { startingPrice?: string; price?: string | null; priceNote?: string };
 
 /** Цэс/showcase-д тавих зураг. Тусгай асет байхгүй бол hero рүү унана. */
 export function modelCutout(m: MediaModel): string {
@@ -121,23 +120,3 @@ export function modelMetrics(m: SpecsModel): ModelMetric[] {
     .filter((x): x is ModelMetric => x !== null);
 }
 
-/** Тухайн загварт өөрийн cutout асет бий эсэх */
-export function hasModelCutout(m: MediaModel): boolean {
-  return Boolean(MODEL_CUTOUT[m.id]);
-}
-
-/** Цэсэнд харуулах үнэ — "94.9 сая ₮-с эхлэн" / тэмдэглэл / "Тун удахгүй" */
-export function modelMenuPrice(m: PriceModel): string {
-  return m.startingPrice ? `${m.startingPrice}-с эхлэн` : m.priceNote ?? "Тун удахгүй";
-}
-
-/**
- * Showcase-ийн үнэ — товч хэлбэр ("94.9 сая ₮-с").
- * Үнэгүй загварт `null` буцаана; дуудагч талдаа мөрийг нь бүрэн нуух боломжтой.
- */
-export function modelPriceFrom(m: PriceModel): string | null {
-  const raw = m.startingPrice ?? m.price ?? null;
-  if (!raw) return null;
-  // "119.9 сая ₮-с" гэж аль хэдийн бичигдсэн бол давхар дагавар нэмэхгүй
-  return /-с$/.test(raw.trim()) ? raw.trim() : `${raw.trim()}-с`;
-}

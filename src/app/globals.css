@@ -476,13 +476,17 @@ h1.italic, h2.italic, h3.italic, h4.italic {
   color: #DC0A16;
 }
 
-/* Card hover lift — зөөлөн, бага shadow */
+/* Card hover lift — премиум зөөлөн гүн. Амарч байхад нимгэн нэвчихүүн
+   сүүдэр карт "хөвж" буй мэдрэмж өгнө; hover дээр илүү өргөн, гүн бүрхүүл.
+   Хоёулаа том радиус, бага тунгалагшилтай тул хатуу хайрцаг биш, цэвэр
+   premium харагдана (зураг гол баатар хэвээр). */
 .card-lift {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  box-shadow: 0 1px 2px rgba(23, 24, 27, 0.04), 0 12px 32px -22px rgba(23, 24, 27, 0.18);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
 }
 .card-lift:hover {
   transform: translateY(-6px);
-  box-shadow: 0 22px 50px -28px rgba(23, 24, 27, 0.30);
+  box-shadow: 0 2px 6px rgba(23, 24, 27, 0.05), 0 30px 56px -26px rgba(23, 24, 27, 0.30);
 }
 
 /* Scroll-driven reveal */
@@ -2518,6 +2522,8 @@ input[type="range"].range-jetour::-moz-range-thumb {
   overflow: hidden;
   border-radius: var(--pf-radius);
   background: #F5F5F6;
+  /* Голын том зурагт зөөлөн премиум гүн — тайзнаас "хөвж" гарах мэдрэмж */
+  box-shadow: 0 18px 40px -28px rgba(23, 24, 27, 0.30);
 }
 
 .x50pf__img {
@@ -5618,6 +5624,8 @@ input[type="range"].range-jetour::-moz-range-thumb {
   overflow: hidden;
   border-radius: 14px;
   background: #EDEEF0;
+  /* Зөөлөн премиум гүн — зураг цагаан дэвсгэрээс салж "чанартай" харагдана */
+  box-shadow: 0 12px 30px -22px rgba(23, 24, 27, 0.24);
 }
 
 .nws__img {
