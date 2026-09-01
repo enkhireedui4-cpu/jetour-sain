@@ -1041,8 +1041,8 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               <EnhancedLeadForm
                 type="info-request"
                 variant="white"
-                title="JETOUR-ийн талаар дэлгэрэнгүй мэдээлэл авах"
-                subtitle={`${model.name} — үнэ, үзүүлэлт, дэлгэрэнгүй мэдээлэл`}
+                title="Мэдээлэл авах"
+                subtitle="Манай борлуулалтын зөвлөх таны хүсэлтийг хүлээн авч, 24 цагийн дотор тантай холбогдох болно."
                 modelName={activeVariant ? `${model.name} (${activeVariant.powertrain})` : model.name}
                 showModelField
                 /* type="info-request": энэ бол хуудасны ЕРӨНХИЙ хүсэлтийн форм
