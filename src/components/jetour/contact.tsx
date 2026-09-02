@@ -43,18 +43,28 @@ export function Footer() {
                 <p className="text-white/55 mb-1">Шоурум:</p>
                 <p className="text-white font-bold leading-snug">{CONTACT.addressShort}</p>
               </div>
-              {CONTACT.serviceAddress && (
-                <div>
-                  <p className="text-white/55 mb-1">Үйлчилгээний төв:</p>
-                  <p className="text-white font-bold leading-snug">{CONTACT.serviceAddress}</p>
-                </div>
-              )}
               <div>
-                <p className="text-white/55 mb-1">Утас:</p>
+                <p className="text-white/55 mb-1">Борлуулалт:</p>
                 <a href={CONTACT.phone1Href} className="text-white font-bold tabular-nums hover:text-[#E20A17] transition-colors">
                   {CONTACT.phone1}
                 </a>
               </div>
+              {CONTACT.serviceAddress && (
+                <div>
+                  <p className="text-white/55 mb-1">Үйлчилгээний төв:</p>
+                  <p className="text-white font-bold leading-snug">{CONTACT.serviceAddress}</p>
+                  {/* Үйлчилгээний дугаар нь борлуулалтынхаас ӨӨР — хаягийг
+                      дугааргүй бичвэл хүн борлуулалт руу залгаж, дамжуулагдана. */}
+                  {CONTACT.servicePhone && CONTACT.servicePhoneHref && (
+                    <a
+                      href={CONTACT.servicePhoneHref}
+                      className="text-white font-bold tabular-nums hover:text-[#E20A17] transition-colors mt-1 inline-block"
+                    >
+                      {CONTACT.servicePhone}
+                    </a>
+                  )}
+                </div>
+              )}
               {/* «Дуудлагын төв» + дугаар хасав — яг тэр дугаар дээрх
                   холбоо барих картад бий, мөн хөвөгч улаан товчинд бий. */}
               <div>

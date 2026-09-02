@@ -7,6 +7,8 @@ export type Branch = {
   address: string;
   /** Хаягийн товч хэлбэр — карт, footer, breadcrumb-д (бүтэн хаяг хэт урт) */
   addressShort: string;
+  /** Юу хийдэг цэг вэ — байршил сонгогчид нэрийн доор нэг мөрөөр гарна */
+  category: string;
   /** Ойролцоох тэмдэглэгээ — хүн газар олоход хаягаас илүү тус болдог */
   landmark?: string;
   phone1: string;
@@ -45,6 +47,15 @@ export type Branch = {
    * `!1s0x…:0xАБВ` хэсгийн ХОЁРДУГААР hex тоог аравтад хөрвүүлнэ.
    */
   placeCid?: string;
+  /**
+   * Sain Motors-ийн өөрөө хуваалцсан Google Maps холбоос.
+   *
+   * Байвал ХАРАГДАХ «Google Maps дээр нээх» товч түүнийг заана — маркетингийн
+   * материалд тараасан холбоостой ижил байх нь ойлгомжтой. Байхгүй бол
+   * координатаас үүсгэсэн холбоос. JSON-LD-ийн `hasMap` нь ямагт үүсгэсэн
+   * (хугацаа дуусдаггүй) хэлбэрийг хэрэглэнэ.
+   */
+  mapShareLink?: string;
   /** Энэ цэг дээр үзүүлэх үйлчилгээ — хуудас ба JSON-LD хоёулаа үүнийг уншина */
   services: string[];
   city: string;
@@ -67,28 +78,42 @@ function mapUrls(
   const q = encodeURIComponent(query);
   // Координат байвал зүүг яг тэнд буулгана; байхгүй бол нэрээр хайна.
   const point = geo ? `${geo.lat},${geo.lng}` : q;
+  /* Бүртгэл байвал шууд түүн рүү (нэр, цаг, зураг, «Залгах»); эс бөгөөс
+     координат/нэрээр хайлт. */
+  const generated = placeCid
+    ? `https://www.google.com/maps?cid=${placeCid}`
+    : `https://www.google.com/maps/search/?api=1&query=${point}`;
   return {
     mapEmbed: `https://www.google.com/maps?q=${point}&output=embed`,
-    /* Бүртгэл байвал шууд түүн рүү (нэр, цаг, зураг, «Залгах»); эс бөгөөс
-       координат/нэрээр хайлт. */
-    mapLink: placeCid
-      ? `https://www.google.com/maps?cid=${placeCid}`
-      : `https://www.google.com/maps/search/?api=1&query=${point}`,
+    mapLink: generated,
     mapDirections: `https://www.google.com/maps/dir/?api=1&destination=${point}`,
   };
 }
 
-/** Хаягийн мэдээлэлтэй хамт газрын зургийн гурван холбоосыг буцаана */
+/**
+ * Салбарын газрын зургийн холбоосууд.
+ *
+ * `mapLink` — харагдах товчны хаяг: Sain Motors хуваалцсан холбоос байвал
+ * түүнийг, эс бөгөөс үүсгэсэн хаягийг. `mapCanonical` — JSON-LD-д зориулсан
+ * ямагт үүсгэсэн хаяг (богино холбоос хугацаа дуусахад бүтэцтэй өгөгдөл
+ * эвдэрдэггүй байхын тулд).
+ */
 export function branchMap(b: Branch) {
-  return mapUrls(b.mapQuery, b.geo, b.placeCid);
+  const urls = mapUrls(b.mapQuery, b.geo, b.placeCid);
+  return {
+    ...urls,
+    mapCanonical: urls.mapLink,
+    mapLink: b.mapShareLink ?? urls.mapLink,
+  };
 }
 
 export const BRANCHES: Branch[] = [
   {
     id: "chingeltei-holiday-inn",
-    name: "JETOUR — Үндсэн Showroom",
-    nameEn: "JETOUR Main Showroom",
+    name: "SAIN MOTORS SHOWROOM",
+    nameEn: "Sain Motors Showroom",
     type: "all-in-one",
+    category: "Автомашин борлуулалт",
     address:
       "Чингэлтэй дүүрэг, 5-р хороо, Хуучнаар Хүнсний нэгдүгээр дэлгүүр, C1 ТВ-ийн байр, Holiday Inn зочид буудлын урд",
     addressShort: "Чингэлтэй дүүрэг, Holiday Inn-ийн урд",
@@ -135,14 +160,17 @@ export const BRANCHES: Branch[] = [
      * баталгаажаагүй мэдээллийг албан ёсны сайтад бичихгүй.
      */
     id: "service-center-tec4",
-    name: "JETOUR — Үйлчилгээний төв",
+    name: "JETOUR SERVICE CENTER",
     nameEn: "JETOUR Service Center",
     type: "service",
-    address: "ТЭЦ-4-ийн баруун хойно, Sandvik custom service center-ийн хойно",
-    addressShort: "ТЭЦ-4-ийн баруун хойно",
-    landmark: "Sandvik custom service center-ийн хойно",
-    phone1: "7277-8855",
-    phone1Href: "tel:+97672778855",
+    category: "Засвар, үйлчилгээ",
+    address: "ТЭЦ-4-ийн баруун хойд талд, Sandvik Customer Service Center-ийн ард",
+    addressShort: "ТЭЦ-4-ийн баруун хойд талд",
+    landmark: "Sandvik Customer Service Center-ийн ард",
+    /* Үйлчилгээний ТУСДАА дугаар — showroom-ынхаас (7277-8855) өөр.
+       `tel:` нь Sain Motors-ийн заасан хэлбэрээр (дотоодын дугаар). */
+    phone1: "7010-8855",
+    phone1Href: "tel:70108855",
     email: "marketing2@esain.mn",
     hoursWeekday: "09:00 – 20:00",
     hoursSaturday: "10:00 – 18:00",
@@ -154,6 +182,9 @@ export const BRANCHES: Branch[] = [
      * Богино холбоос нь хугацаа дуусахад үхдэг тул тоог нь энд бэхэлж авав.
      */
     geo: { lat: 47.897841, lng: 106.796819 },
+    /* Sain Motors-ийн тараадаг холбоос — харагдах товч түүнийг заана.
+       Координатыг мөн үүнээс задалж авсан тул хоёр нь ижил цэг. */
+    mapShareLink: "https://maps.app.goo.gl/rUZwthMCfSeAVWZZ9",
     services: [
       "Баталгаат засвар үйлчилгээ",
       "Тогтмол үзлэг, тос сэлбэлт",
@@ -194,6 +225,8 @@ export const CONTACT = {
   /* Үйлчилгээний төв — footer болон холбоо барих хэсэгт showroom-оос
      ТУСАД нь харуулна. Байхгүй бол UI нь мөрөө огт гаргахгүй. */
   serviceAddress: SERVICE_BRANCH?.address,
+  servicePhone: SERVICE_BRANCH?.phone1,
+  servicePhoneHref: SERVICE_BRANCH?.phone1Href,
   serviceMap: SERVICE_BRANCH ? branchMap(SERVICE_BRANCH).mapLink : undefined,
   brand: "SAIN MOTORS",
   brandFullName: "Сайн Моторс ХХК",

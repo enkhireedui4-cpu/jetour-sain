@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { MapPin, Navigation, Phone, Clock, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 import { BLUR_DATA_URL } from "@/lib/image";
@@ -10,7 +9,7 @@ import { SERVICE_BRANCH, branchMap } from "@/lib/jetour-data";
 export const metadata: Metadata = {
   title: "Үйлчилгээ ба баталгаа — 3 жил / 100,000 км",
   description:
-    "JETOUR-ийн албан ёсны баталгаа: 3 жил буюу 100,000 км. Хөдөлгүүр ба хүч дамжуулах эд ангийн үйлчилгээ — SAIN MOTORS. Үйлчилгээний төв: ТЭЦ-4-ийн баруун хойно.",
+    "JETOUR-ийн албан ёсны баталгаа: 3 жил буюу 100,000 км. Хөдөлгүүр ба хүч дамжуулах эд ангийн үйлчилгээ — SAIN MOTORS. Үйлчилгээний төв: ТЭЦ-4-ийн баруун хойд талд.",
   alternates: { canonical: "/owners" },
 };
 
@@ -53,6 +52,33 @@ const BLOCKS: Block[] = [
     body:
       "Хөдөлгүүр болон хүч дамжуулах эд ангийн найдвартай ажиллагааг баталгаат хугацааны нөхцөлөөр хангана. Шаардлагатай үзлэг, үйлчилгээг эрх бүхий 4S төвд үйлдвэрлэгчийн стандартын дагуу гүйцэтгэнэ.",
   },
+];
+
+/**
+ * Үйлчилгээний төвийн зураг — БАЙХГҮЙ (`null`).
+ *
+ * Асетын санд сервисийн танхимын зураг байхгүй: `public/showroom/*` зургууд
+ * бүгд борлуулалтын танхимынх. Шоурумын зургийг «үйлчилгээний төв» гэж
+ * тавих нь хэрэглэгчийг төөрөгдүүлнэ — тиймээс тавихгүй.
+ *
+ * Бодит зураг гармагц зөвхөн ЭНД замыг бичнэ (жишээ:
+ * `"/service/workshop-1.webp"`) — хуудас өөрөө зургаа хэрэглэж, доорх
+ * типографик хавтан автоматаар унана. Өөр юу ч засах шаардлагагүй.
+ */
+const SERVICE_IMAGE: string | null = null;
+
+/**
+ * 4S стандартын дөрвөн бүрэлдэхүүн — зураг байхгүй үеийн баруун багана.
+ *
+ * Зохиомол агуулга БИШ: сайт өөрөө «4S стандарт нь Sales (борлуулалт),
+ * Spare parts (сэлбэг), Service (үйлчилгээ), Survey (санал хүсэлт)» гэж
+ * мэдээндээ нийтэлсэн (`src/lib/branches.ts` → NEWS_ARTICLES).
+ */
+const SERVICE_4S = [
+  { en: "Sales", mn: "Борлуулалт" },
+  { en: "Spare parts", mn: "Сэлбэг" },
+  { en: "Service", mn: "Засвар үйлчилгээ" },
+  { en: "Survey", mn: "Санал хүсэлт" },
 ];
 
 /** Гол үзүүлэлт — хуудсанд ЗӨВХӨН эндээ гарна */
@@ -121,87 +147,113 @@ export default function OwnersPage() {
         </section>
       ))}
 
-      {/* Үйлчилгээний төвийн хаяг.
-          Баталгааны талаар уншсан хүний ДАРААГИЙН асуулт нь «хаана авчрах
-          вэ?» — тэр хариултыг өөр хуудас руу шидэхгүй, тэндээ хэлнэ.
+      {/* === Албан ёсны үйлчилгээний төв ================================
+          Баталгааг уншсан хүний ДАРААГИЙН асуулт нь «хаана авчрах вэ?» —
+          хариултыг өөр хуудас руу шидэхгүй, тэндээ хэлнэ.
+
+          Зохиомж нь дээрх `.wrnt` блокуудын ижил хэмнэлээр: 2 багана,
+          зураг баруун талд (`--flip`), 16px радиус, карт/сүүдэр/градиент
+          байхгүй. Улаан нь ЗӨВХӨН eyebrow-ийн хэрчим ба CTA.
+
+          Google Maps-ийг ЭНД embed хийхгүй: Google-ийн UI нь хуудасны
+          типографийн тайван байдлыг эвдэж, гуравдагч эрхийн скрипт нэмнэ.
+          Газрын зураг нь /dealer дээр — энд зөвхөн CTA.
+
           Салбар байхгүй бол блок огт гарахгүй. */}
       {SERVICE_BRANCH && (
-        <section className="section-pad bg-[#F5F5F6]">
-          <div className="container-page">
-            <div className="max-w-[70ch]">
-              <p className="eyebrow mb-3">Үйлчилгээний төв</p>
-              <h2 className="type-h2 text-[#17181B] mb-4">
-                Баталгаат үйлчилгээг хаана авах вэ
-              </h2>
-              <p className="text-[#54585F] text-sm leading-relaxed mb-7">
-                Тогтмол үзлэг, баталгаат засвар, оригинал сэлбэгийг манай
-                үйлчилгээний төв гүйцэтгэнэ. Захиалгаа урьдчилан утсаар
-                хийвэл хүлээх хугацаа багасна.
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-3 gap-6 lg:gap-8 border-t border-[#E7E7EA] pt-7">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#666C77] mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-[11px] tracking-[0.18em] uppercase text-[#666C77] mb-1">
-                    Хаяг
-                  </p>
-                  <p className="text-[#17181B] text-sm leading-snug">
-                    {SERVICE_BRANCH.address}
+        <section className="wrnt wrnt--flip bg-white border-t border-[#EDEEF0]">
+          <div className="container-page wrnt__grid">
+              {/* Баруун багана (DOM-д эхэлж — `--flip` нь `order: 2`-оор
+                  баруун тийш зөөнө; дэлгэц уншигчид зураг → текст гэж
+                  дээрх блокуудтай ижил дараалалд уншина). */}
+              {SERVICE_IMAGE ? (
+                <div className="wrnt__media">
+                  <Image
+                    src={SERVICE_IMAGE}
+                    alt="JETOUR үйлчилгээний төв — засварын танхим"
+                    fill
+                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    placeholder="blur"
+                    blurDataURL={BLUR_DATA_URL}
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                /* Үйлчилгээний төвийн бодит зураг АСЕТЫН САНД БАЙХГҮЙ
+                   (шоурумын 6 зураг бүгд танхимынх). Хоосон хайрцаг тавихын
+                   оронд 4S стандартын дөрвөн бүрэлдэхүүнийг үзүүлнэ — сайт
+                   өөрөө мэдээндээ нийтэлсэн, баталгаатай агуулга.
+                   Зураг ирмэгц `SERVICE_IMAGE`-д зам бичихэд л энэ хавтан
+                   зургаар солигдоно. */
+                <div className="svcloc__panel">
+                  <p className="svcloc__panel-eyebrow">4S стандарт</p>
+                  <ul className="svcloc__panel-list">
+                    {SERVICE_4S.map((s, i) => (
+                      <li key={s.en} className="svcloc__panel-item">
+                        <span className="svcloc__panel-key">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span>
+                          {s.en} — {s.mn}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="svcloc__panel-note">
+                    Борлуулалт, сэлбэг, засвар үйлчилгээ, санал хүсэлт — дөрвүүлээ
+                    нэг стандартын дор.
                   </p>
                 </div>
-              </div>
+              )}
 
-              <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-[#666C77] mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-[11px] tracking-[0.18em] uppercase text-[#666C77] mb-1">
-                    Захиалга
-                  </p>
-                  <a
-                    href={SERVICE_BRANCH.phone1Href}
-                    className="text-[#17181B] text-sm font-bold tabular-nums hover:text-[#E20A17] transition-colors"
-                  >
-                    {SERVICE_BRANCH.phone1}
-                  </a>
+              {/* Зүүн багана — мэдээллийн шатлал:
+                  eyebrow → гарчиг → тайлбар → байршил → утас → CTA */}
+              <div className="wrnt__copy">
+                <p className="wrnt__eyebrow">Албан ёсны үйлчилгээний төв</p>
+                <h2 className="wrnt__title">
+                  Таны JETOUR-д зориулсан мэргэжлийн үйлчилгээ
+                </h2>
+                <p className="wrnt__body">
+                  JETOUR автомашины оношилгоо, засвар үйлчилгээ болон баталгаат
+                  үйлчилгээг үйлдвэрлэгчийн стандартын дагуу мэргэжлийн төвөөс
+                  аваарай.
+                </p>
+
+                <div className="svcloc__meta">
+                  <div>
+                    <p className="svcloc__label">Байршил</p>
+                    <p className="svcloc__value">{SERVICE_BRANCH.address}.</p>
+                  </div>
+
+                  <div>
+                    <p className="svcloc__label" id="svc-phone-label">
+                      Лавлах утас
+                    </p>
+                    {/* `tel:` нь семантик холбоос — хөтөч, дэлгэц уншигч,
+                        мобайл гурвуулаа дуудлага гэж танина. */}
+                    <a
+                      href={SERVICE_BRANCH.phone1Href}
+                      className="svcloc__phone"
+                      aria-describedby="svc-phone-label"
+                    >
+                      {SERVICE_BRANCH.phone1}
+                    </a>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 text-[#666C77] mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-[11px] tracking-[0.18em] uppercase text-[#666C77] mb-1">
-                    Ажлын цаг
-                  </p>
-                  <p className="text-[#17181B] text-sm leading-snug">
-                    Даваа – Баасан: {SERVICE_BRANCH.hoursWeekday}
-                    <br />
-                    Бямба: {SERVICE_BRANCH.hoursSaturday} · Ням:{" "}
-                    {SERVICE_BRANCH.hoursSunday}
-                  </p>
-                </div>
+                <a
+                  href={branchMap(SERVICE_BRANCH).mapLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary-jetour svcloc__cta"
+                >
+                  Google Maps дээр нээх
+                  <ExternalLink className="w-4 h-4" aria-hidden />
+                  {/* Шинэ таб дээр нээгдэхийг дэлгэц уншигчид ХЭЛНЭ —
+                      эс тэгвээс хэрэглэгч контекст солигдсоныг мэдэхгүй. */}
+                  <span className="sr-only">(шинэ хуудсанд нээгдэнэ)</span>
+                </a>
               </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-7">
-              <a
-                href={branchMap(SERVICE_BRANCH).mapDirections}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#E20A17] hover:text-[#17181B] transition-colors"
-              >
-                <Navigation className="w-4 h-4" />
-                Замын заавар авах
-              </a>
-              <Link
-                href="/dealer"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-on-grey hover:text-[#17181B] transition-colors"
-              >
-                Бүх байршил, газрын зураг
-                <ExternalLink className="w-3.5 h-3.5" />
-              </Link>
-            </div>
           </div>
         </section>
       )}

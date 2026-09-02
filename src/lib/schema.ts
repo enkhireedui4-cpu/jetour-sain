@@ -96,14 +96,21 @@ function geoNode(b: Branch): Node | undefined {
     : undefined;
 }
 
-/** Салбарын нийтлэг талбарууд — showroom, үйлчилгээний төв хоёуланд */
+/**
+ * Салбарын нийтлэг талбарууд — showroom, үйлчилгээний төв хоёуланд.
+ *
+ * `name`-ыг ЗӨВХӨН дуудагч тавина. Өмнө нь энд байсан тул дилерийн зангилаанд
+ * spread хийхэд бизнесийн нэрийг («JETOUR Mongolia — SAIN MOTORS») салбарын
+ * шошгоор дарж, Google-д «JETOUR — Үндсэн Showroom» гэж очиж байв.
+ *
+ * `hasMap` нь `mapCanonical` — богино холбоос биш үүсгэсэн хаяг. Богино
+ * холбоос хугацаа дуусахад бүтэцтэй өгөгдөл эвдрэхгүй.
+ */
 function placeNodeBase(b: Branch): Node {
   return {
-    name: b.name,
-    alternateName: b.nameEn,
     address: postalAddress(b),
     geo: geoNode(b),
-    hasMap: branchMap(b).mapLink,
+    hasMap: branchMap(b).mapCanonical,
     telephone: `+976-${b.phone1}`,
     email: b.email,
     openingHoursSpecification: openingHours(b),
@@ -116,6 +123,8 @@ function serviceNode(b: Branch): Node {
   return {
     "@type": "AutoRepair",
     "@id": `${SITE_URL}#service`,
+    name: b.name,
+    alternateName: b.nameEn,
     ...placeNodeBase(b),
     url: absoluteUrl("/dealer"),
     parentOrganization: { "@id": `${SITE_URL}#dealer` },
@@ -143,6 +152,7 @@ export function dealerGraph(opts: { priceRange?: string } = {}): Node {
     "@type": "AutoDealer",
     "@id": `${SITE_URL}#dealer`,
     name: "JETOUR Mongolia — SAIN MOTORS",
+    alternateName: showroom.name,
     legalName: CONTACT.brandFullName,
     description:
       "JETOUR брэндийн Монгол дахь албан ёсны дистрибьютор. Шинэ автомашины борлуулалт, баталгаат засвар үйлчилгээ, оригинал сэлбэг.",
