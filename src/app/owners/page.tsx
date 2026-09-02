@@ -247,7 +247,7 @@ export default function OwnersPage() {
                   rel="noopener noreferrer"
                   className="btn-primary-jetour svcloc__cta"
                 >
-                  Google Maps дээр нээх
+                  Google Maps
                   <ExternalLink className="w-4 h-4" aria-hidden />
                   {/* Шинэ таб дээр нээгдэхийг дэлгэц уншигчид ХЭЛНЭ —
                       эс тэгвээс хэрэглэгч контекст солигдсоныг мэдэхгүй. */}

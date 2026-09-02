@@ -14,7 +14,8 @@ JETOUR Mongolia (Сайн Моторс ХХК) — Монгол дахь алб�
 
 | Хаана гарах | Юу гарах |
 |---|---|
-| `/dealer` хуудас | Хоёр байршлын карт, газрын зураг, замын заавар |
+| `/dealer` хуудас | Байршил сонгогч (01/02), идэвхтэй байршлын газрын зураг |
+| `/owners` хуудас | Үйлчилгээний төвийн хаяг, утас, Google Maps товч |
 | Сайтын footer (бүх хуудас) | Шоурумын хаяг, үйлчилгээний төвийн хаяг, утас, цаг |
 | JSON-LD (`src/lib/schema.ts`) | `AutoDealer` + `AutoRepair` — хаяг, `geo`, ажлын цаг, `hasMap` |
 
@@ -48,7 +49,7 @@ geo: { lat: 47.897841, lng: 106.796819 },
 
 ### `placeCid` — бүртгэл рүү шууд
 
-`placeCid` байвал «Google Map-аар үзэх» товч нь **бизнесийн бүртгэл** рүү
+`placeCid` байвал «Google Maps» товч нь **бизнесийн бүртгэл** рүү
 (`google.com/maps?cid=…`) орно: нэр, ажлын цаг, зураг, сэтгэгдэл, «Залгах»
 товчтой. Байхгүй бол зөвхөн координат дээр зүү тавьсан хоосон карт гарна.
 
@@ -75,7 +76,6 @@ node -e "console.log(BigInt('0xe052597810a96072').toString())"
 ```
 mapEmbed      https://www.google.com/maps?q=<цэг>&output=embed
 mapLink       https://www.google.com/maps/search/?api=1&query=<цэг>
-mapDirections https://www.google.com/maps/dir/?api=1&destination=<цэг>
 ```
 
 ---

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ExternalLink, Navigation } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { CONTACT, BRANCHES, branchMap, type Branch } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
@@ -92,26 +92,18 @@ function LocationDetail({ branch }: { branch: Branch }) {
         </ul>
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2.5 pt-1">
-        <a
-          href={map.mapDirections}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#E20A17] hover:text-[#17181B] transition-colors"
-        >
-          <Navigation className="w-4 h-4" aria-hidden />
-          Замын заавар авах
-          <span className="sr-only">
-            — {branch.name} (шинэ хуудсанд нээгдэнэ)
-          </span>
-        </a>
+      {/* НЭГ л гадаад холбоос — Google Maps.
+          «Замын заавар авах» -ыг хассан: Google Maps-ын карт дээр «Directions»
+          товч нь өөрөө байдаг тул хоёр холбоос нь нэг ижил зорилгыг хоёр
+          хувилбараар давхардуулж, сонголтын дуугарал үүсгэж байв. */}
+      <div className="pt-1">
         <a
           href={map.mapLink}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-on-grey hover:text-[#17181B] transition-colors"
         >
-          Google Maps дээр нээх
+          Google Maps
           <ExternalLink className="w-3.5 h-3.5" aria-hidden />
           <span className="sr-only">
             — {branch.name} (шинэ хуудсанд нээгдэнэ)

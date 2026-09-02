@@ -21,8 +21,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Нэгдсэн лийд маягт — сайтын гол хөрвөлтийн хуудас (/test-drive-ыг сольсон)
     { url: `${baseUrl}/info-request`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/owners`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    // Баталгааны хуудас — байсаар ирсэн ч sitemap-д ОРООГҮЙ байв
-    { url: `${baseUrl}/owners/warranty`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    /* `/owners/warranty`-г ЭНД НЭМЭХГҮЙ. Тэр хаяг нь `permanentRedirect`-ээр
+       `/owners` руу 308 буцаадаг (агуулга нэгтгэгдсэн). Sitemap-д зөвхөн
+       canonical, индекслэгдэх хаяг байх ёстой — redirect бичвэл Search Console
+       «Page with redirect» гэж тэмдэглэж, sitemap-ийн эрүүл мэнд буурна. */
     { url: `${baseUrl}/brand`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     // Шоурум/үйлчилгээний төвийн хаяг — орон нутгийн хайлтын гол буух хуудас
     { url: `${baseUrl}/dealer`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
