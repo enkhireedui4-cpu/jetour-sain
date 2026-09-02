@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Facebook, Instagram, Youtube, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 import { CONTACT, SHOWROOM_HOURS } from "@/lib/jetour-data";
 
 type PublicModel = { id: string; name: string };
@@ -82,7 +82,6 @@ export function Footer() {
           <div className="flex items-center gap-6">
             {[
               { href: CONTACT.instagram, Icon: Instagram, label: "Instagram" },
-              { href: CONTACT.whatsapp, Icon: MessageCircle, label: "WhatsApp" },
               { href: CONTACT.youtube, Icon: Youtube, label: "YouTube" },
               { href: CONTACT.facebook, Icon: Facebook, label: "Facebook" },
             ].map(({ href, Icon, label }) => (

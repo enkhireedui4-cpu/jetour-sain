@@ -91,7 +91,7 @@ const JSON_LD = {
   sameAs: [
     "https://www.facebook.com/Sainmotors.mn",
     "https://www.instagram.com/sainmotors.mn/",
-    "https://www.youtube.com/@SainMotors",
+    "https://www.youtube.com/@SainMotorsLLC",
   ],
   brand: { "@type": "Brand", name: "JETOUR" },
 };
