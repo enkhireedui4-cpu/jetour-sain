@@ -279,7 +279,7 @@ export function Hero() {
               onClick={openQuickLead}
               className="hero__btn hero__btn--red"
             >
-              Хүсэлт үлдээх
+              Мэдээлэл авах
               <ArrowRight size={15} aria-hidden />
             </button>
             <Link href={`/models/${slide.id}`} className="hero__btn hero__btn--ghost">
