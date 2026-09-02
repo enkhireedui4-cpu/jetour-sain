@@ -5,6 +5,10 @@ export type Branch = {
   nameEn: string;
   type: "showroom" | "service" | "parts" | "all-in-one";
   address: string;
+  /** Хаягийн товч хэлбэр — карт, footer, breadcrumb-д (бүтэн хаяг хэт урт) */
+  addressShort: string;
+  /** Ойролцоох тэмдэглэгээ — хүн газар олоход хаягаас илүү тус болдог */
+  landmark?: string;
   phone1: string;
   phone1Href: string;
   phone2?: string;
@@ -12,15 +16,53 @@ export type Branch = {
   email: string;
   hoursWeekday: string;
   hoursSaturday: string;
+  /** Амарна гэвэл "Амарна" гэж бич — schema-д хаалттай өдөр болж буудна */
   hoursSunday: string;
-  // Google Maps — «Sain Motors-Сайн Моторс-Jetour» бодит бүртгэл рүү.
-  // Өмнө нь «Holiday Inn» гэж хайдаг байсан нь ЗӨВХӨН хаягийн чиглүүлэг тул
-  // зүүг буудал дээр тавьдаг байв. Хуучин rb.gy богино холбоос 403 буцаадаг.
-  mapEmbed: string;
-  mapLink: string;
+  /**
+   * Google Maps дээр ЭНЭ цэгийг олох хайлтын мөр.
+   *
+   * `mapEmbed`/`mapLink`/`mapDirections` гурвуулаа ҮҮНЭЭС үүснэ — гурвыг
+   * гараар бичихээ больсон шалтгаан: өмнө нь embed нь нэг газрыг, линк нь
+   * өөр газрыг заадаг байсан (embed «Holiday Inn» дээр зүү тавьдаг байв).
+   */
+  mapQuery: string;
+  /**
+   * Байршлын яг координат (Google Business Profile-оос авна).
+   *
+   * ЗОХИОХГҮЙ. Байхгүй үед зураг нь `mapQuery`-гээр хайж харуулна — цэг нь
+   * ойролцоо, гэхдээ буруу тоо биш. Бодит утга орж ирмэгц зураг ч, JSON-LD ч
+   * (geo) хоёулаа нэг дор нарийсна.
+   */
+  geo?: { lat: number; lng: number };
+  /** Энэ цэг дээр үзүүлэх үйлчилгээ — хуудас ба JSON-LD хоёулаа үүнийг уншина */
+  services: string[];
   city: string;
   isPrimary: boolean;
 };
+
+/**
+ * Google Maps-ийн гурван URL — нэг хайлтын мөрнөөс.
+ *
+ * `maps/search/?api=1` ба `maps?q=…&output=embed` хоёр нь албан ёсны, тогтвортой
+ * хэлбэр. Богино холбоос (`maps.app.goo.gl`, `share.google`) хэрэглэхгүй:
+ * тэдгээр нь хугацаа дуусаж, тухайн бүртгэл засагдахад «Dynamic Link Not Found»
+ * болж үхдэг — production сайт дээр үхсэн холбоос нь алдагдсан үйлчлүүлэгч.
+ */
+function mapUrls(query: string, geo?: { lat: number; lng: number }) {
+  const q = encodeURIComponent(query);
+  // Координат байвал зүүг яг тэнд буулгана; байхгүй бол нэрээр хайна.
+  const point = geo ? `${geo.lat},${geo.lng}` : q;
+  return {
+    mapEmbed: `https://www.google.com/maps?q=${point}&output=embed`,
+    mapLink: `https://www.google.com/maps/search/?api=1&query=${point}`,
+    mapDirections: `https://www.google.com/maps/dir/?api=1&destination=${point}`,
+  };
+}
+
+/** Хаягийн мэдээлэлтэй хамт газрын зургийн гурван холбоосыг буцаана */
+export function branchMap(b: Branch) {
+  return mapUrls(b.mapQuery, b.geo);
+}
 
 export const BRANCHES: Branch[] = [
   {
@@ -28,7 +70,10 @@ export const BRANCHES: Branch[] = [
     name: "JETOUR — Үндсэн Showroom",
     nameEn: "JETOUR Main Showroom",
     type: "all-in-one",
-    address: "Чингэлтэй дүүрэг, 5-р хороо, Хуучнаар Хүнсний нэгдүгээр дэлгүүр, C1 ТВ-ийн байр, Holiday Inn зочид буудлын урд",
+    address:
+      "Чингэлтэй дүүрэг, 5-р хороо, Хуучнаар Хүнсний нэгдүгээр дэлгүүр, C1 ТВ-ийн байр, Holiday Inn зочид буудлын урд",
+    addressShort: "Чингэлтэй дүүрэг, Holiday Inn-ийн урд",
+    landmark: "Holiday Inn зочид буудлын урд",
     phone1: "7277-8855",
     phone1Href: "tel:+97672778855",
     phone2: "8910-0274",
@@ -37,13 +82,68 @@ export const BRANCHES: Branch[] = [
     hoursWeekday: "09:00 – 20:00",
     hoursSaturday: "10:00 – 18:00",
     hoursSunday: "11:00 – 16:00",
-    mapEmbed:
-      "https://www.google.com/maps?q=Sain+Motors+Jetour+Ulaanbaatar&output=embed",
-    mapLink: "https://www.google.com/maps/search/?api=1&query=Sain+Motors+Jetour+Ulaanbaatar",
+    /**
+     * «Jetour show room» — Google дээрх БОДИТ бүртгэлийн нэр (Knowledge Graph
+     * id: /g/11y1t7b8by). Өмнө нь "Sain Motors Jetour Ulaanbaatar" гэж
+     * хайдаг байсан нь тэдний бүртгэл БИШ тул зүү санамсаргүй газар буудаг байв.
+     */
+    mapQuery: "Jetour show room, Улаанбаатар",
+    // geo: Google Business Profile-оос яг координатыг авч энд бич —
+    // ЗОХИОХГҮЙ. Байхгүй үед дээрх нэрээр хайж зүү тавина.
+    services: [
+      "Шинэ автомашины борлуулалт",
+      "Туршилтын жолоодлого",
+      "Банкны санхүүжилт, зээлийн зөвлөгөө",
+      "Загвар, тоноглолын танилцуулга",
+    ],
     city: "Улаанбаатар",
     isPrimary: true,
   },
+  {
+    /**
+     * Үйлчилгээний төв — showroom-оос ТУСДАА байршилтай.
+     *
+     * Хаягийг үйлчлүүлэгч өөрөө өгсөн хэлбэрээр нь үлдээв: ТЭЦ-4 ба Sandvik
+     * хоёр нь Улаанбаатарт танигдсан тэмдэглэгээ тул хүн газар олоход
+     * дүүрэг/хорооны дугаараас илүү тус болно. Дүүргийн нэрийг ЗОХИОГООГҮЙ —
+     * баталгаажаагүй мэдээллийг албан ёсны сайтад бичихгүй.
+     */
+    id: "service-center-tec4",
+    name: "JETOUR — Үйлчилгээний төв",
+    nameEn: "JETOUR Service Center",
+    type: "service",
+    address: "ТЭЦ-4-ийн баруун хойно, Sandvik custom service center-ийн хойно",
+    addressShort: "ТЭЦ-4-ийн баруун хойно",
+    landmark: "Sandvik custom service center-ийн хойно",
+    phone1: "7277-8855",
+    phone1Href: "tel:+97672778855",
+    email: "marketing2@esain.mn",
+    hoursWeekday: "09:00 – 20:00",
+    hoursSaturday: "10:00 – 18:00",
+    hoursSunday: "Амарна",
+    mapQuery: "Sandvik custom service center, Улаанбаатар",
+    /**
+     * Үйлчлүүлэгчийн өөрийн тавьсан зүүнээс задарсан координат
+     * (maps.app.goo.gl/rUZwthMCfSeAVWZZ9 → /maps/place/47.897841,106.796819).
+     * Богино холбоос нь хугацаа дуусахад үхдэг тул тоог нь энд бэхэлж авав.
+     */
+    geo: { lat: 47.897841, lng: 106.796819 },
+    services: [
+      "Баталгаат засвар үйлчилгээ",
+      "Тогтмол үзлэг, тос сэлбэлт",
+      "JETOUR оригинал сэлбэг",
+      "Оношилгоо",
+    ],
+    city: "Улаанбаатар",
+    isPrimary: false,
+  },
 ];
+
+/** Showroom (борлуулалт) — үндсэн цэг */
+export const SHOWROOM_BRANCH = BRANCHES.find((b) => b.isPrimary) ?? BRANCHES[0];
+
+/** Үйлчилгээний төв — байхгүй бол `undefined` (UI нь блокоо гаргахгүй) */
+export const SERVICE_BRANCH = BRANCHES.find((b) => b.type === "service");
 
 // Хэрэглэхэд хялбар болгох helper
 export const PRIMARY_BRANCH = BRANCHES.find((b) => b.isPrimary) ?? BRANCHES[0];
@@ -64,7 +164,11 @@ export const CONTACT = {
   instagram: "https://www.instagram.com/sainmotors.mn/",
   youtube: "https://www.youtube.com/@SainMotorsLLC",
   messenger: "https://m.me/Sainmotors.mn",
-  googleMap: PRIMARY_BRANCH.mapLink,
+  googleMap: branchMap(PRIMARY_BRANCH).mapLink,
+  /* Үйлчилгээний төв — footer болон холбоо барих хэсэгт showroom-оос
+     ТУСАД нь харуулна. Байхгүй бол UI нь мөрөө огт гаргахгүй. */
+  serviceAddress: SERVICE_BRANCH?.address,
+  serviceMap: SERVICE_BRANCH ? branchMap(SERVICE_BRANCH).mapLink : undefined,
   brand: "SAIN MOTORS",
   brandFullName: "Сайн Моторс ХХК",
   brandRole: "Албан ёсны дистрибьютор",

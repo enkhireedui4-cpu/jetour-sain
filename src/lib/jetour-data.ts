@@ -11,6 +11,9 @@ export {
   CONTACT,
   BRANCHES,
   PRIMARY_BRANCH,
+  SHOWROOM_BRANCH,
+  SERVICE_BRANCH,
+  branchMap,
   NEWS_ARTICLES,
   SHOWROOM_HOURS,
 } from "./branches";

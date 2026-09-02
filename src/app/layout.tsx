@@ -7,6 +7,8 @@ import { QuickLead } from "@/components/jetour/quick-lead";
 import { MetaPixel } from "@/components/jetour/meta-pixel";
 import { GoogleAnalytics } from "@/components/jetour/google-analytics";
 import { SITE_URL } from "@/lib/site";
+import { dealerGraph } from "@/lib/schema";
+import { JsonLd } from "@/components/jetour/json-ld";
 
 // Нэг font family — Inter. Монгол кирилл (ө, ү, ё) цэвэр, цэгтэй, уншигдахуйц.
 const inter = Inter({
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | JETOUR",
   },
   description:
-    "JETOUR — албан ёсны дистрибьютор Сайн Моторс. X70 Plus, X1, X50, T1 загварууд. Тест драйв, борлуулалт, үйлчилгээ. Утас: 7277-8855, 8910-0274",
+    "JETOUR — Монгол дахь албан ёсны дистрибьютор Сайн Моторс ХХК. X70 Plus, X1, X50, T1, T2 загварууд. Шоурум Чингэлтэй дүүрэгт, үйлчилгээний төв ТЭЦ-4-ийн орчимд. Тест драйв, борлуулалт, баталгаат засвар. Утас: 7277-8855, 8910-0274",
   keywords: [
     /* Хайлтын түлхүүр үг — ХАРАГДАХ бичиг биш. Хүмүүс яг «JETOUR
        Mongolia» гэж хайдаг тул үүнийг хасахгүй. */
@@ -43,10 +45,27 @@ export const metadata: Metadata = {
     "автомашин Улаанбаатар",
     "машин зээл",
     "тест драйв",
+    /* Орон нутгийн хайлт — «хаана байдаг», «засвар» гэсэн санаа. Хүмүүс
+       брэндийн нэрээр төдийгүй хэрэгцээгээрээ хайдаг. */
+    "JETOUR шоурум",
+    "JETOUR үйлчилгээний төв",
+    "JETOUR засвар",
+    "JETOUR сэлбэг",
   ],
   authors: [{ name: "Sain Motors" }],
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
+  /**
+   * Google Search Console — meta tag баталгаажуулалт.
+   *
+   * Утга нь Vercel-ийн орчны хувьсагчаас ирнэ. Тохируулаагүй бол Next нь
+   * тагийг огт гаргахгүй тул локал/preview дээр хог үлдэхгүй. Кодыг дахин
+   * засах шаардлагагүй — env тавиад Redeploy хийхэд л хангалттай.
+   * Заавар: `docs/seo/seo-local.md`.
+   */
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
   openGraph: {
     title: "JETOUR — Албан ёсны дистрибьютор SAIN MOTORS",
     description:
@@ -72,30 +91,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Google-д зориулсан бүтэцтэй өгөгдөл — автомашины дилер
-const JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "AutoDealer",
-  name: "SAIN MOTORS — JETOUR",
-  legalName: "Сайн Моторс ХХК",
-  url: SITE_URL,
-  logo: `${SITE_URL}/logos/sain-motors-black.png`,
-  image: `${SITE_URL}/models-hero/x70-plus.jpg`,
-  telephone: "+976-7277-8855",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Улаанбаатар",
-    addressCountry: "MN",
-    streetAddress: "Чингэлтэй дүүрэг, Holiday Inn",
-  },
-  sameAs: [
-    "https://www.facebook.com/Sainmotors.mn",
-    "https://www.instagram.com/sainmotors.mn/",
-    "https://www.youtube.com/@SainMotorsLLC",
-  ],
-  brand: { "@type": "Brand", name: "JETOUR" },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -113,10 +108,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} antialiased bg-white text-[#17181B]`}
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
-        />
+        {/* Дилер + үйлчилгээний төв + вэбсайт — `src/lib/schema.ts`-ээс.
+            Хаяг, ажлын цаг, координат нь `branches.ts`-ээс шууд ирнэ тул
+            салбарын мэдээлэл зассан газраасаа Google руу дамжина. */}
+        <JsonLd data={dealerGraph()} />
         <a href="#main-content" className="skip-link">
           Үндсэн агуулга руу шилжих
         </a>

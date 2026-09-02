@@ -1,0 +1,166 @@
+# Орон нутгийн SEO — Google Search Console, Maps, бүтэцтэй өгөгдөл
+
+JETOUR Mongolia (Сайн Моторс ХХК) — Монгол дахь албан ёсны дистрибьютор.
+Хэрэглэгч «Jetour Монгол», «Jetour шоурум хаяг», «Jetour засвар» гэж хайдаг.
+Энэ баримт нь тэр хайлтуудад **хаана ямар мэдээлэл**-ээс хариу бүрддэг, түүнийг
+хэн, хэрхэн шинэчлэхийг тайлбарлана.
+
+---
+
+## 1. Мэдээллийн эх сурвалж — `src/lib/branches.ts`
+
+Хаяг, утас, ажлын цаг, координат, үзүүлэх үйлчилгээ — **бүгд ЭНД** бичигдэнэ.
+Дараах бүхэн үүнээс автоматаар үүсдэг:
+
+| Хаана гарах | Юу гарах |
+|---|---|
+| `/dealer` хуудас | Хоёр байршлын карт, газрын зураг, замын заавар |
+| Сайтын footer (бүх хуудас) | Шоурумын хаяг, үйлчилгээний төвийн хаяг, утас, цаг |
+| JSON-LD (`src/lib/schema.ts`) | `AutoDealer` + `AutoRepair` — хаяг, `geo`, ажлын цаг, `hasMap` |
+
+**Хаягийг өөр хаана ч давхардуулж бичихгүй.** Өмнө нь `layout.tsx` дотор хаяг
+хатуу бичигдсэн байсан тул `branches.ts`-ийг зассан ч Google-д хуучин хаяг
+очсоор байв.
+
+### Координат нэмэх / засах
+
+```ts
+// src/lib/branches.ts дотор тухайн салбарт
+geo: { lat: 47.897841, lng: 106.796819 },
+```
+
+Координатыг **зохиохгүй**. Авах зам:
+
+1. Google Maps дээр байршил дээрээ **баруун товшино** → эхний мөрөнд гарах
+   `47.897841, 106.796819` гэсэн тоог хуулна, эсвэл
+2. Google Business Profile → Info → Location.
+
+`geo` байвал газрын зураг зүүг **яг тэнд** буулгаж, JSON-LD-д `GeoCoordinates`
+орно. Байхгүй бол `mapQuery`-гээр (бүртгэлийн нэрээр) хайж харуулна — цэг
+ойролцоо, гэхдээ буруу тоо биш.
+
+**Одоогийн байдал:**
+
+| Салбар | `geo` | Эх сурвалж |
+|---|---|---|
+| Шоурум (Чингэлтэй) | **алга** — `mapQuery: "Jetour show room, Улаанбаатар"` (Google дээрх бодит бүртгэлийн нэр, KG id `/g/11y1t7b8by`) | нэмэх шаардлагатай |
+| Үйлчилгээний төв (ТЭЦ-4) | `47.897841, 106.796819` | Sain Motors-ийн тавьсан зүү |
+
+### Богино холбоос ХЭРЭГЛЭХГҮЙ
+
+`maps.app.goo.gl/…`, `share.google/…` зэрэг богино холбоос нь хугацаа дуусах,
+бүртгэл засагдах үед **үхдэг** (туршиж баталсан: `Dynamic Link Not Found`).
+Тиймээс код нь `branchMap()`-ээр албан ёсны, тогтвортой хэлбэрийг үүсгэнэ:
+
+```
+mapEmbed      https://www.google.com/maps?q=<цэг>&output=embed
+mapLink       https://www.google.com/maps/search/?api=1&query=<цэг>
+mapDirections https://www.google.com/maps/dir/?api=1&destination=<цэг>
+```
+
+---
+
+## 2. Google Search Console (Vercel)
+
+### 2.1 Property нэмэх
+
+GSC → **Add property**. Хоёр сонголт:
+
+| Төрөл | Хамрах хүрээ | Баталгаа |
+|---|---|---|
+| **Domain** (зөвлөж байна) | `jetour.mn` + бүх subdomain, http/https | DNS TXT бичлэг |
+| **URL prefix** | зөвхөн яг тэр хаяг | HTML meta tag ✅ кодод бэлэн |
+
+### 2.2 Meta tag-аар баталгаажуулах (кодод бэлэн)
+
+1. GSC → URL prefix → **HTML tag** сонгоно.
+2. Гарах `<meta name="google-site-verification" content="XXXX" />`-ээс
+   **`content`-ийн утгыг л** хуулна.
+3. Vercel → Project → Settings → **Environment Variables**:
+   - Name: `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`
+   - Value: `XXXX`
+   - Environments: **Production** (Preview-д шаардлагагүй)
+4. **Redeploy** — env хувьсагч нь build үед шингэдэг тул зүгээр хадгалахад
+   хүчин төгөлдөр болохгүй.
+5. GSC → **Verify**.
+
+Тохируулаагүй бол Next нь тагийг огт гаргахгүй (`layout.tsx` дотор нөхцөлтэй) —
+локал ба preview дээр хог үлдэхгүй.
+
+### 2.3 DNS-ээр баталгаажуулах (Domain property)
+
+Домэйны DNS-д GSC өгсөн `TXT` бичлэгийг нэмнэ. Домэйн Vercel дээр байвал:
+Vercel → Domains → тухайн домэйн → **DNS Records** → Add → Type `TXT`,
+Name `@`, Value `google-site-verification=…`. Тархахад 5–60 минут.
+
+### 2.4 Sitemap илгээх
+
+GSC → **Sitemaps** → `sitemap.xml` → Submit.
+
+Sitemap нь `src/app/sitemap.ts` дотор **динамикаар** үүсдэг: статик хуудсууд +
+загвар + тусгай санал + мэдээ. Шинэ загвар admin-аар нэмэхэд sitemap өөрөө
+дагана — гараар засах шаардлагагүй.
+
+`robots.txt` (`src/app/robots.ts`) нь `/admin/`, `/api/`-г хааж, sitemap-ийн
+хаягийг зааж байгаа.
+
+> **Урх:** `NEXT_PUBLIC_SITE_URL` буруу бол canonical, sitemap, OG зураг бүгд
+> буруу домэйн заана. Deploy-ийн өмнө ЗААВАЛ шалга.
+
+---
+
+## 3. Google Business Profile — NAP тууштай байдал
+
+Google нь сайт дээрх хаяг/утас/нэрийг Business Profile-тай **тааруулж** шалгадаг.
+Зөрүү нь орон нутгийн хайлтын дохиог сулруулна. Тиймээс:
+
+- [ ] Бизнесийн нэр: сайт дээрх `JETOUR Mongolia — SAIN MOTORS`-той нийцэж байна уу
+- [ ] Хаяг: `branches.ts` дахь мөртэй **үсэг үсгээр** ижил
+- [ ] Утас: `7277-8855` (нэг үндсэн дугаар — GBP дээр primary болгоно)
+- [ ] Ажлын цаг: Да–Ба 09:00–20:00 · Бя 10:00–18:00 · Ням 11:00–16:00
+      (үйлчилгээний төв: Ням **амарна**)
+- [ ] Категори: *Car dealer* (үндсэн) + *Auto repair shop* (нэмэлт)
+- [ ] Үйлчилгээний төвийг **тусдаа байршил** болгон бүртгэх — өөр хаяг, өөр цаг
+- [ ] Вэбсайтын холбоос: шоурум → `/dealer`, үйлчилгээ → `/dealer`
+- [ ] Зураг: шоурумын бодит фото (`public/showroom/*`) байршуулах
+
+---
+
+## 4. Бүтэцтэй өгөгдөл (JSON-LD)
+
+`src/lib/schema.ts` — **нэг эх сурвалж**. Гурван функц:
+
+| Функц | Хаана | Юу гаргах |
+|---|---|---|
+| `dealerGraph()` | `layout.tsx` (сайт даяар), `/dealer` (үнийн мужтай) | `AutoDealer` + `department: AutoRepair` + `WebSite` |
+| `vehicleSchema(model)` | `/models/[id]` | `Car` + `Offer` (үнэ, MNT, нөөц) |
+| `breadcrumbList(items)` | `/dealer`, `/models/[id]` | `BreadcrumbList` |
+
+Дүрэм: **байхгүй утгыг оруулахгүй.** `prune()` нь `undefined`, хоосон мөр,
+хоосон массивыг гүнзгий цэвэрлэдэг — Google-д хоосон талбар нь алдаа болж,
+rich result-ыг бүхэлд нь унагаадаг.
+
+Мөн **хуурамч үнэлгээ бичихгүй**: `aggregateRating`, `review` нь бодит
+үйлчлүүлэгчийн үнэлгээгүйгээр Google-ийн бодлого зөрчинө (шийтгэл хүртэл).
+
+### Шалгах
+
+- Rich Results Test — https://search.google.com/test/rich-results
+- Schema.org validator — https://validator.schema.org/
+- Шалгах хуудсууд: `/` (дилер), `/dealer` (дилер + үнийн муж + замын мөр),
+  `/models/x70-plus` (машин + үнэ), `/news/<slug>` (нийтлэл)
+- Deploy-ийн дараа GSC → **Enhancements** хэсэгт алдаа гарч байгаа эсэхийг 3–7
+  хоногийн дараа шалгана.
+
+---
+
+## 5. Deploy-ийн дараах дараалал
+
+1. Vercel дээр `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` →
+   Redeploy.
+2. GSC → Verify → Sitemaps → `sitemap.xml` submit.
+3. GSC → URL Inspection → `/dealer` → **Request indexing** (шинэ хуудас биш ч
+   агуулга нь их өөрчлөгдсөн).
+4. Rich Results Test-ээр `/` ба `/dealer`-ыг шалгах.
+5. Google Business Profile дээрх NAP-ыг дээрх шалгах хуудсаар тааруулах.
+6. Шоурумын `geo` координатыг `branches.ts`-д нэмэх.

@@ -35,6 +35,26 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-1">
             <img src="/logos/jetour-white.png" alt="JETOUR" className="h-11 lg:h-12 w-auto" />
             <div className="mt-6 space-y-4 text-sm">
+              {/* Хаяг + утас нь сайтын БҮХ хуудсанд, нэг ижил хэлбэрээр
+                  гарна (NAP тууштай байдал). Орон нутгийн хайлтад Google нь
+                  сайт дээрх хаягийг Business Profile-тай тааруулж шалгадаг
+                  тул зөрүү нь дохиог сулруулна. Дэлгэрэнгүй нь /dealer. */}
+              <div>
+                <p className="text-white/55 mb-1">Шоурум:</p>
+                <p className="text-white font-bold leading-snug">{CONTACT.addressShort}</p>
+              </div>
+              {CONTACT.serviceAddress && (
+                <div>
+                  <p className="text-white/55 mb-1">Үйлчилгээний төв:</p>
+                  <p className="text-white font-bold leading-snug">{CONTACT.serviceAddress}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-white/55 mb-1">Утас:</p>
+                <a href={CONTACT.phone1Href} className="text-white font-bold tabular-nums hover:text-[#E20A17] transition-colors">
+                  {CONTACT.phone1}
+                </a>
+              </div>
               {/* «Дуудлагын төв» + дугаар хасав — яг тэр дугаар дээрх
                   холбоо барих картад бий, мөн хөвөгч улаан товчинд бий. */}
               <div>

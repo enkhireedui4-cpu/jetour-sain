@@ -3,6 +3,8 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { notFound } from "next/navigation";
 import { getAllCarModels, getCarModelById, type CmsCarModel } from "@/lib/cms";
+import { vehicleSchema, breadcrumbList } from "@/lib/schema";
+import { JsonLd } from "@/components/jetour/json-ld";
 import ModelDetailClient from "./model-detail-client";
 
 // ISR — 10 мин (600 сек). Next-ийн segment config нь literal байх ёстой,
@@ -60,24 +62,18 @@ export default async function ModelDetailPage({ params }: Props) {
     notFound();
   }
 
-  // Google-д зориулсан машины бүтэцтэй өгөгдөл
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Car",
-    name: model.name,
-    brand: { "@type": "Brand", name: "JETOUR" },
-    description: model.description,
-    image: model.details.colorImages?.[0]?.image ?? model.heroImage,
-    vehicleTransmission: model.specs?.transmission,
-    seatingCapacity: model.specs?.seats,
-    fuelType: model.specs?.fuel,
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      {/* Машины бүтэцтэй өгөгдөл — үнэ (`offers`), хөдөлгүүр, суудлын тоо
+          зэрэг нь `src/lib/schema.ts` дотор DB-ээс задардаг. Хуучин хувилбар
+          нь үнэгүй байсан тул хайлтын хариултад үнэ гардаггүй байв. */}
+      <JsonLd data={vehicleSchema(model)} />
+      <JsonLd
+        data={breadcrumbList([
+          { name: "Нүүр", path: "/" },
+          { name: "Загварууд", path: "/models" },
+          { name: model.name, path: `/models/${model.id}` },
+        ])}
       />
       <ModelDetailClient model={withExistingBrochure(model)} />
     </>
