@@ -48,7 +48,7 @@ export default function GlobalError({
             Сайт ачаалахад алдаа гарлаа
           </h1>
           <p style={{ margin: "18px 0 0", fontSize: "15px", lineHeight: 1.7, color: "#54585F" }}>
-            Дахин оролдоно уу. Хэвээр байвал 7277-8855 дугаарт холбогдоорой.
+            Дахин оролдоно уу. Хэвээр байвал 7010-8855 дугаарт холбогдоорой.
           </p>
           <div style={{ marginTop: "28px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
             <button
@@ -68,7 +68,7 @@ export default function GlobalError({
               Дахин оролдох
             </button>
             <a
-              href="tel:+97672778855"
+              href="tel:70108855"
               style={{
                 borderRadius: "999px",
                 border: "1px solid #D7D8DC",
@@ -79,7 +79,7 @@ export default function GlobalError({
                 textDecoration: "none",
               }}
             >
-              7277-8855
+              7010-8855
             </a>
           </div>
           {error.digest && (

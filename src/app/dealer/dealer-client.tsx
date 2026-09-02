@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { CONTACT, BRANCHES, branchMap, type Branch } from "@/lib/jetour-data";
 import { Navbar } from "@/components/jetour/navbar";
@@ -92,10 +93,9 @@ function LocationDetail({ branch }: { branch: Branch }) {
         </ul>
       </div>
 
-      {/* НЭГ л гадаад холбоос — Google Maps.
-          «Замын заавар авах» -ыг хассан: Google Maps-ын карт дээр «Directions»
-          товч нь өөрөө байдаг тул хоёр холбоос нь нэг ижил зорилгыг хоёр
-          хувилбараар давхардуулж, сонголтын дуугарал үүсгэж байв. */}
+      {/* НЭГ л гадаад холбоос. Товчны бичиг нь салбараас ирнэ: шоурумд
+          «Байршил харах», сервис төвд «Google Maps дээр харах» — хэрэглэгч
+          дарахаасаа өмнө хаана хүрэхээ мэднэ. */}
       <div className="pt-1">
         <a
           href={map.mapLink}
@@ -103,7 +103,7 @@ function LocationDetail({ branch }: { branch: Branch }) {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-on-grey hover:text-[#17181B] transition-colors"
         >
-          Google Maps
+          {branch.mapLabel}
           <ExternalLink className="w-3.5 h-3.5" aria-hidden />
           <span className="sr-only">
             — {branch.name} (шинэ хуудсанд нээгдэнэ)
@@ -152,21 +152,28 @@ export function DealerClient() {
           `section-pad-sm`-ийн `padding-block` нь Tailwind-ийн `pt-*`-ыг
           дийлдэг тул тэр класс хэрэглэхгүй. */}
       <h1 className="sr-only">
-        JETOUR шоурум ба үйлчилгээний төв — SAIN MOTORS, Монгол дахь албан ёсны дистрибьютор
+        JETOUR Шоурум ба Сервис төв — SAIN MOTORS, Монгол дахь албан ёсны дистрибьютор
       </h1>
 
       {/* === Байршил сонгогч — ЗӨВХӨН НЭГ газрын зураг ================== */}
       <section className="bg-white pt-24 lg:pt-32 pb-9 lg:pb-12">
         <div className="container-page">
           <div className="mb-8 lg:mb-10">
-            <p className="eyebrow mb-3">Байршил</p>
-            <h2 className="type-h2 text-[#17181B]">
-              Борлуулалт ба үйлчилгээ
-            </h2>
+            <p className="eyebrow mb-3">Албан ёсны байршил</p>
+            <h2 className="type-h2 text-[#17181B]">Шоурум ба Сервис төв</h2>
             <p className="text-[#54585F] text-sm leading-relaxed mt-3 max-w-[62ch]">
-              Шинэ автомашин сонгох, туршиж үзэхийг шоурумд; баталгаат засвар,
-              тогтмол үзлэг, оригинал сэлбэгийг үйлчилгээний төвд гүйцэтгэнэ.
+              Шинэ автомашин сонгох, тест драйв хийхийг шоурумд; баталгаат
+              засвар, тогтмол үзлэг, оригинал сэлбэгийг сервис төвд гүйцэтгэнэ.
             </p>
+
+            {/* Хуудасны үндсэн үйлдэл. Товч нь дарахад ЯГ ЮУ болохыг хэлнэ —
+                «Бидэнтэй холбогдох» гэсэн ерөнхий хэллэгээс тодорхой. */}
+            <Link
+              href="/info-request?type=test-drive"
+              className="btn-primary-jetour svcloc__cta"
+            >
+              Үзлэг / Тест драйв захиалах
+            </Link>
           </div>
 
           <div className="locsel">
@@ -185,13 +192,12 @@ export function DealerClient() {
                       aria-pressed={i === activeLoc}
                       onClick={() => setActiveLoc(i)}
                     >
-                      <span className="locsel__index">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="locsel__name block">{b.name}</span>
-                        <span className="locsel__cat block">{b.category}</span>
-                      </span>
+                      {/* Дугаарлалт (01/02) хасагдав: хоёр байршил нь
+                          дараалал БИШ, өөр өөр зориулалт. Дугаар уншигчид
+                          юу ч хэлдэггүй; «Борлуулалт · Тест драйв» гэсэн
+                          функцийн мөр нь шууд хэлнэ. */}
+                      <span className="locsel__name block">{b.name}</span>
+                      <span className="locsel__cat block">{b.category}</span>
                     </button>
                   </li>
                 ))}

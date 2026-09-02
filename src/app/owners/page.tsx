@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
@@ -241,18 +242,29 @@ export default function OwnersPage() {
                   </div>
                 </div>
 
-                <a
-                  href={branchMap(SERVICE_BRANCH).mapLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary-jetour svcloc__cta"
-                >
-                  Google Maps
-                  <ExternalLink className="w-4 h-4" aria-hidden />
-                  {/* Шинэ таб дээр нээгдэхийг дэлгэц уншигчид ХЭЛНЭ —
-                      эс тэгвээс хэрэглэгч контекст солигдсоныг мэдэхгүй. */}
-                  <span className="sr-only">(шинэ хуудсанд нээгдэнэ)</span>
-                </a>
+                {/* Хоёр үйлдэл, тодорхой шатлалтай: гол нь үйлчилгээ
+                    захиалах (улаан), хажууд нь байршил харах (нам гүм).
+                    Хоёуланг улаан болговол аль нь гол болохыг хэлэхгүй. */}
+                <div className="svcloc__actions">
+                  <Link
+                    href="/info-request?type=test-drive"
+                    className="btn-primary-jetour svcloc__cta"
+                  >
+                    Үзлэг / Тест драйв захиалах
+                  </Link>
+                  <a
+                    href={branchMap(SERVICE_BRANCH).mapLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="svcloc__link"
+                  >
+                    {SERVICE_BRANCH.mapLabel}
+                    <ExternalLink className="w-3.5 h-3.5" aria-hidden />
+                    {/* Шинэ хуудсанд нээгдэхийг дэлгэц уншигчид ХЭЛНЭ —
+                        эс тэгвээс хэрэглэгч контекст солигдсоныг мэдэхгүй. */}
+                    <span className="sr-only">(шинэ хуудсанд нээгдэнэ)</span>
+                  </a>
+                </div>
               </div>
           </div>
         </section>

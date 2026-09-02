@@ -7,7 +7,14 @@ export type Branch = {
   address: string;
   /** Хаягийн товч хэлбэр — карт, footer, breadcrumb-д (бүтэн хаяг хэт урт) */
   addressShort: string;
-  /** Юу хийдэг цэг вэ — байршил сонгогчид нэрийн доор нэг мөрөөр гарна */
+  /**
+   * Энэ цэг ЮУ хийдэг вэ — нэрийн доор нэг мөрөөр гарна
+   * («Борлуулалт · Тест драйв · Зөвлөгөө»).
+   *
+   * Байршил сонгогчид дугаарлалтын (01/02) ОРОНД үүнийг харуулна: хоёр
+   * байршил нь дараалал биш, өөр өөр ЗОРИУЛАЛТ юм. Дугаар нь уншигчид
+   * ямар ч мэдээлэл өгдөггүй, харин функц нь шууд өгдөг.
+   */
   category: string;
   /** Ойролцоох тэмдэглэгээ — хүн газар олоход хаягаас илүү тус болдог */
   landmark?: string;
@@ -56,6 +63,15 @@ export type Branch = {
    * (хугацаа дуусдаггүй) хэлбэрийг хэрэглэнэ.
    */
   mapShareLink?: string;
+  /**
+   * Газрын зургийн товчны бичиг.
+   *
+   * Хоёр байршилд ЯЛГААТАЙ: шоурумд «Байршил харах» (хуудсан дээрх зураг
+   * дээр харуулна гэсэн санаа), сервис төвд «Google Maps дээр харах»
+   * (Google-ийн бүртгэл рүү шууд гарна). Хэрэглэгч товч дарахаасаа өмнө
+   * хаана хүрэхээ мэдэж байх ёстой.
+   */
+  mapLabel: string;
   /** Энэ цэг дээр үзүүлэх үйлчилгээ — хуудас ба JSON-LD хоёулаа үүнийг уншина */
   services: string[];
   city: string;
@@ -108,43 +124,46 @@ export function branchMap(b: Branch) {
 
 export const BRANCHES: Branch[] = [
   {
-    id: "chingeltei-holiday-inn",
-    name: "SAIN MOTORS SHOWROOM",
-    nameEn: "Sain Motors Showroom",
+    id: "showroom-zaluus",
+    name: "JETOUR Шоурум",
+    nameEn: "JETOUR Showroom",
     type: "all-in-one",
-    category: "Автомашин борлуулалт",
+    category: "Борлуулалт · Тест драйв · Зөвлөгөө",
+    /* «Энх тайвны өргөн чөлөө» — зөв бичлэг нь ХОЁР үг, «тайвны» (тайваны
+       биш). Зөв бичгийн шалгагч барьсан; албан ёсны сайтад хаягийн бичлэг
+       зөв байх нь Google Business Profile-тай тааруулахад ч чухал. */
     address:
-      "Чингэлтэй дүүрэг, 5-р хороо, Хуучнаар Хүнсний нэгдүгээр дэлгүүр, C1 ТВ-ийн байр, Holiday Inn зочид буудлын урд",
-    addressShort: "Чингэлтэй дүүрэг, Holiday Inn-ийн урд",
-    landmark: "Holiday Inn зочид буудлын урд",
-    phone1: "7277-8855",
-    phone1Href: "tel:+97672778855",
-    phone2: "8910-0274",
-    phone2Href: "tel:+97689100274",
+      "Баянзүрх дүүрэг, 26-р хороо, Энх тайвны өргөн чөлөө, Залуус хотхоны зүүн талд",
+    addressShort: "Баянзүрх дүүрэг, Залуус хотхоны зүүн талд",
+    landmark: "Залуус хотхоны зүүн талд",
+    phone1: "7010-8855",
+    phone1Href: "tel:70108855",
     email: "marketing2@esain.mn",
+    /* Даваа – Ням: нэг ижил цаг. Гурван талбарыг ижил утгаар бөглөх нь
+       schema-д долоо хоногийн бүх өдрийг зөв бүртгэхэд шаардлагатай. */
     hoursWeekday: "09:00 – 20:00",
-    hoursSaturday: "10:00 – 18:00",
-    hoursSunday: "11:00 – 16:00",
+    hoursSaturday: "09:00 – 20:00",
+    hoursSunday: "09:00 – 20:00",
+    mapQuery: "Залуус хотхон, Энх тайвны өргөн чөлөө, Улаанбаатар",
     /**
-     * Google дээрх бүртгэлийн нэр. Зөвхөн `geo` байхгүй үеийн нөөц зам —
-     * координат байгаа тул бодитоор хэрэглэгдэхгүй, гэхдээ бүртгэл солигдвол
-     * хаанаас хайхыг заасан хэвээр байна.
+     * `geo` ба `placeCid` ЗОРИУДААР ХООСОН.
+     *
+     * Өмнө нь энд Чингэлтэй/Holiday Inn-ийн координат (47.9210074,
+     * 106.9015123) ба тэр байршлын Google бүртгэлийн cid байсан. Шоурум нь
+     * Баянзүрх, Залуус хотхонд болсон тул тэр тоонууд ОДОО БУРУУ — хаяг нь
+     * Залуус гэж бичээд зүүг Holiday Inn дээр буулгах нь хэрэглэгчийг өөр
+     * дүүрэг руу явуулна. Зохиосон координат бичихээс хайлтын мөрөөр
+     * үзүүлэх нь дээр.
+     *
+     * Залуус хотхоны шоурумын яг координат/Google бүртгэл ирмэгц энд
+     * `geo: { lat, lng }` (+ шаардлагатай бол `placeCid`) нэмнэ.
      */
-    mapQuery: "Sain Motors-Сайн Моторс-Jetour, Улаанбаатар",
-    /**
-     * Sain Motors-ийн өгсөн холбоосоос задарсан бодит координат
-     * (rb.gy/xji02i → maps/place/Sain+Motors-Сайн+Моторс-Jetour/…!3d47.9210074!4d106.9015123).
-     * Holiday Inn-ээс 250 м — «буудлын урд» гэсэн хаягтай тохирч байгааг
-     * тооцоолж шалгасан.
-     */
-    geo: { lat: 47.9210074, lng: 106.9015123 },
-    /** 0xe052597810a96072 → аравтад. «Google Maps» товч нь бүртгэл рүү орно. */
-    placeCid: "16164080384796614770",
+    mapLabel: "Байршил харах",
     services: [
       "Шинэ автомашины борлуулалт",
-      "Туршилтын жолоодлого",
+      "Тест драйв",
       "Банкны санхүүжилт, зээлийн зөвлөгөө",
-      "Загвар, тоноглолын танилцуулга",
+      "Загвар, тоноглолын зөвлөгөө",
     ],
     city: "Улаанбаатар",
     isPrimary: true,
@@ -159,20 +178,23 @@ export const BRANCHES: Branch[] = [
      * баталгаажаагүй мэдээллийг албан ёсны сайтад бичихгүй.
      */
     id: "service-center-tec4",
-    name: "JETOUR SERVICE CENTER",
-    nameEn: "JETOUR Service Center",
+    name: "JETOUR Албан ёсны баталгаат сервис төв",
+    nameEn: "JETOUR Authorized Service Center",
     type: "service",
-    category: "Засвар, үйлчилгээ",
-    address: "ТЭЦ-4-ийн баруун хойд талд, Sandvik Customer Service Center-ийн ард",
-    addressShort: "ТЭЦ-4-ийн баруун хойд талд",
+    category: "Засвар үйлчилгээ · Баталгаа · Техникийн зөвлөгөө",
+    address:
+      "Хан-Уул дүүрэг, ТЭЦ-4-ийн баруун хойно, Sandvik Customer Service Center-ийн ард",
+    addressShort: "Хан-Уул дүүрэг, ТЭЦ-4-ийн баруун хойно",
     landmark: "Sandvik Customer Service Center-ийн ард",
-    /* Үйлчилгээний ТУСДАА дугаар — showroom-ынхаас (7277-8855) өөр.
-       `tel:` нь Sain Motors-ийн заасан хэлбэрээр (дотоодын дугаар). */
+    /* `tel:` нь Sain Motors-ийн заасан хэлбэрээр (дотоодын дугаар). */
     phone1: "7010-8855",
     phone1Href: "tel:70108855",
     email: "marketing2@esain.mn",
-    hoursWeekday: "09:00 – 20:00",
-    hoursSaturday: "10:00 – 18:00",
+    /* Сервисийн цаг нь шоурумынхаас БАГА: Да–Ба 18:00 хүртэл, Бямба 15:00
+       хүртэл, Ням амарна. «Амарна» гэсэн мөрийг schema нь хаалттай өдөр
+       болгож буудна. */
+    hoursWeekday: "09:00 – 18:00",
+    hoursSaturday: "10:00 – 15:00",
     hoursSunday: "Амарна",
     mapQuery: "Sandvik custom service center, Улаанбаатар",
     /**
@@ -184,6 +206,7 @@ export const BRANCHES: Branch[] = [
     /* Sain Motors-ийн тараадаг холбоос — харагдах товч түүнийг заана.
        Координатыг мөн үүнээс задалж авсан тул хоёр нь ижил цэг. */
     mapShareLink: "https://maps.app.goo.gl/rUZwthMCfSeAVWZZ9",
+    mapLabel: "Google Maps дээр харах",
     services: [
       "Баталгаат засвар үйлчилгээ",
       "Тогтмол үзлэг, тос сэлбэлт",
@@ -212,7 +235,7 @@ export const CONTACT = {
   phone2Href: PRIMARY_BRANCH.phone2Href ?? PRIMARY_BRANCH.phone1Href,
   email: PRIMARY_BRANCH.email,
   address: PRIMARY_BRANCH.address,
-  addressShort: "Чингэлтэй, Holiday Inn",
+  addressShort: PRIMARY_BRANCH.addressShort,
   hoursWeekday: `Даваа – Баасан: ${PRIMARY_BRANCH.hoursWeekday}`,
   hoursSaturday: `Бямба: ${PRIMARY_BRANCH.hoursSaturday}`,
   hoursSunday: `Ням: ${PRIMARY_BRANCH.hoursSunday}`,
@@ -224,8 +247,7 @@ export const CONTACT = {
   /* Үйлчилгээний төв — footer болон холбоо барих хэсэгт showroom-оос
      ТУСАД нь харуулна. Байхгүй бол UI нь мөрөө огт гаргахгүй. */
   serviceAddress: SERVICE_BRANCH?.address,
-  servicePhone: SERVICE_BRANCH?.phone1,
-  servicePhoneHref: SERVICE_BRANCH?.phone1Href,
+  serviceAddressShort: SERVICE_BRANCH?.addressShort,
   serviceMap: SERVICE_BRANCH ? branchMap(SERVICE_BRANCH).mapLink : undefined,
   brand: "SAIN MOTORS",
   brandFullName: "Сайн Моторс ХХК",

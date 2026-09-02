@@ -10,15 +10,15 @@ import { SHOWROOM_BRANCH, SERVICE_BRANCH } from "@/lib/jetour-data";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "Шоурум ба үйлчилгээний төв — хаяг, байршил",
-  description: `JETOUR-ийн Монгол дахь албан ёсны дистрибьютор SAIN MOTORS. Шоурум: ${SHOWROOM_BRANCH.addressShort}. Үйлчилгээний төв: ${
+  title: "Шоурум ба Сервис төв — хаяг, байршил",
+  description: `JETOUR-ийн Монгол дахь албан ёсны дистрибьютор SAIN MOTORS. Шоурум: ${SHOWROOM_BRANCH.addressShort}. Сервис төв: ${
     SERVICE_BRANCH?.addressShort ?? ""
-  }. Ажлын цаг, газрын зураг, замын заавар, холбоо барих.`,
+  }. Ажлын цаг, газрын зураг, холбоо барих.`,
   alternates: { canonical: "/dealer" },
   openGraph: {
-    title: "JETOUR шоурум ба үйлчилгээний төв | SAIN MOTORS",
+    title: "JETOUR Шоурум ба Сервис төв | SAIN MOTORS",
     description:
-      "Хоёр байршил: борлуулалтын шоурум ба баталгаат засвар үйлчилгээний төв. Хаяг, ажлын цаг, газрын зураг.",
+      "Хоёр албан ёсны байршил: борлуулалтын шоурум ба баталгаат сервис төв. Хаяг, ажлын цаг, газрын зураг.",
     url: "/dealer",
     type: "website",
     images: [{ url: "/showroom/showroom-1.webp", alt: "JETOUR шоурум — SAIN MOTORS" }],
@@ -63,7 +63,7 @@ export default async function DealerPage() {
       <JsonLd
         data={breadcrumbList([
           { name: "Нүүр", path: "/" },
-          { name: "Шоурум ба үйлчилгээний төв", path: "/dealer" },
+          { name: "Шоурум ба Сервис төв", path: "/dealer" },
         ])}
       />
       <DealerClient />
