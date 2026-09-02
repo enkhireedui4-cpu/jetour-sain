@@ -6699,4 +6699,184 @@ input[type="range"].range-jetour::-moz-range-thumb {
   height: 100%;
   border: 0;
 }
-/* utas-v112 */
+
+
+/* === Мэдээний жагсаалт (.nwsl) ==========================================
+   `/news` хуудасны сүлжээ. Нүүрийн `.nws` нь хүрээгүй редакцийн зурвас
+   (зураг өөрөө блокийн хил болно); энд харин ЖАГСААЛТ тул карт хэлбэртэй:
+   хэрэглэгч эгнээ бүрийг хооронд нь ялгаж, харьцуулж уншина.
+
+   Хоёулаа ижил хэмнэлээс ирнэ: ижил өнгө, ижил `--ease-out`, категори нь
+   зураг дээрх pill биш бичвэрийн шошго, tabular огноо, улаан нь ЗӨВХӨН
+   «Цааш унших» холбоост, сум 4px хөдөлнө.
+
+   Өмнөх зохиомжийн гол гажиг: `lg:grid-cols-3` байсан тул хоёр мэдээ
+   гурван баганад орж, баруун тал ХООСОН үлддэг байв. Хоёр багана нь
+   агуулгын өргөнийг бүтэн эзэлж, зургийг ч том харуулна. */
+
+.nwsl__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* 28 → 36px: одоо байгаа `gap-7`/`gap-8` хэмнэлтэй нийцнэ */
+  gap: clamp(1.75rem, 2.6vw, 2.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .nwsl__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* `<article>` нь `<li>`-ийн бүтэн өндрийг картад дамжуулна — эс тэгвээс
+   карт агуулгынхаа хэмжээгээр л татарч, эгнээний CTA-нууд зөрнө. */
+.nwsl__item {
+  height: 100%;
+}
+
+/* Карт — БҮТЭН өндрөөр. `align-items: stretch` (grid-ийн анхдагч) нь
+   эгнээний картуудыг ижил өндөр болгоно; доорх `margin-top: auto` нь
+   «Цааш унших»-ыг ёроолд наана. Ингэснээр CTA-нууд эгнээндээ ЯГ нэг
+   шугамд суух ба санамсаргүй margin нэмэх шаардлагагүй. */
+.nwsl__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #FFFFFF;
+  border: 1px solid #E7E7EA;
+  border-radius: 22px;
+  overflow: hidden;
+  /* Туйлын нам гүм гүн — карт цагаан дэвсгэрээс салах төдий */
+  box-shadow: 0 1px 2px rgba(23, 24, 27, 0.03);
+  transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out),
+    border-color 400ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .nwsl__card:hover {
+    transform: translateY(-3px);
+    border-color: #DCDDE1;
+    box-shadow: 0 2px 4px rgba(23, 24, 27, 0.04), 0 18px 36px -28px rgba(23, 24, 27, 0.22);
+  }
+}
+
+/* Зураг — бүх картад ИЖИЛ харьцаа (16:10). `aspect-ratio` нь зай
+   урьдчилан эзэлдэг тул зураг ачаалагдахад layout үсрэхгүй (CLS). */
+.nwsl__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #EDEEF0;
+}
+
+.nwsl__img {
+  object-fit: cover;
+  transition: transform 460ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .nwsl__card:hover .nwsl__img {
+    transform: scale(1.03);
+  }
+}
+
+/* Бичвэрийн хэсэг — багана. `flex: 1` нь картын үлдсэн өндрийг эзэлж,
+   доторх `margin-top: auto` ажиллах орон зайг үүсгэнэ. */
+.nwsl__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
+}
+
+.nwsl__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Категори — жижиг, тайван шошго. Өгөгдлийн `type` талбараас ирнэ
+   («Брэндийн мэдээ»), тиймээс «БРЭНД» гэсэн ерөнхий товчлол болохоо болино.
+   Зураг дээр биш доор байрлана: зурагтай өрсөлдөхгүй. */
+.nwsl__cat {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #54585F;
+  background: #F5F5F6;
+  border-radius: 6px;
+  padding: 0.3125rem 0.5rem;
+  white-space: nowrap;
+}
+
+.nwsl__date {
+  font-size: 0.8125rem;
+  color: #666C77;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Гарчиг — 19 → 24px, 600 (800 БИШ). Редакцийн хэвд хэт зузаан бичиг нь
+   реклам шинжтэй болдог. Хоёр мөрөөр таслах нь карт бүрийн бичвэрийн
+   блокийг ижил өндөртэй болгож, сүлжээг тайван болгоно. */
+.nwsl__title {
+  margin-top: clamp(0.875rem, 1.4vw, 1.125rem);
+  font-size: clamp(1.1875rem, 1.7vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: #17181B;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Гурван мөр — хоёр биш. Хоёр баганад карт ≈620px өргөн тул хоёр мөр нь
+   179 тэмдэгтийн бараг гуравны нэгийг хаяж байв (хэмжсэн). Гурав нь
+   бүтэн санааг үзүүлэх ба картын өндөр эгнээндээ `stretch`-ээр тэгширдэг
+   тул CTA-ийн шугам хөндөгдөхгүй. */
+.nwsl__excerpt {
+  margin-top: 0.625rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #54585F;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* CTA — товч БИШ, редакцийн холбоос. `margin-top: auto` нь бичвэр урт
+   эсэхээс үл хамааран ёроолд наана. */
+.nwsl__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  margin-top: auto;
+  padding-top: clamp(1.125rem, 1.8vw, 1.5rem);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #E20A17;
+}
+
+.nwsl__arrow {
+  width: 15px;
+  height: 15px;
+  transition: transform 300ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .nwsl__card:hover .nwsl__arrow {
+    transform: translateX(4px);
+  }
+}
+/* utas-v113 */

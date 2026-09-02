@@ -9,7 +9,8 @@ import { Navbar } from "@/components/jetour/navbar";
 export const revalidate = 600;
 import { Footer } from "@/components/jetour/contact";
 import { PageHeader } from "@/components/jetour/page-header";
-import { Calendar, ArrowRight } from "lucide-react";
+import { BLUR_DATA_URL } from "@/lib/image";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   /* «— JETOUR» дагавар хасав: layout-ын template аль хэдийн
@@ -47,54 +48,68 @@ export default async function NewsListPage() {
       <main id="main-content">
 
       <PageHeader
-        title="Шинэ мэдээлэл"
+        eyebrow="Албан ёсны мэдээ"
+        title="Мэдээ, мэдээлэл"
         lead="JETOUR-ын шинэ загвар, брэндийн мэдээ, үйлчилгээний шинэчлэлт, үйл явдлууд."
       />
 
-      {/* Articles grid */}
+      {/* === Мэдээний сүлжээ ===============================================
+          Хоёр багана (`.nwsl__grid`) — өмнө нь гурав байсан тул хоёр мэдээ
+          гурван баганад орж, баруун тал хоосон үлддэг байв. Багана тоог
+          мэдээний тоонд ХАТУУ уяагүй: 3, 4, 5… мэдээ орж ирвэл эгнээ
+          болон нэмэгдэнэ.
+
+          Жагсаалт нь `<ul>/<li>` — дэлгэц уншигч «2 зүйлтэй жагсаалт» гэж
+          хэлнэ. Карт бүхэлдээ НЭГ холбоос: нэг Tab-ийн зогсоол, хуруугаар
+          дарах талбай том. */}
       <section className="section-pad">
         <div className="container-page">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {NEWS_ARTICLES.map((article) => (
-              <Link
-                key={article.slug}
-                href={`/news/${article.slug}`}
-                className="group block rounded-2xl overflow-hidden card-lift"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-[#F5F5F6]">
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <span
-                    className={`absolute top-4 left-4 eyebrow eyebrow-invert px-3 py-1.5 rounded-full ${
-                      article.accent === "electric" ? "bg-[#E20A17]" : "bg-[#17181B]"
-                    }`}
-                  >
-                    {article.tag}
-                  </span>
-                </div>
+          <ul className="nwsl__grid">
+            {NEWS_ARTICLES.map((article, i) => (
+              <li key={article.slug}>
+                <article className="nwsl__item">
+                  <Link href={`/news/${article.slug}`} className="nwsl__card">
+                    <span className="nwsl__media">
+                      <Image
+                        src={article.image}
+                        alt={article.title}
+                        fill
+                        /* Хоёр баганад картын өргөн ≈ 620px. Хэт том хувилбар
+                           татахгүйн тулд яг тэр хэмжээг зааж өгнө. */
+                        sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 620px"
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA_URL}
+                        /* Эхний эгнээ нь дэлгэцэнд шууд харагдана — LCP.
+                           Бусад нь lazy (next/image-ийн анхдагч). */
+                        priority={i < 2}
+                        className="nwsl__img"
+                      />
+                    </span>
 
-                <div className="pt-5">
-                  <p className="type-small text-[#666C77] flex items-center gap-1.5 mb-3">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {article.date}
-                  </p>
-                  <h2 className="type-h3 text-[#17181B] mb-3">{article.title}</h2>
-                  <p className="text-[#54585F] leading-relaxed line-clamp-2 mb-4">
-                    {article.excerpt}
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-[#E20A17] font-semibold text-sm group-hover:gap-2.5 transition-all">
-                    Цааш унших
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </div>
-              </Link>
+                    <span className="nwsl__body">
+                      <span className="nwsl__meta">
+                        {/* `type` — «Брэндийн мэдээ», «Шинэ загвар»… Өгөгдөлд
+                            аль хэдийн байгаа талбар; `tag` («Брэнд») нь хэт
+                            ерөнхий тул үүнийг харуулна. */}
+                        <span className="nwsl__cat">{article.type}</span>
+                        <time className="nwsl__date" dateTime={article.dateIso}>
+                          {article.date}
+                        </time>
+                      </span>
+
+                      <h2 className="nwsl__title">{article.title}</h2>
+                      <p className="nwsl__excerpt">{article.excerpt}</p>
+
+                      <span className="nwsl__more">
+                        Цааш унших
+                        <ArrowRight className="nwsl__arrow" aria-hidden />
+                      </span>
+                    </span>
+                  </Link>
+                </article>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 

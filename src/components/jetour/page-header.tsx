@@ -7,11 +7,19 @@ import { ArrowLeft } from "lucide-react";
  */
 export function PageHeader({
   title,
+  eyebrow,
   lead,
   back,
   align = "left",
 }: {
   title: string;
+  /**
+   * Гарчгийн дээрх жижиг шошго — СОНГОЛТОТ.
+   *
+   * Дамжуулаагүй бол огт гарахгүй тул одоо байгаа хуудсууд
+   * (`/models`, `/privacy`, `/terms`) хөндөгдөхгүй.
+   */
+  eyebrow?: string;
   lead?: string;
   back?: { href: string; label: string };
   align?: "left" | "center";
@@ -33,6 +41,7 @@ export function PageHeader({
             {back.label}
           </Link>
         )}
+        {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
         <h1 className={`type-h1 text-[#17181B] ${centered ? "max-w-3xl" : ""}`}>{title}</h1>
         {lead && (
           <p className={`type-lead mt-5 ${centered ? "max-w-2xl" : "max-w-2xl"}`}>{lead}</p>
