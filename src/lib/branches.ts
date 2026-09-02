@@ -34,6 +34,17 @@ export type Branch = {
    * (geo) хоёулаа нэг дор нарийсна.
    */
   geo?: { lat: number; lng: number };
+  /**
+   * Google Business Profile-ийн `cid` (аравтын тоо).
+   *
+   * Байвал «Google Map-аар үзэх» товч нь **бизнесийн бүртгэл** рүү орно —
+   * нэр, ажлын цаг, зураг, сэтгэгдэл, «Залгах» товчтой. Байхгүй бол зөвхөн
+   * координат дээр зүү тавьсан хоосон карт гарна (нэр, цаг харагдахгүй).
+   *
+   * Хаанаас авах: Google Maps дээр бүртгэлээ нээгээд URL дахь
+   * `!1s0x…:0xАБВ` хэсгийн ХОЁРДУГААР hex тоог аравтад хөрвүүлнэ.
+   */
+  placeCid?: string;
   /** Энэ цэг дээр үзүүлэх үйлчилгээ — хуудас ба JSON-LD хоёулаа үүнийг уншина */
   services: string[];
   city: string;
@@ -48,20 +59,28 @@ export type Branch = {
  * тэдгээр нь хугацаа дуусаж, тухайн бүртгэл засагдахад «Dynamic Link Not Found»
  * болж үхдэг — production сайт дээр үхсэн холбоос нь алдагдсан үйлчлүүлэгч.
  */
-function mapUrls(query: string, geo?: { lat: number; lng: number }) {
+function mapUrls(
+  query: string,
+  geo?: { lat: number; lng: number },
+  placeCid?: string,
+) {
   const q = encodeURIComponent(query);
   // Координат байвал зүүг яг тэнд буулгана; байхгүй бол нэрээр хайна.
   const point = geo ? `${geo.lat},${geo.lng}` : q;
   return {
     mapEmbed: `https://www.google.com/maps?q=${point}&output=embed`,
-    mapLink: `https://www.google.com/maps/search/?api=1&query=${point}`,
+    /* Бүртгэл байвал шууд түүн рүү (нэр, цаг, зураг, «Залгах»); эс бөгөөс
+       координат/нэрээр хайлт. */
+    mapLink: placeCid
+      ? `https://www.google.com/maps?cid=${placeCid}`
+      : `https://www.google.com/maps/search/?api=1&query=${point}`,
     mapDirections: `https://www.google.com/maps/dir/?api=1&destination=${point}`,
   };
 }
 
 /** Хаягийн мэдээлэлтэй хамт газрын зургийн гурван холбоосыг буцаана */
 export function branchMap(b: Branch) {
-  return mapUrls(b.mapQuery, b.geo);
+  return mapUrls(b.mapQuery, b.geo, b.placeCid);
 }
 
 export const BRANCHES: Branch[] = [
@@ -83,13 +102,20 @@ export const BRANCHES: Branch[] = [
     hoursSaturday: "10:00 – 18:00",
     hoursSunday: "11:00 – 16:00",
     /**
-     * «Jetour show room» — Google дээрх БОДИТ бүртгэлийн нэр (Knowledge Graph
-     * id: /g/11y1t7b8by). Өмнө нь "Sain Motors Jetour Ulaanbaatar" гэж
-     * хайдаг байсан нь тэдний бүртгэл БИШ тул зүү санамсаргүй газар буудаг байв.
+     * Google дээрх бүртгэлийн нэр. Зөвхөн `geo` байхгүй үеийн нөөц зам —
+     * координат байгаа тул бодитоор хэрэглэгдэхгүй, гэхдээ бүртгэл солигдвол
+     * хаанаас хайхыг заасан хэвээр байна.
      */
-    mapQuery: "Jetour show room, Улаанбаатар",
-    // geo: Google Business Profile-оос яг координатыг авч энд бич —
-    // ЗОХИОХГҮЙ. Байхгүй үед дээрх нэрээр хайж зүү тавина.
+    mapQuery: "Sain Motors-Сайн Моторс-Jetour, Улаанбаатар",
+    /**
+     * Sain Motors-ийн өгсөн холбоосоос задарсан бодит координат
+     * (rb.gy/xji02i → maps/place/Sain+Motors-Сайн+Моторс-Jetour/…!3d47.9210074!4d106.9015123).
+     * Holiday Inn-ээс 250 м — «буудлын урд» гэсэн хаягтай тохирч байгааг
+     * тооцоолж шалгасан.
+     */
+    geo: { lat: 47.9210074, lng: 106.9015123 },
+    /** 0xe052597810a96072 → аравтад. «Google Map-аар үзэх» нь бүртгэл рүү орно. */
+    placeCid: "16164080384796614770",
     services: [
       "Шинэ автомашины борлуулалт",
       "Туршилтын жолоодлого",
