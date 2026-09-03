@@ -80,6 +80,64 @@ mapLink       https://www.google.com/maps/search/?api=1&query=<цэг>
 
 ---
 
+## 1b. Домэйныг `jetour.mn` болгох (домэйн шилжилт)
+
+Сайт одоо `jetour.sainmotors.mn` дээр. `jetour.mn` руу шилжүүлэх бол:
+
+### Одоогийн байдал (2026-09-03-нд шалгасан)
+
+| Шалгалт | Үр дүн |
+|---|---|
+| `jetour.mn` бүртгэл | **бий** — NS: `ns1–ns4.dns.mn` |
+| `jetour.mn` A/CNAME | **АЛГА** — домэйн хаана ч заахгүй |
+| `www.jetour.mn` | бичлэг огт байхгүй (NXDOMAIN) |
+| HTTP 80 / HTTPS 443 | хоёулаа хариу алга |
+
+> **SSL нь шалтгаан биш, үр дагавар.** Vercel нь домэйн зөв заасны дараа
+> Let's Encrypt сертификатыг **автоматаар, үнэгүй** олгож, дараа нь өөрөө
+> шинэчилдэг. Тусад нь SSL худалдаж авах шаардлагагүй. Одоо сертификат
+> байхгүй байгаа нь DNS бичлэг байхгүйгээс.
+
+### Дараалал
+
+1. **Vercel → Project → Settings → Domains** → `jetour.mn` ба
+   `www.jetour.mn` нэмнэ.
+2. Vercel тэр даруй **яг ямар DNS бичлэг** хэрэгтэйг харуулна (apex-д `A`,
+   `www`-д `CNAME`). Тэр утгыг **хуулж** ав — IP-г санах ойгоор бичихгүй,
+   Vercel өөрөө өөрчилдөг.
+3. Домэйны DNS-ийг `dns.mn` (бүртгэгч) дээр нээж, Vercel-ийн үзүүлсэн
+   бичлэгийг тавина.
+4. Тархалт 5 мин – 1 цаг. Vercel дээр «Valid Configuration» болмогц
+   сертификат өөрөө гарна.
+5. **Аль нь үндсэн (primary)** болохыг Vercel дээр сонгоно. Санал:
+   `jetour.mn` — богино, брэндийн нэртэй. Бусад нь 301-ээр түүн рүү
+   чиглүүлэгдэнэ (Vercel өөрөө хийнэ).
+
+### Кодын тал — зөвхөн ХОЁР env
+
+Кодод домэйн ХАТУУ бичээгүй: `SITE_URL` нь `NEXT_PUBLIC_SITE_URL`-ээс
+ирдэг (`src/lib/site.ts`), canonical / sitemap / robots / OG / JSON-LD
+бүгд түүнээс үүснэ. Тиймээс:
+
+| Env | Шинэ утга | Мартвал юу болох |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://jetour.mn` | canonical, sitemap, OG бүгд хуучин домэйн заасаар байж, Google шинэ домэйныг **хуулбар** гэж үзнэ |
+| `NEXTAUTH_URL` | `https://jetour.mn` | **admin нэвтрэлт эвдэрнэ** (`/admin/login` callback буруу домэйн руу очно) |
+
+Дараа нь **Redeploy** — `NEXT_PUBLIC_*` нь build үед шингэдэг тул env
+хадгалахад хүчин төгөлдөр болохгүй.
+
+### Шилжилтийн дараах SEO
+
+- GSC-д `jetour.mn` шинэ property нэмж баталгаажуулах, `sitemap.xml` submit.
+- Хуучин `jetour.sainmotors.mn` GSC-д баталгаажсан бол
+  **Settings → Change of address** ашиглаж эрх дамжуулах.
+- Google Business Profile-ийн «Website» талбарыг шинэ домэйн болгох.
+- Хуучин домэйн руу заасан гадаад холбоос, Meta реклам, QR — 301 ажиллаж
+  байгаа эсэхийг шалгах.
+
+---
+
 ## 2. Google Search Console (Vercel)
 
 ### 2.1 Property нэмэх
