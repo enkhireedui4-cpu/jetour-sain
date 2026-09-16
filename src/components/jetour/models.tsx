@@ -270,6 +270,13 @@ export function Models({ models: allModels }: { models: M[] }) {
       return;
     }
 
+    /* Бүх СЕКЦИЙГ биш, ТАЙЗЫГ (машины хэсэг) ажиглана.
+       Учир: десктоп дээр секц өндөр (~860px), машин доод хэсэгт байрладаг тул
+       секцийн 35% харагдахад машин ХАРАГДАХААС ӨМНӨ (fold-оос доор) орж ирж
+       дуусдаг байв — хэрэглэгч огт үзэлгүй өнгөрдөг. Тайзыг ажигласнаар машин
+       жинхэнэ харагдаж эхлэх агшинд гүүж орно (утас, десктоп хоёуланд адил). */
+    const stage = sec.querySelector<HTMLElement>(".mdlsel__stage") ?? sec;
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting || revealedRef.current) return;
@@ -289,12 +296,14 @@ export function Models({ models: allModels }: { models: M[] }) {
           w.animate(spinKeyframes(wheelSpinDeg(1, dist, wpx)), opts);
         });
       },
-      /* 35% харагдмагц — хэсэг рүү «орж ирсэн» гэж тооцогдох босго.
-         Богино утсан дэлгэцэнд ч, өндөр ширээн дээр ч ойролцоо ажиллана. */
-      { threshold: 0.35 }
+      /* Тайзны 45% харагдмагц — энэ үед машин viewport-д ~1/3 орж, нүдэнд
+         тод болсон байдаг (хэмжсэн: carTop≈760/900). Хэрэглэгч машиныг харж
+         байх агшинд гүүж орж ирнэ. Илүү бага босго (0.22) дээр десктопын
+         өндөр секцэд машин fold-оос доор орж ирж дуусдаг байв. */
+      { threshold: 0.45 }
     );
 
-    io.observe(sec);
+    io.observe(stage);
     return () => io.disconnect();
   }, []);
 
