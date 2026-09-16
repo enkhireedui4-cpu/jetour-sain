@@ -91,6 +91,39 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          /**
+           * CSP-г REPORT-ONLY горимоор — юуг ч БЛОКЛОХГҮЙ, зөвхөн зөрчлийг
+           * хөтчийн console-д (DevTools) мэдээлнэ. Зорилго: жинхэнэ ачааллыг
+           * ажиглаж, юу ч эвдрэхгүйг батлаад дараа нь `Content-Security-Policy`
+           * (Report-Only-гүй) болгож ИДЭВХЖҮҮЛЭХ.
+           *
+           * Allowlist — сайтын бодит гуравдагч эх сурвалжаас гаргасан:
+           *   · script  — Meta Pixel (connect.facebook.net), GA (gtag)
+           *   · img     — Meta pixel (facebook.com), GA цуглуулга
+           *   · connect — GA/gtag beacon (google-analytics бүс + gtm)
+           *   · font    — 'self' л хангалттай: next/font Inter-ийг build үед
+           *               татаж, өөрийн origin-оос үйлчилдэг (Google руу хандахгүй)
+           *
+           * 'unsafe-inline' (script/style): Next.js hydration, Meta/GA-ийн
+           * inline bootstrap, framer-motion-ийн inline style бүгд inline тул
+           * шаардлагатай. Nonce суурьтай ЧАНГА CSP нь middleware өөрчлөлт
+           * шаардах томоохон ажил — тусдаа алхам.
+           */
+          {
+            key: "Content-Security-Policy-Report-Only",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' https://connect.facebook.net https://www.googletagmanager.com",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://www.facebook.com https://www.google-analytics.com https://www.googletagmanager.com",
+              "font-src 'self' data:",
+              "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net",
+              "frame-ancestors 'self'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "object-src 'none'",
+            ].join("; "),
+          },
         ],
       },
     ];
