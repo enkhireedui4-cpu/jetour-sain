@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { trackMetaEvent } from "./meta-pixel";
+import { trackGaEvent } from "./google-analytics";
 
 /**
  * Хурдан хүсэлт — НЭР ба УТАС хоёр талбар, өөр юу ч байхгүй.
@@ -125,6 +126,8 @@ export function QuickLead() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Хүсэлт илгээхэд алдаа гарлаа.");
       trackMetaEvent("Lead", { content_name: "quick-lead" });
+      // GA4 — generate_lead (хувийн бус: зөвхөн эх сурвалж; нэр/утас ОРУУЛАХГҮЙ)
+      trackGaEvent("generate_lead", { lead_type: "quick-lead" });
       setDone(true);
       setName("");
       setPhone("");

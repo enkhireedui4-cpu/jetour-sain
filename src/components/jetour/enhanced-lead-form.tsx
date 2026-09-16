@@ -21,6 +21,7 @@ import { BRANCHES } from "@/lib/jetour-data";
 type PublicModel = { id: string; name: string; status: string };
 import { useToast } from "@/hooks/use-toast";
 import { trackMetaEvent } from "./meta-pixel";
+import { trackGaEvent } from "./google-analytics";
 
 type LeadType = "test-drive" | "info-request" | "service" | "parts" | "general";
 
@@ -180,6 +181,11 @@ export function EnhancedLeadForm({
       trackMetaEvent("Lead", {
         content_name: type,
         content_category: form.model || undefined,
+      });
+      // GA4 — generate_lead (хувийн бус: төрөл + загвар; нэр/утас ОРУУЛАХГҮЙ)
+      trackGaEvent("generate_lead", {
+        lead_type: type,
+        model: form.model || undefined,
       });
       toast({
         title: "Амжилттай!",

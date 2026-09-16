@@ -26,6 +26,17 @@ function gtagCall(...args: unknown[]) {
   if (typeof gtag === "function") gtag(...args);
 }
 
+/**
+ * GA4 руу дурын event илгээх — `trackMetaEvent`-тэй ижил хэв маяг.
+ *
+ * ⚠️ ХУВИЙН МЭДЭЭЛЭЛ ДАМЖУУЛАХГҮЙ (CLAUDE.md): нэр/утас/и-мэйл/формын утга
+ * `params`-д ОРУУЛАХГҮЙ. Зөвхөн төрөл, загварын нэр мэтийн хувийн бус
+ * контекст. GA нь бэлэн биш бол чимээгүй алгасна.
+ */
+export function trackGaEvent(event: string, params?: Record<string, unknown>) {
+  gtagCall("event", event, params ?? {});
+}
+
 export function GoogleAnalytics() {
   const pathname = usePathname();
   /**
@@ -49,6 +60,21 @@ export function GoogleAnalytics() {
       page_title: document.title,
     });
   }, [pathname]);
+
+  /* Утас руу залгах бүх `tel:` холбоосыг site-даяар нэг delegated listener-ээр
+     барина — хуудас бүрийн холбоосыг тус тусад нь хөндөхгүй. Дарсан элемент
+     эсвэл түүний эцэг нь `a[href^="tel:"]` бол `contact` event илгээнэ.
+     ХУВИЙН БУС: зөвхөн `{ method: "phone" }` — дугаар дамжуулахгүй. */
+  useEffect(() => {
+    if (!GA_ID) return;
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const tel = target?.closest?.('a[href^="tel:"]');
+      if (tel) trackGaEvent("contact", { method: "phone" });
+    };
+    document.addEventListener("click", onClick, { capture: true });
+    return () => document.removeEventListener("click", onClick, { capture: true });
+  }, []);
 
   if (!GA_ID) return null;
 
