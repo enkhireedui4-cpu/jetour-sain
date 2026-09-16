@@ -53,10 +53,18 @@ type NavModel = { id: string; name: string; heroImage: string };
 const isActiveRoute = (pathname: string, href: string) =>
   href !== "/" && !href.startsWith("/#") && pathname.startsWith(href);
 
-export function Navbar() {
+/**
+ * `hero` — тухайн хуудсын дээд талд бүтэн дэлгэцийн hero зураг байгаа эсэх.
+ * ЗӨВХӨН тийм үед navbar дээр нь тунгалаг хөвнө (scroll хийх хүртэл).
+ *
+ * Өмнө нь энэ шийдвэрийг `usePathname() === "/"`-ээр дотооддоо гаргадаг байв.
+ * Гэвч нүүр нь СТАТИК prerender хийгддэг бөгөөд build үед `usePathname()` нь
+ * `/` биш (null) буцаадаг тул prerender хийсэн HTML цагаан navbar-аар гарч,
+ * client дээр scroll хийх хүртэл цагаан хэвээр гацдаг байсан (алдаа). Prop-оор
+ * дамжуулснаар prerender үед ч утга ТОДОРХОЙ — нүүр анхнаасаа тунгалаг гарна. */
+export function Navbar({ hero = false }: { hero?: boolean } = {}) {
   const pathname = usePathname();
   const router = useRouter();
-  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -119,7 +127,7 @@ export function Navbar() {
   /* Hero дээрх тунгалаг төрх — дэд цэс НЭЭГДЭХЭД цуцлагдана.
      Үгүй бол цагаан үсэгтэй тунгалаг navbar-ын доор цагаан самбар нээгдэж,
      хоёр давхарга зөрчилдөж, цэсний нэрс уншигдахаа больдог байв. */
-  const overHero = isHome && !scrolled && !open && !openMenu;
+  const overHero = hero && !scrolled && !open && !openMenu;
 
   const handleAnchor = (href: string) => {
     setOpen(false);

@@ -22,7 +22,10 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#17181B]">
-      <Navbar />
+      {/* Нүүрийн дээд талд бүтэн дэлгэцийн Hero байгаа тул navbar анхнаасаа
+          тунгалаг хөвнө (scroll хийхэд цагаан болно). Prop-оор дамжуулснаар
+          статик prerender үед ч тунгалаг байдал баталгаатай. */}
+      <Navbar hero />
       <main id="main-content" className="flex-1">
         <Hero />
         <Models models={availableModels} />
