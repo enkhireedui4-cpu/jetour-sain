@@ -12,6 +12,7 @@ import { Navbar } from "@/components/jetour/navbar";
 import { Footer } from "@/components/jetour/contact";
 import { Calendar, ArrowLeft, ArrowRight, Phone } from "lucide-react";
 import { absoluteUrl } from "@/lib/site";
+import { JsonLd } from "@/components/jetour/json-ld";
 
 // === Static params for all news slugs ===
 export async function generateStaticParams() {
@@ -102,11 +103,13 @@ export default async function NewsDetailPage({
 
   return (
     <div className="min-h-screen bg-white text-[#17181B]">
-      {/* JSON-LD structured data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {/* JSON-LD structured data.
+          ЧУХАЛ: `JsonLd` туслахаар дамжуулна — тэр нь `<`-г `<` болгож
+          escape хийдэг. Өмнө нь энд шууд `JSON.stringify` дуудаж байсан тул
+          `article.title`/`excerpt` (админаас бичдэг агуулга) дотор `</script>`
+          орвол script-ээс гарч stored XSS үүсэх байв. Бусад бүх хуудас
+          хэдийнэ энэ туслахыг ашигладаг — энэ хуудас ганцаараа алгасчихсан. */}
+      <JsonLd data={jsonLd} />
 
       <Navbar />
 

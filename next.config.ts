@@ -55,6 +55,46 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [{ source: "/test-drive", destination: "/info-request", permanent: true }];
   },
+
+  /**
+   * Аюулгүй байдлын суурь HTTP header-үүд — бүх зам дээр.
+   *
+   * Эдгээр нь сайтын ажиллагааг ХӨНДӨХГҮЙ, гэхдээ түгээмэл халдлагын
+   * гадаргууг хаана:
+   *   · X-Frame-Options — clickjacking (сайтыг гадны iframe-д оруулахыг хорих)
+   *   · X-Content-Type-Options — MIME sniffing халдлага
+   *   · Referrer-Policy — гадаад сайт руу бүтэн URL алдагдахаас сэргийлнэ
+   *   · Strict-Transport-Security — HTTPS-ийг албадах (HSTS). Vercel бүхэлдээ
+   *     HTTPS тул аюулгүй. `includeSubDomains`/`preload` ЗОРИУДААР ОРООГҮЙ —
+   *     тэдгээр нь бүх дэд домэйн HTTPS болохыг шаардах бөгөөд буцаахад хэцүү.
+   *   · Permissions-Policy — ашиглагддаггүй хөтчийн эрхийг (камер, микрофон,
+   *     байршил) бүрэн хаана.
+   *
+   * ⚠️ Content-Security-Policy энд ОРООГҮЙ: сайт Meta Pixel, GA, Google Fonts
+   * ашигладаг тул зөв allowlist шаардана. Буруу CSP production-ыг чимээгүй
+   * эвдэнэ — тиймээс тусад нь, эхлээд `Content-Security-Policy-Report-Only`
+   * горимоор турших ёстой (дараагийн алхам).
+   */
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
