@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { CmsCarModel } from "@/lib/cms";
 import {
   modelSideImage,
   modelMetrics,
   hasModelSideImage,
 } from "@/lib/model-media";
+import { MetricNumber } from "@/components/jetour/metric-number";
 import { useDragSwipe } from "@/hooks/use-drag";
 import { WHEEL_ANCHORS, CAR_IMAGE_RATIO } from "@/lib/wheel-anchors";
 import { arrowKeyNav } from "@/lib/slider";
@@ -149,11 +150,19 @@ export function Models({ models: allModels }: { models: M[] }) {
   const carRefs = useRef<(HTMLDivElement | null)[]>([]);
   const runningRef = useRef<Animation[]>([]);
   const railRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  /** Шилжилтийн эффект дотроос уншихад хэрэгтэй — `nav`-ыг хамааралд оруулахгүй */
+  const activeRef = useRef(0);
 
   const total = models.length;
   const safeActive = Math.min(nav.active, Math.max(total - 1, 0));
   /** Шилжилт явж байхад шинэ навигаци хүлээж авахгүй — анимаци давхарлахгүй */
   const busy = nav.outgoing !== -1;
+
+  /* Рендерийн үед ref бичих нь React-ийн дүрэм зөрчинө — эффектээр тольдоно */
+  useEffect(() => {
+    activeRef.current = safeActive;
+  }, [safeActive]);
 
   /** Индексээр шилжих — чиглэлийг дуудагч тал өгнө (цикл дээр ч зөв ажиллана) */
   const go = useCallback((to: number, dir: 1 | -1, from = 0) => {
@@ -237,6 +246,58 @@ export function Models({ models: allModels }: { models: M[] }) {
     };
   }, [nav.active, nav.outgoing, nav.dir]);
 
+  /* --- Анхны харагдах агшин: машин ТАЙЗАН ДЭЭР ОРЖ ИРНЭ ----------------
+     Хэсэг эхний удаа харагдмагц идэвхтэй машин баруунаас гулсаж, дугуй нь
+     өнхөрч ирнэ — загвар солих үеийн ЯГ ТЭР зам, ЯГ ТЭР easing. Шинэ
+     хөдөлгөөний систем нэмээгүй: `inKeyframes` / `spinKeyframes`-ээ дахин
+     ашиглана.
+
+     Яагаад хэрэгтэй вэ: хуудас ачаалахад машин аль хэдийн голдоо зогсчихсон
+     байдаг тул хэрэглэгч гулсалт байдгийг мэдэхгүй. Нэг удаа орж ирснээр
+     «энэ машин хөдөлдөг» гэдгийг заана — улмаар сум/шудрах хоёрыг хайна.
+
+     Зөвхөн НЭГ УДАА (`revealedRef`), зөвхөн шилжилт явахгүй байхад, мөн
+     хөдөлгөөн багасгасан горимд ОГТ ажиллахгүй. */
+  const revealedRef = useRef(false);
+
+  useEffect(() => {
+    const sec = sectionRef.current;
+    if (!sec || revealedRef.current) return;
+
+    // Хөдөлгөөн багасгасан бол ердөө л «үзсэн» гэж тэмдэглээд гарна
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      revealedRef.current = true;
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || revealedRef.current) return;
+        revealedRef.current = true;
+        io.disconnect();
+
+        const el = carRefs.current[activeRef.current];
+        if (!el) return;
+
+        const dist = exitDistance(el.getBoundingClientRect().width);
+        /* Солилтоос (980мс) арай урт: энэ нь «ирэлт», яаралгүй байх ёстой */
+        const opts: KeyframeAnimationOptions = { duration: 1180, easing: EASING };
+
+        el.animate(inKeyframes(1, dist), opts);
+        el.querySelectorAll<HTMLElement>(".mdlsel__wheel").forEach((w) => {
+          const wpx = w.getBoundingClientRect().width;
+          w.animate(spinKeyframes(wheelSpinDeg(1, dist, wpx)), opts);
+        });
+      },
+      /* 35% харагдмагц — хэсэг рүү «орж ирсэн» гэж тооцогдох босго.
+         Богино утсан дэлгэцэнд ч, өндөр ширээн дээр ч ойролцоо ажиллана. */
+      { threshold: 0.35 }
+    );
+
+    io.observe(sec);
+    return () => io.disconnect();
+  }, []);
+
   /* Сонгогдсон бяцхан зургийг эгнээнийхээ ГОЛД аваачна (§12).
 
      `scrollIntoView` ашиглахгүй: тэр нь зөвхөн энэ савыг биш, ЭЦЭГ бүх
@@ -312,27 +373,56 @@ export function Models({ models: allModels }: { models: M[] }) {
   const metrics = modelMetrics(m);
 
   return (
-    <section id="models" className="mdlsel scroll-mt-16" aria-label="JETOUR загварууд">
+    <section
+      id="models"
+      ref={sectionRef}
+      className="mdlsel scroll-mt-16"
+      aria-label="JETOUR загварууд"
+    >
       <div className="mdlsel__inner">
         {/* Толгой — зөвхөн загварын нэр ба ангилал. Хэсгийн гарчиг, үнэ, CTA
             байхгүй: загвар өөрөө хэсгийг танилцуулна. */}
         <div className="mdlsel__head">
-          {/* key → загвар солигдоход чиглэлийн дагуу зөөлөн орж ирнэ */}
-          <div className="mdlsel__id" key={`id-${m.id}`} data-dir={nav.dir}>
-            <h2 className="mdlsel__name">{shortName(m)}</h2>
-            <p className="mdlsel__sub">{m.tagline}</p>
+          <div className="mdlsel__lead">
+            {/* key → загвар солигдоход чиглэлийн дагуу зөөлөн орж ирнэ */}
+            <div className="mdlsel__id" key={`id-${m.id}`} data-dir={nav.dir}>
+              <h2 className="mdlsel__name">{shortName(m)}</h2>
+              <p className="mdlsel__sub">{m.tagline}</p>
+            </div>
+
+            {/* Хоёрдогч CTA — машин өөрөө үндсэн холбоос хэвээр. Товч БИШ:
+                текст + сум + доогуур нимгэн заагч. Шатлалын хамгийн сүүлд
+                орж ирнэ (§7 давхаргат шилжилт). */}
+            <Link
+              key={`cta-${m.id}`}
+              data-dir={nav.dir}
+              href={`/models/${m.id}`}
+              className="mdlsel__more"
+            >
+              <span className="mdlsel__more-text">Дэлгэрэнгүй үзэх</span>
+              <ArrowRight className="mdlsel__more-arrow" strokeWidth={1.75} aria-hidden />
+            </Link>
           </div>
 
           {metrics.length > 0 && (
-            <dl className="mdlsel__metrics" key={`sp-${m.id}`} data-dir={nav.dir}>
+            /* ЧУХАЛ: энд `key` тавихгүй. Түлхүүр солигдвол `MetricNumber`
+               дахин холбогдож, өмнөх утгаа мартах тул тоолол алга болно.
+               Шилжилтийг блок нь бус, тоо бүр өөрөө хийнэ. */
+            <dl className="mdlsel__metrics">
               {/* DOM дараалал: нэр → утга (dl семантик).
                   Харагдац нь column-reverse-ээр эргэж, том тоо дээрээ гарна. */}
-              {metrics.map((s) => (
+              {metrics.map((s, i) => (
                 <div key={s.label} className="mdlsel__metric">
                   <dt className="mdlsel__metric-label">{s.label}</dt>
                   <dd className="mdlsel__metric-value">
-                    {s.value}
-                    {s.unit && <span>{s.unit}</span>}
+                    {/* Нэрийн ДАРАА (160мс), дараа нь багана бүр 70мс
+                        зөрүүтэй — гурван тоо нэгэн зэрэг биш, зүүнээс
+                        баруун тийш дараалан тогтоно (§7). */}
+                    <MetricNumber value={s.value} delay={160 + i * 70} />
+                    {/* Нэгжид ТУСДАА класс: `.mdlsel__metric-value span`
+                        гэсэн сонгогч нь тооны span-ыг ч барьж, түүнийг
+                        нэгжийн хэмжээ рүү (0.44em) буулгаж байсан. */}
+                    {s.unit && <span className="mdlsel__metric-unit">{s.unit}</span>}
                   </dd>
                 </div>
               ))}
@@ -398,6 +488,28 @@ export function Models({ models: allModels }: { models: M[] }) {
                   className="mdlsel__carbox"
                   style={{ aspectRatio: String(CAR_IMAGE_RATIO[mm.id] ?? 2.9) }}
                 >
+                  {/* Хүрэлцэх сүүдэр — машиныг шалан дээр ТАВИНА.
+                      Хэмжээ нь зохиомол биш: дугуйн зангуунаас шууд гарна —
+                      төв нь хоёр дугуйн дунд, өндөр нь дугуйн ДООД цэг дээр
+                      (yPct + hPct/2). Иймд загвар бүрийн (богино X1, урт
+                      G700) сүүдэр яг дугуйнхаа доор сууна.
+                      Кузовын хайрцган дотор тул машинтайгаа хамт гулсана.
+                      DOM-д зургаас ӨМНӨ — ард нь үлдэнэ. */}
+                  {wheels && (
+                    <span
+                      className="mdlsel__ground"
+                      style={
+                        {
+                          "--gx": `${(wheels.front.xPct + wheels.rear.xPct) / 2}%`,
+                          "--gy": `${wheels.front.yPct + wheels.hPct / 2}%`,
+                          "--gw": `${wheels.rear.xPct - wheels.front.xPct + wheels.wPct * 1.6}%`,
+                          "--gh": `${wheels.hPct * 0.38}%`,
+                        } as React.CSSProperties
+                      }
+                      aria-hidden
+                    />
+                  )}
+
                   <Image
                     src={modelSideImage(mm)}
                     alt={`${mm.name} — хажуу талын үзэмж`}

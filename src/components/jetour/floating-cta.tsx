@@ -45,6 +45,33 @@ export function FloatingCTA() {
 
   const close = useCallback(() => setOpen(false), []);
 
+  /* Энэ товчны ХОЁР төлөвийг `<html>` дээр зарлана. Дээр нь байрлах «Дээш
+     буцах» товч эдгээрийг хараад өөрийгөө тохируулна (`globals.css` → `.btt`).
+     Компонент хооронд import татахгүйн тулд CSS-ээр дамжуулав.
+
+     · `data-fcta-open` — цэс нээлттэй. Цэс нь товчноосоо ДЭЭШ задардаг тул
+       яг «Дээш буцах»-ийн талбайг эзэлнэ.
+     · `data-fcta-away` — доош гүйлгэж байгаад товч далд болсон. Энэ үед
+       «Дээш буцах» дангаараа үлдвэл доороо хоосон зайтай өлгөөтэй харагдана;
+       тиймээс хамт далд болно. Дээш гүйлгэхэд ХОЁУЛАА хамт эгнэж гарна. */
+  useEffect(() => {
+    const root = document.documentElement;
+    if (open) root.dataset.fctaOpen = "true";
+    else delete root.dataset.fctaOpen;
+    return () => {
+      delete root.dataset.fctaOpen;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (hidden && !open) root.dataset.fctaAway = "true";
+    else delete root.dataset.fctaAway;
+    return () => {
+      delete root.dataset.fctaAway;
+    };
+  }, [hidden, open]);
+
   /* Esc болон гадуур дарахад хаана — жижиг цонх тул хялбар байх ёстой */
   useEffect(() => {
     if (!open) return;

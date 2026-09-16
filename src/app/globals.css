@@ -226,7 +226,7 @@
 
     /* Нүүрний загварын текст — үсрэхгүй, зөөлөн гарч ирнэ */
     .mdlsel__id,
-    .mdlsel__metrics {
+    .mdlsel__more {
       animation-duration: 260ms !important;
     }
   }
@@ -1659,15 +1659,22 @@ input[type="range"].range-jetour::-moz-range-thumb {
       var(--mdl-rail) 93%,
       var(--mdl-rail) 100%
     );
-  padding-block: clamp(2rem, 3.6vw, 3.5rem);
+  /* ХЭМЖСЭН: 1440×900 дээр секц 862px, боломжит өндөр 836px — 26px хэтэрч,
+     нэг дэлгэцэнд багтахаа больсон («Дэлгэрэнгүй үзэх» толгойд ~45px нэмсэн).
+     Тэр 26px-ийг МАШИНААС биш, ХҮРЭЭНЭЭС буцааж авна: 3.6vw → 2.8vw нь
+     1440px дээр дээд/доод тус бүрээс 11.5px (нийт 23px) чөлөөлнө. Машин
+     84vw хэвээр — секцийн гол баатар бага болох ёсгүй. */
+  padding-block: clamp(1.75rem, 2.8vw, 3rem);
   overflow: hidden;
 
   /* Машины хайрцгийн өргөн — гурван хязгаарын хамгийн бага нь: дээд хэмжээ,
      дэлгэцийн өргөн, БОЛОН үлдэж буй босоо зай. Сүүлийнх нь хэсгийг ямар ч
      өндөртэй цонхон дээр нэг дэлгэцэнд багтаана.
 
-     Шинэ дэвсгэр илүү амьсгал өгсөн тул 74vw → 78vw (≈+5%). */
-  --car-w: min(1180px, 78vw, max(320px, (100svh - 24rem) * 2.55));
+     78vw → 84vw (≈+8%): машин бол энэ хэсгийн гол баатар, түүнийг томруулах
+     нь хамгийн шууд арга. Босоо нөөцийг 24rem → 25rem болгов — толгойд
+     «Дэлгэрэнгүй үзэх» нэмэгдсэн тул. */
+  --car-w: min(1280px, 84vw, max(320px, (100svh - 25rem) * 2.55));
   /* Бүх хажуу зургийн хамгийн НАРИЙН харьцаа 2.571 (G700 / T1 PHEV). Түүнээс
      нарийн байхад `contain` дээр машин БҮР өргөнөөрөө дүүрч, ижил уртад
      харагдана — загвар солиход хэмжээ нь үсрэхгүй. */
@@ -1684,8 +1691,16 @@ input[type="range"].range-jetour::-moz-range-thumb {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: clamp(20px, 3vw, 48px);
+  gap: clamp(24px, 3.4vw, 56px);
   flex-wrap: wrap;
+}
+
+/* Зүүн багана: нэр + дэд гарчиг + хоёрдогч CTA */
+.mdlsel__lead {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .mdlsel__id {
@@ -1694,10 +1709,10 @@ input[type="range"].range-jetour::-moz-range-thumb {
 
 .mdlsel__name {
   margin: 0;
-  font-size: clamp(32px, 3.6vw, 52px);
+  font-size: clamp(32px, 3.8vw, 56px);
   font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
   color: var(--mdl-text);
 }
@@ -1717,6 +1732,86 @@ input[type="range"].range-jetour::-moz-range-thumb {
   min-height: 1.5em;
 }
 
+/* --- Хоёрдогч CTA «Дэлгэрэнгүй үзэх» ---
+   Товч БИШ: дэвсгэр, хүрээ, дүүргэлт байхгүй. Зөвхөн текст + сум + доогуур
+   нимгэн заагч. Машин нь энэ хэсгийн үндсэн холбоос хэвээр — энэ нь түүнийг
+   дарж болохыг ХЭЛЖ өгөх бичиг, өөрөө анхаарал булаах элемент биш.
+
+   Дээгүүр аваачихад гурван зүйл МАШ бага хэмжээгээр хөдөлнө: сум 4px баруун
+   тийш, текст 1px, заагч 0 → 100%. Үсрэлт, томрол, өнгө солих зэрэг байхгүй. */
+.mdlsel__more {
+  margin-top: clamp(16px, 1.6vw, 22px);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 7px;
+  position: relative;
+  font-size: clamp(12.5px, 0.92vw, 14px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--mdl-muted);
+  transition: color 320ms var(--mdl-ease);
+}
+
+/* Заагч — идэвхгүй үед 1px саарал суурь, дээр нь хар зураас тэлнэ */
+.mdlsel__more::before,
+.mdlsel__more::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+}
+
+.mdlsel__more::before {
+  width: 100%;
+  background: var(--mdl-line);
+}
+
+.mdlsel__more::after {
+  width: 0;
+  background: var(--mdl-text);
+  transition: width 420ms var(--mdl-ease);
+}
+
+.mdlsel__more-text {
+  transition: transform 320ms var(--mdl-ease);
+}
+
+.mdlsel__more-arrow {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  transition: transform 320ms var(--mdl-ease);
+}
+
+@media (hover: hover) {
+  .mdlsel__more:hover {
+    color: var(--mdl-text);
+  }
+
+  .mdlsel__more:hover::after {
+    width: 100%;
+  }
+
+  .mdlsel__more:hover .mdlsel__more-text {
+    transform: translateX(1px);
+  }
+
+  .mdlsel__more:hover .mdlsel__more-arrow {
+    transform: translateX(4px);
+  }
+}
+
+.mdlsel__more:focus-visible {
+  outline: 2px solid var(--mdl-text);
+  outline-offset: 4px;
+  border-radius: 2px;
+  color: var(--mdl-text);
+}
+
 /* --- Хэмжээст үзүүлэлт — хүрээ/сүүдэргүй, зөвхөн typography --- */
 /* Гурван ТЭНЦҮҮ багана. Урт шошгыг үг таслах замаар богиносгохын оронд
    баганы өргөнөөр шийдэв — албан ёсны нэршил бүтнээрээ үлдэнэ. */
@@ -1728,9 +1823,12 @@ input[type="range"].range-jetour::-moz-range-thumb {
      ХУВААЛЦАНА — иймд шошго 1 ч бай 2 мөр ч бай, гурван тоо ҮРГЭЛЖ нэг
      шугам дээр зогсоно (өмнө нь урт шошго тоогоо дээш түлхдэг байв). */
   grid-template-rows: auto auto;
-  column-gap: clamp(16px, 2.2vw, 30px);
+  column-gap: clamp(16px, 2.4vw, 34px);
   row-gap: 0;
-  width: min(100%, 440px);
+  width: min(100%, 460px);
+  /* Нэрийн cap-өндөртэй харьцуулахад тоонууд хэт дээр суудаг байсан —
+     нэрний оптик шугам руу бага зэрэг доошлуулав */
+  margin-top: clamp(2px, 0.6vw, 9px);
 }
 
 /* DOM нь нэр → утга (dl семантик); харагдац нь эргэж, том тоо дээрээ гарна */
@@ -1752,7 +1850,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
 
 .mdlsel__metric-value {
   margin: 0;
-  font-size: clamp(21px, 2vw, 30px);
+  font-size: clamp(22px, 2.1vw, 32px);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -1761,7 +1859,14 @@ input[type="range"].range-jetour::-moz-range-thumb {
   white-space: nowrap;
 }
 
-.mdlsel__metric-value span {
+/* Тоолж буй тоо. `inline-block` — `transform` нь inline элементэд үйлчлэхгүй.
+   Өргөн нь `tabular-nums`-аас тогтвортой тул орон нэмэгдсэн ч нэгж чичрэхгүй. */
+.mdlsel__metric-num {
+  display: inline-block;
+  will-change: transform;
+}
+
+.mdlsel__metric-unit {
   margin-left: 4px;
   /* Нэгж нь тооны 0.44 хувь — гэхдээ жижиг дэлгэцэнд 9px хүртэл буурдаг
      байсан тул доод хязгаар тавив. */
@@ -1773,13 +1878,13 @@ input[type="range"].range-jetour::-moz-range-thumb {
 }
 
 .mdlsel__metric-label {
-  margin: 7px 0 0;
-  padding-top: 7px;
+  margin: 9px 0 0;
+  padding-top: 9px;
   border-top: 1px solid var(--mdl-line);
   font-size: clamp(11px, 0.72vw, 11.5px);
   font-weight: 600;
   line-height: 1.25;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--mdl-muted);
 }
@@ -1790,7 +1895,9 @@ input[type="range"].range-jetour::-moz-range-thumb {
    явна (reference сайтынхтай адил). Машин өөрөө голдоо `--car-w` өргөнтэй. */
 .mdlsel__stage {
   position: relative;
-  margin-top: clamp(10px, 2vw, 30px);
+  /* Толгой ↔ тайз: CTA нэмэгдсэн тул давхар зай үүсэхээс сэргийлж бага
+     зэрэг хумив (30 → 20px дээд хязгаар). */
+  margin-top: clamp(8px, 1.4vw, 20px);
   /* Бүтэн өргөн — эцэг контейнерээс мулталж, цонхны хоёр ирмэг хүртэл */
   width: 100vw;
   margin-inline: calc(50% - 50vw);
@@ -1833,6 +1940,32 @@ input[type="range"].range-jetour::-moz-range-thumb {
   .mdlsel__car:hover .mdlsel__carbox {
     transform: scale(1.015);
   }
+}
+
+/* --- Хүрэлцэх сүүдэр ---
+   Машиныг «шалан дээр тавьдаг» ганц зүйл. Хэмжээ/байрлалыг нь `models.tsx`
+   дугуйн зангуунаас тооцож `--gx/--gy/--gw/--gh`-аар өгнө — загвар бүрт өөр.
+
+   Зориудаар ЗӨӨЛӨН: төв нь ердөө 0.22 хар, 76%-д бүрэн уусна. Тодорхой
+   ирмэгтэй сүүдэр нь наасан зураг мэт харагддаг; энэ нь орчны гэрэлтүүлэг
+   мэт л мэдрэгдэнэ. Нэмэлт `blur` шүүлтүүр ХЭРЭГЛЭЭГҮЙ — градиент өөрөө
+   зөөлөн бөгөөд шүүлтүүр нь шилжилтийн үед давхарга растержуулж, гүйцэтгэл
+   унагана. */
+.mdlsel__ground {
+  position: absolute;
+  left: var(--gx);
+  top: var(--gy);
+  width: var(--gw);
+  height: var(--gh);
+  transform: translate(-50%, -42%);
+  background: radial-gradient(
+    closest-side at 50% 50%,
+    rgba(16, 21, 30, 0.22) 0%,
+    rgba(16, 21, 30, 0.13) 42%,
+    rgba(16, 21, 30, 0.04) 70%,
+    rgba(16, 21, 30, 0) 100%
+  );
+  pointer-events: none;
 }
 
 /* Машиныг бүхэлд нь дэлгэрэнгүй рүү хөтлөх холбоос (харагдах дүрсгүй) */
@@ -1888,7 +2021,9 @@ input[type="range"].range-jetour::-moz-range-thumb {
   height: clamp(44px, 3.2vw, 52px);
   display: grid;
   place-items: center;
-  border: 1px solid var(--mdl-line);
+  /* Хүрээ нь ЗӨВХӨН хүрэх талбарыг зааж өгнө — өөрөө анзаарагдах ёсгүй.
+     Тиймээс шугамын өнгийг 55% болгож сулруулав. */
+  border: 1px solid color-mix(in srgb, var(--mdl-line) 55%, transparent);
   border-radius: 999px;
   /* Шал тонтой болсон тул бүрэн тунгалаг сум алга болно. Хагас тунгалаг
      цагаан гадаргуу нь шалнаас ялгарах ч "карт" болохооргүй хөнгөн. */
@@ -1949,21 +2084,26 @@ input[type="range"].range-jetour::-moz-range-thumb {
   width: clamp(76px, 7.4vw, 112px);
   aspect-ratio: 2.55;
   /* Идэвхтэй нь бага зэрэг том — зөвхөн transform, layout хөдлөхгүй */
-  transform: scale(0.92);
+  transform: scale(0.9);
   transform-origin: bottom center;
   /* Бүдгэрэлт нь ЗӨВХӨН зурган дээр. Товч дээр тавибал нэр нь ч өвлөж
      уншигдахаа больдог (тонтой бүс дээр 2.3:1 болж AA унана). */
-  opacity: 0.62;
-  transition: transform var(--mdl-dur) var(--mdl-ease),
-    opacity var(--mdl-dur) var(--mdl-ease);
+  opacity: 0.55;
+  /* Хугацаа 560 → 680мс, саатал 120мс: том машины 980мс-тэй нэг үйл явдал
+     болж мэдрэгдэнэ (өмнө нь бяцхан зураг нь эрт дуусаад тусдаа хөдөлдөг
+     байв). Дараалалд нь үзүүлэлтийн ДАРАА орж ирнэ (§7). */
+  transition: transform 680ms var(--mdl-ease) 120ms,
+    opacity 680ms var(--mdl-ease) 120ms;
 }
 
+/* Дээгүүр аваачихад сааталгүй хариулна — hover нь шилжилтийн хэсэг биш */
 .mdlsel__thumb:hover:not(:disabled) .mdlsel__thumb-img {
-  opacity: 0.88;
+  opacity: 0.86;
+  transition-delay: 0ms;
 }
 
 .mdlsel__thumb.is-active .mdlsel__thumb-img {
-  transform: scale(1);
+  transform: scale(1.04);
   opacity: 1;
 }
 
@@ -1977,20 +2117,21 @@ input[type="range"].range-jetour::-moz-range-thumb {
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--mdl-muted);
-  transition: color var(--mdl-dur) ease;
+  transition: color 680ms ease 120ms;
 }
 
-/* Идэвхтэй заагч — нимгэн 2px зураас. Pill/дэвсгэр/тэмдэг ашиглаагүй. */
+/* Идэвхтэй заагч — нимгэн зураас. Pill/дэвсгэр/тэмдэг ашиглаагүй.
+   2px → 1.5px: жижиг бичигт 2px нь бүдүүн, «tab» мэт харагддаг. */
 .mdlsel__thumb-name::after {
   content: "";
   position: absolute;
   left: 50%;
   bottom: 0;
   width: 0;
-  height: 2px;
+  height: 1.5px;
   background: var(--mdl-text);
   transform: translateX(-50%);
-  transition: width var(--mdl-dur) var(--mdl-ease);
+  transition: width 680ms var(--mdl-ease) 120ms;
 }
 
 .mdlsel__thumb.is-active .mdlsel__thumb-name {
@@ -2007,6 +2148,16 @@ input[type="range"].range-jetour::-moz-range-thumb {
    дарж унтраахыг оролдвол `[data-dir]`-ын тодорхойлолт давж, текст `from`
    төлөвтөө (opacity 0) гацах эрсдэлтэй (мөн минификатор тэр давхарга дүрмийг
    нэгтгэж хаядаг). Ингэснээр `reduce` үед анимаци огт үүсэхгүй. */
+/* --- Давхаргат шилжилт (§7) ---
+   Бүх зүйл НЭГЭН ЗЭРЭГ солигдвол «UI шинэчлэгдлээ» гэсэн мэдрэмж төрнө.
+   Зөрүүтэй эхлүүлбэл нэг үйл явдал болж уншигдана. Дараалал нь:
+
+     машин (0мс) → нэр (140) → үзүүлэлтийн тоонууд (JS: 0/70/140)
+     → идэвхтэй бяцхан зураг (CSS transition, 120мс саатал) → CTA (300)
+
+   Үзүүлэлт нь энд БАЙХГҮЙ: блокоороо гулсахын оронд тоо бүр өөрөө тоолж,
+   өсөлт/бууралтынхаа зүг рүү хөдөлнө (`metric-number.tsx`). Шошго нь
+   хөдөлгөөнгүй үлдэнэ — уншиж буй хүн байраа алдахгүй. */
 @media (prefers-reduced-motion: no-preference) {
   /* Текст 700мс — машины 920мс-ээс богино, 140мс хожуу эхэлнэ. Ингэснээр
      машинаас түрүүлэхгүй, түүнээс арай эрт нам гүм суудаг (§12). */
@@ -2018,11 +2169,13 @@ input[type="range"].range-jetour::-moz-range-thumb {
     animation-name: mdlsel-in-left;
   }
 
-  .mdlsel__metrics {
-    animation: mdlsel-in-right 700ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+  /* CTA — хамгийн сүүлд, хамгийн даруухан (18px, 560мс). Зөвхөн бүдгэрэлт
+     + бага зэргийн шилжилт: энэ нь мэдээлэл биш, санал болголт. */
+  .mdlsel__more {
+    animation: mdlsel-in-right 560ms cubic-bezier(0.22, 1, 0.36, 1) 300ms both;
   }
 
-  .mdlsel__metrics[data-dir="-1"] {
+  .mdlsel__more[data-dir="-1"] {
     animation-name: mdlsel-in-left;
   }
 }
@@ -2034,7 +2187,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
    агуулга солигдсоныг зөөлөн ойлгуулна. */
 @media (prefers-reduced-motion: reduce) {
   .mdlsel__id,
-  .mdlsel__metrics {
+  .mdlsel__more {
     animation: mdlsel-fade 260ms linear both !important;
   }
 }
@@ -2081,12 +2234,19 @@ input[type="range"].range-jetour::-moz-range-thumb {
   .mdlsel__metrics {
     width: 100%;
     gap: 16px;
+    margin-top: 0;
+  }
+
+  /* Нэг баганад орсон тул CTA нь нэр ба үзүүлэлтийн ХООРОНД сууна —
+     нэртэйгээ ойр, гэхдээ үзүүлэлтийг түлхэхгүй зайтай. */
+  .mdlsel__more {
+    margin-top: 18px;
   }
 
   /* `--car-ar`-ыг энд СОЛИХГҮЙ: 2.55-аас өргөн болмогц G700 / T1 PHEV
      (2.571) өндрөөрөө багтаж, бусдаасаа богино харагдана. */
   .mdlsel {
-    --car-w: min(1120px, 92vw);
+    --car-w: min(1180px, 93vw);
   }
 }
 
@@ -2109,20 +2269,19 @@ input[type="range"].range-jetour::-moz-range-thumb {
     /* Хажуугийн зай — §21-ийн шатлалын суурь утга */
     --mdl-pad: 22px;
     /* Машины эргэн тойрны амьсгал: тайз = машины өндөр + энэ зай */
-    --mdl-stage-air: 84px;
+    --mdl-stage-air: 58px;
     /* Машин шалнаас дээш хөвөх зай — доогуураа ч зай үлдэнэ (§11) */
-    --mdl-stage-floor: 44px;
+    --mdl-stage-floor: 32px;
 
     --car-w: 94vw;
     /* Нэг дэлгэцэнд багтаах svh хязгаарыг утсанд ХЭРЭГЛЭХГҮЙ (§4, §20) */
-    padding-block: 44px;
+    padding-block: 28px;
     position: relative;
   }
 
   /* §24 — дараагийн секц рүү зөөлөн шилжилт.
      Models нь #DCE0E6-ээр төгсөж, News нь цагаан тул огцом шат үүсдэг.
-     Заагч зураас нэмэхийн оронд сүүлийн 40px-ийг цагаан руу уусгана.
-     Агуулга 44px дээгүүр дуусдаг тул текст энэ бүсэд орохгүй. */
+     Заагч зураас нэмэхийн оронд сүүлийн 40px-ийг цагаан руу уусгана. */
   .mdlsel::after {
     content: "";
     position: absolute;
@@ -2139,9 +2298,9 @@ input[type="range"].range-jetour::-moz-range-thumb {
     padding-inline: var(--mdl-pad);
   }
 
-  /* --- Толгой: нэр → дэд гарчиг → үзүүлэлт (§3) --- */
+  /* --- Толгой: нэр → дэд гарчиг → CTA → үзүүлэлт (§3) --- */
   .mdlsel__head {
-    gap: 32px;
+    gap: 26px;
   }
 
   .mdlsel__name {
@@ -2150,16 +2309,34 @@ input[type="range"].range-jetour::-moz-range-thumb {
   }
 
   .mdlsel__sub {
-    margin-top: 10px;
+    margin-top: 8px;
     max-width: 30ch;
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  /* --- CTA: нэрийн доор, хүрэхэд тухтай --- */
+  .mdlsel__more {
+    margin-top: 14px;
+    /* Дээр/доороос дүүргэлт нэмж хүрэх талбарыг ~40px болгов. Харагдах
+       хэмжээ нь өөрчлөгдөхгүй — зөвхөн хуруунд өгөх талбар томорно. */
+    padding: 12px 0;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+
+  /* Дүүргэлт нэмэгдсэн тул заагч зураас текстээсээ салж доошилно —
+     дүүргэлтийн ирмэг дээр биш, бичгийнхээ шууд доор байлгана. */
+  .mdlsel__more::before,
+  .mdlsel__more::after {
+    bottom: 12px;
   }
 
   /* --- Үзүүлэлт: гурван тэнцүү багана, уншигдахуйц (§9) --- */
   .mdlsel__metrics {
     width: 100%;
     column-gap: 14px;
+    margin-top: 0;
   }
 
   .mdlsel__metric-value {
@@ -2169,7 +2346,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   .mdlsel__metric-label {
     margin-top: 9px;
     padding-top: 9px;
-    /* Шошго нь §9-ийн дагуу 2 мөр болж болно — жижигрүүлж нэг мөрт
+    /* Шошго нь §9-ийн дагуу олон мөр болж болно — жижигрүүлж нэг мөрт
        шахахгүй. subgrid тул гурван тоо нэг шугам дээр зогссон хэвээр. */
     font-size: 11px;
     letter-spacing: 0.07em;
@@ -2177,7 +2354,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
 
   /* --- Тайз: машиндаа зориулсан уужим орон зай (§6) --- */
   .mdlsel__stage {
-    margin-top: 34px;
+    margin-top: 26px;
     height: calc(var(--car-w) / var(--car-ar) + var(--mdl-stage-air));
   }
 
@@ -2188,8 +2365,8 @@ input[type="range"].range-jetour::-moz-range-thumb {
 
   /* --- Сонгогч: тайзнаас тодорхой салсан бүс (§12) --- */
   .mdlsel__rail {
-    margin-top: 38px;
-    padding-top: 22px;
+    margin-top: 30px;
+    padding-top: 20px;
     padding-bottom: 4px;
     gap: 10px;
   }
@@ -2209,7 +2386,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
   }
 
   .mdlsel__thumb {
-    gap: 10px;
+    gap: 9px;
     padding: 4px 2px 0;
   }
 
@@ -2222,24 +2399,24 @@ input[type="range"].range-jetour::-moz-range-thumb {
 
   .mdlsel__thumb-name {
     font-size: 11px;
-    padding-bottom: 8px;
+    padding-bottom: 7px;
   }
 }
 
 /* §21 — нарийн утас: зөвхөн ХЭВТЭЭ зайг хумина.
    Босоо амьсгалыг эндээс хасахгүй: §22-ын "бүгдийг жижигрүүл" алдаа руу
-   орох бөгөөд яг тэр нь одоогийн шахагдсан харагдацыг үүсгэсэн. */
+   орох бөгөөд яг тэр нь шахагдсан харагдацыг үүсгэдэг. */
 @media (max-width: 390.98px) {
   .mdlsel {
     --mdl-pad: 20px;
-    --mdl-stage-air: 76px;
+    --mdl-stage-air: 52px;
     /* 96vw дээр машин дэлгэцийн ирмэгээс ердөө ~7px зайтай болж, тайрагдсан
        мэт харагдана. 93vw нь §5-ийн 85–95% мужид, ирмэг нь ч тодорхой. */
     --car-w: 93vw;
   }
 
   .mdlsel__head {
-    gap: 28px;
+    gap: 24px;
   }
 
   .mdlsel__metrics {
@@ -2255,27 +2432,24 @@ input[type="range"].range-jetour::-moz-range-thumb {
 @media (min-width: 431px) and (max-width: 767.98px) {
   .mdlsel {
     --mdl-pad: 24px;
-    --mdl-stage-air: 104px;
-    --mdl-stage-floor: 52px;
+    --mdl-stage-air: 72px;
+    --mdl-stage-floor: 38px;
     --car-w: 90vw;
-    padding-block: 50px;
+    padding-block: 36px;
   }
 
   .mdlsel__head {
-    gap: 36px;
+    gap: 32px;
   }
 
   .mdlsel__stage {
-    margin-top: 42px;
+    margin-top: 32px;
   }
 
   .mdlsel__rail {
-    margin-top: 46px;
+    margin-top: 36px;
   }
 }
-
-
-/* --- Каталогийн карт --- */
 .vcard {
   position: relative;
   display: flex;
@@ -6880,3 +7054,106 @@ input[type="range"].range-jetour::-moz-range-thumb {
   }
 }
 /* utas-v113 */
+
+/* ============================================================
+   «Дээш буцах» — хоёрдогч хөвөгч товч
+
+   Холбоо барих товч (улаан, 3.5rem) нь ҮНДСЭН үйлдэл. Энэ нь түүний
+   ДЭЭР, арай жижиг (3rem) бөгөөд бэхний өнгөтэй — нэг харцаар аль нь
+   чухал болох нь ойлгогдоно. Хоёр улаан дугуй зэрэгцвэл өрсөлдөнө.
+
+   Хэмжээ: 48px — WCAG-ийн 44px доод хязгаараас дээш.
+   ============================================================ */
+.btt {
+  position: fixed;
+  z-index: 49; /* fcta (50)-аас доогуур: цэс нээгдвэл түүний ард үлдэнэ */
+  /* Холбоо барих товчны (3.5rem) дээр, тэдгээрийн хооронд 0.625rem зай —
+     `.fcta`-ийн дотоод `gap`-тай ижил хэмнэл. */
+  bottom: calc(1.25rem + 3.5rem + 0.625rem + env(safe-area-inset-bottom, 0px));
+  right: calc(1.25rem + env(safe-area-inset-right, 0px));
+  /* Улаан товч 3.5rem тул 3rem-ийг голлуулж тэнхлэгт нь оруулна */
+  margin-right: 0.25rem;
+
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+
+  color: #FFFFFF;
+  background: #17181B;
+  box-shadow: 0 10px 28px -12px rgba(23, 24, 27, 0.5);
+
+  /* Анхны төлөв — далд. Доошоо 0.5rem-д «хүлээж» байна. */
+  opacity: 0;
+  transform: translateY(0.5rem);
+  pointer-events: none;
+
+  transition: opacity var(--mo-base) var(--ease-out),
+    transform var(--mo-base) var(--ease-out),
+    background-color var(--mo-fast) var(--ease-out);
+}
+
+.btt--in {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.btt__icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  transition: transform var(--mo-fast) var(--ease-out);
+}
+
+/* Сум өөрийн явах зүг рүү бага зэрэг хөдөлнө — сайт даяарх нэг зарчим
+   («Дэлгэрэнгүй үзэх»-ийн сум баруун тийш, энэ нь дээш). */
+@media (hover: hover) {
+  .btt--in:hover {
+    background: #000000;
+  }
+
+  .btt--in:hover .btt__icon {
+    transform: translateY(-2px);
+  }
+}
+
+.btt--in:active {
+  transform: translateY(0) scale(0.94);
+}
+
+.btt:focus-visible {
+  outline: 2px solid #17181B;
+  outline-offset: 3px;
+}
+
+/* Цэс нээлттэй үед зайг нь тавьж өгнө — цэс нь дээш задардаг */
+html[data-fcta-open="true"] .btt {
+  opacity: 0;
+  transform: translateY(0.5rem);
+  pointer-events: none;
+}
+
+/* Доош гүйлгэж байхад холбоо барих товч далд болдог. Тэр үед энэ товч
+   дангаараа үлдвэл доогуураа 4rem хоосон зайтай «өлгөөтэй» харагдана.
+   Иймд хамт далд болж, хамт буцаж ирнэ — нэг бүхэл багана мэт. */
+html[data-fcta-away="true"] .btt {
+  opacity: 0;
+  transform: translateY(4rem);
+  pointer-events: none;
+}
+
+/* Хөдөлгөөн багасгасан: гарч ирэх шилжилтгүй, зөвхөн харагдац солигдоно */
+@media (prefers-reduced-motion: reduce) {
+  .btt {
+    transition: opacity 0.01ms linear;
+    transform: none;
+  }
+  .btt--in,
+  .btt--in:active {
+    transform: none;
+  }
+  .btt__icon {
+    transition: none;
+  }
+}
