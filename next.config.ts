@@ -92,10 +92,12 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(), geolocation=()",
           },
           /**
-           * CSP-г REPORT-ONLY горимоор — юуг ч БЛОКЛОХГҮЙ, зөвхөн зөрчлийг
-           * хөтчийн console-д (DevTools) мэдээлнэ. Зорилго: жинхэнэ ачааллыг
-           * ажиглаж, юу ч эвдрэхгүйг батлаад дараа нь `Content-Security-Policy`
-           * (Report-Only-гүй) болгож ИДЭВХЖҮҮЛЭХ.
+           * CSP — ENFORCING горимд (зөрчлийг бодитоор БЛОКЛОНО).
+           *
+           * Эхлээд Report-Only горимоор production build (`next start`) дээр
+           * гурван төрлийн хуудсанд (нүүр+Pixel+GA, загвар, мэдээ) туршиж,
+           * зөрчил ТЭГ гарсны дараа энэ горимд шилжүүлэв. (Dev дэх `eval`
+           * зөрчил нь зөвхөн HMR-ийнх — production-д байхгүй.)
            *
            * Allowlist — сайтын бодит гуравдагч эх сурвалжаас гаргасан:
            *   · script  — Meta Pixel (connect.facebook.net), GA (gtag)
@@ -108,9 +110,13 @@ const nextConfig: NextConfig = {
            * inline bootstrap, framer-motion-ийн inline style бүгд inline тул
            * шаардлагатай. Nonce суурьтай ЧАНГА CSP нь middleware өөрчлөлт
            * шаардах томоохон ажил — тусдаа алхам.
+           *
+           * ⚠️ ШИНЭ гуравдагч үйлчилгээ (шинэ analytics, chat widget, video
+           * embed г.м.) нэмбэл ЭНЭ allowlist-д тухайн домэйнийг мөн нэмэх ёстой
+           * — эс бөгөөс CSP түүнийг блоклож, чимээгүй ажиллахгүй болно.
            */
           {
-            key: "Content-Security-Policy-Report-Only",
+            key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' https://connect.facebook.net https://www.googletagmanager.com",
