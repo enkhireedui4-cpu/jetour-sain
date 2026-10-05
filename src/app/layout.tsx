@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { FloatingCTA } from "@/components/jetour/floating-cta";
@@ -12,12 +12,12 @@ import { dealerGraph } from "@/lib/schema";
 import { JsonLd } from "@/components/jetour/json-ld";
 
 // Нэг font family — Inter. Монгол кирилл (ө, ү, ё) цэвэр, цэгтэй, уншигдахуйц.
-const inter = Inter({
+const inter = localFont({
+  src: "../../public/fonts/inter-variable.ttf",
   variable: "--font-inter",
-  subsets: ["latin", "cyrillic"],
   /* 300 (light) хасав — кодод 0 удаа хэрэглэгдсэн (font-light ч,
      font-weight: 300 ч алга). Хоёр фонтын файл дэмий татагдаж байв. */
-  weight: ["400", "500", "600", "700", "800"],
+  weight: "400 800",
   display: "swap",
 });
 

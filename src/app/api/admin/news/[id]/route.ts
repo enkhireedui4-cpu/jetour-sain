@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { invalidateContent } from "@/lib/content-cache";
 import { db } from "@/lib/db";
 import { requireAdminSession } from "@/lib/admin-guard";
 
@@ -20,6 +21,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
   const body = await req.json();
   try {
     const updated = await db.newsArticle.update({ where: { id }, data: body });
+    invalidateContent("news");
     return NextResponse.json({ ok: true, article: updated });
   } catch {
     return NextResponse.json({ ok: false, error: "Шинэчлэхэд алдаа гарлаа" }, { status: 400 });
@@ -32,6 +34,7 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
   const { id } = await params;
   try {
     await db.newsArticle.delete({ where: { id } });
+    invalidateContent("news");
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ ok: false, error: "Устгахад алдаа гарлаа" }, { status: 400 });

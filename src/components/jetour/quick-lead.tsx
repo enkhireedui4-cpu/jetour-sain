@@ -124,10 +124,12 @@ export function QuickLead() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Хүсэлт илгээхэд алдаа гарлаа.");
+      if (!res.ok || !data.ok || !data.saved) throw new Error(data.error || "Хүсэлт илгээхэд алдаа гарлаа.");
+      if (!data.duplicate) {
       trackMetaEvent("Lead", { content_name: "quick-lead" });
       // GA4 — generate_lead (хувийн бус: зөвхөн эх сурвалж; нэр/утас ОРУУЛАХГҮЙ)
       trackGaEvent("generate_lead", { lead_type: "quick-lead" });
+      }
       setDone(true);
       setName("");
       setPhone("");

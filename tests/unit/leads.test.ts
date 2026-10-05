@@ -74,13 +74,13 @@ describe("getLeadValidationMessage", () => {
   it("returns the first issue message", () => {
     const r = leadSchema.safeParse({ name: "", phone: "1" });
     if (!r.success) {
-      expect(getLeadValidationMessage(r.error)).toBe(r.error.issues[0].message);
+      expect(getLeadValidationMessage(r.error)).toBe("Нэрээ зөв оруулна уу.");
     } else {
       throw new Error("expected validation failure");
     }
   });
 
   it("falls back when a ZodError has no issues", () => {
-    expect(getLeadValidationMessage(new z.ZodError([]))).toBe("Invalid lead payload");
+    expect(getLeadValidationMessage(new z.ZodError([]))).toBe("Хүсэлтийн мэдээллээ шалгана уу.");
   });
 });

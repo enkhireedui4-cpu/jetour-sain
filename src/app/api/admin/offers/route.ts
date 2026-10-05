@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { invalidateContent } from "@/lib/content-cache";
 import { db } from "@/lib/db";
 import { requireAdminSession } from "@/lib/admin-guard";
 
@@ -30,5 +31,6 @@ export async function POST(req: NextRequest) {
   const created = await db.promotion.create({
     data: { id, body: offerBody ?? "[]", specsJson: specsJson || "[]", ...rest },
   });
+  invalidateContent("offers");
   return NextResponse.json({ ok: true, offer: created });
 }

@@ -173,11 +173,12 @@ export function EnhancedLeadForm({
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok) {
+      if (!res.ok || !data.ok || !data.saved) {
         throw new Error(data.error || "Хүсэлт илгээхэд алдаа гарлаа");
       }
       setSubmitted(true);
       // Meta Pixel — Lead conversion (boost/retargeting-д ашиглана)
+      if (!data.duplicate) {
       trackMetaEvent("Lead", {
         content_name: type,
         content_category: form.model || undefined,
@@ -187,6 +188,7 @@ export function EnhancedLeadForm({
         lead_type: type,
         model: form.model || undefined,
       });
+      }
       toast({
         title: "Амжилттай!",
         description: `${form.name}, манай баг удахгүй холбогдоно.`,

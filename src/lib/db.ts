@@ -4,17 +4,13 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-// Орчноос хамаарсан лог: dev-д дэлгэрэнгүй, production-д зөвхөн алдаа.
-// (production-д 'query' лог хийвэл TTFB нэмэгдэж, leadн утас зэрэг PII логонд орно.)
-const log =
-  process.env.NODE_ENV === 'development'
-    ? (['query', 'error', 'warn'] as const)
-    : (['error'] as const)
-
+// Prisma-гийн өөрийн логийг унтраав. Алдааг дуудагч тал барьж, зөвхөн кодыг нь
+// логлоно (safeErrorCode). lead-store P2002/P2034-ийг хэвийн retry гэж үздэг тул
+// 'error' лог асаавал хуурамч алдаа цацагдана; 'query' лог lead-ийн утас зэрэг PII-г логонд оруулна.
 export const db =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: [...log],
+    log: [],
   })
 
 // Бүх орчинд globalThis дээр кэшлэнэ — warm serverless invocation-ууд нэг клиентийг
