@@ -63,7 +63,11 @@ export function Footer() {
                   холбоо барих картад бий, мөн хөвөгч улаан товчинд бий. */}
               <div>
                 <p className="text-white/55 mb-1">Ажиллах цаг:</p>
-                <p className="text-white font-bold">{SHOWROOM_HOURS[0].day}: {SHOWROOM_HOURS[0].hours}</p>
+                {/* Бүх өдрийг харуулна: зөвхөн эхний мөрийг харуулбал амралтын
+                    өдрийн цаг алга болж, хүн буруу ойлгоно. */}
+                {SHOWROOM_HOURS.map((h) => (
+                  <p key={h.day} className="text-white font-bold">{h.day}: {h.hours}</p>
+                ))}
               </div>
               <div>
                 <p className="text-white/55 mb-1">И-мэйл:</p>
