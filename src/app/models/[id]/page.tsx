@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { notFound } from "next/navigation";
 import { getAllCarModels, getCarModelById, type CmsCarModel } from "@/lib/cms";
 import { vehicleSchema, breadcrumbList } from "@/lib/schema";
+import { modelSeo } from "@/lib/model-seo";
 import { JsonLd } from "@/components/jetour/json-ld";
 import ModelDetailClient from "./model-detail-client";
 
@@ -35,17 +36,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!model) return { title: "Загвар олдсонгүй" };
 
   const img = model.details.colorImages?.[0]?.image ?? model.heroImage;
-  const price = model.startingPrice ?? model.price;
-  const description = `${model.name} — ${model.tagline}. ${
-    price ? `Үнэ ${price}-с эхлэн. ` : ""
-  }Тест драйв, үнийн санал — SAIN MOTORS, албан ёсны дистрибьютор.`;
+  const { title, description } = modelSeo(model);
 
   return {
-    title: model.name,
+    // absolute: layout-ын «%s | JETOUR» template-ийг давхардуулахгүй.
+    title: { absolute: title },
     description,
     alternates: { canonical: `/models/${model.id}` },
     openGraph: {
-      title: `${model.name} | JETOUR`,
+      title,
       description,
       images: img ? [{ url: img, alt: model.name }] : undefined,
       type: "website",
