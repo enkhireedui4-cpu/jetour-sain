@@ -32,7 +32,6 @@ import { InteriorStory } from "@/components/jetour/interior-story";
 import { PremiumFeatures } from "@/components/jetour/premium-features";
 import { Spin360 } from "@/components/jetour/spin-360";
 import { ModelSections } from "@/components/jetour/model-sections";
-import { ModelSubnav } from "@/components/jetour/model-subnav";
 
 
 export default function ModelDetailClient({ model }: { model: CmsCarModel }) {
@@ -212,28 +211,6 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
     (h): h is FeatureItem => Boolean(h?.image && h?.title)
   );
 
-  /* Наалдамхай дэд цэсний зангуу — хуудас юуг БОДИТООР рендерлэдэгтэй яг ижил
-     нөхцлөөр тооцно. Загвар бүр өөр хэсэгтэй (T1-д `exterior`/`interior`
-     байхгүй — тэдгээр нь ерөнхий `sections` бүтээгчээр гардаг); хатуу жагсаалт
-     бичвэл байхгүй хэсэг рүү заасан эвдэрсэн холбоос үлдэнэ. */
-  const subnavItems = useMemo(() => [
-    colorImages.length > 0 && { id: "colors", label: "Өнгө" },
-    // `showcase.exterior` нь ХООСОН МАССИВ бол хэсгийг зориуд хассан гэсэн үг
-    !(showcase?.exterior && showcase.exterior.length === 0) && {
-      id: "exterior",
-      label: "Гадна",
-    },
-    /* Салон: аль ч салаа (PremiumFeatures / InteriorStory / слайдер /
-       ердийн галерей) `id="interior"`-ыг өөрөө рендерлэдэг. Тиймээс зөвхөн
-       ХООСОН МАССИВ буюу «зориуд хассан» тохиолдолд л зангуу байхгүй. */
-    !(showcase?.interior && showcase.interior.length === 0) && {
-      id: "interior",
-      label: "Салон",
-    },
-    primarySpecs.length > 0 && { id: "specs", label: "Үзүүлэлт" },
-  ].filter((x): x is { id: string; label: string } => Boolean(x)),
-  [colorImages.length, showcase, primarySpecs.length]);
-
   return (
     /* `data-model` — загварт зориулсан ХАРАГДАЦЫН дүрмүүдийг тусгаарлана.
        Зан үйл (чирэлт, слайдын шилжилт) бүх загварт нийтлэг хэвээр; зөвхөн
@@ -242,11 +219,13 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
       data-model={model.id}
       className="min-h-screen bg-white text-[#17181B]"
     >
-      {/* === Энгийн үндсэн цэс (kz маяг — хуудас солигдоход цэс өөрчлөгдөхгүй) === */}
+      {/* === Энгийн үндсэн цэс (kz маяг — хуудас солигдоход цэс өөрчлөгдөхгүй).
+             Загварын хуудсанд тусгай дэд цэс БАЙХГҮЙ: гүйлгэхэд ч нүүр
+             хуудастай ижил үндсэн цэс харагдана. === */}
       <Navbar />
 
       <main id="main-content">
-      <ModelSubnav modelName={model.name} items={subnavItems} />
+      {/* `fixed` толгойн (64px) өндрийг нөхнө */}
       <div className="h-16" />
 
       {/* === Vehicle Hero === */}
@@ -1049,8 +1028,8 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                    (гарчиг нь "мэдээлэл авах"). Өмнө нь "test-drive" байсан тул
                    хуудасны БҮХ лийд hub-д "test-drive" болж, төрлийн ялгаа
                    алдагдаж байв. Жинхэнэ тест драйвын CTA нь тусад нь
-                   /info-request?type=test-drive руу очно (доорх specs CTA,
-                   subnav) — ингэснээр hub хоёр төрлийг зөв ялгана.
+                   /info-request?type=test-drive руу очно (доорх specs CTA)
+                   — ингэснээр hub хоёр төрлийг зөв ялгана.
                    Салбар, огноо, харилцах хэрэгсэл — хасав: нэр, утас, загвар,
                    зурвас хангалттай; цаг/салбарыг оператор дуудахдаа тохирно. */
                 showBranchField={false}

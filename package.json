@@ -7,9 +7,9 @@
     "build": "next build && node scripts/copy-standalone-assets.mjs",
     "start": "next start -p 3000",
     "lint": "eslint .",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test": "vitest run --configLoader runner",
+    "test:watch": "vitest --configLoader runner",
+    "test:coverage": "vitest run --coverage --configLoader runner",
     "translate": "python scripts/translate-en-mn.py",
     "spellcheck:mn": "python \"%USERPROFILE%/.claude/skills/mongolian-spellcheck/check_mn.py\"",
     "db:push": "prisma db push",
@@ -22,7 +22,8 @@
     "start:standalone": "node .next/standalone/server.js",
     "db:export": "node scripts/db-export.mjs",
     "db:import": "node scripts/db-import.mjs",
-    "db:verify": "node scripts/db-verify.mjs"
+    "db:verify": "node scripts/db-verify.mjs",
+    "admin:hash": "node scripts/admin-hash.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",

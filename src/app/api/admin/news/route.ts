@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { invalidateContent } from "@/lib/content-cache";
 import { db } from "@/lib/db";
 import { requireAdminSession } from "@/lib/admin-guard";
 
@@ -21,5 +22,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Ийм slug-тай мэдээ өмнө нь бүртгэгдсэн байна" }, { status: 409 });
   }
   const created = await db.newsArticle.create({ data: body });
+  invalidateContent("news");
   return NextResponse.json({ ok: true, article: created });
 }
