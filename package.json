@@ -11,7 +11,6 @@
     "test:watch": "vitest --configLoader runner",
     "test:coverage": "vitest run --coverage --configLoader runner",
     "translate": "python scripts/translate-en-mn.py",
-    "spellcheck:mn": "python \"%USERPROFILE%/.claude/skills/mongolian-spellcheck/check_mn.py\"",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -23,7 +22,8 @@
     "db:export": "node scripts/db-export.mjs",
     "db:import": "node scripts/db-import.mjs",
     "db:verify": "node scripts/db-verify.mjs",
-    "admin:hash": "node scripts/admin-hash.mjs"
+    "admin:hash": "node scripts/admin-hash.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",
