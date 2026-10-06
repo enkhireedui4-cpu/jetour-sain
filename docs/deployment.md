@@ -4,6 +4,8 @@
 
 Set `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH` in the hosting environment. Use a long random authentication secret and a bcrypt password hash. `npm run admin:hash` reads a password from `NEW_ADMIN_PASSWORD` and writes its hash; remove that temporary variable afterwards.
 
+Set `NEXT_PUBLIC_SITE_URL` to the deployed public HTTPS origin before building so canonical links and metadata use the production domain.
+
 Next.js expands dollar signs in local `.env` values. Escape each dollar sign in a bcrypt hash as `\$` in local files. In the hosting dashboard, enter the hash unchanged. Never commit the resulting file.
 
 Set `TRUSTED_IP_HEADER` to a header overwritten by the hosting proxy and keep the application behind that proxy. `RATE_LIMIT_SECRET` can provide a dedicated HMAC secret; otherwise `NEXTAUTH_SECRET` is used. All application instances must share the same database and secret.
