@@ -11,6 +11,16 @@ import {
 describe("leadSchema", () => {
   const base = { name: "Bat", phone: "88112233" };
 
+  it.each(["abcdefghij", "2026-02-30", "2026-13-01", "0000-01-01", "2026-04-31"])("rejects invalid appointment date %s", date => {
+    expect(leadSchema.safeParse({ ...base, date }).success).toBe(false);
+  });
+  it.each(["99:99", "24:00", "12:60", "9:30", "abcde"])("rejects invalid appointment time %s", time => {
+    expect(leadSchema.safeParse({ ...base, time }).success).toBe(false);
+  });
+  it.each(["2028-02-29", "2026-11-05", ""])("accepts valid or optional appointment date %s", date => {
+    expect(leadSchema.safeParse({ ...base, date, time: "14:30" }).success).toBe(true);
+  });
+
   it("accepts a minimal valid payload and defaults type to 'general'", () => {
     const parsed = leadSchema.safeParse(base);
     expect(parsed.success).toBe(true);

@@ -1,74 +1,36 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-!.env.example
-
-# generated PostgreSQL schema (single source = prisma/schema.prisma)
+# Dependencies and generated output
+node_modules/
+.next/
+out/
+build/
+coverage/
+next-env.d.ts
+*.tsbuildinfo
 prisma/schema.postgres.prisma
 
-# vercel
-.vercel
-
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-local-*
-.claude
-.z-ai-config
-*.log
-dev.log
-dev.out.log
-test
-prompt
-
-server.log
-# Skills directory
-/skills/
-
-# P3-1: pristine source-image backups (before Sharp optimization) — local rollback only
-/.image-originals/
-# Firecrawl CLI-ийн татсан агуулга — репод оруулахгүй
-.firecrawl/
-
-# SQLite өгөгдлийн сан — хэзээ ч git-д оруулахгүй.
-# Дотор нь Lead (үйлчлүүлэгчийн нэр/утас) ба AdminUser (bcrypt hash) байдаг.
-# Агуулгыг `npm run db:export` → db/content.json-оор дамжуулна (хувийн өгөгдөлгүй).
+# Secrets and local databases
+.env*
+!.env.example
+*.pem
 db/*.db
 db/*.db-journal
 db/*.db-wal
 db/*.db-shm
+.vercel/
 
-.vercel
-.env*
+# Local tooling, downloads and temporary files
+.agents/
+.claude/
+.codex/
+CLAUDE.md
+AGENTS.md
+skills-lock.json
+skills/
+.z-ai-config
+.image-originals/
+.firecrawl/
+local-*
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
