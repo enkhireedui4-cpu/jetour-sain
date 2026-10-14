@@ -276,6 +276,25 @@ export type CarModelDetails = {
    */
   video?: { src: string; poster?: string; title?: string; caption?: string };
   /**
+   * `false` бол утсан дээр hero зургийн дээрх нэр/уриа үгийн давхаргыг хасна
+   * (слайдертай hero-д). Анхдагчаар харагдана.
+   */
+  heroMobileText?: boolean;
+  /**
+   * "Гадна үзэмж"-ийн ДООР орох дэлгэц дүүрэн бичлэг — дуугүй, өөрөө тоглоно.
+   * Десктоп (16:9) ба утас (9:16) хоёр тусдаа файл. `label` нь зөвхөн дэлгэц
+   * уншигчид (бичлэг өөрөө гарчигтай тул дээр нь бичвэр давхарлахгүй).
+   */
+  film?: {
+    src: string;
+    srcMobile?: string;
+    poster?: string;
+    posterMobile?: string;
+    /** Десктопод кадрын аль ирмэгийг барих (анхдагч `top`) */
+    focus?: "top" | "center" | "bottom";
+    label?: string;
+  };
+  /**
    * Дэлгэрэнгүй үзүүлэлт — БҮЛЭГЛЭСЭН хэлбэрээр, "Үндсэн техникийн үзүүлэлт"-ийн
    * доор нам гүм нээгддэг блокт. Брошюр байхгүй загварт эх сурвалжаас
    * баталгаажсан үзүүлэлтүүд хаягдахгүй байх зам.
@@ -402,6 +421,8 @@ export function parseDetailsJson(raw: string): CoreCarModelDetails & CarModelDet
     showcase: parsed.showcase as CarModelDetails["showcase"],
     mosaic: parsed.mosaic as CarModelDetails["mosaic"],
     video: parsed.video as CarModelDetails["video"],
+    film: parsed.film as CarModelDetails["film"],
+    heroMobileText: parsed.heroMobileText as CarModelDetails["heroMobileText"],
     specGroups: parsed.specGroups as CarModelDetails["specGroups"],
     featureGroups: parsed.featureGroups as CarModelDetails["featureGroups"],
     winterFeatures: parsed.winterFeatures as CarModelDetails["winterFeatures"],

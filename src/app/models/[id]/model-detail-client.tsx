@@ -32,6 +32,7 @@ import { InteriorStory } from "@/components/jetour/interior-story";
 import { PremiumFeatures } from "@/components/jetour/premium-features";
 import { Spin360 } from "@/components/jetour/spin-360";
 import { ModelSections } from "@/components/jetour/model-sections";
+import { FilmStage } from "@/components/jetour/film-stage";
 
 
 export default function ModelDetailClient({ model }: { model: CmsCarModel }) {
@@ -88,7 +89,12 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
   const spin = d.spin360?.colors?.length ? d.spin360 : null;
   /* Нэмэлт хэсгүүд — шаблонд `slot`-оороо орно. Байхгүй загварт юу ч нэмэгдэхгүй. */
   const extraSections = d.sections ?? [];
-  const afterExterior = extraSections.filter((s) => s.slot === "after-exterior");
+  const afterExteriorAll = extraSections.filter((s) => s.slot === "after-exterior");
+  /* "Гадна үзэмж"-ийг өөрөө өгүүлдэг хэсэг (id="exterior") хүртэлхийг салгана —
+     бичлэг (`film`) яг түүний ДООР орохын тулд. Тийм хэсэггүй загварт хоосон. */
+  const exteriorCut = afterExteriorAll.findIndex((s) => s.id === "exterior") + 1;
+  const exteriorSections = afterExteriorAll.slice(0, exteriorCut);
+  const afterExterior = afterExteriorAll.slice(exteriorCut);
   const afterInterior = extraSections.filter((s) => s.slot === "after-interior");
   /* "JETOUR X50" → "X50" — хэсгийн шошгод брэндийн нэрийг давхардуулахгүй */
 
@@ -277,10 +283,14 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                 голлоно. Эх зурагт байсан англи бичгийн хэсгийг тайрч хассан
                 тул тэр орон зайд өөрсдийн монгол гарчиг орно.
                 Үнэ/товч зургийн дээр гарахгүй — доорх хэсгүүдэд байна. */}
-            <div className="vhero__overlay lg:hidden">
-              <p className="vhero__name">{model.name}</p>
-              <p className="vhero__tagline">{model.tagline}</p>
-            </div>
+            {/* `heroMobileText: false` — зураг өөрөө ярьдаг загварт (T2) давхаргыг
+                хасна. Нэр нь дээрх `sr-only` H1-д хэвээр байна. */}
+            {d.heroMobileText !== false && (
+              <div className="vhero__overlay lg:hidden">
+                <p className="vhero__name">{model.name}</p>
+                <p className="vhero__tagline">{model.tagline}</p>
+              </div>
+            )}
 
           </section>
         </div>
@@ -633,6 +643,25 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
             />
           </div>
         </section>
+      )}
+
+      {/* Гадна үзэмжийг `sections` дахь "exterior" хэсэг өгүүлдэг загварт
+          (X1) тэр хэсэг нь бичлэгийн ӨМНӨ гарна. */}
+      {exteriorSections.length > 0 && (
+        <ModelSections sections={exteriorSections} alt={model.name} />
+      )}
+
+      {/* === Бичлэг — "Гадна үзэмж"-ийн яг доор. Дэлгэц дүүрэн, дуугүй,
+             өөрөө тоглоно; десктоп ба утас тус тусын найруулгатай. === */}
+      {d.film?.src && (
+        <FilmStage
+          src={d.film.src}
+          srcMobile={d.film.srcMobile}
+          poster={d.film.poster}
+          posterMobile={d.film.posterMobile}
+          focus={d.film.focus}
+          label={d.film.label ?? `${model.name} — бичлэг`}
+        />
       )}
 
       {/* Гадна үзэмжийн ДАРАА орох нэмэлт хэсгүүд (жишээ нь нарийн
@@ -1196,7 +1225,9 @@ function VideoBlock({
 
   return (
     <section id="video" className="bg-[#0E0E10] scroll-mt-16">
-      <div className="relative w-full aspect-video overflow-hidden">
+      {/* Десктопод навигацийн доорх дэлгэцийг яг дүүргэнэ (FilmStage-тэй ижил) —
+          бичлэг нэг дэлгэцэнд бүтэн багтана. Утсанд 16:9 зурвасаар. */}
+      <div className="relative w-full aspect-video overflow-hidden md:aspect-auto md:h-[calc(100svh-4rem)]">
         <video
           ref={ref}
           src={src}
