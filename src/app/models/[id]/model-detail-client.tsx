@@ -32,7 +32,7 @@ import { InteriorStory } from "@/components/jetour/interior-story";
 import { PremiumFeatures } from "@/components/jetour/premium-features";
 import { Spin360 } from "@/components/jetour/spin-360";
 import { ModelSections } from "@/components/jetour/model-sections";
-import { FilmStage } from "@/components/jetour/film-stage";
+import { FilmStage, VideoSources } from "@/components/jetour/film-stage";
 
 
 export default function ModelDetailClient({ model }: { model: CmsCarModel }) {
@@ -1229,8 +1229,9 @@ function VideoBlock({
           бичлэг нэг дэлгэцэнд бүтэн багтана. Утсанд 16:9 зурвасаар. */}
       <div className="relative w-full aspect-video overflow-hidden md:aspect-auto md:h-[calc(100svh-4rem)]">
         <video
+          // <source> солигдоход хөтөч дахин ачаалдаггүй — загвар солигдоход шинээр үүсгэнэ
+          key={src}
           ref={ref}
-          src={src}
           poster={poster}
           preload="none"
           playsInline
@@ -1239,7 +1240,9 @@ function VideoBlock({
           // Дуу нээсэн үед л native хяналт — тэгэхгүй бол цэвэр, ambient
           controls={!muted}
           className="absolute inset-0 w-full h-full object-cover"
-        />
+        >
+          <VideoSources src={src} />
+        </video>
 
         {/* Гарчиг — доод давхарга дээр, уншигдахуйц градиенттай */}
         {(title || caption) && (

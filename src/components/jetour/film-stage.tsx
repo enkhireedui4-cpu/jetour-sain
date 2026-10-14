@@ -7,6 +7,21 @@ import { useReducedMotion } from "framer-motion";
 const FOCUS = { top: "50% 0%", center: "50% 50%", bottom: "50% 100%" } as const;
 
 /**
+ * `.mp4` зам бүрийн хажууд ижил нэртэй VP9 `.webm` байна (~2 дахин жижиг).
+ * Хөтөч эхний тоглуулж чадах эх сурвалжийг сонгоно: WebM-ийг дэмждэг бол
+ * түүнийг, үгүй бол (хуучин Safari) H.264 MP4-ийг.
+ */
+export function VideoSources({ src }: { src: string }) {
+  const webm = src.endsWith(".mp4") ? src.replace(/\.mp4$/, ".webm") : null;
+  return (
+    <>
+      {webm && <source src={webm} type='video/webm; codecs="vp9"' />}
+      <source src={src} type="video/mp4" />
+    </>
+  );
+}
+
+/**
  * Дэлгэц дүүрэн, дуугүй, өөрөө тоглодог бичлэгийн тайз.
  *
  * Десктоп (16:9) ба утас (9:16) хоёр ТУСДАА найруулгатай файл авна — нэг
@@ -127,21 +142,26 @@ export function FilmStage({
       >
         {srcMobile && (
           <video
+            // <source> солигдоход хөтөч дахин ачаалдаггүй — загвар солигдоход шинээр үүсгэнэ
+            key={srcMobile}
             ref={tallRef}
-            src={srcMobile}
             poster={posterMobile ?? poster}
             className={`${fit} md:hidden`}
             {...videoProps}
-          />
+          >
+            <VideoSources src={srcMobile} />
+          </video>
         )}
         <video
+          key={src}
           ref={wideRef}
-          src={src}
           poster={poster}
           className={srcMobile ? `${fit} hidden md:block` : fit}
           style={{ objectPosition: FOCUS[focus] }}
           {...videoProps}
-        />
+        >
+          <VideoSources src={src} />
+        </video>
 
         <button
           type="button"
