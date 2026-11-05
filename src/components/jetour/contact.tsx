@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { CONTACT, SHOWROOM_HOURS } from "@/lib/jetour-data";
+import styles from "./footer.module.css";
 
 type PublicModel = { id: string; name: string };
 
@@ -28,54 +29,54 @@ export function Footer() {
           backgroundSize: "64px 64px",
         }}
       />
-      <div className="relative container-page py-14 lg:py-20">
+      <div className={`relative container-page ${styles.inner}`}>
         {/* === Дээд хэсэг: брэнд + мэдээлэл + холбоосын баганууд (jetour.kz маяг) === */}
-        <div className="grid grid-cols-2 lg:grid-cols-[1.7fr_1fr_1.35fr_1.35fr_1fr] gap-x-6 gap-y-10 lg:gap-x-8">
+        <div className={styles.columns}>
           {/* Брэнд + гол мэдээлэл */}
-          <div className="col-span-2 lg:col-span-1">
-            <img src="/logos/jetour-white.png" alt="JETOUR" className="h-11 lg:h-12 w-auto" />
-            <div className="mt-6 space-y-4 text-sm">
+          <div className={styles.brand}>
+            <img src="/logos/jetour-white.png" alt="JETOUR" className={styles.logo} />
+            <dl className={styles.details}>
               {/* Хаяг + утас нь сайтын БҮХ хуудсанд, нэг ижил хэлбэрээр
                   гарна (NAP тууштай байдал). Орон нутгийн хайлтад Google нь
                   сайт дээрх хаягийг Business Profile-тай тааруулж шалгадаг
                   тул зөрүү нь дохиог сулруулна. Дэлгэрэнгүй нь /dealer. */}
-              <div>
-                <p className="text-white/55 mb-1">Шоурум:</p>
-                <p className="text-white font-bold leading-snug">{CONTACT.addressShort}</p>
+              <div className={styles.detail}>
+                <dt>Шоурум:</dt>
+                <dd>{CONTACT.addressShort}</dd>
               </div>
               {CONTACT.serviceAddress && (
-                <div>
-                  <p className="text-white/55 mb-1">Сервис төв:</p>
-                  <p className="text-white font-bold leading-snug">
+                <div className={styles.detail}>
+                  <dt>Сервис төв:</dt>
+                  <dd>
                     {CONTACT.serviceAddressShort}
-                  </p>
+                  </dd>
                 </div>
               )}
               {/* Хоёр байршил НЭГ дугаартай тул утас нэг л мөр. Хоёр удаа
                   ижил дугаар бичвэл «аль нь аль вэ?» гэсэн эргэлзээ үүсгэнэ. */}
-              <div>
-                <p className="text-white/55 mb-1">Утас:</p>
-                <a href={CONTACT.phone1Href} className="text-white font-bold tabular-nums hover:text-[#E20A17] transition-colors">
+              <div className={styles.detail}>
+                <dt>Утас:</dt>
+                <dd><a href={CONTACT.phone1Href} className="tabular-nums hover:text-[#E20A17] transition-colors">
                   {CONTACT.phone1}
-                </a>
+                </a></dd>
               </div>
               {/* «Дуудлагын төв» + дугаар хасав — яг тэр дугаар дээрх
                   холбоо барих картад бий, мөн хөвөгч улаан товчинд бий. */}
-              <div>
-                <p className="text-white/55 mb-1">Ажиллах цаг:</p>
+              <div className={styles.detail}>
+                <dt>Ажиллах цаг:</dt>
                 {/* Бүх өдрийг харуулна: зөвхөн эхний мөрийг харуулбал амралтын
                     өдрийн цаг алга болж, хүн буруу ойлгоно. */}
-                {SHOWROOM_HOURS.map((h) => (
-                  <p key={h.day} className="text-white font-bold">{h.day}: {h.hours}</p>
-                ))}
+                <dd>{SHOWROOM_HOURS.map((h) => (
+                  <p key={h.day}>{h.day}: {h.hours}</p>
+                ))}</dd>
               </div>
-              <div>
-                <p className="text-white/55 mb-1">И-мэйл:</p>
-                <a href={`mailto:${CONTACT.email}`} className="text-white font-bold hover:text-[#E20A17] transition-colors break-all">
+              <div className={styles.detail}>
+                <dt>И-мэйл:</dt>
+                <dd><a href={`mailto:${CONTACT.email}`} className="hover:text-[#E20A17] transition-colors">
                   {CONTACT.email}
-                </a>
+                </a></dd>
               </div>
-            </div>
+            </dl>
           </div>
 
           {/* Загварууд */}
@@ -106,7 +107,7 @@ export function Footer() {
         </div>
 
         {/* === Доод хэсэг: сошиал (зүүн) + copyright (баруун) === */}
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-5">
+        <div className={`border-t border-white/10 flex flex-col sm:flex-row items-center justify-between ${styles.bottom}`}>
           <div className="flex items-center gap-6">
             {[
               { href: CONTACT.instagram, Icon: Instagram, label: "Instagram" },
@@ -125,7 +126,7 @@ export function Footer() {
               </a>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+          <div className={`flex flex-col sm:flex-row items-center ${styles.legal}`}>
             <div className="flex items-center gap-5 text-xs">
               <a href="/privacy" className="text-white/50 hover:text-white transition-colors">
                 Нууцлалын бодлого
@@ -147,8 +148,8 @@ export function Footer() {
 function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-white/90 font-bold text-sm mb-4">{title}</p>
-      <ul className="space-y-2.5 text-sm">{children}</ul>
+      <p className={`text-white/90 font-bold ${styles.heading}`}>{title}</p>
+      <ul className={styles.links}>{children}</ul>
     </div>
   );
 }

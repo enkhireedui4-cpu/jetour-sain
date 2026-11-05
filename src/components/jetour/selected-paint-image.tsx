@@ -55,6 +55,8 @@ export function SelectedPaintImage({ src, alt, sizes, className = "" }: { src: s
     if (cached) { queueMicrotask(() => { setError(false); display(cached); }); return () => { cancelled = true; }; }
     const request = new XMLHttpRequest();
     request.open("GET", url); request.responseType = "blob"; request.timeout = 20000;
+    // Vercel may negotiate JPEG for XHR's default */* and flatten transparent cars.
+    request.setRequestHeader("Accept", "image/avif,image/webp,image/*;q=0.8");
     request.onloadstart = () => { if (!cancelled) { setError(false); setLoading(true); setPercent(1); } };
     const fail = () => {
       if (cancelled) return;
