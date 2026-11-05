@@ -1,3 +1,11 @@
+# Jetour Global-inspired update
+
+The earlier dark redesign below was superseded at the user's request. The live Jetour Global footer DOM was inspected with reverse-engineer-anything (desktop evidence ev_fbda8e4c95ff4b1bf8d11a87f34508c721f9905958bcce707bcd4084c1c0f86f; mobile evidence ev_c79b5341b50cc21ea99faa37125a0c903e2b1d0d2573415a11f90aafa983a4fe). Its light background, spaced desktop navigation columns, social links and mobile accordion groups informed this version. The local navigation, contact details and legal links remain intact. The reference footer was assessed from the captured DOM; its screenshot was obscured by the cookie overlay.
+
+Verification: local component previews passed nine widths from 320px to 1920px, with no horizontal overflow, retained links and working mobile model accordion. The preview uses placeholder social icons; the actual component uses its existing Lucide icons.
+
+---
+
 # Footer redesign
 
 Brief: the compact footer was rejected as crowded and too small. Preserve the site's automotive brand and practical contact/navigation content while making it readable and balanced.
