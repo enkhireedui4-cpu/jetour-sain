@@ -8,7 +8,10 @@ import { submitLead } from "@/lib/lead-store";
 import { consumeRateLimit } from "@/lib/rate-limit";
 
 const directory = mkdtempSync(join(tmpdir(), "jetour-lead-test-"));
-const url = `file:${join(directory, "test.db").replace(/\\/g, "/")}`;
+// One connection per SQLite client keeps blocked BEGINs from exhausting Prisma's
+// worker threads on small CI runners (prisma/prisma#29870). Both independent
+// clients still submit all requests concurrently; the atomicity assertions stay intact.
+const url = `file:${join(directory, "test.db").replace(/\\/g, "/")}?connection_limit=1`;
 const first = new PrismaClient({ datasourceUrl: url });
 const second = new PrismaClient({ datasourceUrl: url });
 beforeAll(() => {
