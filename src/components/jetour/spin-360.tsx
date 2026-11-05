@@ -162,7 +162,7 @@ export function Spin360({ colors, alt, heading, headingEn, startFrame = 0, class
       onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={endPointer} onPointerCancel={endPointer}>
       <span className="spin__floor" aria-hidden />
       {near && fadingFrom !== null && <img key={`from-${colors[fadingFrom].id}`} src={frameOf(fadingFrom)} alt="" className="spin__frame" draggable={false} decoding="sync" />}
-      {near && mobile !== null && <img key={`to-${shown.id}`} src={frameOf(shownIdx)} alt="" className={`spin__frame ${fadingFrom !== null ? "is-painting" : ""}`} draggable={false} decoding="sync" />}
+      {near && mobile !== null && <img key={`to-${shown.id}`} src={frameOf(shownIdx)} alt="" className={`spin__frame ${fadingFrom !== null ? "is-painting" : ""}`} style={fadingFrom !== null ? { animationDuration: `${PAINT_MS}ms` } : undefined} draggable={false} decoding="sync" />}
       {near && status !== "ready" && <ViewerLoading percent={progress.percent} error={status === "error"} onRetry={() => setRetry(n => n + 1)} />}
       {ready && !hinted && <p className="spin__hint" aria-hidden><span className="spin__hint-glyph">↻</span>360° ЭРГҮҮЛЖ ХАРАХ</p>}
     </div>

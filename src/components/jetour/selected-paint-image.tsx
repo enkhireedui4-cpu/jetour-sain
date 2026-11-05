@@ -3,6 +3,7 @@
 import { getImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ViewerLoading } from "./viewer-loading";
+import styles from "./viewer.module.css";
 
 /** Fetch/decode one selected responsive image; never mount every hidden paint. */
 export function SelectedPaintImage({ src, alt, sizes, className = "" }: { src: string; alt: string; sizes: string; className?: string }) {
@@ -92,8 +93,8 @@ export function SelectedPaintImage({ src, alt, sizes, className = "" }: { src: s
     return () => { for (const entry of entries.values()) URL.revokeObjectURL(entry.url); entries.clear(); };
   }, []);
 
-  return <div ref={host} className={`selected-paint ${className}`} aria-busy={near && loading}>
-    {shown && <img key={shown.key} src={shown.url} alt={shown.alt} className="selected-paint__image" draggable={false} />}
+  return <div ref={host} className={`selected-paint ${styles.selectedPaint} ${className}`} aria-busy={near && loading}>
+    {shown && <img key={shown.key} src={shown.url} alt={shown.alt} className={`selected-paint__image ${styles.selectedImage}`} draggable={false} />}
     {near && (loading || error) && <ViewerLoading percent={percent} error={error} onRetry={() => setRetry(n => n + 1)} />}
   </div>;
 }
