@@ -3415,7 +3415,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
    үүсгэв — шинэ будаг хамар талаас сүүл рүү нэвт гүйнэ. Машин огт хөдлөхгүй;
    зөвхөн будгийн давхарга нээгдэнэ. */
 .spin__frame.is-painting {
-  animation: spin-paint-fade 700ms cubic-bezier(0.4, 0, 0.15, 1) both;
+  animation: spin-paint-fade 240ms cubic-bezier(0.4, 0, 0.15, 1) both;
 }
 
 @keyframes spin-paint-fade {
@@ -3427,7 +3427,7 @@ input[type="range"].range-jetour::-moz-range-thumb {
    Ирмэг нь 30% өргөн зөөлрөлттэй тул шулуун шугам болж харагдахгүй. */
 @supports (mask-image: linear-gradient(#000, #000)) or (-webkit-mask-image: linear-gradient(#000, #000)) {
   .spin__frame.is-painting {
-    animation: spin-paint-wipe 700ms cubic-bezier(0.4, 0, 0.15, 1) both;
+    animation: spin-paint-wipe 240ms cubic-bezier(0.4, 0, 0.15, 1) both;
     -webkit-mask-image: linear-gradient(100deg, #000 0%, #000 22%, rgba(0,0,0,0) 52%, rgba(0,0,0,0) 100%);
     mask-image: linear-gradient(100deg, #000 0%, #000 22%, rgba(0,0,0,0) 52%, rgba(0,0,0,0) 100%);
     -webkit-mask-size: 260% 100%;
@@ -3450,25 +3450,48 @@ input[type="range"].range-jetour::-moz-range-thumb {
   }
 }
 
-/* --- Анхны ачаалалт: тоо, зураас биш — нам гүм эргэлт --- */
-.spin__loading {
+/* Real image progress, shared by spin and still-image colour selectors. */
+.viewer-loading {
   position: absolute;
   inset: 0;
+  z-index: 3;
   display: grid;
   place-content: center;
+  background: rgba(0, 0, 0, 0.18);
 }
-
-.spin__spinner {
-  width: 26px;
-  height: 26px;
-  border: 2px solid rgba(23, 24, 27, 0.14);
-  border-top-color: rgba(23, 24, 27, 0.55);
-  border-radius: 50%;
-  animation: spin-rotate 800ms linear infinite;
+.viewer-loading__percent {
+  min-width: 60px;
+  height: 30px;
+  padding-inline: 8px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font: 700 12px/1 system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
 }
-
-@keyframes spin-rotate {
-  to { transform: rotate(360deg); }
+.viewer-loading__error {
+  padding: 12px 16px;
+  background: #fff;
+  color: #17181b;
+  text-align: center;
+  font-size: 13px;
+}
+.viewer-loading__error button {
+  min-height: 44px;
+  padding: 8px 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.selected-paint {
+  position: absolute;
+  inset: 0;
+}
+.selected-paint__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* --- Эхний удаагийн сэжүүр --- */

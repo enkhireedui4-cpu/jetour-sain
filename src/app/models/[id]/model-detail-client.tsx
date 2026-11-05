@@ -31,6 +31,7 @@ import { CinematicSlider, type CinematicSlide } from "@/components/jetour/cinema
 import { InteriorStory } from "@/components/jetour/interior-story";
 import { PremiumFeatures } from "@/components/jetour/premium-features";
 import { Spin360 } from "@/components/jetour/spin-360";
+import { SelectedPaintImage } from "@/components/jetour/selected-paint-image";
 import { ModelSections } from "@/components/jetour/model-sections";
 import { FilmStage, VideoSources } from "@/components/jetour/film-stage";
 
@@ -560,29 +561,7 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
               </div>
 
               <div className="color-studio__stage">
-                {colorImages.map((c, i) => (
-                  <Image
-                    key={c.image}
-                    src={c.image}
-                    alt={`${model.name} — ${c.name}`}
-                    fill
-                    sizes="100vw"
-                    /* Бүх өнгийг eager татна: opacity:0 зургийг браузер lazy-гээр
-                       татдаггүй тул өнгө дарахад хоосон харагдах эрсдэлтэй байв.
-                       `priority` ХАСАВ — энэ хэсэг нүүрнээс доогуур тул preload
-                       нь hero-гийн LCP-тэй өрсөлдөнө; eager дангаараа flash-гүйг
-                       хангахад хангалттай (hall хувилбартай ижил зан). */
-                    loading="eager"
-                    /* cover — тунгалаг PNG-ийн дээд/доод хоосон зайг тайрч
-                       машиныг stage-ийн өргөнөөр бүтэн эзлүүлнэ. */
-                    className="object-cover"
-                    style={{
-                      opacity: colorIdx === i ? 1 : 0,
-                      transition: "opacity 0.5s ease-out",
-                    }}
-                    aria-hidden={colorIdx !== i}
-                  />
-                ))}
+                {activeColor && <SelectedPaintImage src={activeColor.image} alt={`${model.name} — ${activeColor.name}`} sizes="100vw" />}
               </div>
 
               {/* Баруун зах дагуу босоо өнгөний нэр (эталон конфигураторын
@@ -807,32 +786,8 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
                 opacity-гоор crossfade болно: зураг солигдож байгаа биш, будаг л
                 өнгөө сольж байгаа мэт. Хэмжээ, байрлал, baseline хөдлөхгүй. */}
             <div className="color-hall__stage">
-              {colorImages.map((c, i) => (
-                <Image
-                  key={c.image}
-                  src={c.image}
-                  alt={`${model.name} — ${c.name}`}
-                  fill
-                  sizes="(max-width: 1360px) 94vw, 1280px"
-                  /* Бүх өнгийг eager татна — эс тэгвээс өнгө дарахад зураг
-                     ачаалагдаж амжаагүй хоосон харагдана (opacity:0 зургийг браузер
-                     lazy-гээр татдаггүй). `priority` ХАСАВ: хэсэг нүүрнээс доогуур
-                     тул preload нь hero LCP-тэй өрсөлдөнө; eager хангалттай. */
-                  loading="eager"
-                  className="object-cover rounded-2xl shadow-[0_24px_50px_-32px_rgba(23,24,27,0.22)]"
-                  /* opacity-г Tailwind класс биш inline style-аар — next/image өөрөө
-                     ачаалагдах хүртэл inline opacity тавьдаг тул класс дийлэгддэг. */
-                  style={{
-                    opacity: colorIdx === i ? 1 : 0,
-                    // Авсаархан хувилбарт өнгө солих нь илүү шууд мэдрэгдэх 240мс;
-                    // энгийн хувилбарт өмнөх 420мс хэвээр.
-                    transition: compactPicker
-                      ? "opacity 0.24s ease-out"
-                      : "opacity 0.42s ease-out",
-                  }}
-                  aria-hidden={colorIdx !== i}
-                />
-              ))}
+              {activeColor && <SelectedPaintImage src={activeColor.image} alt={`${model.name} — ${activeColor.name}`}
+                sizes="(max-width: 1360px) 94vw, 1280px" className="rounded-2xl overflow-hidden" />}
             </div>
 
             {/* Энгийн хувилбарт сонгогч ба нэр зургийн ДООР (өмнөх зохиомж). */}
