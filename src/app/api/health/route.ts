@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// Ops health probe (Phase 7A). Never cached — always reflects live state.
+// Ops health probe (). Never cached — always reflects live state.
 // Used by: external uptime monitor, Docker HEALTHCHECK, deploy smoke test.
 // 200 = app process up AND database reachable; 503 = DB unreachable.
 // Returns only non-sensitive status fields.

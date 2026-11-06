@@ -1,0 +1,34 @@
+name: CRM delivery retry
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: crm-delivery-retry
+  cancel-in-progress: false
+
+jobs:
+  retry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Retry pending deliveries
+        env:
+          HUB_RETRY_URL: ${{ secrets.HUB_RETRY_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$HUB_RETRY_URL" ] || [ -z "$CRON_SECRET" ]; then
+            echo "::notice::CRM retry is inactive. Configure HUB_RETRY_URL and CRON_SECRET to enable it."
+            exit 0
+          fi
+          case "$HUB_RETRY_URL" in
+            https://*) ;;
+            *) echo "::error::HUB_RETRY_URL must use HTTPS"; exit 1 ;;
+          esac
+          curl --fail --silent --show-error --max-time 55 \
+            --header "Authorization: Bearer $CRON_SECRET" \
+            "$HUB_RETRY_URL" --output /dev/null

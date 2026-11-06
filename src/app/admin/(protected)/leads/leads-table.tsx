@@ -49,7 +49,7 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
           {leads.map((l) => (
             <tr key={l.id} className="border-t border-[#E7E7EA] align-top">
               <td className="px-4 py-3 whitespace-nowrap text-[#666C77]">
-                {new Date(l.createdAt).toLocaleString("mn-MN")}
+                {new Date(l.createdAt).toLocaleString("en-GB", { timeZone: "Asia/Ulaanbaatar", hour12: false })}
               </td>
               <td className="px-4 py-3 font-semibold text-[#17181B]">{l.name ?? "—"}</td>
               <td className="px-4 py-3 whitespace-nowrap">{l.phone ?? "—"}</td>

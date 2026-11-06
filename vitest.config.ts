@@ -1,7 +1,7 @@
 import { defineConfig } from "vitest/config";
 import { fileURLToPath } from "node:url";
 
-// Phase 5 — Vitest configuration (unit tests, Task B).
+// Vitest configuration (unit tests, Task B).
 // `@/` alias is resolved here directly (no vite-tsconfig-paths dependency).
 // Environment is `node`: unit targets are pure functions/validators/transformers
 // with no DOM. Component (jsdom) + E2E setups are added in Tasks C/E.
