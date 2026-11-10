@@ -20,4 +20,18 @@ describe("Content-Security-Policy", () => {
   it("allows Meta Pixel beacons (Lead events) to facebook.com", async () => {
     expect((await csp())["connect-src"]).toContain("https://www.facebook.com");
   });
+
+  it("allows the Meta Pixel iframe without allowing arbitrary frames", async () => {
+    const policy = await csp();
+    expect(policy["frame-src"].split(" ")).toContain("https://www.facebook.com");
+    expect(policy["frame-src"]).not.toContain("*");
+    expect(policy["frame-ancestors"]).toBe("'self'");
+  });
+
+  it("allows Meta's tracking form while restricting other form destinations", async () => {
+    expect((await csp())["form-action"].split(" ")).toEqual([
+      "'self'",
+      "https://www.facebook.com/tr/",
+    ]);
+  });
 });

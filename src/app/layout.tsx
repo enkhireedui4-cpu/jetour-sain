@@ -11,12 +11,10 @@ import { SITE_URL } from "@/lib/site";
 import { dealerGraph } from "@/lib/schema";
 import { JsonLd } from "@/components/jetour/json-ld";
 
-// Нэг font family — Inter. Монгол кирилл (ө, ү, ё) цэвэр, цэгтэй, уншигдахуйц.
+// Self-hosted Inter includes Mongolian Cyrillic; retain its OFL licence.
 const inter = localFont({
-  src: "../../public/fonts/inter-variable.ttf",
+  src: "../../public/fonts/inter-variable.woff2",
   variable: "--font-inter",
-  /* 300 (light) хасав — кодод 0 удаа хэрэглэгдсэн (font-light ч,
-     font-weight: 300 ч алга). Хоёр фонтын файл дэмий татагдаж байв. */
   weight: "400 800",
   display: "swap",
 });

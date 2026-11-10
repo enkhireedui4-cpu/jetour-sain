@@ -7,7 +7,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Phone,
   FileText,
   ArrowUpRight,
   Play,
@@ -1036,39 +1035,6 @@ function ModelDetailContent({ model }: { model: CmsCarModel }) {
 
       <Footer />
     </div>
-  );
-}
-
-function Section({
-  title,
-  bg,
-  dark = false,
-  id,
-  children,
-}: {
-  title: string;
-  bg: string;
-  dark?: boolean;
-  id?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className={`section-pad ${bg} overflow-hidden scroll-mt-16`}>
-      <div className="container-page">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mb-12"
-        >
-          <h2 className={`type-h2 uppercase ${dark ? "text-white" : "text-[#17181B]"}`}>
-            {title}
-          </h2>
-        </motion.div>
-        {children}
-      </div>
-    </section>
   );
 }
 

@@ -524,7 +524,6 @@ export function Models({ models: allModels }: { models: M[] }) {
                     alt={`${mm.name} — хажуу талын үзэмж`}
                     fill
                     sizes="(max-width: 1200px) 90vw, 1080px"
-                    priority={i === 0}
                     loading={near ? "eager" : "lazy"}
                     draggable={false}
                     className="mdlsel__img"

@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
-import { CONTACT } from "@/lib/jetour-data";
+import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import { modelMenuImage } from "@/lib/model-media";
 import { openQuickLead } from "@/components/jetour/quick-lead";
 

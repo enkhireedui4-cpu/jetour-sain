@@ -2,10 +2,9 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight, ChevronDown } from "lucide-react";
-import { BLUR_DATA_URL } from "@/lib/image";
+import { HeroImage } from "./hero-image";
 import { useDragSwipe } from "@/hooks/use-drag";
 import { cyclicOffset, slideJumped } from "@/lib/slider";
 import { openQuickLead } from "@/components/jetour/quick-lead";
@@ -26,72 +25,18 @@ const SLIDES: Slide[] = [
     name: "JETOUR T2 PHEV",
     image: "/models-hero/t2/1.jpg",
     imageMobile: "/models-hero/t2/1-hero.webp",
-    tagline: "Зам бүрд бэлэн. Зардал бүрд ухаалаг.",
+    tagline: "Хотод цахилгаанаар, урт замд хосолсон хөтлөгчөөр.",
   },
   {
     id: "g700",
     name: "JETOUR G700",
     image: "/models/g700/wide/cover.webp",
     imageMobile: "/models/g700/tall/cover.webp",
-    tagline: "Ямар ч зам таныг хязгаарлахгүй.",
+    tagline: "Аялалд зориулсан хосолсон хөдөлгүүртэй SUV.",
   },
 ];
 
 const SLIDE_MS = 6000;
-
-/**
- * Слайдын зураг — босоо хувилбартай бол breakpoint тус бүр ЗӨВХӨН өөрийн
- * хувилбарыг татна: нуугдсан салааны `sizes`-ыг `1px` болгоно (Next нь
- * `display:none`-ыг мэдэхгүй тул үүнгүйгээр хоёр зураг хоёуланг татах).
- */
-function SlideImage({
-  slide,
-  active,
-  priority,
-}: {
-  slide: Slide;
-  active: boolean;
-  priority: boolean;
-}) {
-  const cls = `object-cover transition-transform ease-out ${
-    active ? "scale-[1.03]" : "scale-100"
-  }`;
-  const style = { transitionDuration: `${SLIDE_MS + 1200}ms` };
-  const hasMobile = Boolean(slide.imageMobile);
-
-  return (
-    <>
-      {hasMobile && (
-        <Image
-          src={slide.imageMobile!}
-          alt={slide.name}
-          fill
-          sizes="(min-width: 1024px) 1px, 100vw"
-          priority={priority}
-          placeholder="blur"
-          blurDataURL={BLUR_DATA_URL}
-          draggable={false}
-          className={`${cls} lg:hidden`}
-          style={style}
-        />
-      )}
-      {/* Хоёулаа адил `alt` авна: нуугдсан нь `display: none` тул дэлгэц
-          уншигчийн мод дээр гарахгүй — давхар уншигдахгүй. */}
-      <Image
-        src={slide.image}
-        alt={slide.name}
-        fill
-        sizes={hasMobile ? "(min-width: 1024px) 100vw, 1px" : "100vw"}
-        priority={priority}
-        placeholder="blur"
-        blurDataURL={BLUR_DATA_URL}
-        draggable={false}
-        className={`${cls}${hasMobile ? " hidden lg:block" : ""}`}
-        style={style}
-      />
-    </>
-  );
-}
 
 export function Hero() {
   /** Одоогийн ба өмнөх слайд — өмнөхийг циклийн "үсрэлт"-ийг илрүүлэхэд хэрэглэнэ */
@@ -208,7 +153,7 @@ export function Hero() {
                   ...(frozen ? { transition: "none" } : null),
                 }}
               >
-                <SlideImage slide={s} active={off === 0} priority={i === 0} />
+                <HeroImage slide={s} active={off === 0} priority={i === 0} />
               </div>
             </div>
           );
@@ -240,7 +185,7 @@ export function Hero() {
         <div className="container-page">
           <motion.p
             key={`tag-${active}`}
-            initial={{ opacity: 0, y: 8 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="hero__eyebrow"
@@ -250,7 +195,7 @@ export function Hero() {
 
           <motion.h1
             key={`title-${active}`}
-            initial={{ opacity: 0, y: 16 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="hero__title"
@@ -261,11 +206,11 @@ export function Hero() {
           {/* Туслах мөр — доод scrim дээр, гарчиг ба CTA-ийн хооронд. Бүх
               хэмжээнд харагдана: брэндийн уриаг хамгийн олон хэрэглэгчтэй
               утсан дээр ч үзүүлнэ (scrim нь уншигдацыг хангана). */}
-          <p className="hero__sub">{slide.tagline ?? "Аялал бүрийг тань эрхэмсэг болгоно"}</p>
+          <p className="hero__sub">{slide.tagline ?? "Гэр бүлийн өдөр тутмын хэрэглээ, аялалд."}</p>
 
           <motion.div
             key={`cta-${active}`}
-            initial={{ opacity: 0, y: 12 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="hero__cta"

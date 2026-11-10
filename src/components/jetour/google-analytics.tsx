@@ -82,7 +82,7 @@ export function GoogleAnalytics() {
     <>
       <Script
         id="ga4-src"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
       />
       <Script id="ga4-init" strategy="afterInteractive">
@@ -91,7 +91,7 @@ export function GoogleAnalytics() {
           function gtag(){dataLayer.push(arguments);}
           window.gtag = gtag;
           gtag('js', new Date());
-          gtag('config', '${GA_ID}', { send_page_view: true });
+          gtag('config', ${JSON.stringify(GA_ID)}, { send_page_view: true });
         `}
       </Script>
     </>

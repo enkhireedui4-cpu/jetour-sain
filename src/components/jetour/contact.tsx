@@ -20,7 +20,7 @@ export function Footer() {
   return (
     <footer className={styles.footer} data-footer-version="4">
       <div className={`container-page ${styles.inner}`}>
-        {/* === Дээд хэсэг: брэнд + мэдээлэл + холбоосын баганууд (jetour.kz маяг) === */}
+        {/* === Дээд хэсэг: брэнд + мэдээлэл + холбоосын баганууд () === */}
         <div className={styles.top}>
           <div className={styles.navigation} data-footer-columns>
             <FooterCol title="Загварууд" defaultOpen>
