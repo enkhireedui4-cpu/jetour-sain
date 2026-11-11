@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { CONTACT, SHOWROOM_HOURS } from "@/lib/jetour-data";
 import styles from "./footer.module.css";
+import { ALL_BRANDS, COMPANY_HOME } from "@/lib/brand-navigation";
 
 type PublicModel = { id: string; name: string };
 
@@ -64,6 +65,10 @@ export function Footer() {
               <li><span className={styles.label}>И-мэйл</span><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
             </FooterCol>
           </aside>
+        </div>
+        <div className={styles.distributor}>
+          <p>JETOUR брэндийн Монгол дахь албан ёсны дистрибьютор — <a href={COMPANY_HOME}>SAIN Motors</a></p>
+          <a href={ALL_BRANDS}>Бусад брэндүүд <span aria-hidden="true">→</span></a>
         </div>
         <div className={styles.bottom}>
           <p>© {new Date().getFullYear()} <a href="/">JETOUR</a>. Бүх эрх хуулиар хамгаалагдсан.</p>

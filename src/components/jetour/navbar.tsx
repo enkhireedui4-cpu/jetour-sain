@@ -7,6 +7,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import { modelMenuImage } from "@/lib/model-media";
 import { openQuickLead } from "@/components/jetour/quick-lead";
+import { BrandSwitcher, MobileBrands } from "./brand-navigation";
+import { COMPANY_HOME } from "@/lib/brand-navigation";
+import brandStyles from "./brand-navigation.module.css";
 
 type RouteNavItem = { label: string; href: string; type: "route" };
 type AnchorNavItem = { label: string; href: string; type: "anchor" };
@@ -43,6 +46,7 @@ const NAV_LINKS: NavItem[] = [
 
 /** "Загварууд"-ын дэд цэсийг `openMenu`-д нэрлэх түлхүүр */
 const MODELS_MENU = "Загварууд";
+const BRANDS_MENU = "sain-brands";
 
 /* `heroImage` нь `modelMenuImage`-ын нөөц зам — тусгай cutout байхгүй загварт
    hero рүү унана, зураггүй нүх үлдэхгүй. */
@@ -73,6 +77,8 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
   const [navModels, setNavModels] = useState<NavModel[]>([]);
   // Гадна дарахад цэс хаахад ашиглана
   const navRef = useRef<HTMLDivElement>(null);
+  const brandTriggerRef = useRef<HTMLButtonElement>(null);
+  const mobileTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     fetch("/api/public/models")
@@ -111,17 +117,27 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
     return () => document.removeEventListener("mousedown", handler);
   }, [openMenu]);
 
-  // Escape дарахад — хаана (keyboard accessibility)
+  // Close hidden breakpoint-specific content when moving between layouts.
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1280px)");
+    const closeMenus = () => { setOpen(false); setOpenMenu(null); };
+    query.addEventListener("change", closeMenus);
+    return () => query.removeEventListener("change", closeMenus);
+  }, []);
+
+  // Escape closes the disclosure and returns keyboard focus to its trigger.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-            setOpenMenu(null);
+        if (open) mobileTriggerRef.current?.focus();
+        else if (openMenu === BRANDS_MENU) brandTriggerRef.current?.focus();
+        setOpenMenu(null);
         setOpen(false);
       }
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, []);
+  }, [open, openMenu]);
 
   /* Hero дээрх тунгалаг төрх — дэд цэс НЭЭГДЭХЭД цуцлагдана.
      Үгүй бол цагаан үсэгтэй тунгалаг navbar-ын доор цагаан самбар нээгдэж,
@@ -149,26 +165,27 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
   return (
     <header
       ref={navRef}
-      onMouseLeave={() => setOpenMenu(null)}
+      onMouseLeave={() => setOpenMenu(value => value === BRANDS_MENU ? value : null)}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         overHero
-          ? "bg-transparent"
+          ? "bg-transparent border-b border-transparent"
           : "bg-white/95 backdrop-blur-xl border-b border-[#E7E7EA] shadow-[0_4px_20px_-14px_rgba(23,24,27,0.3)]"
       }`}
     >
-      <div className="container-page flex items-center justify-between h-16 gap-4">
-        {/* Logo */}
-        <Link
-          href="/"
-          onClick={() => setOpen(false)}
-          className="shrink-0"
-          aria-label="JETOUR — Sain Motors, нүүр хуудас"
-        >
-          <JetourLogo overHero={overHero} />
-        </Link>
+      <div className="container-page flex items-center justify-between h-16 gap-3">
+        <div className={brandStyles.logoGroup}>
+          <Link href="/" onClick={() => { setOpen(false); setOpenMenu(null); }} className={brandStyles.logoLink} aria-label="JETOUR — Нүүр хуудас">
+            <img src={overHero ? "/logos/jetour-white.png" : "/logos/jetour-black.png"} alt="JETOUR" width={1920} height={374} className="h-7 w-auto" />
+          </Link>
+          <span className={brandStyles.divider} data-hero={overHero} aria-hidden="true" />
+          <a href={COMPANY_HOME} className={brandStyles.logoLink} aria-label="SAIN Motors — Компанийн сайт">
+            <img src={overHero ? "/logos/sain-motors-logo.png" : "/logos/sain-motors-black.png"} alt="SAIN Motors" width={760} height={199} className="h-[26px] w-auto" />
+          </a>
+          <BrandSwitcher open={openMenu === BRANDS_MENU} onOpenChange={value => setOpenMenu(value ? BRANDS_MENU : null)} triggerRef={brandTriggerRef} overHero={overHero} />
+        </div>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-7" aria-label="Үндсэн цэс">
+        <nav className="hidden xl:flex items-center gap-7" aria-label="Үндсэн цэс">
           {/* Загварууд — хүрэхэд бүтэн өргөнтэй самбар нээгдэж, загвар бүр
               зураг + нэрээрээ гарна (үнэ, тайлбар байхгүй — зөвхөн таних).
               Товч нь ХОЛБООС хэвээр: дарвал /models руу очно.
@@ -306,7 +323,7 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
         <button
           type="button"
           onClick={openQuickLead}
-          className={`hidden lg:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shrink-0 ${
+          className={`hidden xl:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shrink-0 ${
             overHero
               ? "bg-white/10 border border-white/50 text-white backdrop-blur-sm hover:bg-white hover:text-[#17181B]"
               : "bg-[#E20A17] text-white hover:bg-[#C00813]"
@@ -317,13 +334,16 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
 
         {/* Mobile menu toggle */}
         <button
+          ref={mobileTriggerRef}
+          type="button"
           /* Хүрэлтийн бай 44×44 (WCAG 2.5.8) — өмнө 40px байв. `-mr-2.5` нь
              нэмсэн зайг гадагш нөхөж, дүрсний оптик байрлалыг хөндөхгүй. */
-          className={`lg:hidden shrink-0 grid place-items-center h-11 w-11 -mr-2.5 ${
+          className={`xl:hidden shrink-0 grid place-items-center h-11 w-11 -mr-2.5 ${
             overHero ? "text-white" : "text-[#17181B]"
           }`}
-          onClick={() => setOpen(!open)}
+          onClick={() => { setOpen(!open); setOpenMenu(null); }}
           aria-expanded={open}
+          aria-controls="mobile-navigation"
           aria-label={open ? "Цэс хаах" : "Цэс нээх"}
         >
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -334,7 +354,7 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
           Зөвхөн зураг + нэр. Үнэ, тайлбар байхгүй: энэ нь навигаци, каталог биш.
           `<header>`-ийн шууд хүүхэд тул бүтэн өргөн авна. */}
       {openMenu === MODELS_MENU && navModels.length > 0 && (
-        <div className="hidden lg:block absolute top-full left-0 right-0 bg-white border-t border-[#E7E7EA] shadow-[0_24px_50px_-24px_rgba(23,24,27,0.28)]">
+        <div className="hidden xl:block absolute top-full left-0 right-0 bg-white border-t border-[#E7E7EA] shadow-[0_24px_50px_-24px_rgba(23,24,27,0.28)]">
           {/* Цомхон: найман загвар ҮРГЭЛЖ нэг эгнээнд. Самбар нь `lg`-ээс дээш л
               гарах тул хамгийн нарийн тохиолдол 1024px — тэнд ч нэг нүд ~120px
               болж, нэр (11px) багтана. Хоёр эгнээ болговол өндөр 305px хүрч,
@@ -381,7 +401,7 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="lg:hidden bg-white border-t border-[#E7E7EA] shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
+        <div id="mobile-navigation" className="xl:hidden bg-white border-t border-[#E7E7EA] shadow-lg max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
           <nav className="container-page py-3 flex flex-col" aria-label="Мобайл цэс">
             {/* Загварууд — дарахад ЭНД задарч, машинууд хоёр баганаар гарна.
                 Хуудас руу үсрэхийн оронд цэсэн дотроо сонгоно: хэрэглэгч нэг
@@ -499,6 +519,7 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
                 </div>
               )
             )}
+            <MobileBrands open={openMenu === BRANDS_MENU} onOpenChange={value => setOpenMenu(value ? BRANDS_MENU : null)} />
             {/* Утасны дугаар энд БАЙХГҮЙ: хөвөгч улаан товч нь сайтын тогтмол
                 холбогдох цэг тул цэсэнд давтахгүй. Энэ товч нь хурдан хүсэлт. */}
             <button
@@ -515,31 +536,5 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
         </div>
       )}
     </header>
-  );
-}
-
-function JetourLogo({ overHero }: { overHero: boolean }) {
-  return (
-    <div className="inline-flex items-center gap-2.5">
-      <img
-        src={overHero ? "/logos/jetour-white.png" : "/logos/jetour-black.png"}
-        alt="JETOUR"
-        className="h-7 w-auto"
-      />
-      {/* Хуваах зураас — өмнө нь хэт бүдэг байв (#E7E7EA нь цагаан дээр бараг
-          үзэгдэхгүй, hero дээр 0.25 alpha ч мөн). Хоёр брэндийг тусгаарлах
-          үүргээ биелүүлэхийн тулд тодруулав. */}
-      <span
-        className="w-px self-stretch"
-        style={{ background: overHero ? "rgba(255,255,255,0.45)" : "#C9CCD1" }}
-      />
-      {/* SAIN нь 24px байсныг 26px болгов. JETOUR-ийн 28px-тай ТЭНЦҮҮ болгосонгүй:
-          JETOUR нь брэнд, SAIN нь дистрибьютор тул бага зэргийн шатлал үлдэнэ. */}
-      <img
-        src={overHero ? "/logos/sain-motors-logo.png" : "/logos/sain-motors-black.png"}
-        alt="Sain Motors"
-        className="h-[26px] w-auto"
-      />
-    </div>
   );
 }
