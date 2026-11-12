@@ -181,7 +181,8 @@ export function Navbar({ hero = false }: { hero?: boolean } = {}) {
           <a href={COMPANY_HOME} className={brandStyles.logoLink} aria-label="SAIN Motors — Компанийн сайт">
             <img src={overHero ? "/logos/sain-motors-logo.png" : "/logos/sain-motors-black.png"} alt="SAIN Motors" width={760} height={199} className="h-[26px] w-auto" />
           </a>
-          <BrandSwitcher open={openMenu === BRANDS_MENU} onOpenChange={value => setOpenMenu(value ? BRANDS_MENU : null)} triggerRef={brandTriggerRef} overHero={overHero} />
+          {/* The hidden desktop disclosure must not handle mobile pointerdowns. */}
+          <BrandSwitcher open={!open && openMenu === BRANDS_MENU} onOpenChange={value => setOpenMenu(value ? BRANDS_MENU : null)} triggerRef={brandTriggerRef} overHero={overHero} />
         </div>
 
         {/* Desktop nav */}
